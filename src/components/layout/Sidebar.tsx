@@ -83,13 +83,6 @@ export function Sidebar({
           ))}
         </div>
       </ScrollArea>
-
-      {/* Footer */}
-      <div className="p-3 border-t border-[hsl(var(--sidebar-border))]">
-        <p className="text-xs text-muted-foreground text-center">
-          {slides.length} slides
-        </p>
-      </div>
     </div>
   );
 }
