@@ -2,6 +2,8 @@
 
 This document describes how Lovable should handle slide editing for SlideForge.
 
+**Design Inspiration**: IBM Carbon Design System — clean, accessible, enterprise-grade.
+
 ---
 
 ## Workflow Overview
@@ -45,45 +47,89 @@ export default function Slide{NN}{Name}() {
 
 ### MSSlideLayout Variants
 
-- `default` - White background, navy text, Morgan Stanley branding
-- `dark` - Navy background, white text
-- `title` - For title slides (similar to dark)
+- `default` - White background, dark text
+- `dark` - Deep navy background, white text
+- `title` - For title slides (same as dark)
 
 ---
 
-## Design System
+## Design System (Carbon-inspired)
 
-### Colors (use these class names)
+### Color Tokens
 
-- `text-ms-navy` - Primary text color (#002B51)
-- `text-ms-navy-80` - Secondary text (80% opacity)
-- `text-ms-blue` - Accent blue (#0073CF)
-- `bg-ms-blue` - Accent backgrounds
-- `bg-ms-blue-20` - Light blue backgrounds (20% opacity)
-- `border-ms-blue` - Blue borders
-- `border-ms-blue-40` - Lighter borders
+Use semantic tokens from `tailwind.config.ts`:
 
-### Typography
+| Token | Usage | Class Example |
+|-------|-------|---------------|
+| `slide-primary` | Dark backgrounds, primary text | `bg-slide-primary`, `text-slide-primary` |
+| `slide-accent` | Highlights, buttons, links | `bg-slide-accent`, `text-slide-accent` |
+| `slide-accent-muted` | Light accent backgrounds | `bg-slide-accent-muted` |
+| `slide-gray-900` | Primary text (light mode) | `text-slide-gray-900` |
+| `slide-gray-600` | Secondary text | `text-slide-gray-600` |
+| `slide-gray-400` | Tertiary/muted text | `text-slide-gray-400` |
+| `slide-gray-200` | Borders, dividers | `border-slide-gray-200` |
+| `slide-gray-100` | Light backgrounds | `bg-slide-gray-100` |
 
-- **Main titles**: `text-3xl font-semibold text-ms-navy`
-- **Subtitles**: `text-lg text-ms-navy-80 font-light`
-- **Body text**: `text-sm text-ms-navy-80 font-light leading-relaxed`
-- **Metrics/values**: `text-2xl font-semibold text-ms-navy`
-- **Labels**: `text-xs text-ms-navy-80`
+**Legacy tokens** (`ms-navy`, `ms-blue`, etc.) are still available for backwards compatibility.
 
-### Spacing
+### Typography Classes
 
-- Slide padding: `px-20 py-16`
-- Section gaps: `gap-8` or `gap-12`
-- Card padding: `p-6`
-- Element margins: `mb-2`, `mb-4`, `mb-6`, `mb-10`
+Use these utility classes for consistent typography:
 
-### Card Styling
+| Class | Description | Usage |
+|-------|-------------|-------|
+| `.type-display` | 7xl, light, tight tracking | Hero headlines |
+| `.type-h1` | 5xl, semibold | Section titles |
+| `.type-h2` | 3xl, semibold | Slide titles |
+| `.type-h3` | xl, medium | Card titles |
+| `.type-body-lg` | lg, light | Subtitles |
+| `.type-body` | base, normal | Default text |
+| `.type-body-sm` | sm, normal | Supporting text |
+| `.type-label` | xs, uppercase, tracking | Metadata, captions |
+| `.type-metric` | 4xl, semibold, tabular | Large numbers |
+| `.type-mono` | IBM Plex Mono | Code |
+
+**Alternative (inline Tailwind)**:
+- **Display**: `text-7xl font-light tracking-tight`
+- **H1**: `text-5xl font-semibold tracking-tight`
+- **H2**: `text-3xl font-semibold`
+- **Body**: `text-base leading-relaxed`
+- **Label**: `text-xs font-medium uppercase tracking-widest`
+
+### Spacing (8px Grid)
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `slide-xs` | 8px | Tight gaps |
+| `slide-sm` | 16px | Element spacing |
+| `slide-md` | 24px | Section padding |
+| `slide-lg` | 32px | Large gaps |
+| `slide-xl` | 48px | Section margins |
+| `slide-2xl` | 64px | Major spacing |
+| `slide-3xl` | 80px | Page margins |
+
+**Standard slide padding**: `px-20 py-16`
+
+### Component Classes
 
 ```tsx
-<div className="p-6 bg-ms-blue-20/50 rounded-sm border-t-4 border-ms-blue">
-  {/* Card content */}
-</div>
+// Basic card
+<div className="slide-card">...</div>
+
+// Card with shadow
+<div className="slide-card-elevated">...</div>
+
+// Card with left accent border
+<div className="slide-card-accent">...</div>
+
+// Metric highlight card
+<div className="slide-metric-card">...</div>
+
+// Badge
+<span className="slide-badge">Label</span>
+
+// Accent divider bar
+<div className="slide-divider" />
 ```
 
 ---
@@ -93,7 +139,7 @@ export default function Slide{NN}{Name}() {
 ### Title Slide
 - Full-height centered content
 - Large title with line break for emphasis
-- Accent bar separator
+- Accent bar separator (`slide-divider`)
 - Key metrics row at bottom
 
 ### Three-Up Cards
@@ -141,7 +187,7 @@ const metrics = [
 ```tsx
 import { TrendingUp, Shield, Globe } from 'lucide-react';
 
-<Icon className="w-10 h-10 text-ms-blue" strokeWidth={1.5} />
+<Icon className="w-10 h-10 text-slide-accent" strokeWidth={1.5} />
 ```
 
 ---
@@ -158,18 +204,18 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Toolti
     <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
     <YAxis tick={{ fontSize: 12 }} />
-    <Bar dataKey="value" fill="#0073CF" radius={[4, 4, 0, 0]} />
+    <Bar dataKey="value" fill="#2196F3" radius={[4, 4, 0, 0]} />
   </BarChart>
 </ResponsiveContainer>
 ```
 
 ### Color Palette for Charts
 
-- Primary: `#0073CF` (ms-blue)
-- Secondary: `#002B51` (ms-navy)
-- Accent 1: `#00A3E0`
-- Accent 2: `#6ECEB2`
-- Negative: `#E63946`
+- Primary: `#2196F3` (slide-accent)
+- Secondary: `#003366` (slide-primary)
+- Success: `#27AE60`
+- Warning: `#F39C12`
+- Error: `#E74C3C`
 
 ---
 
@@ -178,14 +224,13 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Toolti
 Before marking as complete:
 
 - [ ] Slide uses `MSSlideLayout` wrapper
-- [ ] Consistent with MS design system colors
-- [ ] Proper typography hierarchy
-- [ ] Adequate padding and spacing
+- [ ] Uses design system color tokens (not hardcoded hex)
+- [ ] Proper typography hierarchy (use `.type-*` or equivalent)
+- [ ] Adequate padding and spacing (8px grid)
 - [ ] Icons have correct sizing (`w-10 h-10` for feature icons)
 - [ ] Data is realistic and professional
 - [ ] Charts are responsive
 - [ ] Dark/light variant works if applicable
-- [ ] No hardcoded colors outside design system
 - [ ] Export added to index.ts for new slides
 
 ---
