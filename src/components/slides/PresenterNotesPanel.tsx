@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { FileText, Save, X, Check } from 'lucide-react';
+import { FileText, X, Check, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePresenterNotes } from '@/hooks/usePresenterNotes';
-import { toast } from 'sonner';
 
 interface PresenterNotesPanelProps {
   slideId: string | null;
@@ -18,40 +17,10 @@ export function PresenterNotesPanel({
   onClose,
   className,
 }: PresenterNotesPanelProps) {
-  const { note, loading, saveNote } = usePresenterNotes(slideId);
-  const [content, setContent] = useState('');
-  const [isDirty, setIsDirty] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [justSaved, setJustSaved] = useState(false);
+  const { content, loading, saveStatus, updateContent } = usePresenterNotes(slideId);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Sync content when note loads
-  useEffect(() => {
-    setContent(note?.content || '');
-    setIsDirty(false);
-  }, [note]);
-
-  const handleSave = async () => {
-    if (!isDirty || isSaving) return;
-    
-    setIsSaving(true);
-    const success = await saveNote(content);
-    setIsSaving(false);
-    
-    if (success) {
-      setIsDirty(false);
-      setJustSaved(true);
-      setTimeout(() => setJustSaved(false), 2000);
-    } else {
-      toast.error('Failed to save notes');
-    }
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-      handleSave();
-    }
     if (e.key === 'Escape') {
       onClose();
     }
@@ -81,36 +50,30 @@ export function PresenterNotesPanel({
           {/* Status indicator */}
           <div className={cn(
             'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-300',
-            justSaved && 'bg-green-500/10 text-green-600 dark:text-green-400',
-            isDirty && !justSaved && 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
-            !isDirty && !justSaved && 'bg-muted text-muted-foreground'
+            saveStatus === 'saved' && 'bg-green-500/10 text-green-600 dark:text-green-400',
+            saveStatus === 'saving' && 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+            saveStatus === 'error' && 'bg-red-500/10 text-red-600 dark:text-red-400',
+            saveStatus === 'idle' && 'bg-muted text-muted-foreground'
           )}>
-            {justSaved ? (
+            {saveStatus === 'saved' ? (
               <>
                 <Check className="h-3 w-3" />
                 Saved
               </>
-            ) : isDirty ? (
-              'Unsaved changes'
+            ) : saveStatus === 'saving' ? (
+              <>
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Saving...
+              </>
+            ) : saveStatus === 'error' ? (
+              <>
+                <AlertCircle className="h-3 w-3" />
+                Error saving
+              </>
             ) : (
-              'Up to date'
+              'Auto-save enabled'
             )}
           </div>
-          
-          {/* Save button */}
-          <Button
-            size="sm"
-            variant={isDirty ? "default" : "ghost"}
-            onClick={handleSave}
-            disabled={!isDirty || isSaving}
-            className={cn(
-              "h-8 gap-1.5 transition-all duration-200",
-              isDirty && "shadow-sm"
-            )}
-          >
-            <Save className="h-3.5 w-3.5" />
-            {isSaving ? 'Saving...' : 'Save'}
-          </Button>
           
           {/* Close button */}
           <Button
@@ -136,12 +99,9 @@ export function PresenterNotesPanel({
         ) : (
           <textarea
             ref={textareaRef}
-            placeholder="Add notes for this slide... (⌘S to save)"
+            placeholder="Add notes for this slide... (auto-saves as you type)"
             value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-              setIsDirty(true);
-            }}
+            onChange={(e) => updateContent(e.target.value)}
             onKeyDown={handleKeyDown}
             className={cn(
               "w-full h-full resize-none text-sm leading-relaxed",
