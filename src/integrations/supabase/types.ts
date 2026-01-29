@@ -41,57 +41,6 @@ export type Database = {
         }
         Relationships: []
       }
-      comments: {
-        Row: {
-          author_name: string
-          content: string
-          created_at: string
-          id: string
-          parent_id: string | null
-          resolved: boolean
-          slide_id: string
-          x_position: number
-          y_position: number
-        }
-        Insert: {
-          author_name: string
-          content: string
-          created_at?: string
-          id?: string
-          parent_id?: string | null
-          resolved?: boolean
-          slide_id: string
-          x_position: number
-          y_position: number
-        }
-        Update: {
-          author_name?: string
-          content?: string
-          created_at?: string
-          id?: string
-          parent_id?: string | null
-          resolved?: boolean
-          slide_id?: string
-          x_position?: number
-          y_position?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "comments_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "comments"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comments_slide_id_fkey"
-            columns: ["slide_id"]
-            isOneToOne: false
-            referencedRelation: "slides"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       presentations: {
         Row: {
           created_at: string
@@ -116,43 +65,29 @@ export type Database = {
         }
         Relationships: []
       }
-      slide_changes: {
+      presenter_notes: {
         Row: {
           content: string
           created_at: string
           id: string
-          resolved: boolean
           slide_id: string
-          x_position: number | null
-          y_position: number | null
+          updated_at: string
         }
         Insert: {
-          content: string
+          content?: string
           created_at?: string
           id?: string
-          resolved?: boolean
           slide_id: string
-          x_position?: number | null
-          y_position?: number | null
+          updated_at?: string
         }
         Update: {
           content?: string
           created_at?: string
           id?: string
-          resolved?: boolean
           slide_id?: string
-          x_position?: number | null
-          y_position?: number | null
+          updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "slide_changes_slide_id_fkey"
-            columns: ["slide_id"]
-            isOneToOne: false
-            referencedRelation: "slides"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       slides: {
         Row: {
@@ -161,7 +96,6 @@ export type Database = {
           description: string | null
           file_path: string
           id: string
-          pending_agent_action: boolean
           position: number
           presentation_id: string
           template_type: string | null
@@ -173,7 +107,6 @@ export type Database = {
           description?: string | null
           file_path: string
           id?: string
-          pending_agent_action?: boolean
           position?: number
           presentation_id: string
           template_type?: string | null
@@ -185,7 +118,6 @@ export type Database = {
           description?: string | null
           file_path?: string
           id?: string
-          pending_agent_action?: boolean
           position?: number
           presentation_id?: string
           template_type?: string | null
