@@ -1,74 +1,21 @@
 # SlideForge Agent System Guide
 
-This document describes how Lovable should handle user edit requests for SlideForge.
+This document describes how Lovable should handle slide editing for SlideForge.
 
 ---
 
 ## Workflow Overview
 
-### 1. Read Comments
+### Creating/Editing Slides
 
-Check for comments on slides that need attention:
-
-```sql
-SELECT c.*, s.file_path, s.position
-FROM comments c
-JOIN slides s ON c.slide_id = s.id
-WHERE c.resolved = false
-ORDER BY c.created_at ASC;
-```
-
-Comments contain:
-
-- `x_position`, `y_position` - where on the slide (0-100%)
-- `content` - the user's feedback/request
-- `author_name` - who wrote it
-- `parent_id` - for threaded replies
-
-### 2. Check Pending Agent Actions
-
-Find slides flagged for AI editing:
-
-```sql
-SELECT id, file_path, position, description, template_type
-FROM slides
-WHERE pending_agent_action = true
-ORDER BY position ASC;
-```
-
-The `description` field contains the user's edit instructions. For bulk edits, it will say something like:
-`"Joint edit for slides 3-5. Comment: Make all charts use the same blue color scheme"`
-
-### 3. Create/Edit Slides
-
-After understanding the request, edit the appropriate slide files:
+Edit slide files directly in the codebase:
 
 **File Location**: `src/slides/demo/Slide{NN}{Name}.tsx`
 
 **For new slides**:
-
 - Create a new file following the naming convention
 - Add export to `src/slides/demo/index.ts`
 - Update the slides array with component, name, and template type
-- Call proper edge functions to make sure slide is inserted in the cloud
-
-**For WIP slides** (user-created placeholders):
-
-- Read the description from the database
-- Create a proper slide component based on their description
-- Update the `file_path` in the database to point to the new file
-
-### 4. Mark as Resolved
-
-After completing edits:
-
-```sql
--- Mark comments as resolved
-UPDATE comments SET resolved = true WHERE id = '{comment_id}';
-
--- Clear pending agent action
-UPDATE slides SET pending_agent_action = false WHERE id = '{slide_id}';
-```
 
 ---
 
@@ -144,39 +91,32 @@ export default function Slide{NN}{Name}() {
 ## Template Patterns
 
 ### Title Slide
-
 - Full-height centered content
 - Large title with line break for emphasis
 - Accent bar separator
 - Key metrics row at bottom
-- Footer with date/department
 
 ### Three-Up Cards
-
 - Header section with title + subtitle
 - 3-column grid (`grid-cols-3 gap-8`)
 - Each card: icon, title, description, metrics
 
 ### Data Visualization
-
 - Header + subtitle
 - Large chart area (use Recharts)
 - Side annotations or metrics
 
 ### Timeline
-
 - Horizontal timeline with nodes
 - Each node: date, title, description
 - Connected by lines
 
 ### Comparison
-
 - Two columns with headers
 - Matching rows for comparison points
 - Visual indicators (✓, ✗, arrows)
 
 ### Quote
-
 - Large centered quote
 - Attribution below
 - Optional supporting metrics
@@ -194,18 +134,6 @@ const metrics = [
   { icon: TrendingUp, value: '+18.4%', label: 'YTD Return' },
   { icon: Users, value: '15M+', label: 'Clients' },
 ];
-```
-
-### Metric Display
-
-```tsx
-<div className="flex items-center justify-between">
-  <span className="text-xs text-ms-navy-80">{label}</span>
-  <div className="flex items-center gap-1">
-    <span className="text-sm font-semibold text-ms-navy">{value}</span>
-    {positive && <ArrowUpRight className="w-3 h-3 text-green-600" />}
-  </div>
-</div>
 ```
 
 ### Icon Usage
@@ -242,20 +170,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Toolti
 - Accent 1: `#00A3E0`
 - Accent 2: `#6ECEB2`
 - Negative: `#E63946`
-
----
-
-## Bulk Edit Handling
-
-When multiple slides are selected for editing:
-
-1. Parse the joint description to understand the scope
-2. Apply consistent changes across all selected slides
-3. Maintain visual consistency (colors, fonts, spacing)
-4. Clear `pending_agent_action` for ALL affected slides
-
-Example description:
-`"Joint edit for slides 2-4. Comment: Update all headers to use the same format"`
 
 ---
 
