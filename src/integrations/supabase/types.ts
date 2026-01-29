@@ -38,39 +38,6 @@ export type Database = {
         }
         Relationships: []
       }
-      slides: {
-        Row: {
-          created_at: string
-          deleted_at: string | null
-          description: string | null
-          file_path: string
-          id: string
-          position: number
-          template_type: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          deleted_at?: string | null
-          description?: string | null
-          file_path: string
-          id?: string
-          position?: number
-          template_type?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          deleted_at?: string | null
-          description?: string | null
-          file_path?: string
-          id?: string
-          position?: number
-          template_type?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
