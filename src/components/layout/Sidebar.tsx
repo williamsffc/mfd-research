@@ -365,7 +365,6 @@ export function Sidebar({
                       isActive={index === activeSlideIndex}
                       isSelected={selectedSlides.has(index) && index === firstSelectedIndex}
                       onClick={(e) => handleSlideClick(index, e)}
-                      onDuplicate={() => onDuplicateSlide?.(index)}
                     >
                       {slide.content}
                     </SlideThumbnail>
