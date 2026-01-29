@@ -37,10 +37,6 @@ interface SidebarProps {
   onBulkMove?: (slideIndices: number[], targetIndex: number) => void;
   onBulkDelete?: (slideIndices: number[]) => void;
   onDuplicateSlide?: (index: number, targetPosition?: number) => void;
-  onUndo?: () => void;
-  onRedo?: () => void;
-  canUndo?: boolean;
-  canRedo?: boolean;
   width: number;
   onWidthChange: (width: number) => void;
   className?: string;
@@ -60,8 +56,6 @@ export function Sidebar({
   onBulkMove,
   onBulkDelete,
   onDuplicateSlide,
-  onUndo,
-  onRedo,
   width,
   onWidthChange,
   className,
@@ -240,20 +234,11 @@ export function Sidebar({
         }
       }
 
-      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
-        e.preventDefault();
-        onUndo?.();
-      }
-
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
-        e.preventDefault();
-        onRedo?.();
-      }
     };
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedSlides, onBulkDelete, slides, activeSlideIndex, copiedSlideIndices, onDuplicateSlide, pendingDelete, onUndo, onRedo]);
+  }, [selectedSlides, onBulkDelete, slides, activeSlideIndex, copiedSlideIndices, onDuplicateSlide, pendingDelete]);
 
   const handleSlideClick = useCallback((index: number, event: React.MouseEvent) => {
     if (event.shiftKey && lastClickedIndex !== null) {
