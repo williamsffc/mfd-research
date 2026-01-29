@@ -16,6 +16,7 @@ const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899'];
 export default function Slide03CursorSimulation() {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isInside, setIsInside] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const particleId = useRef(0);
 
@@ -24,6 +25,13 @@ export default function Slide03CursorSimulation() {
       if (!containerRef.current) return;
       
       const rect = containerRef.current.getBoundingClientRect();
+      
+      // Check if mouse is inside the container
+      const inside = e.clientX >= rect.left && e.clientX <= rect.right &&
+                     e.clientY >= rect.top && e.clientY <= rect.bottom;
+      setIsInside(inside);
+      
+      if (!inside) return;
       
       // Account for the scale transform - the slide is 1920x1080 but scaled down
       const scaleX = 1920 / rect.width;
@@ -76,22 +84,34 @@ export default function Slide03CursorSimulation() {
   }, []);
 
   return (
-    <SlideLayout variant="dark">
+    <SlideLayout variant="default">
       <div 
         ref={containerRef}
-        className="relative h-full w-full overflow-hidden cursor-none"
+        className="relative h-full w-full overflow-hidden"
+        style={{ cursor: isInside ? 'none' : 'auto' }}
       >
         {/* Header - positioned absolutely */}
         <div className="absolute top-16 left-20 z-10">
-          <p className="text-purple-400 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
             Real-time Effects
           </p>
-          <h2 className="text-4xl font-bold text-white mb-2">
+          <h2 className="text-4xl font-bold text-slate-900 mb-2">
             Move Your Cursor
           </h2>
-          <p className="text-lg text-white/60 font-light">
+          <p className="text-lg text-slate-500 font-light">
             Watch the particles follow in real-time
           </p>
+        </div>
+
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-30">
+          <div 
+            className="w-full h-full"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0)',
+              backgroundSize: '40px 40px',
+            }}
+          />
         </div>
 
         {/* Particles */}
@@ -113,21 +133,23 @@ export default function Slide03CursorSimulation() {
         ))}
 
         {/* Custom cursor */}
-        <div
-          className="absolute pointer-events-none z-20"
-          style={{
-            left: mousePos.x,
-            top: mousePos.y,
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <div className="w-6 h-6 rounded-full border-2 border-white/80 bg-white/10 backdrop-blur-sm" />
-          <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full bg-white -translate-x-1/2 -translate-y-1/2" />
-        </div>
+        {isInside && (
+          <div
+            className="absolute pointer-events-none z-20"
+            style={{
+              left: mousePos.x,
+              top: mousePos.y,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="w-8 h-8 rounded-full border-2 border-indigo-600 bg-indigo-100/50 backdrop-blur-sm" />
+            <div className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-indigo-600 -translate-x-1/2 -translate-y-1/2" />
+          </div>
+        )}
 
         {/* Hint at bottom */}
         <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-slate-400 text-sm">
             Move your mouse around the slide area
           </p>
         </div>
