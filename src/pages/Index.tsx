@@ -92,6 +92,10 @@ export default function Index() {
         onToggleGrid={() => setShowGrid(!showGrid)}
         showNotes={showNotes}
         onToggleNotes={() => setShowNotes(!showNotes)}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
+        onStartPresentation={() => setIsPresentationMode(true)}
+        onStartPresenterView={() => setIsPresenterView(true)}
       />
 
       <div className="flex-1 flex overflow-hidden">

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Grid3X3, FileText, MoreVertical } from 'lucide-react';
+import { Grid3X3, FileText, MoreVertical, Play, Monitor, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -20,6 +20,10 @@ interface ToolbarProps {
   onToggleGrid: () => void;
   showNotes?: boolean;
   onToggleNotes?: () => void;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
+  onStartPresentation?: () => void;
+  onStartPresenterView?: () => void;
   className?: string;
 }
 
@@ -28,6 +32,10 @@ export function Toolbar({
   onToggleGrid,
   showNotes,
   onToggleNotes,
+  isDarkMode,
+  onToggleDarkMode,
+  onStartPresentation,
+  onStartPresenterView,
   className,
 }: ToolbarProps) {
   return (
@@ -86,20 +94,33 @@ export function Toolbar({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={onToggleGrid}>
-                <Grid3X3 className="h-4 w-4 mr-2" />
-                {showGrid ? 'Hide Grid View' : 'Show Grid View'}
-              </DropdownMenuItem>
-              {onToggleNotes && (
-                <DropdownMenuItem onClick={onToggleNotes}>
-                  <FileText className="h-4 w-4 mr-2" />
-                  {showNotes ? 'Hide Notes' : 'Show Notes'}
+              {onStartPresentation && (
+                <DropdownMenuItem onClick={onStartPresentation}>
+                  <Play className="h-4 w-4 mr-2" />
+                  Present
+                  <span className="ml-auto text-xs text-muted-foreground">⇧P</span>
                 </DropdownMenuItem>
               )}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem disabled className="text-muted-foreground text-xs">
-                Keyboard: ⇧G Grid, ⇧N Notes
-              </DropdownMenuItem>
+              {onStartPresenterView && (
+                <DropdownMenuItem onClick={onStartPresenterView}>
+                  <Monitor className="h-4 w-4 mr-2" />
+                  Presenter View
+                  <span className="ml-auto text-xs text-muted-foreground">⇧V</span>
+                </DropdownMenuItem>
+              )}
+              {(onStartPresentation || onStartPresenterView) && onToggleDarkMode && (
+                <DropdownMenuSeparator />
+              )}
+              {onToggleDarkMode && (
+                <DropdownMenuItem onClick={onToggleDarkMode}>
+                  {isDarkMode ? (
+                    <Sun className="h-4 w-4 mr-2" />
+                  ) : (
+                    <Moon className="h-4 w-4 mr-2" />
+                  )}
+                  {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
