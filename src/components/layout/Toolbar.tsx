@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Grid3X3, FileText } from 'lucide-react';
+import { Grid3X3, FileText, MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -7,6 +7,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface ToolbarProps {
   showGrid: boolean;
@@ -68,6 +75,33 @@ export function Toolbar({
               <TooltipContent>Presenter Notes (⇧N)</TooltipContent>
             </Tooltip>
           )}
+        </div>
+
+        {/* Right section - More options menu */}
+        <div className="flex items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={onToggleGrid}>
+                <Grid3X3 className="h-4 w-4 mr-2" />
+                {showGrid ? 'Hide Grid View' : 'Show Grid View'}
+              </DropdownMenuItem>
+              {onToggleNotes && (
+                <DropdownMenuItem onClick={onToggleNotes}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {showNotes ? 'Hide Notes' : 'Show Notes'}
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem disabled className="text-muted-foreground text-xs">
+                Keyboard: ⇧G Grid, ⇧N Notes
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </TooltipProvider>
