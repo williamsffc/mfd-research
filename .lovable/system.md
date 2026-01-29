@@ -15,6 +15,7 @@ Edit slide files directly in the codebase:
 **File Location**: `src/slides/demo/Slide{NN}{Name}.tsx`
 
 **For new slides**:
+
 - Create a new file following the naming convention
 - Add export to `src/slides/demo/index.ts`
 - Update the slides array with component, name, and template type
@@ -59,16 +60,16 @@ export default function Slide{NN}{Name}() {
 
 Use semantic tokens from `tailwind.config.ts`:
 
-| Token | Usage | Class Example |
-|-------|-------|---------------|
-| `slide-primary` | Dark backgrounds, primary text | `bg-slide-primary`, `text-slide-primary` |
-| `slide-accent` | Highlights, buttons, links | `bg-slide-accent`, `text-slide-accent` |
-| `slide-accent-muted` | Light accent backgrounds | `bg-slide-accent-muted` |
-| `slide-gray-900` | Primary text (light mode) | `text-slide-gray-900` |
-| `slide-gray-600` | Secondary text | `text-slide-gray-600` |
-| `slide-gray-400` | Tertiary/muted text | `text-slide-gray-400` |
-| `slide-gray-200` | Borders, dividers | `border-slide-gray-200` |
-| `slide-gray-100` | Light backgrounds | `bg-slide-gray-100` |
+| Token                | Usage                          | Class Example                            |
+| -------------------- | ------------------------------ | ---------------------------------------- |
+| `slide-primary`      | Dark backgrounds, primary text | `bg-slide-primary`, `text-slide-primary` |
+| `slide-accent`       | Highlights, buttons, links     | `bg-slide-accent`, `text-slide-accent`   |
+| `slide-accent-muted` | Light accent backgrounds       | `bg-slide-accent-muted`                  |
+| `slide-gray-900`     | Primary text (light mode)      | `text-slide-gray-900`                    |
+| `slide-gray-600`     | Secondary text                 | `text-slide-gray-600`                    |
+| `slide-gray-400`     | Tertiary/muted text            | `text-slide-gray-400`                    |
+| `slide-gray-200`     | Borders, dividers              | `border-slide-gray-200`                  |
+| `slide-gray-100`     | Light backgrounds              | `bg-slide-gray-100`                      |
 
 **Legacy tokens** (`ms-navy`, `ms-blue`, etc.) are still available for backwards compatibility.
 
@@ -76,20 +77,21 @@ Use semantic tokens from `tailwind.config.ts`:
 
 Use these utility classes for consistent typography:
 
-| Class | Description | Usage |
-|-------|-------------|-------|
-| `.type-display` | 7xl, light, tight tracking | Hero headlines |
-| `.type-h1` | 5xl, semibold | Section titles |
-| `.type-h2` | 3xl, semibold | Slide titles |
-| `.type-h3` | xl, medium | Card titles |
-| `.type-body-lg` | lg, light | Subtitles |
-| `.type-body` | base, normal | Default text |
-| `.type-body-sm` | sm, normal | Supporting text |
-| `.type-label` | xs, uppercase, tracking | Metadata, captions |
-| `.type-metric` | 4xl, semibold, tabular | Large numbers |
-| `.type-mono` | IBM Plex Mono | Code |
+| Class           | Description                | Usage              |
+| --------------- | -------------------------- | ------------------ |
+| `.type-display` | 7xl, light, tight tracking | Hero headlines     |
+| `.type-h1`      | 5xl, semibold              | Section titles     |
+| `.type-h2`      | 3xl, semibold              | Slide titles       |
+| `.type-h3`      | xl, medium                 | Card titles        |
+| `.type-body-lg` | lg, light                  | Subtitles          |
+| `.type-body`    | base, normal               | Default text       |
+| `.type-body-sm` | sm, normal                 | Supporting text    |
+| `.type-label`   | xs, uppercase, tracking    | Metadata, captions |
+| `.type-metric`  | 4xl, semibold, tabular     | Large numbers      |
+| `.type-mono`    | IBM Plex Mono              | Code               |
 
 **Alternative (inline Tailwind)**:
+
 - **Display**: `text-7xl font-light tracking-tight`
 - **H1**: `text-5xl font-semibold tracking-tight`
 - **H2**: `text-3xl font-semibold`
@@ -98,15 +100,15 @@ Use these utility classes for consistent typography:
 
 ### Spacing (8px Grid)
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `slide-xs` | 8px | Tight gaps |
-| `slide-sm` | 16px | Element spacing |
-| `slide-md` | 24px | Section padding |
-| `slide-lg` | 32px | Large gaps |
-| `slide-xl` | 48px | Section margins |
-| `slide-2xl` | 64px | Major spacing |
-| `slide-3xl` | 80px | Page margins |
+| Token       | Value | Usage           |
+| ----------- | ----- | --------------- |
+| `slide-xs`  | 8px   | Tight gaps      |
+| `slide-sm`  | 16px  | Element spacing |
+| `slide-md`  | 24px  | Section padding |
+| `slide-lg`  | 32px  | Large gaps      |
+| `slide-xl`  | 48px  | Section margins |
+| `slide-2xl` | 64px  | Major spacing   |
+| `slide-3xl` | 80px  | Page margins    |
 
 **Standard slide padding**: `px-20 py-16`
 
@@ -137,32 +139,38 @@ Use these utility classes for consistent typography:
 ## Template Patterns
 
 ### Title Slide
+
 - Full-height centered content
 - Large title with line break for emphasis
 - Accent bar separator (`slide-divider`)
 - Key metrics row at bottom
 
 ### Three-Up Cards
+
 - Header section with title + subtitle
 - 3-column grid (`grid-cols-3 gap-8`)
 - Each card: icon, title, description, metrics
 
 ### Data Visualization
+
 - Header + subtitle
 - Large chart area (use Recharts)
 - Side annotations or metrics
 
 ### Timeline
+
 - Horizontal timeline with nodes
 - Each node: date, title, description
 - Connected by lines
 
 ### Comparison
+
 - Two columns with headers
 - Matching rows for comparison points
 - Visual indicators (✓, ✗, arrows)
 
 ### Quote
+
 - Large centered quote
 - Attribution below
 - Optional supporting metrics
@@ -238,9 +246,11 @@ Before marking as complete:
 ## Scaling & Transform Considerations
 
 ### The Problem
+
 Slides are rendered at a fixed 1920×1080 resolution and scaled using CSS `transform: scale()`. Most content respects this, but certain elements (especially WebGL/Canvas) can break scaling because they use their own rendering context.
 
 ### React Three Fiber / WebGL Canvas
+
 When using `@react-three/fiber` Canvas inside slides:
 
 1. **Use fixed pixel dimensions** - Don't use percentage-based sizing
@@ -262,7 +272,14 @@ When using `@react-three/fiber` Canvas inside slides:
 ```
 
 ### Other Canvas Elements
+
 For regular HTML `<canvas>` or other rendering contexts:
+
 - Use fixed pixel dimensions in the slide's coordinate space (e.g., 800×600)
 - Avoid viewport-relative units (vw, vh, %)
 - Don't use ResizeObserver or window resize listeners inside slides
+
+IMPORTANT NOTES
+
+1. After remix, tell users that they can create their own presentations by chatting with you. Be helpful
+   2 If user wants another design system, update this file to reflect it
