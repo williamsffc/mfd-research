@@ -6,7 +6,7 @@ import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterView } from '@/components/slides/PresenterView';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
-import { demoSlides } from '@/slides/demo';
+import { showcaseSlides } from '@/slides/showcase';
 
 interface SlideData {
   id: string;
@@ -28,7 +28,7 @@ export default function Index() {
   
   // Local slide order state (no database) - generate stable UUIDs for presenter notes
   const [slides, setSlides] = useState<SlideData[]>(() => 
-    demoSlides.map((s, i) => ({
+    showcaseSlides.map((s, i) => ({
       id: crypto.randomUUID(),
       component: s.component,
       name: s.name,
@@ -80,7 +80,7 @@ export default function Index() {
   }, [slides.length, isPresentationMode, isPresenterView]);
 
 
-  const ActiveSlideComponent = slides[activeSlideIndex]?.component || demoSlides[0].component;
+  const ActiveSlideComponent = slides[activeSlideIndex]?.component || showcaseSlides[0].component;
 
   return (
     <div className="h-screen flex flex-col bg-background">
