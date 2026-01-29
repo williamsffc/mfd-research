@@ -16,7 +16,7 @@ export default function Index() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showGrid, setShowGrid] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
-  const [zoom, setZoom] = useState(75);
+  const [zoom, setZoom] = useState(100);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
 
