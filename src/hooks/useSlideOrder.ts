@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import type { SlideMetadata } from '@/types/slide';
 
-const DEMO_PRESENTATION_ID = '00000000-0000-0000-0000-000000000001';
-
 export function useSlideOrder() {
   const [slideOrder, setSlideOrder] = useState<SlideMetadata[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +13,6 @@ export function useSlideOrder() {
       const { data, error } = await supabase
         .from('slides')
         .select('*')
-        .eq('presentation_id', DEMO_PRESENTATION_ID)
         .is('deleted_at', null)
         .order('position', { ascending: true });
 
@@ -25,7 +22,6 @@ export function useSlideOrder() {
         setSlideOrder(
           data.map((s) => ({
             id: s.id,
-            presentationId: s.presentation_id,
             filePath: s.file_path,
             position: s.position,
             description: s.description ?? undefined,
@@ -49,28 +45,12 @@ export function useSlideOrder() {
 
   const initializeSlides = async (slides: { filePath: string; templateType: string }[]) => {
     try {
-      const { data: presData } = await supabase
-        .from('presentations')
-        .select('id')
-        .eq('id', DEMO_PRESENTATION_ID)
-        .single();
-
-      if (!presData) {
-        await supabase.from('presentations').insert({
-          id: DEMO_PRESENTATION_ID,
-          title: 'SlideForge Demo',
-          description: 'A showcase of SlideForge capabilities',
-        });
-      }
-
       const { data: existingSlides } = await supabase
         .from('slides')
-        .select('id')
-        .eq('presentation_id', DEMO_PRESENTATION_ID);
+        .select('id');
 
       if (!existingSlides || existingSlides.length === 0) {
         const slidesToInsert = slides.map((s, i) => ({
-          presentation_id: DEMO_PRESENTATION_ID,
           file_path: s.filePath,
           position: i,
           template_type: s.templateType,
@@ -203,7 +183,6 @@ export function useSlideOrder() {
       const tempId = `temp-${Date.now()}`;
       const newSlide: SlideMetadata = {
         id: tempId,
-        presentationId: DEMO_PRESENTATION_ID,
         filePath: slideToDuplicate.filePath,
         position: insertPosition,
         description: slideToDuplicate.description,
@@ -233,7 +212,6 @@ export function useSlideOrder() {
       const { data, error } = await supabase
         .from('slides')
         .insert({
-          presentation_id: DEMO_PRESENTATION_ID,
           file_path: slideToDuplicate.filePath,
           position: insertPosition,
           template_type: slideToDuplicate.templateType || '',

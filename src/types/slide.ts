@@ -5,19 +5,10 @@ export interface SlideComponent {
 
 export interface SlideMetadata {
   id: string;
-  presentationId: string;
   filePath: string;
   position: number;
   description?: string;
   templateType?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Presentation {
-  id: string;
-  title: string;
-  description?: string;
   createdAt: string;
   updatedAt: string;
 }
