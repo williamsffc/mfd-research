@@ -24,8 +24,13 @@ export default function Slide03CursorSimulation() {
       if (!containerRef.current) return;
       
       const rect = containerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      
+      // Account for the scale transform - the slide is 1920x1080 but scaled down
+      const scaleX = 1920 / rect.width;
+      const scaleY = 1080 / rect.height;
+      
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
       
       setMousePos({ x, y });
       
@@ -34,21 +39,21 @@ export default function Slide03CursorSimulation() {
         id: particleId.current++,
         x,
         y,
-        size: Math.random() * 8 + 4,
+        size: Math.random() * 12 + 6,
         color: colors[Math.floor(Math.random() * colors.length)],
         velocity: {
-          x: (Math.random() - 0.5) * 4,
-          y: (Math.random() - 0.5) * 4,
+          x: (Math.random() - 0.5) * 6,
+          y: (Math.random() - 0.5) * 6,
         },
         life: 1,
       }));
       
-      setParticles(prev => [...prev, ...newParticles].slice(-100));
+      setParticles(prev => [...prev, ...newParticles].slice(-150));
     };
 
-    const container = containerRef.current;
-    container?.addEventListener('mousemove', handleMouseMove);
-    return () => container?.removeEventListener('mousemove', handleMouseMove);
+    // Use document-level listener to capture all mouse movements over the slide
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   // Animate particles
