@@ -1,5 +1,5 @@
-/* Morgan Stanley uses proprietary fonts - fallback to Helvetica Neue / Arial */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* IBM Plex for clean enterprise typography - inspired by Carbon Design System */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,90 +7,120 @@
 
 @layer base {
   :root {
-    /* Morgan Stanley Brand Colors */
-    --ms-blue: 201 84% 41%; /* #187ABA */
-    --ms-navy: 207 100% 16%; /* #002B51 */
-    --ms-navy-80: 207 45% 33%; /* #335574 */
-    --ms-blue-80: 201 52% 53%; /* #4695C8 */
-    --ms-blue-40: 201 52% 76%; /* #A3CAE3 */
-    --ms-blue-20: 201 52% 88%; /* #D1E4F1 */
-    --ms-jade: 140 51% 48%; /* #3EB661 */
-    --ms-ocean: 185 85% 26%; /* #0A6F7A */
+    /* 
+     * Design System: Inspired by IBM Carbon
+     * Clean, accessible, enterprise-grade tokens
+     */
     
-    /* App tokens mapped to MS colors */
+    /* === Brand Colors (Slide Deck) === */
+    /* Primary - Deep blue for authority and trust */
+    --slide-primary: 215 100% 20%;      /* #003366 - Deep Navy */
+    --slide-primary-light: 215 85% 35%; /* #1a5490 */
+    
+    /* Accent - Vibrant blue for highlights */
+    --slide-accent: 207 90% 54%;        /* #2196F3 - Bright Blue */
+    --slide-accent-light: 207 90% 70%;  /* Lighter accent */
+    --slide-accent-muted: 207 40% 90%;  /* Very light accent bg */
+    
+    /* Semantic */
+    --slide-success: 145 63% 42%;       /* #27AE60 - Green */
+    --slide-warning: 36 100% 50%;       /* #F39C12 - Amber */
+    --slide-error: 4 90% 58%;           /* #E74C3C - Red */
+    
+    /* Neutrals - Gray scale for text and backgrounds */
+    --slide-gray-100: 220 14% 96%;      /* #F4F5F7 */
+    --slide-gray-200: 220 13% 91%;      /* #E5E7EB */
+    --slide-gray-300: 216 12% 84%;      /* #D1D5DB */
+    --slide-gray-400: 218 11% 65%;      /* #9CA3AF */
+    --slide-gray-500: 220 9% 46%;       /* #6B7280 */
+    --slide-gray-600: 215 14% 34%;      /* #4B5563 */
+    --slide-gray-700: 217 19% 27%;      /* #374151 */
+    --slide-gray-800: 215 28% 17%;      /* #1F2937 */
+    --slide-gray-900: 221 39% 11%;      /* #111827 */
+    
+    /* === Legacy MS Tokens (for backwards compatibility) === */
+    --ms-blue: 207 90% 54%;
+    --ms-navy: 215 100% 20%;
+    --ms-navy-80: 215 40% 40%;
+    --ms-blue-80: 207 70% 60%;
+    --ms-blue-40: 207 60% 80%;
+    --ms-blue-20: 207 50% 92%;
+    --ms-jade: 145 63% 42%;
+    --ms-ocean: 185 85% 26%;
+    
+    /* === App UI Tokens === */
     --background: 0 0% 100%;
-    --foreground: 207 100% 16%; /* MS Navy */
+    --foreground: 221 39% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 207 100% 16%;
+    --card-foreground: 221 39% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 207 100% 16%;
-    --primary: 201 84% 41%; /* MS Blue */
+    --popover-foreground: 221 39% 11%;
+    --primary: 207 90% 54%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 201 52% 88%; /* MS Blue 20% */
-    --secondary-foreground: 207 100% 16%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 207 45% 33%;
-    --accent: 201 52% 76%; /* MS Blue 40% */
-    --accent-foreground: 207 100% 16%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 201 84% 41%;
-    --radius: 0.25rem;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 221 39% 11%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 207 50% 92%;
+    --accent-foreground: 215 100% 20%;
+    --destructive: 4 90% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 207 90% 54%;
+    --radius: 0.375rem;
     
-    --sidebar-background: 207 100% 16%; /* MS Navy */
+    /* Sidebar */
+    --sidebar-background: 215 100% 20%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 201 84% 41%;
+    --sidebar-primary: 207 90% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 207 45% 33%;
+    --sidebar-accent: 215 60% 30%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 207 45% 25%;
-    --sidebar-ring: 201 84% 41%;
+    --sidebar-border: 215 50% 25%;
+    --sidebar-ring: 207 90% 54%;
     
-    /* Slide tokens */
-    --canvas-bg: 210 20% 96%;
+    /* Canvas */
+    --canvas-bg: 220 14% 96%;
     --slide-bg: 0 0% 100%;
-    --grid-line: 210 20% 85%;
-    --comment-pin: 45 93% 47%;
-    --comment-pin-resolved: 140 51% 48%; /* MS Jade */
+    --grid-line: 220 13% 91%;
+    --comment-pin: 36 100% 50%;
+    --comment-pin-resolved: 145 63% 42%;
   }
 
   .dark {
-    --background: 207 100% 10%;
-    --foreground: 0 0% 98%;
-    --card: 207 100% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 207 100% 12%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 201 84% 50%;
+    --background: 221 39% 11%;
+    --foreground: 220 14% 96%;
+    --card: 215 28% 17%;
+    --card-foreground: 220 14% 96%;
+    --popover: 215 28% 17%;
+    --popover-foreground: 220 14% 96%;
+    --primary: 207 90% 60%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 207 45% 20%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 207 45% 18%;
-    --muted-foreground: 210 20% 70%;
-    --accent: 207 45% 25%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 207 45% 20%;
-    --input: 207 45% 20%;
-    --ring: 201 84% 50%;
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 220 14% 96%;
+    --muted: 217 19% 27%;
+    --muted-foreground: 218 11% 65%;
+    --accent: 215 60% 30%;
+    --accent-foreground: 220 14% 96%;
+    --destructive: 4 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 207 90% 60%;
     
-    --sidebar-background: 207 100% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 201 84% 50%;
+    --sidebar-background: 221 39% 8%;
+    --sidebar-foreground: 220 14% 96%;
+    --sidebar-primary: 207 90% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 207 45% 18%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 207 45% 15%;
-    --sidebar-ring: 201 84% 50%;
+    --sidebar-accent: 217 19% 22%;
+    --sidebar-accent-foreground: 220 14% 96%;
+    --sidebar-border: 217 19% 18%;
+    --sidebar-ring: 207 90% 60%;
     
-    --canvas-bg: 207 100% 8%;
-    --slide-bg: 207 100% 12%;
-    --grid-line: 207 45% 20%;
-    --comment-pin: 45 93% 47%;
-    --comment-pin-resolved: 140 51% 48%;
+    --canvas-bg: 221 39% 8%;
+    --slide-bg: 215 28% 17%;
+    --grid-line: 217 19% 27%;
   }
 }
 
@@ -100,8 +130,97 @@
   }
   
   body {
-    @apply bg-background text-foreground font-ms antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* === Typography Scale (Carbon-inspired) === */
+@layer components {
+  /* Display - For hero slides */
+  .type-display {
+    @apply text-7xl font-light tracking-tight leading-none;
+  }
+  
+  /* Heading 1 - Section titles */
+  .type-h1 {
+    @apply text-5xl font-semibold tracking-tight leading-tight;
+  }
+  
+  /* Heading 2 - Slide titles */
+  .type-h2 {
+    @apply text-3xl font-semibold leading-snug;
+  }
+  
+  /* Heading 3 - Card titles */
+  .type-h3 {
+    @apply text-xl font-medium leading-snug;
+  }
+  
+  /* Body Large - Subtitles */
+  .type-body-lg {
+    @apply text-lg font-light leading-relaxed;
+  }
+  
+  /* Body - Default text */
+  .type-body {
+    @apply text-base font-normal leading-relaxed;
+  }
+  
+  /* Body Small - Supporting text */
+  .type-body-sm {
+    @apply text-sm font-normal leading-relaxed;
+  }
+  
+  /* Label - Metadata, captions */
+  .type-label {
+    @apply text-xs font-medium uppercase tracking-widest;
+  }
+  
+  /* Metric - Large numbers */
+  .type-metric {
+    @apply text-4xl font-semibold tabular-nums;
+  }
+  
+  /* Code */
+  .type-mono {
+    font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  }
+}
+
+/* === Slide-specific utilities === */
+@layer components {
+  /* Card styles */
+  .slide-card {
+    @apply p-6 rounded-lg bg-white border border-slide-gray-200;
+  }
+  
+  .slide-card-elevated {
+    @apply slide-card shadow-sm;
+  }
+  
+  .slide-card-accent {
+    @apply slide-card border-l-4 border-l-slide-accent;
+  }
+  
+  /* Metric card */
+  .slide-metric-card {
+    @apply p-6 rounded-lg;
+    background: hsl(var(--slide-accent-muted));
+  }
+  
+  /* Badge */
+  .slide-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+    background: hsl(var(--slide-accent-muted));
+    color: hsl(var(--slide-primary));
+  }
+  
+  /* Divider */
+  .slide-divider {
+    @apply w-16 h-1 rounded-full;
+    background: hsl(var(--slide-accent));
   }
 }
 
@@ -165,7 +284,7 @@
   background: hsl(var(--comment-pin-resolved));
 }
 
-/* Smooth animations */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -204,15 +323,6 @@
   }
 }
 
-@keyframes stackPulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-}
-
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
 }
@@ -227,57 +337,4 @@
 
 .animate-collapse {
   animation: collapseIn 0.2s ease-out forwards;
-}
-
-.animate-stack-pulse {
-  animation: stackPulse 1s ease-in-out infinite;
-}
-
-/* Typography utilities for slides */
-.slide-h1 {
-  @apply text-6xl font-bold tracking-tight;
-}
-
-.slide-h2 {
-  @apply text-4xl font-semibold tracking-tight;
-}
-
-.slide-h3 {
-  @apply text-2xl font-medium;
-}
-
-.slide-body {
-  @apply text-xl leading-relaxed;
-}
-
-.slide-mono {
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Delete confirmation animations */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }

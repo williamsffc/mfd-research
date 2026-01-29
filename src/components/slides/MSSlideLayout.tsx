@@ -7,20 +7,30 @@ interface MSSlideLayoutProps {
   className?: string;
 }
 
+/**
+ * Slide Layout Component
+ * Inspired by IBM Carbon Design System
+ * 
+ * Variants:
+ * - default: White background, dark text
+ * - dark/title: Deep navy background, white text
+ */
 export function MSSlideLayout({ children, variant = 'default', className }: MSSlideLayoutProps) {
-  const isDark = variant === 'dark';
+  const isDark = variant === 'dark' || variant === 'title';
   
   return (
     <div 
       className={cn(
-        'w-full h-full relative font-ms',
-        isDark ? 'bg-ms-navy text-white' : 'bg-white text-ms-navy',
+        'w-full h-full relative font-sans',
+        isDark 
+          ? 'bg-slide-primary text-white' 
+          : 'bg-white text-slide-gray-900',
         className
       )}
     >
-      {/* Morgan Stanley Logo - Top Right */}
+      {/* Logo mark - Top Right */}
       <div className="absolute top-8 right-10 z-10">
-        <MSLogo variant={isDark ? 'white' : 'navy'} />
+        <LogoMark variant={isDark ? 'light' : 'dark'} />
       </div>
       
       {/* Content */}
@@ -28,37 +38,43 @@ export function MSSlideLayout({ children, variant = 'default', className }: MSSl
         {children}
       </div>
       
-      {/* Bottom border accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-ms-blue" />
+      {/* Bottom accent bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-slide-accent" />
     </div>
   );
 }
 
-interface MSLogoProps {
-  variant?: 'navy' | 'white';
+interface LogoMarkProps {
+  variant?: 'dark' | 'light';
   className?: string;
 }
 
-export function MSLogo({ variant = 'navy', className }: MSLogoProps) {
-  const color = variant === 'white' ? '#FFFFFF' : '#002B51';
+/**
+ * Minimal logo mark - can be customized per brand
+ */
+export function LogoMark({ variant = 'dark', className }: LogoMarkProps) {
+  const color = variant === 'light' ? 'hsl(var(--slide-gray-100))' : 'hsl(var(--slide-primary))';
   
   return (
     <svg
-      viewBox="0 0 200 24"
-      className={cn('h-6 w-auto', className)}
+      viewBox="0 0 120 24"
+      className={cn('h-5 w-auto', className)}
       fill={color}
     >
-      {/* Morgan Stanley text logo approximation */}
+      {/* Clean wordmark placeholder */}
       <text
         x="0"
-        y="18"
-        fontFamily="Arial, Helvetica, sans-serif"
-        fontSize="16"
+        y="17"
+        fontFamily="IBM Plex Sans, sans-serif"
+        fontSize="14"
         fontWeight="600"
-        letterSpacing="0.5"
+        letterSpacing="0.05em"
       >
-        MORGAN STANLEY
+        SLIDEFORGE
       </text>
     </svg>
   );
 }
+
+// Re-export with legacy name for backwards compatibility
+export const MSLogo = LogoMark;
