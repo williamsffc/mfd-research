@@ -9,7 +9,7 @@ const timeSlots = [
 ];
 
 const getDaysInMonth = () => {
-  const days = [];
+  const days: (number | null)[] = [];
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
@@ -23,6 +23,11 @@ const getDaysInMonth = () => {
   
   for (let i = 1; i <= daysInMonth; i++) {
     days.push(i);
+  }
+  
+  // Pad to complete the last week
+  while (days.length % 7 !== 0) {
+    days.push(null);
   }
   
   return days;
@@ -112,19 +117,19 @@ export default function Slide04CalendarBooking() {
             </div>
 
             {/* Days grid */}
-            <div className="grid grid-cols-7 gap-1">
+            <div className="grid grid-cols-7 gap-2">
               {days.map((day, index) => (
                 <button
                   key={index}
                   disabled={day === null || day < today}
-                  onClick={() => day && setSelectedDate(day)}
+                  onClick={() => day && day >= today && setSelectedDate(day)}
                   className={cn(
-                    "aspect-square rounded-lg text-sm font-medium transition-all",
+                    "h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center",
                     day === null && "invisible",
-                    day && day < today && "text-slate-300 cursor-not-allowed",
-                    day && day >= today && "hover:bg-indigo-100 text-slate-700",
+                    day !== null && day < today && "text-slate-300 cursor-not-allowed",
+                    day !== null && day >= today && "hover:bg-indigo-100 text-slate-700 cursor-pointer",
                     day === today && "ring-2 ring-indigo-500 ring-offset-2",
-                    selectedDate === day && "bg-indigo-600 text-white hover:bg-indigo-700"
+                    selectedDate === day && day !== null && "bg-indigo-600 text-white hover:bg-indigo-700"
                   )}
                 >
                   {day}
