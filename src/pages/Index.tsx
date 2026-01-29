@@ -117,6 +117,7 @@ export default function Index() {
               onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
               onNextSlide={() => setActiveSlideIndex(Math.min(slides.length - 1, activeSlideIndex + 1))}
               onStartPresentation={() => setIsPresentationMode(true)}
+              onStartPresenterView={() => setIsPresenterView(true)}
               isDarkMode={isDarkMode}
               onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
             >

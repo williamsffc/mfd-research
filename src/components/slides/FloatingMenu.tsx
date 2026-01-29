@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Moon, Sun, MoreHorizontal } from 'lucide-react';
+import { Play, Moon, Sun, MoreHorizontal, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -13,12 +13,14 @@ interface FloatingMenuProps {
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
   onStartPresentation: () => void;
+  onStartPresenterView?: () => void;
 }
 
 export function FloatingMenu({
   isDarkMode,
   onToggleDarkMode,
   onStartPresentation,
+  onStartPresenterView,
 }: FloatingMenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -48,6 +50,22 @@ export function FloatingMenu({
               </TooltipTrigger>
               <TooltipContent side="left">Present (⇧P)</TooltipContent>
             </Tooltip>
+
+            {onStartPresenterView && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 rounded-full"
+                    onClick={onStartPresenterView}
+                  >
+                    <Monitor className="h-3.5 w-3.5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left">Presenter View (⇧V)</TooltipContent>
+              </Tooltip>
+            )}
 
             <div className="w-6 h-px bg-border" />
 
