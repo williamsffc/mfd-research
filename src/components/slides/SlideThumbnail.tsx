@@ -2,14 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Copy } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { GripVertical } from 'lucide-react';
 
 interface SlideThumbnailProps {
   id: string;
@@ -17,7 +10,6 @@ interface SlideThumbnailProps {
   isActive?: boolean;
   isSelected?: boolean;
   onClick?: (e: React.MouseEvent) => void;
-  onDuplicate?: () => void;
   children: React.ReactNode;
 }
 
@@ -27,7 +19,6 @@ export function SlideThumbnail({
   isActive = false,
   isSelected = false,
   onClick,
-  onDuplicate,
   children,
 }: SlideThumbnailProps) {
   const {
@@ -43,11 +34,6 @@ export function SlideThumbnail({
     transform: isDragging ? undefined : CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0 : 1,
-  };
-
-  const handleDuplicate = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onDuplicate?.();
   };
 
   return (
@@ -93,29 +79,6 @@ export function SlideThumbnail({
           {isSelected && (
             <div className="absolute inset-0 bg-primary/10 pointer-events-none" />
           )}
-          
-          {/* Hover actions */}
-          <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-            {onDuplicate && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="secondary"
-                      size="icon"
-                      className="h-6 w-6 bg-background/90 hover:bg-background shadow-sm"
-                      onClick={handleDuplicate}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top">
-                    <p className="text-xs">Duplicate slide</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
-          </div>
         </div>
       </div>
     </div>
