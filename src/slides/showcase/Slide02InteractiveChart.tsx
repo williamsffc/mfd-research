@@ -154,10 +154,10 @@ export default function Slide02InteractiveChart() {
           </p>
         </div>
 
-        {/* Main content */}
+        {/* Main content - 2:1 ratio */}
         <div className="flex-1 flex gap-6 min-h-0">
-          {/* Left: Chart */}
-          <div className="flex-1 flex flex-col min-h-0">
+          {/* Left: Chart (66%) */}
+          <div className="w-2/3 flex flex-col min-h-0">
             <div className="flex-1 bg-slate-50 rounded-xl border border-slate-200 p-4 min-h-0">
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={curveData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
@@ -224,73 +224,95 @@ export default function Slide02InteractiveChart() {
               </ResponsiveContainer>
             </div>
             
-            {/* Sliders */}
-            <div className="mt-4 grid grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-indigo-600" />
-                    Demand Shift
-                  </label>
-                  <span className="text-sm text-slate-500 font-mono">
-                    {demandShift > 0 ? '+' : ''}{demandShift}
-                  </span>
-                </div>
-                <Slider
-                  value={[demandShift]}
-                  onValueChange={(v) => setDemandShift(v[0])}
-                  min={-40}
-                  max={40}
-                  step={1}
-                  className="w-full"
-                />
-                <p className="text-xs text-slate-400">
-                  ← Less demand | More demand →
-                </p>
+            {/* Legend */}
+            <div className="mt-3 flex items-center justify-center gap-8">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-1 bg-indigo-600 rounded" />
+                <span className="text-sm text-slate-600">Demand</span>
               </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                    Supply Shift
-                  </label>
-                  <span className="text-sm text-slate-500 font-mono">
-                    {supplyShift > 0 ? '+' : ''}{supplyShift}
-                  </span>
-                </div>
-                <Slider
-                  value={[supplyShift]}
-                  onValueChange={(v) => setSupplyShift(v[0])}
-                  min={-40}
-                  max={40}
-                  step={1}
-                  className="w-full"
-                />
-                <p className="text-xs text-slate-400">
-                  ← Lower costs | Higher costs →
-                </p>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-1 bg-emerald-500 rounded" />
+                <span className="text-sm text-slate-600">Supply</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <span className="text-sm text-slate-600">Equilibrium</span>
               </div>
             </div>
           </div>
 
-          {/* Right: Metrics Panel */}
-          <div className="w-72 flex flex-col gap-3">
+          {/* Right: Controls & Metrics Panel (33%) */}
+          <div className="w-1/3 flex flex-col gap-4 overflow-y-auto">
+            {/* Curve Controls */}
+            <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <h3 className="text-xs font-semibold text-slate-700 mb-4 uppercase tracking-wide">
+                Curve Controls
+              </h3>
+              
+              <div className="space-y-5">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-indigo-600" />
+                      Demand Shift
+                    </label>
+                    <span className="text-sm text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded">
+                      {demandShift > 0 ? '+' : ''}{demandShift}
+                    </span>
+                  </div>
+                  <Slider
+                    value={[demandShift]}
+                    onValueChange={(v) => setDemandShift(v[0])}
+                    min={-40}
+                    max={40}
+                    step={1}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-slate-400">
+                    ← Less demand | More demand →
+                  </p>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                      Supply Shift
+                    </label>
+                    <span className="text-sm text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded">
+                      {supplyShift > 0 ? '+' : ''}{supplyShift}
+                    </span>
+                  </div>
+                  <Slider
+                    value={[supplyShift]}
+                    onValueChange={(v) => setSupplyShift(v[0])}
+                    min={-40}
+                    max={40}
+                    step={1}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-slate-400">
+                    ← Lower costs | Higher costs →
+                  </p>
+                </div>
+              </div>
+            </div>
+            
             {/* Equilibrium */}
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
               <h3 className="text-xs font-semibold text-amber-800 mb-3 uppercase tracking-wide">
                 Market Equilibrium
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-amber-600 mb-0.5">Price</p>
-                  <p className="text-xl font-bold text-amber-900">
+                  <p className="text-2xl font-bold text-amber-900">
                     ${metrics.price}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-amber-600 mb-0.5">Quantity</p>
-                  <p className="text-xl font-bold text-amber-900">
+                  <p className="text-2xl font-bold text-amber-900">
                     {metrics.quantity}
                   </p>
                 </div>
@@ -360,22 +382,6 @@ export default function Slide02InteractiveChart() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Legend */}
-        <div className="mt-4 flex items-center justify-center gap-8">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-1 bg-indigo-600 rounded" />
-            <span className="text-sm text-slate-600">Demand</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-1 bg-emerald-500 rounded" />
-            <span className="text-sm text-slate-600">Supply</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-amber-500" />
-            <span className="text-sm text-slate-600">Equilibrium</span>
           </div>
         </div>
       </div>
