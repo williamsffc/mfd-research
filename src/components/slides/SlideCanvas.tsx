@@ -28,6 +28,7 @@ interface SlideCanvasProps {
   onPrevSlide?: () => void;
   onNextSlide?: () => void;
   onStartPresentation?: () => void;
+  onStartPresenterView?: () => void;
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
 }
@@ -47,6 +48,7 @@ export function SlideCanvas({
   onPrevSlide,
   onNextSlide,
   onStartPresentation,
+  onStartPresenterView,
   isDarkMode = false,
   onToggleDarkMode,
 }: SlideCanvasProps) {
@@ -306,6 +308,7 @@ export function SlideCanvas({
                   isDarkMode={isDarkMode}
                   onToggleDarkMode={onToggleDarkMode}
                   onStartPresentation={onStartPresentation}
+                  onStartPresenterView={onStartPresenterView}
                 />
               </div>
             )}
