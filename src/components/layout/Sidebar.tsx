@@ -28,7 +28,6 @@ interface SlideItem {
   id: string;
   content: React.ReactNode;
   description?: string;
-  viewerCount?: number;
 }
 
 interface SidebarProps {
@@ -312,7 +311,6 @@ export function Sidebar({
                       slideNumber={index + 1}
                       isActive={index === activeSlideIndex}
                       isSelected={selectedSlides.has(index) && index === firstSelectedIndex}
-                      viewerCount={slide.viewerCount || 0}
                       onClick={(e) => handleSlideClick(index, e)}
                       onDuplicate={() => onDuplicateSlide?.(index)}
                     >
