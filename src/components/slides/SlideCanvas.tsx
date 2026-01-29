@@ -244,37 +244,28 @@ export function SlideCanvas({
           ref={containerRef}
           className={cn(
             "flex-1 flex items-center justify-center",
-            needsScroll ? "overflow-auto p-8" : "overflow-hidden"
+            needsScroll ? "overflow-auto" : "overflow-hidden"
           )}
         >
-          {/* Slide wrapper for proper centering */}
-          <div 
-            className="flex items-center justify-center"
+          {/* Slide - the transform scale reduces visual size while keeping internal 1920x1080 */}
+          <div
+            className={cn(
+              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden isolate',
+              showGrid && 'grid-overlay',
+              className
+            )}
             style={{
-              width: scaledWidth,
-              height: scaledHeight,
+              width: SLIDE_WIDTH,
+              height: SLIDE_HEIGHT,
+              transform: `scale(${finalScale})`,
+              transformOrigin: 'center center',
               flexShrink: 0,
             }}
+            onClick={onClick}
           >
-            {/* Slide */}
-            <div
-              className={cn(
-                'slide-canvas relative shadow-2xl rounded-lg overflow-hidden isolate',
-                showGrid && 'grid-overlay',
-                className
-              )}
-              style={{
-                width: SLIDE_WIDTH,
-                height: SLIDE_HEIGHT,
-                transform: `scale(${finalScale})`,
-                transformOrigin: 'center center',
-              }}
-              onClick={onClick}
-            >
-              {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
-              <div className="absolute inset-0 bg-white dark:bg-slate-900">
-                {children}
-              </div>
+            {/* Fixed 1920x1080 slide content */}
+            <div className="absolute inset-0 bg-white dark:bg-slate-900">
+              {children}
             </div>
           </div>
         </div>
