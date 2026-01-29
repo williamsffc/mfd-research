@@ -37,22 +37,25 @@ const SLIDE_HEIGHT = 1080;
  */
 function ScaledSlide({ 
   SlideComponent, 
-  className 
+  fillContainer = false,
 }: { 
   SlideComponent: React.ComponentType<any> | undefined;
-  className?: string;
+  fillContainer?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.4);
+  const [scale, setScale] = useState(0.1);
 
   useEffect(() => {
     const updateScale = () => {
       if (!containerRef.current) return;
       const containerWidth = containerRef.current.offsetWidth;
-      setScale(containerWidth / SLIDE_WIDTH);
+      if (containerWidth > 0) {
+        setScale(containerWidth / SLIDE_WIDTH);
+      }
     };
 
-    updateScale();
+    // Use RAF to ensure layout is complete
+    requestAnimationFrame(updateScale);
 
     const observer = new ResizeObserver(updateScale);
     if (containerRef.current) {
@@ -67,7 +70,10 @@ function ScaledSlide({
   return (
     <div 
       ref={containerRef}
-      className={cn("relative bg-white rounded-lg shadow-xl overflow-hidden", className)}
+      className={cn(
+        "relative bg-white rounded-lg shadow-xl overflow-hidden",
+        fillContainer ? "w-full" : ""
+      )}
       style={{ aspectRatio: '16/9' }}
     >
       <div 
@@ -290,10 +296,12 @@ export function PresenterView({
             
             {/* Slide container */}
             <div className="w-full h-full flex items-center justify-center">
-              <ScaledSlide 
-                SlideComponent={CurrentSlide} 
-                className="max-w-full max-h-full w-auto h-auto"
-              />
+              <div className="w-full max-w-4xl">
+                <ScaledSlide 
+                  SlideComponent={CurrentSlide} 
+                  fillContainer
+                />
+              </div>
             </div>
           </div>
 
