@@ -4,6 +4,7 @@ import { Toolbar } from '@/components/layout/Toolbar';
 import { SlideCanvas } from '@/components/slides/SlideCanvas';
 import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
+import { PresenterView } from '@/components/slides/PresenterView';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
 import { demoSlides } from '@/slides/demo';
 
@@ -22,6 +23,7 @@ export default function Index() {
   const [zoom, setZoom] = useState(100);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const [isPresenterView, setIsPresenterView] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(256);
   
   // Local slide order state (no database) - generate stable UUIDs for presenter notes
@@ -50,7 +52,7 @@ export default function Index() {
         return;
       }
 
-      if (isPresentationMode) return;
+      if (isPresentationMode || isPresenterView) return;
 
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault();
@@ -67,12 +69,15 @@ export default function Index() {
       } else if (e.key === 'P' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         setIsPresentationMode(true);
+      } else if (e.key === 'V' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setIsPresenterView(true);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [slides.length, isPresentationMode]);
+  }, [slides.length, isPresentationMode, isPresenterView]);
 
 
   const ActiveSlideComponent = slides[activeSlideIndex]?.component || demoSlides[0].component;
@@ -152,6 +157,21 @@ export default function Index() {
           activeIndex={activeSlideIndex}
           onIndexChange={setActiveSlideIndex}
           onExit={() => setIsPresentationMode(false)}
+        />
+      )}
+
+      {/* Presenter View (dual-window mode) */}
+      {isPresenterView && (
+        <PresenterView
+          slides={slides.map(slide => ({
+            id: slide.id,
+            component: slide.component,
+            isWIP: slide.isWIP,
+            description: slide.description,
+          }))}
+          activeIndex={activeSlideIndex}
+          onIndexChange={setActiveSlideIndex}
+          onExit={() => setIsPresenterView(false)}
         />
       )}
     </div>
