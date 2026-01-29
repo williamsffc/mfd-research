@@ -26,15 +26,17 @@ export default function Index() {
   const [isPresenterView, setIsPresenterView] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(256);
   
-  // Local slide order state (no database) - generate stable UUIDs for presenter notes
-  const [slides, setSlides] = useState<SlideData[]>(() => 
-    showcaseSlides.map((s, i) => ({
-      id: crypto.randomUUID(),
+  // Derive slides from showcaseSlides with deterministic IDs (for presenter notes persistence)
+  // Using useMemo ensures this updates when showcaseSlides changes (including HMR)
+  const slides = React.useMemo<SlideData[]>(() => 
+    showcaseSlides.map((s) => ({
+      id: `slide-${s.name.toLowerCase().replace(/\s+/g, '-')}`,
       component: s.component,
       name: s.name,
       isWIP: false,
       description: undefined,
-    }))
+    })),
+    [showcaseSlides]
   );
 
   // Get current slide ID for presenter notes
