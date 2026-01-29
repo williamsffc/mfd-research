@@ -14,57 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      cms_strings: {
-        Row: {
-          category: string | null
-          created_at: string
-          id: string
-          key: string
-          updated_at: string
-          value: string
-        }
-        Insert: {
-          category?: string | null
-          created_at?: string
-          id?: string
-          key: string
-          updated_at?: string
-          value: string
-        }
-        Update: {
-          category?: string | null
-          created_at?: string
-          id?: string
-          key?: string
-          updated_at?: string
-          value?: string
-        }
-        Relationships: []
-      }
-      presentations: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          title?: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       presenter_notes: {
         Row: {
           content: string
@@ -97,7 +46,6 @@ export type Database = {
           file_path: string
           id: string
           position: number
-          presentation_id: string
           template_type: string | null
           updated_at: string
         }
@@ -108,7 +56,6 @@ export type Database = {
           file_path: string
           id?: string
           position?: number
-          presentation_id: string
           template_type?: string | null
           updated_at?: string
         }
@@ -119,19 +66,10 @@ export type Database = {
           file_path?: string
           id?: string
           position?: number
-          presentation_id?: string
           template_type?: string | null
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "slides_presentation_id_fkey"
-            columns: ["presentation_id"]
-            isOneToOne: false
-            referencedRelation: "presentations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
