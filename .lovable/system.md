@@ -187,3 +187,37 @@ Before marking as complete:
 - [ ] Dark/light variant works if applicable
 - [ ] No hardcoded colors outside design system
 - [ ] Export added to index.ts for new slides
+
+---
+
+## Scaling & Transform Considerations
+
+### The Problem
+Slides are rendered at a fixed 1920×1080 resolution and scaled using CSS `transform: scale()`. Most content respects this, but certain elements (especially WebGL/Canvas) can break scaling because they use their own rendering context.
+
+### React Three Fiber / WebGL Canvas
+When using `@react-three/fiber` Canvas inside slides:
+
+1. **Use fixed pixel dimensions** - Don't use percentage-based sizing
+2. **Lock device pixel ratio** - Add `dpr={1}` to prevent DPI-based recalculation
+3. **Disable resize observation** - Add `resize={{ scroll: false, offsetSize: true }}`
+4. **Use offsetSize** - This tells R3F to use `offsetWidth/Height` instead of `getBoundingClientRect`, which is more stable with CSS transforms
+
+```tsx
+<div style={{ width: 800, height: 600 }}>
+  <Canvas
+    camera={{ position: [0, 0, 6], fov: 45 }}
+    gl={{ antialias: true, alpha: true }}
+    dpr={1}
+    resize={{ scroll: false, offsetSize: true }}
+  >
+    <Scene />
+  </Canvas>
+</div>
+```
+
+### Other Canvas Elements
+For regular HTML `<canvas>` or other rendering contexts:
+- Use fixed pixel dimensions in the slide's coordinate space (e.g., 800×600)
+- Avoid viewport-relative units (vw, vh, %)
+- Don't use ResizeObserver or window resize listeners inside slides
