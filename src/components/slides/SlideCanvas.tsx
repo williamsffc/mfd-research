@@ -243,14 +243,14 @@ export function SlideCanvas({
         <div 
           ref={containerRef}
           className={cn(
-            "flex-1 flex items-center justify-center",
+            "flex-1 flex items-center justify-center p-8",
             needsScroll ? "overflow-auto" : "overflow-hidden"
           )}
         >
-          {/* Slide - the transform scale reduces visual size while keeping internal 1920x1080 */}
+          {/* Slide */}
           <div
             className={cn(
-              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden isolate',
+              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden flex-shrink-0 isolate',
               showGrid && 'grid-overlay',
               className
             )}
@@ -259,11 +259,10 @@ export function SlideCanvas({
               height: SLIDE_HEIGHT,
               transform: `scale(${finalScale})`,
               transformOrigin: 'center center',
-              flexShrink: 0,
             }}
             onClick={onClick}
           >
-            {/* Fixed 1920x1080 slide content */}
+            {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
             <div className="absolute inset-0 bg-white dark:bg-slate-900">
               {children}
             </div>
