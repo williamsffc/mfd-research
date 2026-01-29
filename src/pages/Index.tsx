@@ -27,10 +27,10 @@ export default function Index() {
   const [isPresentationMode, setIsPresentationMode] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(256);
   
-  // Local slide order state (no database)
+  // Local slide order state (no database) - generate stable UUIDs for presenter notes
   const [slides, setSlides] = useState<SlideData[]>(() => 
     demoSlides.map((s, i) => ({
-      id: `slide-${i}`,
+      id: crypto.randomUUID(),
       component: s.component,
       name: s.name,
       isWIP: false,
