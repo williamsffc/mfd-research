@@ -5,12 +5,10 @@ import { SlideCanvas } from '@/components/slides/SlideCanvas';
 import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
-import { ViewerAvatars } from '@/components/slides/ViewerAvatars';
 import { demoSlides } from '@/slides/demo';
 import { WIPSlide } from '@/slides/WIPSlide';
 import { useSlideOrder } from '@/hooks/useSlideOrder';
 import { useActionHistory } from '@/hooks/useActionHistory';
-import { useSlidePresence } from '@/hooks/useSlidePresence';
 import { toast } from 'sonner';
 import type { SlideMetadata } from '@/types/slide';
 
@@ -27,9 +25,6 @@ export default function Index() {
 
   // Undo/redo action history
   const actionHistory = useActionHistory();
-
-  // Real-time presence tracking
-  const { updateSlide, getViewersOnSlide } = useSlidePresence('demo');
 
   // Get current slide ID
   const currentSlideId = getSlideId(activeSlideIndex);
@@ -84,11 +79,6 @@ export default function Index() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
-
-  // Update presence when active slide changes
-  useEffect(() => {
-    updateSlide(activeSlideIndex);
-  }, [activeSlideIndex, updateSlide]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -254,10 +244,9 @@ export default function Index() {
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar */}
         <Sidebar
-          slides={orderedSlides.map((slide, index) => ({
+          slides={orderedSlides.map((slide) => ({
             id: slide.id,
             content: <slide.component />,
-            viewerCount: getViewersOnSlide(index).length,
           }))}
           activeSlideIndex={activeSlideIndex}
           onSlideClick={setActiveSlideIndex}
@@ -309,17 +298,6 @@ export default function Index() {
 
         {/* Main Canvas Area */}
         <div className="flex-1 flex flex-col overflow-hidden relative">
-          {/* Viewer avatars for current slide */}
-          {getViewersOnSlide(activeSlideIndex).length > 0 && (
-            <div className="absolute top-3 left-3 z-20">
-              <ViewerAvatars 
-                viewers={getViewersOnSlide(activeSlideIndex)} 
-                size="md"
-                maxDisplay={5}
-              />
-            </div>
-          )}
-          
           <SlideCanvas
             showGrid={false}
             zoom={zoom}
