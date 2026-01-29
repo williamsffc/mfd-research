@@ -4,7 +4,6 @@ import { Presentation, Sparkles, Zap, MousePointer2 } from 'lucide-react';
 
 const features = [
   { icon: Sparkles, label: 'AI-Powered' },
-  { icon: Zap, label: 'Real-time Sync' },
   { icon: MousePointer2, label: 'Interactive' },
 ];
 
