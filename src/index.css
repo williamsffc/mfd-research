@@ -1,0 +1,283 @@
+/* Morgan Stanley uses proprietary fonts - fallback to Helvetica Neue / Arial */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Morgan Stanley Brand Colors */
+    --ms-blue: 201 84% 41%; /* #187ABA */
+    --ms-navy: 207 100% 16%; /* #002B51 */
+    --ms-navy-80: 207 45% 33%; /* #335574 */
+    --ms-blue-80: 201 52% 53%; /* #4695C8 */
+    --ms-blue-40: 201 52% 76%; /* #A3CAE3 */
+    --ms-blue-20: 201 52% 88%; /* #D1E4F1 */
+    --ms-jade: 140 51% 48%; /* #3EB661 */
+    --ms-ocean: 185 85% 26%; /* #0A6F7A */
+    
+    /* App tokens mapped to MS colors */
+    --background: 0 0% 100%;
+    --foreground: 207 100% 16%; /* MS Navy */
+    --card: 0 0% 100%;
+    --card-foreground: 207 100% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 100% 16%;
+    --primary: 201 84% 41%; /* MS Blue */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 201 52% 88%; /* MS Blue 20% */
+    --secondary-foreground: 207 100% 16%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 207 45% 33%;
+    --accent: 201 52% 76%; /* MS Blue 40% */
+    --accent-foreground: 207 100% 16%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 201 84% 41%;
+    --radius: 0.25rem;
+    
+    --sidebar-background: 207 100% 16%; /* MS Navy */
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 201 84% 41%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 45% 33%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 207 45% 25%;
+    --sidebar-ring: 201 84% 41%;
+    
+    /* Slide tokens */
+    --canvas-bg: 210 20% 96%;
+    --slide-bg: 0 0% 100%;
+    --grid-line: 210 20% 85%;
+    --comment-pin: 45 93% 47%;
+    --comment-pin-resolved: 140 51% 48%; /* MS Jade */
+  }
+
+  .dark {
+    --background: 207 100% 10%;
+    --foreground: 0 0% 98%;
+    --card: 207 100% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 207 100% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 201 84% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 45% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 207 45% 18%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 207 45% 25%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 207 45% 20%;
+    --input: 207 45% 20%;
+    --ring: 201 84% 50%;
+    
+    --sidebar-background: 207 100% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 201 84% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 45% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 207 45% 15%;
+    --sidebar-ring: 201 84% 50%;
+    
+    --canvas-bg: 207 100% 8%;
+    --slide-bg: 207 100% 12%;
+    --grid-line: 207 45% 20%;
+    --comment-pin: 45 93% 47%;
+    --comment-pin-resolved: 140 51% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-ms antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/40;
+}
+
+/* Slide canvas styles */
+.slide-canvas {
+  aspect-ratio: 16 / 9;
+  background: hsl(var(--slide-bg));
+}
+
+/* Grid overlay */
+.grid-overlay {
+  background-image: 
+    linear-gradient(to right, hsl(var(--grid-line)) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--grid-line)) 1px, transparent 1px);
+  background-size: calc(100% / 6) calc(100% / 6);
+}
+
+/* Slide thumbnail hover effect */
+.slide-thumbnail {
+  @apply transition-all duration-200;
+}
+
+.slide-thumbnail:hover {
+  @apply ring-2 ring-primary/50;
+}
+
+.slide-thumbnail.active {
+  @apply ring-2 ring-primary;
+}
+
+/* Comment pin styles */
+.comment-pin {
+  @apply w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer transition-transform;
+  background: hsl(var(--comment-pin));
+  color: white;
+}
+
+.comment-pin:hover {
+  @apply scale-110;
+}
+
+.comment-pin.resolved {
+  background: hsl(var(--comment-pin-resolved));
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes collapseIn {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+  }
+}
+
+@keyframes stackPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-collapse {
+  animation: collapseIn 0.2s ease-out forwards;
+}
+
+.animate-stack-pulse {
+  animation: stackPulse 1s ease-in-out infinite;
+}
+
+/* Typography utilities for slides */
+.slide-h1 {
+  @apply text-6xl font-bold tracking-tight;
+}
+
+.slide-h2 {
+  @apply text-4xl font-semibold tracking-tight;
+}
+
+.slide-h3 {
+  @apply text-2xl font-medium;
+}
+
+.slide-body {
+  @apply text-xl leading-relaxed;
+}
+
+.slide-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Delete confirmation animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
