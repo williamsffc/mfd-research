@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { 
   ChevronLeft, 
@@ -27,6 +27,64 @@ interface PresenterViewProps {
   activeIndex: number;
   onIndexChange: (index: number) => void;
   onExit: () => void;
+}
+
+const SLIDE_WIDTH = 1920;
+const SLIDE_HEIGHT = 1080;
+
+/**
+ * Scaled slide preview component - handles the transform scaling properly
+ */
+function ScaledSlide({ 
+  SlideComponent, 
+  className 
+}: { 
+  SlideComponent: React.ComponentType<any> | undefined;
+  className?: string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0.4);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (!containerRef.current) return;
+      const containerWidth = containerRef.current.offsetWidth;
+      setScale(containerWidth / SLIDE_WIDTH);
+    };
+
+    updateScale();
+
+    const observer = new ResizeObserver(updateScale);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  if (!SlideComponent) return null;
+
+  return (
+    <div 
+      ref={containerRef}
+      className={cn("relative bg-white rounded-lg shadow-2xl overflow-hidden", className)}
+      style={{ aspectRatio: '16/9' }}
+    >
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: SLIDE_WIDTH,
+          height: SLIDE_HEIGHT,
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+        }}
+      >
+        <SlideComponent />
+      </div>
+    </div>
+  );
 }
 
 export function PresenterView({
@@ -81,7 +139,6 @@ export function PresenterView({
     
     if (popup) {
       setAudienceWindow(popup);
-      // Check periodically if window is still open
       const checkInterval = setInterval(() => {
         if (popup.closed) {
           setAudienceWindow(null);
@@ -139,7 +196,7 @@ export function PresenterView({
   return (
     <div className="fixed inset-0 z-50 bg-slate-900 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-3 bg-slate-800 border-b border-slate-700">
+      <div className="flex items-center justify-between px-6 py-3 bg-slate-800 border-b border-slate-700 shrink-0">
         <div className="flex items-center gap-4">
           <h1 className="text-white font-semibold">Presenter View</h1>
           <div className={cn(
@@ -169,7 +226,7 @@ export function PresenterView({
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 text-slate-400 hover:text-white"
+              className="h-7 w-7 text-slate-400 hover:text-white hover:bg-slate-600"
               onClick={() => setIsTimerRunning(!isTimerRunning)}
             >
               {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -177,7 +234,7 @@ export function PresenterView({
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 text-slate-400 hover:text-white"
+              className="h-7 w-7 text-slate-400 hover:text-white hover:bg-slate-600"
               onClick={() => setElapsedTime(0)}
             >
               <RotateCcw className="w-4 h-4" />
@@ -219,40 +276,26 @@ export function PresenterView({
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex overflow-hidden p-6 gap-6">
+      <div className="flex-1 flex min-h-0 p-6 gap-6">
         {/* Left: Current slide + controls */}
-        <div className="flex-1 flex flex-col gap-4">
+        <div className="flex-1 flex flex-col gap-4 min-w-0">
           {/* Current slide */}
-          <div className="flex-1 bg-slate-800 rounded-xl overflow-hidden relative">
-            <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-sm text-white font-medium">
+          <div className="flex-1 bg-slate-800 rounded-xl relative flex items-center justify-center p-6 min-h-0">
+            <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-sm text-white font-medium z-10">
               Slide {activeIndex + 1} of {slides.length}
             </div>
-            <div className="w-full h-full flex items-center justify-center p-4">
-              <div 
-                className="relative bg-white rounded-lg overflow-hidden shadow-2xl"
-                style={{
-                  width: '100%',
-                  maxWidth: '800px',
-                  aspectRatio: '16/9',
-                }}
-              >
-                <div 
-                  className="absolute inset-0 origin-top-left"
-                  style={{
-                    width: '1920px',
-                    height: '1080px',
-                    transform: 'scale(0.4167)', // 800/1920
-                    transformOrigin: 'top left',
-                  }}
-                >
-                  {CurrentSlide && <CurrentSlide />}
-                </div>
-              </div>
+            
+            {/* Slide container - constrained by available space */}
+            <div className="w-full h-full flex items-center justify-center">
+              <ScaledSlide 
+                SlideComponent={CurrentSlide} 
+                className="max-w-full max-h-full w-auto h-auto"
+              />
             </div>
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 shrink-0">
             <Button
               variant="outline"
               size="lg"
@@ -277,10 +320,10 @@ export function PresenterView({
         </div>
 
         {/* Right: Notes + Next slide */}
-        <div className="w-96 flex flex-col gap-4">
+        <div className="w-80 flex flex-col gap-4 shrink-0">
           {/* Notes */}
-          <div className="flex-1 bg-slate-800 rounded-xl p-4 flex flex-col overflow-hidden">
-            <div className="flex items-center gap-2 mb-3 text-slate-400">
+          <div className="flex-1 bg-slate-800 rounded-xl p-4 flex flex-col min-h-0">
+            <div className="flex items-center gap-2 mb-3 text-slate-400 shrink-0">
               <FileText className="w-4 h-4" />
               <span className="text-sm font-medium">Presenter Notes</span>
             </div>
@@ -298,28 +341,13 @@ export function PresenterView({
           </div>
 
           {/* Next slide preview */}
-          <div className="bg-slate-800 rounded-xl p-4">
+          <div className="bg-slate-800 rounded-xl p-4 shrink-0">
             <p className="text-slate-400 text-sm font-medium mb-3">Up Next</p>
             {NextSlide ? (
-              <div 
-                className="relative bg-white rounded-lg overflow-hidden"
-                style={{ aspectRatio: '16/9' }}
-              >
-                <div 
-                  className="absolute inset-0 origin-top-left"
-                  style={{
-                    width: '1920px',
-                    height: '1080px',
-                    transform: 'scale(0.1875)', // ~360/1920
-                    transformOrigin: 'top left',
-                  }}
-                >
-                  <NextSlide />
-                </div>
-              </div>
+              <ScaledSlide SlideComponent={NextSlide} />
             ) : (
               <div 
-                className="bg-slate-700 rounded-lg flex items-center justify-center text-slate-500"
+                className="bg-slate-700 rounded-lg flex items-center justify-center text-slate-500 text-sm"
                 style={{ aspectRatio: '16/9' }}
               >
                 End of presentation
