@@ -41,6 +41,8 @@ interface SidebarProps {
   onRedo?: () => void;
   canUndo?: boolean;
   canRedo?: boolean;
+  width: number;
+  onWidthChange: (width: number) => void;
   className?: string;
 }
 
@@ -60,6 +62,8 @@ export function Sidebar({
   onDuplicateSlide,
   onUndo,
   onRedo,
+  width,
+  onWidthChange,
   className,
 }: SidebarProps) {
   const [selectedSlides, setSelectedSlides] = useState<Set<number>>(new Set());
@@ -69,9 +73,34 @@ export function Sidebar({
   const [isOverDeleteZone, setIsOverDeleteZone] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<PendingDelete | null>(null);
   const [copiedSlideIndices, setCopiedSlideIndices] = useState<number[]>([]);
+  const [isResizing, setIsResizing] = useState(false);
   const thumbnailRefs = useRef<Map<number, HTMLElement>>(new Map());
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const deleteZoneRef = useRef<HTMLDivElement>(null);
+
+  // Handle resize
+  const handleResizeStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+    
+    const startX = e.clientX;
+    const startWidth = width;
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const delta = e.clientX - startX;
+      const newWidth = Math.max(200, Math.min(400, startWidth + delta));
+      onWidthChange(newWidth);
+    };
+    
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+    
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  }, [width, onWidthChange]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -277,10 +306,19 @@ export function Sidebar({
       ref={sidebarRef}
       tabIndex={0}
       className={cn(
-        'w-64 bg-[hsl(var(--sidebar-bg))] border-r border-[hsl(var(--sidebar-border))] flex flex-col outline-none',
+        'bg-[hsl(var(--sidebar-bg))] border-r border-[hsl(var(--sidebar-border))] flex flex-col outline-none relative',
         className
       )}
+      style={{ width }}
     >
+      {/* Resize handle */}
+      <div
+        className={cn(
+          'absolute top-0 right-0 w-1 h-full cursor-ew-resize hover:bg-primary/50 transition-colors z-30',
+          isResizing && 'bg-primary'
+        )}
+        onMouseDown={handleResizeStart}
+      />
       {/* Slide list with drag and drop */}
       <ScrollArea className="flex-1 relative" ref={scrollAreaRef}>
         <div className="p-3">

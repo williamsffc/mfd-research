@@ -19,6 +19,7 @@ export default function Index() {
   const [zoom, setZoom] = useState(100);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(256);
 
   // Slide order from database
   const { slideOrder, initialized, initializeSlides, reorderSlides, bulkMoveSlides, restoreOrder, getSlideId, updateSlideDescription, duplicateSlide, deleteSlide, restoreSlide, removeDuplicatedSlide } = useSlideOrder();
@@ -294,6 +295,8 @@ export default function Index() {
           onRedo={handleRedo}
           canUndo={actionHistory.canUndo}
           canRedo={actionHistory.canRedo}
+          width={sidebarWidth}
+          onWidthChange={setSidebarWidth}
         />
 
         {/* Main Canvas Area */}
