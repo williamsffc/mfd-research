@@ -300,48 +300,50 @@ export default function Index() {
         />
 
         {/* Main Canvas Area */}
-        <div className="flex-1 flex flex-col overflow-hidden relative">
-          <SlideCanvas
-            showGrid={false}
-            zoom={zoom}
-            onZoomChange={setZoom}
-            currentSlide={activeSlideIndex + 1}
-            totalSlides={orderedSlides.length}
-            onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
-            onNextSlide={() => setActiveSlideIndex(Math.min(orderedSlides.length - 1, activeSlideIndex + 1))}
-            onStartPresentation={() => setIsPresentationMode(true)}
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
-          >
-            {orderedSlides[activeSlideIndex]?.isWIP ? (
-              <WIPSlide 
-                description={orderedSlides[activeSlideIndex]?.description || ''}
-                onDescriptionChange={handleDescriptionChange}
-              />
-            ) : (
-              <ActiveSlideComponent />
-            )}
-          </SlideCanvas>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 relative overflow-hidden">
+            <SlideCanvas
+              showGrid={false}
+              zoom={zoom}
+              onZoomChange={setZoom}
+              currentSlide={activeSlideIndex + 1}
+              totalSlides={orderedSlides.length}
+              onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
+              onNextSlide={() => setActiveSlideIndex(Math.min(orderedSlides.length - 1, activeSlideIndex + 1))}
+              onStartPresentation={() => setIsPresentationMode(true)}
+              isDarkMode={isDarkMode}
+              onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
+            >
+              {orderedSlides[activeSlideIndex]?.isWIP ? (
+                <WIPSlide 
+                  description={orderedSlides[activeSlideIndex]?.description || ''}
+                  onDescriptionChange={handleDescriptionChange}
+                />
+              ) : (
+                <ActiveSlideComponent />
+              )}
+            </SlideCanvas>
 
-          {/* Grid View Overlay */}
-          {showGrid && (
-            <SlideOverviewGrid
-              slides={orderedSlides}
-              activeSlideIndex={activeSlideIndex}
-              onSlideClick={setActiveSlideIndex}
-              onClose={() => setShowGrid(false)}
+            {/* Grid View Overlay */}
+            {showGrid && (
+              <SlideOverviewGrid
+                slides={orderedSlides}
+                activeSlideIndex={activeSlideIndex}
+                onSlideClick={setActiveSlideIndex}
+                onClose={() => setShowGrid(false)}
+              />
+            )}
+          </div>
+
+          {/* Presenter Notes Panel - Bottom */}
+          {showNotes && (
+            <PresenterNotesPanel
+              slideId={currentSlideId}
+              slideIndex={activeSlideIndex}
+              onClose={() => setShowNotes(false)}
             />
           )}
         </div>
-
-        {/* Presenter Notes Panel */}
-        {showNotes && (
-          <PresenterNotesPanel
-            slideId={currentSlideId}
-            slideIndex={activeSlideIndex}
-            onClose={() => setShowNotes(false)}
-          />
-        )}
       </div>
 
       {/* Presentation Mode */}
