@@ -14,14 +14,21 @@ import {
 import { TrendingUp, DollarSign, Package, Percent } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 
-// Generate curve data points
+// Exponential demand: P = A * e^(-k*Q) + shift
+// Exponential supply: P = B * (1 - e^(-m*Q)) + base + shift
 const generateCurveData = (demandShift: number, supplyShift: number) => {
   const points = [];
-  for (let q = 0; q <= 100; q += 2) {
-    // Demand: P = 120 - Q + demandShift (downward sloping)
-    const demandPrice = Math.max(0, 120 - q + demandShift);
-    // Supply: P = 20 + 0.8Q + supplyShift (upward sloping)
-    const supplyPrice = Math.max(0, 20 + 0.8 * q + supplyShift);
+  const demandA = 120; // max willingness to pay
+  const demandK = 0.025; // decay rate
+  const supplyBase = 15; // min production cost
+  const supplyB = 100; // max additional cost
+  const supplyM = 0.03; // growth rate
+  
+  for (let q = 0; q <= 100; q += 1) {
+    // Demand: exponential decay (high at low Q, approaches 0 at high Q)
+    const demandPrice = Math.max(0, demandA * Math.exp(-demandK * q) + demandShift);
+    // Supply: exponential growth approaching asymptote
+    const supplyPrice = Math.max(0, supplyBase + supplyB * (1 - Math.exp(-supplyM * q)) + supplyShift);
     
     points.push({
       quantity: q,
@@ -32,47 +39,80 @@ const generateCurveData = (demandShift: number, supplyShift: number) => {
   return points;
 };
 
-// Calculate equilibrium point
+// Find equilibrium numerically (Newton-Raphson approximation)
 const calculateEquilibrium = (demandShift: number, supplyShift: number) => {
-  // Demand: P = 120 - Q + demandShift
-  // Supply: P = 20 + 0.8Q + supplyShift
-  // At equilibrium: 120 - Q + demandShift = 20 + 0.8Q + supplyShift
-  // 100 + demandShift - supplyShift = 1.8Q
-  // Q = (100 + demandShift - supplyShift) / 1.8
+  const demandA = 120;
+  const demandK = 0.025;
+  const supplyBase = 15;
+  const supplyB = 100;
+  const supplyM = 0.03;
   
-  const equilibriumQ = (100 + demandShift - supplyShift) / 1.8;
-  const equilibriumP = 20 + 0.8 * equilibriumQ + supplyShift;
+  // Find Q where demand = supply
+  // demandA * e^(-k*Q) + demandShift = supplyBase + supplyB * (1 - e^(-m*Q)) + supplyShift
+  let q = 50; // initial guess
+  for (let i = 0; i < 20; i++) {
+    const demand = demandA * Math.exp(-demandK * q) + demandShift;
+    const supply = supplyBase + supplyB * (1 - Math.exp(-supplyM * q)) + supplyShift;
+    const diff = demand - supply;
+    
+    if (Math.abs(diff) < 0.01) break;
+    
+    // Derivatives
+    const dDemand = -demandA * demandK * Math.exp(-demandK * q);
+    const dSupply = supplyB * supplyM * Math.exp(-supplyM * q);
+    const dDiff = dDemand - dSupply;
+    
+    q = q - diff / dDiff;
+    q = Math.max(0, Math.min(100, q));
+  }
+  
+  const equilibriumP = supplyBase + supplyB * (1 - Math.exp(-supplyM * q)) + supplyShift;
   
   return {
-    quantity: Math.max(0, Math.min(100, equilibriumQ)),
+    quantity: Math.max(0, Math.min(100, q)),
     price: Math.max(0, equilibriumP),
   };
 };
 
-// Calculate economic metrics
+// Calculate economic metrics with exponential curves
 const calculateMetrics = (eq: { quantity: number; price: number }, demandShift: number, supplyShift: number) => {
   const { quantity, price } = eq;
+  const demandA = 120;
+  const demandK = 0.025;
+  const supplyBase = 15;
+  const supplyB = 100;
+  const supplyM = 0.03;
   
-  // Unit cost (supply price at Q=0 is the base cost)
-  const unitCost = 20 + supplyShift;
+  // Unit cost at Q=0
+  const unitCost = supplyBase + supplyShift;
   
   // Total Revenue = P × Q
   const revenue = price * quantity;
   
-  // Total Cost (area under supply curve from 0 to Q)
-  // Integral of (20 + 0.8Q + supplyShift) from 0 to Q = (20 + supplyShift)Q + 0.4Q²
-  const totalCost = (20 + supplyShift) * quantity + 0.4 * quantity * quantity;
+  // Approximate total cost (numerical integration of supply curve)
+  let totalCost = 0;
+  const step = 0.5;
+  for (let q = 0; q < quantity; q += step) {
+    const supplyPrice = supplyBase + supplyB * (1 - Math.exp(-supplyM * q)) + supplyShift;
+    totalCost += supplyPrice * step;
+  }
   
   // Profit = Revenue - Cost
   const profit = revenue - totalCost;
   
-  // Consumer Surplus = area between demand curve and price line
-  // = 0.5 × (maxPrice - eqPrice) × quantity
-  const maxDemandPrice = 120 + demandShift;
-  const consumerSurplus = 0.5 * (maxDemandPrice - price) * quantity;
+  // Consumer Surplus (area between demand curve and price, from 0 to Q)
+  let consumerSurplus = 0;
+  for (let q = 0; q < quantity; q += step) {
+    const demandPrice = demandA * Math.exp(-demandK * q) + demandShift;
+    consumerSurplus += Math.max(0, demandPrice - price) * step;
+  }
   
-  // Producer Surplus = area between price line and supply curve
-  const producerSurplus = 0.5 * (price - unitCost) * quantity;
+  // Producer Surplus (area between price and supply curve, from 0 to Q)
+  let producerSurplus = 0;
+  for (let q = 0; q < quantity; q += step) {
+    const supplyPrice = supplyBase + supplyB * (1 - Math.exp(-supplyM * q)) + supplyShift;
+    producerSurplus += Math.max(0, price - supplyPrice) * step;
+  }
   
   // Profit margin
   const profitMargin = revenue > 0 ? (profit / revenue) * 100 : 0;
