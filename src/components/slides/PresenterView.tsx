@@ -200,16 +200,16 @@ export function PresenterView({
   const NextSlide = slides[activeIndex + 1]?.component;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slide-primary flex flex-col">
+    <div className="fixed inset-0 z-50 bg-slide-gray-900 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-3 bg-slide-gray-900 border-b border-slide-gray-700 shrink-0">
+      <div className="flex items-center justify-between px-6 py-3 bg-black border-b border-slide-gray-800 shrink-0">
         <div className="flex items-center gap-4">
           <h1 className="text-white font-semibold">Presenter View</h1>
           <div className={cn(
             "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
             audienceConnected 
-              ? "bg-slide-success/20 text-slide-success" 
-              : "bg-slide-gray-700 text-slide-gray-400"
+              ? "bg-slide-gray-700 text-white" 
+              : "bg-slide-gray-800 text-slide-gray-500"
           )}>
             {audienceConnected ? (
               <>
@@ -253,7 +253,7 @@ export function PresenterView({
             <Button
               size="sm"
               onClick={openAudienceWindow}
-              className="gap-2 bg-slide-accent hover:bg-slide-accent-light text-white h-8 text-xs"
+              className="gap-2 bg-white hover:bg-slide-gray-100 text-black h-8 text-xs"
             >
               <Monitor className="w-3.5 h-3.5" />
               Open Audience
@@ -286,10 +286,10 @@ export function PresenterView({
         {/* Left: Current slide + controls */}
         <div className="flex-1 flex flex-col gap-3 min-w-0">
           {/* Current slide */}
-          <div className="flex-1 bg-slide-gray-800/50 rounded-xl relative flex items-center justify-center p-6 min-h-0 border border-slide-gray-700/50">
+          <div className="flex-1 bg-slide-gray-800 rounded-xl relative flex items-center justify-center p-6 min-h-0 border border-slide-gray-700">
             {/* Slide badge */}
             <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
-              <span className="bg-slide-accent text-white text-xs font-medium px-2.5 py-1 rounded-full">
+              <span className="bg-white text-black text-xs font-medium px-2.5 py-1 rounded-full">
                 {activeIndex + 1} / {slides.length}
               </span>
             </div>
@@ -319,7 +319,7 @@ export function PresenterView({
             <Button
               onClick={() => onIndexChange(Math.min(slides.length - 1, activeIndex + 1))}
               disabled={activeIndex === slides.length - 1}
-              className="bg-slide-accent hover:bg-slide-accent-light text-white disabled:opacity-40 h-9 px-4 gap-1.5"
+              className="bg-white hover:bg-slide-gray-100 text-black disabled:opacity-40 h-9 px-4 gap-1.5"
             >
               Next
               <ChevronRight className="w-4 h-4" />
@@ -330,10 +330,10 @@ export function PresenterView({
         {/* Right: Notes + Next slide */}
         <div className="w-72 flex flex-col gap-3 shrink-0">
           {/* Notes */}
-          <div className="flex-1 bg-slide-gray-800/50 rounded-xl p-4 flex flex-col min-h-0 border border-slide-gray-700/50">
+          <div className="flex-1 bg-slide-gray-800 rounded-xl p-4 flex flex-col min-h-0 border border-slide-gray-700">
             <div className="flex items-center gap-2 mb-3 shrink-0">
-              <div className="w-6 h-6 rounded-md bg-slide-accent/20 flex items-center justify-center">
-                <FileText className="w-3.5 h-3.5 text-slide-accent" />
+              <div className="w-6 h-6 rounded-md bg-slide-gray-700 flex items-center justify-center">
+                <FileText className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="text-xs font-medium text-white">Notes</span>
             </div>
@@ -351,13 +351,13 @@ export function PresenterView({
           </div>
 
           {/* Next slide preview */}
-          <div className="bg-slide-gray-800/50 rounded-xl p-4 shrink-0 border border-slide-gray-700/50">
+          <div className="bg-slide-gray-800 rounded-xl p-4 shrink-0 border border-slide-gray-700">
             <p className="text-xs font-medium text-slide-gray-400 mb-3">Up Next</p>
             {NextSlide ? (
               <ScaledSlide SlideComponent={NextSlide} />
             ) : (
               <div 
-                className="bg-slide-gray-700/50 rounded-lg flex items-center justify-center text-slide-gray-500 text-xs border border-slide-gray-600/50"
+                className="bg-slide-gray-700 rounded-lg flex items-center justify-center text-slide-gray-500 text-xs border border-slide-gray-600"
                 style={{ aspectRatio: '16/9' }}
               >
                 End of presentation
