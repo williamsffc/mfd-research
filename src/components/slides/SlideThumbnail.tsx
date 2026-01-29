@@ -10,14 +10,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ViewerIndicator } from './ViewerAvatars';
 
 interface SlideThumbnailProps {
   id: string;
   slideNumber: number;
   isActive?: boolean;
   isSelected?: boolean;
-  viewerCount?: number;
   onClick?: (e: React.MouseEvent) => void;
   onDuplicate?: () => void;
   children: React.ReactNode;
@@ -28,7 +26,6 @@ export function SlideThumbnail({
   slideNumber,
   isActive = false,
   isSelected = false,
-  viewerCount = 0,
   onClick,
   onDuplicate,
   children,
@@ -83,8 +80,6 @@ export function SlideThumbnail({
           </div>
           
           {isSelected && <div className="absolute inset-0 bg-primary/10 pointer-events-none" />}
-          
-          <ViewerIndicator count={viewerCount} className="absolute top-1 left-1 z-10" />
           
           <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
             {onDuplicate && (

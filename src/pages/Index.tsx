@@ -5,12 +5,10 @@ import { SlideCanvas } from '@/components/slides/SlideCanvas';
 import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
-import { ViewerAvatars } from '@/components/slides/ViewerAvatars';
 import { demoSlides } from '@/slides/demo';
 import { WIPSlide } from '@/slides/WIPSlide';
 import { useSlideOrder } from '@/hooks/useSlideOrder';
 import { useActionHistory } from '@/hooks/useActionHistory';
-import { useSlidePresence } from '@/hooks/useSlidePresence';
 import { toast } from 'sonner';
 import type { SlideMetadata } from '@/types/slide';
 
@@ -24,7 +22,6 @@ export default function Index() {
 
   const { slideOrder, initialized, initializeSlides, reorderSlides, bulkMoveSlides, restoreOrder, getSlideId, duplicateSlide, deleteSlide, restoreSlide, removeDuplicatedSlide } = useSlideOrder();
   const actionHistory = useActionHistory();
-  const { updateSlide, getViewersOnSlide } = useSlidePresence('demo');
 
   const currentSlideId = getSlideId(activeSlideIndex);
 
@@ -76,9 +73,6 @@ export default function Index() {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
 
-  useEffect(() => {
-    updateSlide(activeSlideIndex);
-  }, [activeSlideIndex, updateSlide]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -229,11 +223,10 @@ export default function Index() {
 
       <div className="flex-1 flex overflow-hidden">
         <Sidebar
-          slides={orderedSlides.map((slide, index) => ({
+          slides={orderedSlides.map((slide) => ({
             id: slide.id,
             content: <slide.component />,
             description: slide.description,
-            viewerCount: getViewersOnSlide(index).length,
           }))}
           activeSlideIndex={activeSlideIndex}
           onSlideClick={setActiveSlideIndex}
@@ -283,17 +276,7 @@ export default function Index() {
           canRedo={actionHistory.canRedo}
         />
 
-        <div className="flex-1 flex overflow-hidden relative">
-          {getViewersOnSlide(activeSlideIndex).length > 0 && (
-            <div className="absolute top-3 left-3 z-20">
-              <ViewerAvatars 
-                viewers={getViewersOnSlide(activeSlideIndex)} 
-                size="md"
-                maxDisplay={5}
-              />
-            </div>
-          )}
-          
+        <div className="flex-1 flex overflow-hidden">
           <div className="flex-1 flex flex-col">
             <SlideCanvas
               showGrid={false}
