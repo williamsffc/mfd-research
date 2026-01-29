@@ -133,14 +133,16 @@ export function Sidebar({
 
     if (over && active.id !== over.id) {
       const oldIndex = slides.findIndex((s) => s.id === active.id);
-      const newIndex = slides.findIndex((s) => s.id === over.id);
+      const overIndex = slides.findIndex((s) => s.id === over.id);
+      
+      if (oldIndex === -1 || overIndex === -1) return;
       
       if (selectedSlides.size > 1 && selectedSlides.has(oldIndex)) {
         const indices = Array.from(selectedSlides).sort((a, b) => a - b);
-        onBulkMove?.(indices, newIndex);
+        onBulkMove?.(indices, overIndex);
         setSelectedSlides(new Set());
       } else {
-        onReorder?.(oldIndex, newIndex);
+        onReorder?.(oldIndex, overIndex);
       }
     }
   };
