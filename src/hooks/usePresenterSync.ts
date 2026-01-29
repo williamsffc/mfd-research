@@ -15,6 +15,18 @@ export function usePresenterSync(
 ) {
   const channelRef = useRef<BroadcastChannel | null>(null);
   const isConnectedRef = useRef(false);
+  
+  // Store callbacks in refs to avoid recreating the channel on callback changes
+  const onSlideChangeRef = useRef(onSlideChange);
+  const onAudienceConnectedRef = useRef(onAudienceConnected);
+  const onAudienceDisconnectedRef = useRef(onAudienceDisconnected);
+  
+  // Keep refs updated
+  useEffect(() => {
+    onSlideChangeRef.current = onSlideChange;
+    onAudienceConnectedRef.current = onAudienceConnected;
+    onAudienceDisconnectedRef.current = onAudienceDisconnected;
+  });
 
   useEffect(() => {
     channelRef.current = new BroadcastChannel(CHANNEL_NAME);
@@ -24,8 +36,8 @@ export function usePresenterSync(
 
       switch (type) {
         case 'slide_change':
-          if (slideIndex !== undefined && onSlideChange) {
-            onSlideChange(slideIndex);
+          if (slideIndex !== undefined && onSlideChangeRef.current) {
+            onSlideChangeRef.current(slideIndex);
           }
           break;
         case 'ping':
@@ -36,12 +48,12 @@ export function usePresenterSync(
           // Presenter received response from audience
           if (!isConnectedRef.current) {
             isConnectedRef.current = true;
-            onAudienceConnected?.();
+            onAudienceConnectedRef.current?.();
           }
           break;
         case 'close':
           isConnectedRef.current = false;
-          onAudienceDisconnected?.();
+          onAudienceDisconnectedRef.current?.();
           break;
       }
     };
@@ -52,7 +64,7 @@ export function usePresenterSync(
       channelRef.current?.removeEventListener('message', handleMessage);
       channelRef.current?.close();
     };
-  }, [onSlideChange, onAudienceConnected, onAudienceDisconnected]);
+  }, []); // Empty deps - channel created once
 
   const broadcastSlideChange = useCallback((index: number) => {
     channelRef.current?.postMessage({
