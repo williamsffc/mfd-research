@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { arrayMove } from '@dnd-kit/sortable';
 import type { SlideMetadata } from '@/types/slide';
 
 export function useSlideOrder() {
@@ -68,13 +69,12 @@ export function useSlideOrder() {
 
   const reorderSlides = async (oldIndex: number, newIndex: number): Promise<string[] | null> => {
     if (slideOrder.length === 0) return null;
+    if (oldIndex === newIndex) return null;
 
     const previousOrder = slideOrder.map(s => s.id);
 
-    const newOrder = [...slideOrder];
-    const [movedSlide] = newOrder.splice(oldIndex, 1);
-    newOrder.splice(newIndex, 0, movedSlide);
-
+    // Use arrayMove from dnd-kit which handles the index adjustment correctly
+    const newOrder = arrayMove(slideOrder, oldIndex, newIndex);
     const updatedOrder = newOrder.map((s, i) => ({ ...s, position: i }));
     setSlideOrder(updatedOrder);
 
