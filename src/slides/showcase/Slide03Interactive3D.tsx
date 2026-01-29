@@ -100,7 +100,7 @@ export default function Slide03Interactive3D() {
           </p>
         </div>
 
-        {/* 3D Canvas - use fixed pixel dimensions in slide coordinate space */}
+        {/* 3D Canvas - use offsetSize to ignore CSS transforms */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div 
             className="pointer-events-auto"
@@ -108,10 +108,10 @@ export default function Slide03Interactive3D() {
           >
             <Canvas
               camera={{ position: [0, 0, 6], fov: 45 }}
-              gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
+              gl={{ antialias: true, alpha: true }}
+              dpr={1}
               style={{ background: 'transparent' }}
-              resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
-              frameloop="always"
+              resize={{ scroll: false, offsetSize: true }}
             >
               <Scene />
             </Canvas>
