@@ -19,19 +19,14 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
-import { Plus, Check, Layers, Trash2, X } from 'lucide-react';
+import { Check, Layers, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SlideThumbnail } from '@/components/slides/SlideThumbnail';
-import { FloatingSelectionActions } from '@/components/slides/FloatingSelectionActions';
-import { SlideChangesPanel } from '@/components/slides/SlideChangesPanel';
-import { useAllSlideChanges } from '@/hooks/useSlideChanges';
 
 interface SlideItem {
   id: string;
   content: React.ReactNode;
-  pendingAgentAction?: boolean;
-  description?: string;
   viewerCount?: number;
 }
 
@@ -39,14 +34,10 @@ interface SidebarProps {
   slides: SlideItem[];
   activeSlideIndex: number;
   onSlideClick: (index: number) => void;
-  onAddSlide: () => void;
-  onBulkEdit?: (slideIndices: number[], instructions: string) => void;
-  onBulkDelete?: (slideIndices: number[]) => void;
   onReorder?: (oldIndex: number, newIndex: number) => void;
   onBulkMove?: (slideIndices: number[], targetIndex: number) => void;
+  onBulkDelete?: (slideIndices: number[]) => void;
   onDuplicateSlide?: (index: number, targetPosition?: number) => void;
-  onAgentEdit?: (index: number, instructions: string) => void;
-  onClearPendingEdit?: (slideId: string) => void;
   onUndo?: () => void;
   onRedo?: () => void;
   canUndo?: boolean;
@@ -64,34 +55,24 @@ export function Sidebar({
   slides,
   activeSlideIndex,
   onSlideClick,
-  onAddSlide,
-  onBulkEdit,
-  onBulkDelete,
   onReorder,
   onBulkMove,
+  onBulkDelete,
   onDuplicateSlide,
-  onAgentEdit,
-  onClearPendingEdit,
   onUndo,
   onRedo,
-  canUndo,
-  canRedo,
   className,
 }: SidebarProps) {
   const [selectedSlides, setSelectedSlides] = useState<Set<number>>(new Set());
   const [lastClickedIndex, setLastClickedIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [changesEditIndex, setChangesEditIndex] = useState<number | null>(null);
   const [isOverDeleteZone, setIsOverDeleteZone] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<PendingDelete | null>(null);
   const [copiedSlideIndices, setCopiedSlideIndices] = useState<number[]>([]);
   const thumbnailRefs = useRef<Map<number, HTMLElement>>(new Map());
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const deleteZoneRef = useRef<HTMLDivElement>(null);
-
-  // Get change counts for all slides
-  const { changeCounts } = useAllSlideChanges();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -114,7 +95,6 @@ export function Sidebar({
   const handleDragMove = (event: DragMoveEvent) => {
     if (!deleteZoneRef.current) return;
     
-    // Get drag position from the event
     const { activatorEvent, delta } = event;
     if (!(activatorEvent instanceof PointerEvent)) return;
     
@@ -134,7 +114,6 @@ export function Sidebar({
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
-    // Check if dropped on delete zone - show confirmation instead of immediate delete
     if (isOverDeleteZone && draggedIndex !== null) {
       const draggedSlide = slides[draggedIndex];
       if (selectedSlides.size > 1 && selectedSlides.has(draggedIndex)) {
@@ -157,7 +136,6 @@ export function Sidebar({
       const oldIndex = slides.findIndex((s) => s.id === active.id);
       const newIndex = slides.findIndex((s) => s.id === over.id);
       
-      // If we have multiple slides selected and we're dragging one of them
       if (selectedSlides.size > 1 && selectedSlides.has(oldIndex)) {
         const indices = Array.from(selectedSlides).sort((a, b) => a - b);
         onBulkMove?.(indices, newIndex);
@@ -168,10 +146,9 @@ export function Sidebar({
     }
   };
 
-  // Keyboard shortcuts for selection, copy, paste
+  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't handle if typing in an input, UNLESS it's Delete/Escape in an empty field
       const isTextInput = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
       const isEmptyTextInput = isTextInput && (e.target as HTMLInputElement | HTMLTextAreaElement).value.trim() === '';
       const isDeleteOrEscape = e.key === 'Delete' || e.key === 'Backspace' || e.key === 'Escape';
@@ -180,7 +157,6 @@ export function Sidebar({
         return;
       }
 
-      // Escape to deselect slides or close confirmation dialog
       if (e.key === 'Escape') {
         e.preventDefault();
         if (pendingDelete) {
@@ -190,7 +166,6 @@ export function Sidebar({
         }
       }
 
-      // Enter to confirm deletion when dialog is open
       if (e.key === 'Enter' && pendingDelete) {
         e.preventDefault();
         onBulkDelete?.(pendingDelete.indices);
@@ -198,10 +173,8 @@ export function Sidebar({
         setPendingDelete(null);
       }
 
-      // Delete/Backspace to show delete confirmation for selected slides or active slide
       if ((e.key === 'Delete' || e.key === 'Backspace') && !pendingDelete) {
         e.preventDefault();
-        // If slides are selected, delete those; otherwise delete the active slide
         const indices = selectedSlides.size > 0 
           ? Array.from(selectedSlides).sort((a, b) => a - b)
           : [activeSlideIndex];
@@ -209,14 +182,12 @@ export function Sidebar({
         setPendingDelete({ indices, slideContent: firstSlide?.content });
       }
 
-      // Ctrl/Cmd + A to select all slides
       if ((e.ctrlKey || e.metaKey) && (e.key === 'a' || e.key === 'A')) {
         e.preventDefault();
         const allIndices = new Set(slides.map((_, i) => i));
         setSelectedSlides(allIndices);
       }
 
-      // Ctrl/Cmd + C to copy selected slides (or active slide)
       if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
         e.preventDefault();
         if (selectedSlides.size > 0) {
@@ -227,28 +198,23 @@ export function Sidebar({
         }
       }
 
-      // Ctrl/Cmd + V to paste (duplicate) copied slides after active slide
       if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
         e.preventDefault();
         if (copiedSlideIndices.length > 0 && onDuplicateSlide) {
-          // Insert copies after the current active slide
           let insertPosition = activeSlideIndex + 1;
           for (const sourceIndex of copiedSlideIndices) {
             onDuplicateSlide(sourceIndex, insertPosition);
             insertPosition++;
           }
-          // Clear selection after paste
           setSelectedSlides(new Set());
         }
       }
 
-      // Cmd/Ctrl + Z to undo
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
         e.preventDefault();
         onUndo?.();
       }
 
-      // Cmd/Ctrl + Shift + Z to redo
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
         e.preventDefault();
         onRedo?.();
@@ -284,17 +250,9 @@ export function Sidebar({
     }
   }, [lastClickedIndex, selectedSlides, onSlideClick]);
 
-  const clearSelection = useCallback(() => {
-    setSelectedSlides(new Set());
-  }, []);
-
-  // For multi-drag: collapse OTHER selected items (not the one being dragged)
-  // The dragged item is handled by dnd-kit's sortable - it gets opacity/transform applied automatically
   const shouldCollapse = (index: number) => {
     if (!isDragging || draggedIndex === null) return false;
-    // Don't collapse the actively dragged slide - dnd-kit handles it
     if (index === draggedIndex) return false;
-    // Collapse other selected slides in multi-select
     if (selectedSlides.size > 1 && selectedSlides.has(index)) return true;
     return false;
   };
@@ -302,24 +260,16 @@ export function Sidebar({
   const draggedSlide = draggedIndex !== null ? slides[draggedIndex] : null;
   const isMultiDrag = isDragging && selectedSlides.size > 1 && draggedIndex !== null && selectedSlides.has(draggedIndex);
 
-  // Get sorted selected indices
   const selectedIndices = Array.from(selectedSlides).sort((a, b) => a - b);
   const firstSelectedIndex = selectedIndices.length > 0 ? selectedIndices[0] : -1;
 
-  // Focus sidebar on mount and when selection changes
   const sidebarRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Focus sidebar when slides are selected to capture keyboard events
     if (selectedSlides.size > 0 && sidebarRef.current) {
       sidebarRef.current.focus();
     }
   }, [selectedSlides.size]);
-
-  // Close changes panel when active slide changes
-  useEffect(() => {
-    setChangesEditIndex(null);
-  }, [activeSlideIndex]);
 
   return (
     <div
@@ -330,7 +280,6 @@ export function Sidebar({
         className
       )}
     >
-
       {/* Slide list with drag and drop */}
       <ScrollArea className="flex-1 relative" ref={scrollAreaRef}>
         <div className="p-3">
@@ -371,26 +320,23 @@ export function Sidebar({
                       transition: 'max-height 200ms ease-out, margin-bottom 200ms ease-out, opacity 150ms ease-out',
                     }}
                   >
-                  <SlideThumbnail
-                    id={slide.id}
-                    slideNumber={index + 1}
-                    isActive={index === activeSlideIndex}
-                    isSelected={selectedSlides.has(index) && index === firstSelectedIndex}
-                    pendingAgentAction={slide.pendingAgentAction}
-                    changeCount={changeCounts[slide.id] || 0}
-                    viewerCount={slide.viewerCount || 0}
-                    onClick={(e) => handleSlideClick(index, e)}
-                    onDuplicate={() => onDuplicateSlide?.(index)}
-                    onAgentClick={() => setChangesEditIndex(index)}
-                  >
-                    {slide.content}
-                  </SlideThumbnail>
-                  {selectedSlides.has(index) && !isDragging && (
-                    <div className="absolute top-2 left-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center z-10">
-                      <Check className="w-3 h-3 text-primary-foreground" />
-                    </div>
-                  )}
-                </div>
+                    <SlideThumbnail
+                      id={slide.id}
+                      slideNumber={index + 1}
+                      isActive={index === activeSlideIndex}
+                      isSelected={selectedSlides.has(index) && index === firstSelectedIndex}
+                      viewerCount={slide.viewerCount || 0}
+                      onClick={(e) => handleSlideClick(index, e)}
+                      onDuplicate={() => onDuplicateSlide?.(index)}
+                    >
+                      {slide.content}
+                    </SlideThumbnail>
+                    {selectedSlides.has(index) && !isDragging && (
+                      <div className="absolute top-2 left-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center z-10">
+                        <Check className="w-3 h-3 text-primary-foreground" />
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </SortableContext>
@@ -402,11 +348,9 @@ export function Sidebar({
             >
               {draggedSlide && isMultiDrag ? (
                 <div className="relative animate-stack-pulse">
-                  {/* Stacked cards behind */}
                   <div className="absolute inset-0 bg-primary/20 rounded-md transform rotate-2 translate-x-1 -translate-y-1 border-2 border-primary/30" />
                   <div className="absolute inset-0 bg-primary/10 rounded-md transform -rotate-1 translate-x-2 -translate-y-2 border-2 border-primary/20" />
                   
-                  {/* Main card */}
                   <div className="relative bg-[hsl(var(--slide-bg))] rounded-md border-2 border-primary shadow-lg overflow-hidden aspect-video w-48">
                     <div className="absolute inset-0 bg-white dark:bg-slate-900" />
                     <div className="absolute inset-0 overflow-hidden pointer-events-none isolate">
@@ -422,7 +366,6 @@ export function Sidebar({
                       </div>
                     </div>
                     
-                    {/* Badge showing count */}
                     <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
                       <Layers className="w-3 h-3" />
                       {selectedSlides.size}
@@ -455,50 +398,16 @@ export function Sidebar({
             </p>
           )}
         </div>
-
-        {/* Floating selection actions */}
-        <FloatingSelectionActions
-          selectedCount={selectedSlides.size}
-          thumbnailRefs={thumbnailRefs.current}
-          selectedIndices={selectedIndices}
-          containerRef={scrollAreaRef}
-          onBulkEdit={(indices, instructions) => {
-            onBulkEdit?.(indices, instructions);
-            clearSelection();
-          }}
-        />
-        
-        {/* Slide changes panel */}
-        {changesEditIndex !== null && slides[changesEditIndex] && (
-          <SlideChangesPanel
-            slideId={slides[changesEditIndex].id}
-            slideIndex={changesEditIndex}
-            thumbnailRef={thumbnailRefs.current.get(changesEditIndex) || null}
-            containerRef={scrollAreaRef}
-            onClose={() => setChangesEditIndex(null)}
-            pendingDescription={slides[changesEditIndex].pendingAgentAction ? slides[changesEditIndex].description : undefined}
-            onClearPendingEdit={onClearPendingEdit ? () => onClearPendingEdit(slides[changesEditIndex].id) : undefined}
-          />
-        )}
       </ScrollArea>
 
       {/* Footer */}
       <div className="p-3 border-t border-[hsl(var(--sidebar-border))]">
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full"
-          onClick={onAddSlide}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Slide
-        </Button>
-        <p className="text-xs text-muted-foreground text-center mt-2">
+        <p className="text-xs text-muted-foreground text-center">
           {selectedSlides.size > 0 ? 'Delete to remove, Esc to deselect' : 'Shift+click to select range'}
         </p>
       </div>
 
-      {/* Delete zone portal - bottom right of viewport */}
+      {/* Delete zone portal */}
       {isDragging && createPortal(
         <div
           ref={deleteZoneRef}
@@ -544,19 +453,16 @@ export function Sidebar({
       {/* Delete confirmation dialog */}
       {pendingDelete && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-background/80 backdrop-blur-sm"
             onClick={() => setPendingDelete(null)}
             style={{ animation: 'fadeIn 150ms ease-out' }}
           />
           
-          {/* Dialog */}
           <div 
             className="relative bg-card border rounded-2xl shadow-2xl overflow-hidden max-w-sm w-full mx-4"
             style={{ animation: 'scaleIn 200ms cubic-bezier(0.34, 1.56, 0.64, 1)' }}
           >
-            {/* Preview thumbnail */}
             <div className="aspect-video bg-muted relative overflow-hidden">
               <div 
                 className="origin-top-left pointer-events-none"
@@ -574,7 +480,6 @@ export function Sidebar({
                   {pendingDelete.indices.length}
                 </div>
               )}
-              {/* Diagonal stripes overlay to indicate deletion */}
               <div 
                 className="absolute inset-0 opacity-20"
                 style={{
@@ -583,7 +488,6 @@ export function Sidebar({
               />
             </div>
             
-            {/* Content */}
             <div className="p-5">
               <h3 className="text-lg font-semibold mb-1">
                 Delete {pendingDelete.indices.length === 1 ? 'slide' : `${pendingDelete.indices.length} slides`}?
@@ -592,7 +496,6 @@ export function Sidebar({
                 This action cannot be undone. The {pendingDelete.indices.length === 1 ? 'slide' : 'slides'} will be permanently removed.
               </p>
               
-              {/* Actions */}
               <div className="flex gap-3">
                 <Button
                   variant="outline"

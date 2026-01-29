@@ -10,7 +10,6 @@ export interface SlideMetadata {
   position: number;
   description?: string;
   templateType?: string;
-  pendingAgentAction?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -21,19 +20,6 @@ export interface Presentation {
   description?: string;
   createdAt: string;
   updatedAt: string;
-}
-
-export interface Comment {
-  id: string;
-  slideId: string;
-  parentId?: string;
-  xPosition: number;
-  yPosition: number;
-  authorName: string;
-  content: string;
-  resolved: boolean;
-  createdAt: string;
-  replies?: Comment[];
 }
 
 export interface CMSString {

@@ -1,12 +1,6 @@
 import { cn } from '@/lib/utils';
-import {
-  Grid3X3,
-  MessageCircle,
-  ListTodo,
-  Wand2,
-} from 'lucide-react';
+import { Grid3X3, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
   TooltipContent,
@@ -17,26 +11,16 @@ import {
 interface ToolbarProps {
   showGrid: boolean;
   onToggleGrid: () => void;
-  showComments: boolean;
-  onToggleComments: () => void;
-  isEditMode?: boolean;
-  onToggleEditMode?: () => void;
-  showQueue?: boolean;
-  onToggleQueue?: () => void;
-  queueCount?: number;
+  showNotes?: boolean;
+  onToggleNotes?: () => void;
   className?: string;
 }
 
 export function Toolbar({
   showGrid,
   onToggleGrid,
-  showComments,
-  onToggleComments,
-  isEditMode,
-  onToggleEditMode,
-  showQueue,
-  onToggleQueue,
-  queueCount = 0,
+  showNotes,
+  onToggleNotes,
   className,
 }: ToolbarProps) {
   return (
@@ -55,38 +39,7 @@ export function Toolbar({
 
         {/* Center section - Tools aligned to slide area */}
         <div className="flex-1 flex items-center justify-center gap-1">
-          {/* Comment / Edit Mode - mutually exclusive */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant={showComments ? 'secondary' : 'ghost'}
-                size="icon"
-                onClick={onToggleComments}
-              >
-                <MessageCircle className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Comments (⇧C)</TooltipContent>
-          </Tooltip>
-
-          {onToggleEditMode && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={isEditMode ? 'secondary' : 'ghost'}
-                  size="icon"
-                  onClick={onToggleEditMode}
-                >
-                  <Wand2 className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>AI Edit Mode (⇧E)</TooltipContent>
-            </Tooltip>
-          )}
-
-          <Separator orientation="vertical" className="h-6 mx-2" />
-
-          {/* Grid / Queue */}
+          {/* Grid toggle */}
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -100,24 +53,19 @@ export function Toolbar({
             <TooltipContent>Grid (⇧G)</TooltipContent>
           </Tooltip>
 
-          {onToggleQueue && (
+          {/* Presenter Notes toggle */}
+          {onToggleNotes && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant={showQueue ? 'secondary' : 'ghost'}
+                  variant={showNotes ? 'secondary' : 'ghost'}
                   size="icon"
-                  onClick={onToggleQueue}
-                  className="relative"
+                  onClick={onToggleNotes}
                 >
-                  <ListTodo className="h-4 w-4" />
-                  {queueCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 min-w-4 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
-                      {queueCount}
-                    </span>
-                  )}
+                  <FileText className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Queue (⇧Q)</TooltipContent>
+              <TooltipContent>Presenter Notes (⇧N)</TooltipContent>
             </Tooltip>
           )}
         </div>
