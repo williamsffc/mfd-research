@@ -7,10 +7,16 @@ import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
 import { demoSlides } from '@/slides/demo';
 import { WIPSlide } from '@/slides/WIPSlide';
-import { useSlideOrder } from '@/hooks/useSlideOrder';
-import { useActionHistory } from '@/hooks/useActionHistory';
+import { usePresenterNotes } from '@/hooks/usePresenterNotes';
 import { toast } from 'sonner';
-import type { SlideMetadata } from '@/types/slide';
+
+interface SlideData {
+  id: string;
+  component: React.ComponentType<any>;
+  name: string;
+  isWIP: boolean;
+  description?: string;
+}
 
 export default function Index() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -20,61 +26,20 @@ export default function Index() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(256);
+  
+  // Local slide order state (no database)
+  const [slides, setSlides] = useState<SlideData[]>(() => 
+    demoSlides.map((s, i) => ({
+      id: `slide-${i}`,
+      component: s.component,
+      name: s.name,
+      isWIP: false,
+      description: undefined,
+    }))
+  );
 
-  // Slide order from database
-  const { slideOrder, initialized, initializeSlides, reorderSlides, bulkMoveSlides, restoreOrder, getSlideId, updateSlideDescription, duplicateSlide, deleteSlide, restoreSlide, removeDuplicatedSlide } = useSlideOrder();
-
-  // Undo/redo action history
-  const actionHistory = useActionHistory();
-
-  // Get current slide ID
-  const currentSlideId = getSlideId(activeSlideIndex);
-
-  // Initialize slides in database if not already done
-  useEffect(() => {
-    if (!initialized) {
-      const slidesData = demoSlides.map((s, i) => ({
-        filePath: `src/slides/demo/Slide${String(i + 1).padStart(2, '0')}${s.name.replace(/\s+/g, '')}.tsx`,
-        templateType: s.template,
-      }));
-      initializeSlides(slidesData);
-    }
-  }, [initialized, initializeSlides]);
-
-  // Build ordered slides list
-  const orderedSlides = useMemo(() => {
-    if (slideOrder.length === 0) {
-      return demoSlides.map((s, i) => ({
-        id: `temp-${i}`,
-        component: s.component,
-        name: s.name,
-        isWIP: false,
-        description: undefined,
-      }));
-    }
-
-    return slideOrder.map((meta) => {
-      if (meta.filePath.includes('WIPSlide')) {
-        return {
-          id: meta.id,
-          component: WIPSlide,
-          name: 'WIP Slide',
-          isWIP: true,
-          description: meta.description || meta.templateType,
-        };
-      }
-      
-      const index = parseInt(meta.filePath.match(/Slide(\d+)/)?.[1] || '1') - 1;
-      const slide = demoSlides[index] || demoSlides[0];
-      return {
-        id: meta.id,
-        component: slide.component,
-        name: slide.name,
-        isWIP: false,
-        description: undefined,
-      };
-    });
-  }, [slideOrder]);
+  // Get current slide ID for presenter notes
+  const currentSlideId = slides[activeSlideIndex]?.id ?? null;
 
   // Toggle dark mode
   useEffect(() => {
@@ -92,7 +57,7 @@ export default function Index() {
 
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault();
-        setActiveSlideIndex(prev => Math.min(orderedSlides.length - 1, prev + 1));
+        setActiveSlideIndex(prev => Math.min(slides.length - 1, prev + 1));
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         e.preventDefault();
         setActiveSlideIndex(prev => Math.max(0, prev - 1));
@@ -110,23 +75,15 @@ export default function Index() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [orderedSlides.length, isPresentationMode]);
+  }, [slides.length, isPresentationMode]);
 
-  const handleReorder = async (oldIndex: number, newIndex: number) => {
-    const previousOrder = await reorderSlides(oldIndex, newIndex);
-    
-    if (previousOrder) {
-      const newOrder = [...previousOrder];
-      const [movedId] = newOrder.splice(oldIndex, 1);
-      newOrder.splice(newIndex, 0, movedId);
-      
-      actionHistory.pushAction({
-        type: 'reorder',
-        undoData: { previousOrder },
-        redoData: { newOrder },
-        description: `Move slide ${oldIndex + 1} to ${newIndex + 1}`,
-      });
-    }
+  const handleReorder = useCallback((oldIndex: number, newIndex: number) => {
+    setSlides(prev => {
+      const newSlides = [...prev];
+      const [movedSlide] = newSlides.splice(oldIndex, 1);
+      newSlides.splice(newIndex, 0, movedSlide);
+      return newSlides;
+    });
     
     if (activeSlideIndex === oldIndex) {
       setActiveSlideIndex(newIndex);
@@ -135,102 +92,72 @@ export default function Index() {
     } else if (oldIndex > activeSlideIndex && newIndex <= activeSlideIndex) {
       setActiveSlideIndex(activeSlideIndex + 1);
     }
-  };
+  }, [activeSlideIndex]);
 
-  const handleBulkMove = async (slideIndices: number[], targetIndex: number) => {
-    const previousOrder = await bulkMoveSlides(slideIndices, targetIndex);
+  const handleBulkMove = useCallback((slideIndices: number[], targetIndex: number) => {
+    setSlides(prev => {
+      const sortedIndices = [...slideIndices].sort((a, b) => a - b);
+      const slidesToMove = sortedIndices.map(idx => prev[idx]);
+      const remaining = prev.filter((_, idx) => !slideIndices.includes(idx));
+      
+      const selectedBeforeTarget = sortedIndices.filter(idx => idx < targetIndex).length;
+      let insertAt = targetIndex - selectedBeforeTarget;
+      insertAt = Math.max(0, Math.min(insertAt, remaining.length));
+      
+      return [
+        ...remaining.slice(0, insertAt),
+        ...slidesToMove,
+        ...remaining.slice(insertAt),
+      ];
+    });
     
-    if (previousOrder) {
-      const movedIds = slideIndices.map(i => previousOrder[i]);
-      const remaining = previousOrder.filter((_, i) => !slideIndices.includes(i));
-      const newOrder = [...remaining.slice(0, targetIndex), ...movedIds, ...remaining.slice(targetIndex)];
-      
-      actionHistory.pushAction({
-        type: 'bulk-move',
-        undoData: { previousOrder },
-        redoData: { newOrder },
-        description: `Move ${slideIndices.length} slides`,
-      });
-      
-      toast.success(`Moved ${slideIndices.length} slides to position ${targetIndex + 1}`);
-    }
-  };
+    toast.success(`Moved ${slideIndices.length} slides`);
+  }, []);
+
+  const handleBulkDelete = useCallback((indices: number[]) => {
+    setSlides(prev => prev.filter((_, idx) => !indices.includes(idx)));
+    
+    const minDeleted = Math.min(...indices);
+    setActiveSlideIndex(prev => {
+      if (prev >= minDeleted) {
+        return Math.max(0, minDeleted - 1);
+      }
+      return prev;
+    });
+    
+    toast.success(`Deleted ${indices.length} slide${indices.length > 1 ? 's' : ''}`);
+  }, []);
+
+  const handleDuplicateSlide = useCallback((index: number, targetPosition?: number) => {
+    const slideToDuplicate = slides[index];
+    if (!slideToDuplicate) return;
+    
+    const insertPos = targetPosition !== undefined ? targetPosition : index + 1;
+    const newSlide: SlideData = {
+      ...slideToDuplicate,
+      id: `slide-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    };
+    
+    setSlides(prev => {
+      const newSlides = [...prev];
+      newSlides.splice(insertPos, 0, newSlide);
+      return newSlides;
+    });
+    
+    setActiveSlideIndex(insertPos);
+    toast.success('Duplicated slide');
+  }, [slides]);
 
   const handleDescriptionChange = useCallback((description: string) => {
-    const currentSlide = orderedSlides[activeSlideIndex];
+    const currentSlide = slides[activeSlideIndex];
     if (currentSlide?.isWIP) {
-      updateSlideDescription(currentSlide.id, description);
+      setSlides(prev => prev.map((s, i) => 
+        i === activeSlideIndex ? { ...s, description } : s
+      ));
     }
-  }, [activeSlideIndex, orderedSlides, updateSlideDescription]);
+  }, [activeSlideIndex, slides]);
 
-  const ActiveSlideComponent = orderedSlides[activeSlideIndex]?.component || demoSlides[0].component;
-
-  // Undo handler
-  const handleUndo = useCallback(async () => {
-    if (actionHistory.isProcessing) return;
-    
-    const action = actionHistory.undo();
-    if (!action) return;
-
-    actionHistory.setProcessing(true);
-    try {
-      switch (action.type) {
-        case 'delete':
-          const slidesToRestore = action.undoData.slides as SlideMetadata[];
-          for (const slide of slidesToRestore) {
-            await restoreSlide(slide);
-          }
-          toast.success(`Restored ${slidesToRestore.length} slide${slidesToRestore.length > 1 ? 's' : ''}`);
-          break;
-        case 'duplicate':
-          await removeDuplicatedSlide(action.undoData.slideId);
-          toast.success('Undid duplicate');
-          break;
-        case 'reorder':
-        case 'bulk-move':
-          await restoreOrder(action.undoData.previousOrder);
-          toast.success('Undid move');
-          break;
-      }
-    } finally {
-      actionHistory.setProcessing(false);
-    }
-  }, [actionHistory, restoreSlide, removeDuplicatedSlide, restoreOrder]);
-
-  // Redo handler
-  const handleRedo = useCallback(async () => {
-    if (actionHistory.isProcessing) return;
-    
-    const action = actionHistory.redo();
-    if (!action) return;
-
-    actionHistory.setProcessing(true);
-    try {
-      switch (action.type) {
-        case 'delete':
-          const slidesToDelete = action.undoData.slides as SlideMetadata[];
-          for (const slide of [...slidesToDelete].reverse()) {
-            const currentIndex = slideOrder.findIndex(s => s.id === slide.id);
-            if (currentIndex >= 0) {
-              await deleteSlide(currentIndex);
-            }
-          }
-          toast.success(`Deleted ${slidesToDelete.length} slide${slidesToDelete.length > 1 ? 's' : ''}`);
-          break;
-        case 'duplicate':
-          await duplicateSlide(action.redoData.sourceIndex, action.redoData.targetPosition);
-          toast.success('Redid duplicate');
-          break;
-        case 'reorder':
-        case 'bulk-move':
-          await restoreOrder(action.redoData.newOrder);
-          toast.success('Redid move');
-          break;
-      }
-    } finally {
-      actionHistory.setProcessing(false);
-    }
-  }, [actionHistory, slideOrder, deleteSlide, duplicateSlide, restoreOrder]);
+  const ActiveSlideComponent = slides[activeSlideIndex]?.component || demoSlides[0].component;
 
   return (
     <div className="h-screen flex flex-col bg-background">
@@ -245,56 +172,16 @@ export default function Index() {
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar */}
         <Sidebar
-          slides={orderedSlides.map((slide) => ({
+          slides={slides.map((slide) => ({
             id: slide.id,
             content: <slide.component />,
           }))}
           activeSlideIndex={activeSlideIndex}
           onSlideClick={setActiveSlideIndex}
-          onBulkDelete={async (indices) => {
-            const sortedIndices = [...indices].sort((a, b) => b - a);
-            const deletedSlides: SlideMetadata[] = [];
-            
-            for (const index of sortedIndices) {
-              const deletedSlide = await deleteSlide(index);
-              if (deletedSlide) deletedSlides.push(deletedSlide);
-            }
-            
-            if (deletedSlides.length > 0) {
-              actionHistory.pushAction({
-                type: 'delete',
-                undoData: { slides: deletedSlides.reverse() },
-                redoData: { indices: [...indices].sort((a, b) => a - b) },
-                description: `Delete ${deletedSlides.length} slide${deletedSlides.length > 1 ? 's' : ''}`,
-              });
-            }
-            
-            const minDeleted = Math.min(...indices);
-            if (activeSlideIndex >= minDeleted) {
-              setActiveSlideIndex(Math.max(0, minDeleted - 1));
-            }
-            toast.success(`Deleted ${deletedSlides.length} slides`);
-          }}
+          onBulkDelete={handleBulkDelete}
           onReorder={handleReorder}
           onBulkMove={handleBulkMove}
-          onDuplicateSlide={async (index, targetPosition) => {
-            const newSlideId = await duplicateSlide(index, targetPosition);
-            if (newSlideId) {
-              const insertPos = targetPosition !== undefined ? targetPosition : index + 1;
-              setActiveSlideIndex(insertPos);
-              
-              actionHistory.pushAction({
-                type: 'duplicate',
-                undoData: { slideId: newSlideId },
-                redoData: { sourceIndex: index, targetPosition },
-                description: 'Duplicate slide',
-              });
-            }
-          }}
-          onUndo={handleUndo}
-          onRedo={handleRedo}
-          canUndo={actionHistory.canUndo}
-          canRedo={actionHistory.canRedo}
+          onDuplicateSlide={handleDuplicateSlide}
           width={sidebarWidth}
           onWidthChange={setSidebarWidth}
         />
@@ -307,16 +194,16 @@ export default function Index() {
               zoom={zoom}
               onZoomChange={setZoom}
               currentSlide={activeSlideIndex + 1}
-              totalSlides={orderedSlides.length}
+              totalSlides={slides.length}
               onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
-              onNextSlide={() => setActiveSlideIndex(Math.min(orderedSlides.length - 1, activeSlideIndex + 1))}
+              onNextSlide={() => setActiveSlideIndex(Math.min(slides.length - 1, activeSlideIndex + 1))}
               onStartPresentation={() => setIsPresentationMode(true)}
               isDarkMode={isDarkMode}
               onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
             >
-              {orderedSlides[activeSlideIndex]?.isWIP ? (
+              {slides[activeSlideIndex]?.isWIP ? (
                 <WIPSlide 
-                  description={orderedSlides[activeSlideIndex]?.description || ''}
+                  description={slides[activeSlideIndex]?.description || ''}
                   onDescriptionChange={handleDescriptionChange}
                 />
               ) : (
@@ -327,7 +214,7 @@ export default function Index() {
             {/* Grid View Overlay */}
             {showGrid && (
               <SlideOverviewGrid
-                slides={orderedSlides}
+                slides={slides}
                 activeSlideIndex={activeSlideIndex}
                 onSlideClick={setActiveSlideIndex}
                 onClose={() => setShowGrid(false)}
@@ -349,7 +236,7 @@ export default function Index() {
       {/* Presentation Mode */}
       {isPresentationMode && (
         <PresentationMode
-          slides={orderedSlides.map(slide => ({
+          slides={slides.map(slide => ({
             id: slide.id,
             component: slide.component,
             isWIP: slide.isWIP,
