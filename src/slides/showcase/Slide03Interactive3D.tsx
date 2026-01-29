@@ -100,15 +100,17 @@ export default function Slide03Interactive3D() {
           </p>
         </div>
 
-        {/* 3D Canvas */}
-        <div className="absolute inset-0">
-          <Canvas
-            camera={{ position: [0, 0, 6], fov: 45 }}
-            gl={{ antialias: true, alpha: true }}
-            style={{ background: 'transparent' }}
-          >
-            <Scene />
-          </Canvas>
+        {/* 3D Canvas - centered in slide */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full h-full max-w-[800px] max-h-[600px]">
+            <Canvas
+              camera={{ position: [0, 0, 6], fov: 45 }}
+              gl={{ antialias: true, alpha: true }}
+              style={{ background: 'transparent', width: '100%', height: '100%' }}
+            >
+              <Scene />
+            </Canvas>
+          </div>
         </div>
 
         {/* Hint at bottom */}
