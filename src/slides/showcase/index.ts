@@ -3,7 +3,6 @@ import Slide02InteractiveChart from './Slide02InteractiveChart';
 import Slide03FeatureAdoption from './Slide03FeatureAdoption';
 import Slide04Interactive3D from './Slide03Interactive3D';
 import Slide05CalendarBooking from './Slide04CalendarBooking';
-import Slide06Heatmap from './Slide05Heatmap';
 
 export const showcaseSlides = [
   { component: Slide01Intro, name: 'Introduction', template: 'title' },
@@ -11,5 +10,4 @@ export const showcaseSlides = [
   { component: Slide03FeatureAdoption, name: 'Feature Adoption', template: 'interactive' },
   { component: Slide04Interactive3D, name: '3D Interactive', template: 'interactive' },
   { component: Slide05CalendarBooking, name: 'Calendar Booking', template: 'interactive' },
-  { component: Slide06Heatmap, name: 'Heatmap', template: 'data-story' },
 ];
