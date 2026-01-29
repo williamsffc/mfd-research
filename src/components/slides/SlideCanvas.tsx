@@ -243,28 +243,38 @@ export function SlideCanvas({
         <div 
           ref={containerRef}
           className={cn(
-            "flex-1 flex items-center justify-center p-8",
-            needsScroll ? "overflow-auto" : "overflow-hidden"
+            "flex-1 flex items-center justify-center",
+            needsScroll ? "overflow-auto p-8" : "overflow-hidden"
           )}
         >
-          {/* Slide */}
-          <div
-            className={cn(
-              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden flex-shrink-0 isolate',
-              showGrid && 'grid-overlay',
-              className
-            )}
+          {/* Slide wrapper for proper centering */}
+          <div 
+            className="flex items-center justify-center"
             style={{
-              width: SLIDE_WIDTH,
-              height: SLIDE_HEIGHT,
-              transform: `scale(${finalScale})`,
-              transformOrigin: 'center center',
+              width: scaledWidth,
+              height: scaledHeight,
+              flexShrink: 0,
             }}
-            onClick={onClick}
           >
-            {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
-            <div className="absolute inset-0 bg-white dark:bg-slate-900">
-              {children}
+            {/* Slide */}
+            <div
+              className={cn(
+                'slide-canvas relative shadow-2xl rounded-lg overflow-hidden isolate',
+                showGrid && 'grid-overlay',
+                className
+              )}
+              style={{
+                width: SLIDE_WIDTH,
+                height: SLIDE_HEIGHT,
+                transform: `scale(${finalScale})`,
+                transformOrigin: 'center center',
+              }}
+              onClick={onClick}
+            >
+              {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
+              <div className="absolute inset-0 bg-white dark:bg-slate-900">
+                {children}
+              </div>
             </div>
           </div>
         </div>
