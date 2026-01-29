@@ -247,25 +247,36 @@ export function SlideCanvas({
             needsScroll ? "overflow-auto" : "overflow-hidden"
           )}
         >
-          {/* Slide - the transform scale reduces visual size while keeping internal 1920x1080 */}
+          {/* Wrapper that takes the scaled dimensions for proper layout */}
           <div
-            className={cn(
-              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden isolate',
-              showGrid && 'grid-overlay',
-              className
-            )}
             style={{
-              width: SLIDE_WIDTH,
-              height: SLIDE_HEIGHT,
-              transform: `scale(${finalScale})`,
-              transformOrigin: 'center center',
+              width: scaledWidth,
+              height: scaledHeight,
               flexShrink: 0,
+              position: 'relative',
             }}
-            onClick={onClick}
           >
-            {/* Fixed 1920x1080 slide content */}
-            <div className="absolute inset-0 bg-white dark:bg-slate-900">
-              {children}
+            {/* Slide - positioned absolutely within the scaled wrapper */}
+            <div
+              className={cn(
+                'slide-canvas absolute shadow-2xl rounded-lg overflow-hidden isolate',
+                showGrid && 'grid-overlay',
+                className
+              )}
+              style={{
+                width: SLIDE_WIDTH,
+                height: SLIDE_HEIGHT,
+                transform: `scale(${finalScale})`,
+                transformOrigin: 'top left',
+                top: 0,
+                left: 0,
+              }}
+              onClick={onClick}
+            >
+              {/* Fixed 1920x1080 slide content */}
+              <div className="absolute inset-0 bg-white dark:bg-slate-900">
+                {children}
+              </div>
             </div>
           </div>
         </div>
