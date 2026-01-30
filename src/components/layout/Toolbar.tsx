@@ -30,7 +30,7 @@ export function Toolbar({
         {/* Left section - Title (matches sidebar width w-64 = 256px) */}
         <div className="w-64 flex items-center gap-2 flex-shrink-0 px-4">
           
-          <span className="text-xs text-muted-foreground font-mono">v1.0</span>
+          
         </div>
 
         {/* Center section - Tools aligned to slide area */}
