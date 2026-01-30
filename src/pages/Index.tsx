@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PanelLeftClose, PanelLeft } from 'lucide-react';
+import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Toolbar } from '@/components/layout/Toolbar';
 import { SlideCanvas } from '@/components/slides/SlideCanvas';
@@ -107,36 +107,39 @@ export default function Index() {
 
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar */}
-        {showSidebar && (
-          <Sidebar
-            slides={slides.map((slide) => ({
-              id: slide.id,
-              content: <slide.component />,
-            }))}
-            activeSlideIndex={activeSlideIndex}
-            onSlideClick={setActiveSlideIndex}
-            width={sidebarWidth}
-            onWidthChange={setSidebarWidth}
-          />
-        )}
+        <div 
+          className="flex-shrink-0 transition-all duration-200 ease-out"
+          style={{ width: showSidebar ? sidebarWidth : 0 }}
+        >
+          {showSidebar && (
+            <Sidebar
+              slides={slides.map((slide) => ({
+                id: slide.id,
+                content: <slide.component />,
+              }))}
+              activeSlideIndex={activeSlideIndex}
+              onSlideClick={setActiveSlideIndex}
+              width={sidebarWidth}
+              onWidthChange={setSidebarWidth}
+            />
+          )}
+        </div>
 
-        {/* Sidebar Toggle - floats at sidebar edge */}
+        {/* Sidebar Toggle - morphed tab shape at sidebar edge */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
+              <button
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="absolute top-2 z-40 h-8 w-8 rounded-full bg-background border shadow-sm transition-all"
-                style={{ left: showSidebar ? sidebarWidth - 16 : 8 }}
+                className="absolute top-3 z-40 h-8 w-6 flex items-center justify-center bg-background border border-l-0 rounded-r-full shadow-sm hover:bg-muted transition-all duration-200 ease-out"
+                style={{ left: showSidebar ? sidebarWidth : 0 }}
               >
                 {showSidebar ? (
-                  <PanelLeftClose className="h-4 w-4" />
+                  <ChevronsLeft className="h-4 w-4 text-muted-foreground" />
                 ) : (
-                  <PanelLeft className="h-4 w-4" />
+                  <ChevronsRight className="h-4 w-4 text-muted-foreground" />
                 )}
-              </Button>
+              </button>
             </TooltipTrigger>
             <TooltipContent side="right">
               {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'} (⇧S)
