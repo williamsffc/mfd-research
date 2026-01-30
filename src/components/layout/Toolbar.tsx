@@ -1,20 +1,8 @@
 import { cn } from '@/lib/utils';
 import { Grid3X3, FileText, MoreVertical, Play, Monitor, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 interface ToolbarProps {
   showGrid: boolean;
   onToggleGrid: () => void;
@@ -26,7 +14,6 @@ interface ToolbarProps {
   onStartPresenterView?: () => void;
   className?: string;
 }
-
 export function Toolbar({
   showGrid,
   onToggleGrid,
@@ -36,19 +23,13 @@ export function Toolbar({
   onToggleDarkMode,
   onStartPresentation,
   onStartPresenterView,
-  className,
+  className
 }: ToolbarProps) {
-  return (
-    <TooltipProvider>
-      <div
-        className={cn(
-          'h-12 border-b bg-background flex items-center px-4',
-          className
-        )}
-      >
+  return <TooltipProvider>
+      <div className={cn('h-12 border-b bg-background flex items-center px-4', className)}>
         {/* Left section - Title (matches sidebar width w-64 = 256px) */}
         <div className="w-64 flex items-center gap-2 flex-shrink-0 px-4">
-          <span className="font-semibold text-lg">SlideForge</span>
+          
           <span className="text-xs text-muted-foreground font-mono">v1.0</span>
         </div>
 
@@ -57,11 +38,7 @@ export function Toolbar({
           {/* Grid toggle */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant={showGrid ? 'secondary' : 'ghost'}
-                size="icon"
-                onClick={onToggleGrid}
-              >
+              <Button variant={showGrid ? 'secondary' : 'ghost'} size="icon" onClick={onToggleGrid}>
                 <Grid3X3 className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -69,20 +46,14 @@ export function Toolbar({
           </Tooltip>
 
           {/* Presenter Notes toggle */}
-          {onToggleNotes && (
-            <Tooltip>
+          {onToggleNotes && <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant={showNotes ? 'secondary' : 'ghost'}
-                  size="icon"
-                  onClick={onToggleNotes}
-                >
+                <Button variant={showNotes ? 'secondary' : 'ghost'} size="icon" onClick={onToggleNotes}>
                   <FileText className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Presenter Notes (⇧N)</TooltipContent>
-            </Tooltip>
-          )}
+            </Tooltip>}
         </div>
 
         {/* Right section - More options menu */}
@@ -94,37 +65,24 @@ export function Toolbar({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {onStartPresentation && (
-                <DropdownMenuItem onClick={onStartPresentation}>
+              {onStartPresentation && <DropdownMenuItem onClick={onStartPresentation}>
                   <Play className="h-4 w-4 mr-2" />
                   Present
                   <span className="ml-auto text-xs text-muted-foreground">⇧P</span>
-                </DropdownMenuItem>
-              )}
-              {onStartPresenterView && (
-                <DropdownMenuItem onClick={onStartPresenterView}>
+                </DropdownMenuItem>}
+              {onStartPresenterView && <DropdownMenuItem onClick={onStartPresenterView}>
                   <Monitor className="h-4 w-4 mr-2" />
                   Presenter View
                   <span className="ml-auto text-xs text-muted-foreground">⇧V</span>
-                </DropdownMenuItem>
-              )}
-              {(onStartPresentation || onStartPresenterView) && onToggleDarkMode && (
-                <DropdownMenuSeparator />
-              )}
-              {onToggleDarkMode && (
-                <DropdownMenuItem onClick={onToggleDarkMode}>
-                  {isDarkMode ? (
-                    <Sun className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Moon className="h-4 w-4 mr-2" />
-                  )}
+                </DropdownMenuItem>}
+              {(onStartPresentation || onStartPresenterView) && onToggleDarkMode && <DropdownMenuSeparator />}
+              {onToggleDarkMode && <DropdownMenuItem onClick={onToggleDarkMode}>
+                  {isDarkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
                   {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-                </DropdownMenuItem>
-              )}
+                </DropdownMenuItem>}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 }
