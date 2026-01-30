@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
 import { showcaseSlides } from '@/slides/showcase';
 import { WIPSlide } from '@/slides/WIPSlide';
+import { ScaledSlide, SLIDE_WIDTH, SLIDE_HEIGHT } from '@/components/slides/ScaledSlide';
 
 interface SlideInfo {
   id: string;
@@ -73,9 +74,8 @@ export default function AudienceWindow() {
   }, []);
 
   const currentSlide = slides[currentIndex];
-  const SlideComponent = currentSlide?.component;
 
-  if (!SlideComponent) {
+  if (!currentSlide?.component) {
     return (
       <div className="h-screen w-screen bg-black flex items-center justify-center">
         <p className="text-white text-2xl">No slides available</p>
@@ -83,35 +83,14 @@ export default function AudienceWindow() {
     );
   }
 
+  // Use a wrapper component for WIP slides
+  const SlideContent = currentSlide.isWIP 
+    ? () => <WIPSlide description={currentSlide.description || ''} onDescriptionChange={() => {}} />
+    : currentSlide.component;
+
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
-      <div 
-        className="relative bg-white"
-        style={{
-          width: '100vw',
-          height: '56.25vw', // 16:9 aspect ratio
-          maxHeight: '100vh',
-          maxWidth: '177.78vh', // 16:9 aspect ratio
-        }}
-      >
-        <div 
-          className="absolute inset-0 origin-top-left"
-          style={{
-            width: '1920px',
-            height: '1080px',
-            transform: `scale(${Math.min(
-              (typeof window !== 'undefined' ? window.innerWidth : 1920) / 1920,
-              (typeof window !== 'undefined' ? window.innerHeight : 1080) / 1080
-            )})`,
-          }}
-        >
-          {currentSlide.isWIP ? (
-            <WIPSlide description={currentSlide.description || ''} onDescriptionChange={() => {}} />
-          ) : (
-            <SlideComponent />
-          )}
-        </div>
-      </div>
+      <ScaledSlide SlideComponent={SlideContent} />
     </div>
   );
 }

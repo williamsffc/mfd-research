@@ -29,11 +29,8 @@ interface ScaledSlideProps {
  * the container while maintaining aspect ratio. Uses Math.min(scaleX, scaleY)
  * to ensure the slide always fits without overflow.
  * 
- * This component is the SINGLE source of truth for slide scaling across:
- * - Main editor canvas
- * - Presenter view (current + next slides)
- * - Thumbnails
- * - Audience window
+ * CRITICAL: The container sets explicit pixel dimensions based on the calculated
+ * scale, NOT CSS aspect-ratio. This prevents overflow issues in flex containers.
  */
 export function ScaledSlide({
   children,
@@ -45,22 +42,32 @@ export function ScaledSlide({
 }: ScaledSlideProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.1);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const updateScale = () => {
       if (!containerRef.current) return;
       
-      const containerWidth = containerRef.current.offsetWidth;
-      const containerHeight = containerRef.current.offsetHeight;
+      // Get the PARENT's available space, not our own dimensions
+      const parent = containerRef.current.parentElement;
+      if (!parent) return;
       
-      if (containerWidth === 0 || containerHeight === 0) return;
+      const availableWidth = parent.clientWidth;
+      const availableHeight = parent.clientHeight;
+      
+      if (availableWidth === 0 || availableHeight === 0) return;
       
       // Calculate scale to fit BOTH dimensions (never overflow)
-      const scaleX = containerWidth / SLIDE_WIDTH;
-      const scaleY = containerHeight / SLIDE_HEIGHT;
+      const scaleX = availableWidth / SLIDE_WIDTH;
+      const scaleY = availableHeight / SLIDE_HEIGHT;
       const fitScale = Math.min(scaleX, scaleY);
       
+      // Calculate actual rendered dimensions
+      const renderedWidth = SLIDE_WIDTH * fitScale;
+      const renderedHeight = SLIDE_HEIGHT * fitScale;
+      
       setScale(fitScale);
+      setDimensions({ width: renderedWidth, height: renderedHeight });
     };
 
     // Use RAF to ensure layout is complete before measuring
@@ -70,8 +77,10 @@ export function ScaledSlide({
       requestAnimationFrame(updateScale);
     });
     
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    // Observe the parent, not ourselves
+    const parent = containerRef.current?.parentElement;
+    if (parent) {
+      observer.observe(parent);
     }
 
     return () => {
@@ -87,14 +96,17 @@ export function ScaledSlide({
       <div 
         ref={containerRef}
         className={cn(
-          "relative w-full overflow-hidden",
+          "relative overflow-hidden flex-shrink-0",
           containerClassName
         )}
-        style={{ aspectRatio: `${SLIDE_WIDTH}/${SLIDE_HEIGHT}` }}
+        style={{ 
+          width: dimensions.width || '100%',
+          height: dimensions.height || 'auto',
+        }}
       >
         <div 
           className={cn(
-            "absolute bg-white dark:bg-slate-900 rounded-lg shadow-xl overflow-hidden",
+            "absolute top-0 left-0 bg-white dark:bg-slate-900 rounded-lg shadow-xl overflow-hidden",
             showGrid && "grid-overlay",
             className
           )}
