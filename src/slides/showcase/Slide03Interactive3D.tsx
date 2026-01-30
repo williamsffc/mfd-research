@@ -3,64 +3,35 @@ import { SlideLayout } from '@/components/slides/SlideLayout';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, RoundedBox, Float, MeshDistortMaterial, Environment, Text3D, Center } from '@react-three/drei';
 import * as THREE from 'three';
-
 function AnimatedTorus() {
   const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
+  useFrame(state => {
     if (meshRef.current) {
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
       meshRef.current.rotation.y += 0.005;
     }
   });
-
-  return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
+  return <mesh ref={meshRef} position={[0, 0, 0]}>
       <torusKnotGeometry args={[1, 0.35, 128, 32]} />
-      <MeshDistortMaterial
-        color="#6366f1"
-        roughness={0.2}
-        metalness={0.8}
-        distort={0.2}
-        speed={2}
-      />
-    </mesh>
-  );
+      <MeshDistortMaterial color="#6366f1" roughness={0.2} metalness={0.8} distort={0.2} speed={2} />
+    </mesh>;
 }
-
 function FloatingCubes() {
   const colors = ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899'];
-  
-  return (
-    <>
+  return <>
       {colors.map((color, i) => {
-        const angle = (i / colors.length) * Math.PI * 2;
-        const radius = 2.5;
-        return (
-          <Float
-            key={i}
-            speed={2}
-            rotationIntensity={1}
-            floatIntensity={2}
-            position={[
-              Math.cos(angle) * radius,
-              Math.sin(i * 0.5) * 0.5,
-              Math.sin(angle) * radius
-            ]}
-          >
+      const angle = i / colors.length * Math.PI * 2;
+      const radius = 2.5;
+      return <Float key={i} speed={2} rotationIntensity={1} floatIntensity={2} position={[Math.cos(angle) * radius, Math.sin(i * 0.5) * 0.5, Math.sin(angle) * radius]}>
             <RoundedBox args={[0.4, 0.4, 0.4]} radius={0.08} smoothness={4}>
               <meshStandardMaterial color={color} roughness={0.3} metalness={0.6} />
             </RoundedBox>
-          </Float>
-        );
-      })}
-    </>
-  );
+          </Float>;
+    })}
+    </>;
 }
-
 function Scene() {
-  return (
-    <>
+  return <>
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
       <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#6366f1" />
@@ -71,30 +42,18 @@ function Scene() {
       
       <Environment preset="city" />
       
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 1.5}
-        autoRotate
-        autoRotateSpeed={0.5}
-      />
-    </>
-  );
+      <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 4} maxPolarAngle={Math.PI / 1.5} autoRotate autoRotateSpeed={0.5} />
+    </>;
 }
-
 export default function Slide03Interactive3D() {
-  return (
-    <SlideLayout variant="default">
+  return <SlideLayout variant="default">
       <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50">
         {/* Header */}
         <div className="absolute top-16 left-20 z-10">
           <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
             3D Interactive
           </p>
-          <h2 className="text-4xl font-bold text-slate-900 mb-2">
-            Drag to Explore
-          </h2>
+          <h2 className="text-4xl font-bold text-slate-900 mb-2">3D Simulations</h2>
           <p className="text-lg text-slate-500 font-light">
             Click and drag to orbit around the 3D object
           </p>
@@ -102,17 +61,22 @@ export default function Slide03Interactive3D() {
 
         {/* 3D Canvas - use offsetSize to ignore CSS transforms */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div 
-            className="pointer-events-auto"
-            style={{ width: 800, height: 600 }}
-          >
-            <Canvas
-              camera={{ position: [0, 0, 6], fov: 45 }}
-              gl={{ antialias: true, alpha: true }}
-              dpr={1}
-              style={{ background: 'transparent' }}
-              resize={{ scroll: false, offsetSize: true }}
-            >
+          <div className="pointer-events-auto" style={{
+          width: 800,
+          height: 600
+        }}>
+            <Canvas camera={{
+            position: [0, 0, 6],
+            fov: 45
+          }} gl={{
+            antialias: true,
+            alpha: true
+          }} dpr={1} style={{
+            background: 'transparent'
+          }} resize={{
+            scroll: false,
+            offsetSize: true
+          }}>
               <Scene />
             </Canvas>
           </div>
@@ -134,6 +98,5 @@ export default function Slide03Interactive3D() {
           </div>
         </div>
       </div>
-    </SlideLayout>
-  );
+    </SlideLayout>;
 }
