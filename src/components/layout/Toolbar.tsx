@@ -28,6 +28,11 @@ export function Toolbar({
 }: ToolbarProps) {
   return (
     <div className={cn('h-12 border-b bg-background flex items-center', className)}>
+      {/* Left section - Logo */}
+      <div className="flex items-center px-4">
+        <span className="text-sm font-semibold">Lovable Slides</span>
+      </div>
+
       {/* Spacer */}
       <div className="flex-1" />
 
