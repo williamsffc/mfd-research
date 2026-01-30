@@ -20,6 +20,7 @@ export default function Index() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showGrid, setShowGrid] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const [zoom, setZoom] = useState(100);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
@@ -68,6 +69,9 @@ export default function Index() {
       } else if (e.key === 'N' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         setShowNotes(prev => !prev);
+      } else if (e.key === 'S' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setShowSidebar(prev => !prev);
       } else if (e.key === 'P' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         setIsPresentationMode(true);
@@ -92,6 +96,8 @@ export default function Index() {
         onToggleGrid={() => setShowGrid(!showGrid)}
         showNotes={showNotes}
         onToggleNotes={() => setShowNotes(!showNotes)}
+        showSidebar={showSidebar}
+        onToggleSidebar={() => setShowSidebar(!showSidebar)}
         isDarkMode={isDarkMode}
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
         onStartPresentation={() => setIsPresentationMode(true)}
@@ -100,16 +106,18 @@ export default function Index() {
 
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar */}
-        <Sidebar
-          slides={slides.map((slide) => ({
-            id: slide.id,
-            content: <slide.component />,
-          }))}
-          activeSlideIndex={activeSlideIndex}
-          onSlideClick={setActiveSlideIndex}
-          width={sidebarWidth}
-          onWidthChange={setSidebarWidth}
-        />
+        {showSidebar && (
+          <Sidebar
+            slides={slides.map((slide) => ({
+              id: slide.id,
+              content: <slide.component />,
+            }))}
+            activeSlideIndex={activeSlideIndex}
+            onSlideClick={setActiveSlideIndex}
+            width={sidebarWidth}
+            onWidthChange={setSidebarWidth}
+          />
+        )}
 
         {/* Main Canvas Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
