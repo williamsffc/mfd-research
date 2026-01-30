@@ -113,13 +113,13 @@ export default function Index() {
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar - always rendered, clipped when hidden */}
         <div 
-          className="flex-shrink-0 overflow-hidden z-50"
+          className="flex-shrink-0 overflow-hidden z-50 h-full"
           style={{ 
             width: showSidebar ? sidebarWidth : 0,
             transition: isResizing ? 'none' : 'width 200ms ease-out',
           }}
         >
-          <div style={{ width: sidebarWidth }}>
+          <div className="h-full" style={{ width: sidebarWidth }}>
             <Sidebar
               slides={slides.map((slide) => ({
                 id: slide.id,

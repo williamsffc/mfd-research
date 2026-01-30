@@ -82,7 +82,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        'bg-background border-r flex flex-col outline-none relative',
+        'h-full bg-background border-r flex flex-col outline-none relative',
         className
       )}
       style={{ width }}
