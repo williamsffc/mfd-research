@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PanelLeftClose, PanelLeft } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Toolbar } from '@/components/layout/Toolbar';
 import { SlideCanvas } from '@/components/slides/SlideCanvas';
@@ -6,6 +7,8 @@ import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterView } from '@/components/slides/PresenterView';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { showcaseSlides } from '@/slides/showcase';
 
 interface SlideData {
@@ -96,15 +99,13 @@ export default function Index() {
         onToggleGrid={() => setShowGrid(!showGrid)}
         showNotes={showNotes}
         onToggleNotes={() => setShowNotes(!showNotes)}
-        showSidebar={showSidebar}
-        onToggleSidebar={() => setShowSidebar(!showSidebar)}
         isDarkMode={isDarkMode}
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
         onStartPresentation={() => setIsPresentationMode(true)}
         onStartPresenterView={() => setIsPresenterView(true)}
       />
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar */}
         {showSidebar && (
           <Sidebar
@@ -118,6 +119,30 @@ export default function Index() {
             onWidthChange={setSidebarWidth}
           />
         )}
+
+        {/* Sidebar Toggle - floats at sidebar edge */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowSidebar(!showSidebar)}
+                className="absolute top-2 z-40 h-8 w-8 rounded-full bg-background border shadow-sm transition-all"
+                style={{ left: showSidebar ? sidebarWidth - 16 : 8 }}
+              >
+                {showSidebar ? (
+                  <PanelLeftClose className="h-4 w-4" />
+                ) : (
+                  <PanelLeft className="h-4 w-4" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'} (⇧S)
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         {/* Main Canvas Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
