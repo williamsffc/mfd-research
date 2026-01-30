@@ -106,12 +106,12 @@ export default function Index() {
       />
 
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Left Sidebar */}
+        {/* Left Sidebar - always rendered, clipped when hidden */}
         <div 
-          className="flex-shrink-0 transition-all duration-200 ease-out"
+          className="flex-shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
           style={{ width: showSidebar ? sidebarWidth : 0 }}
         >
-          {showSidebar && (
+          <div style={{ width: sidebarWidth }}>
             <Sidebar
               slides={slides.map((slide) => ({
                 id: slide.id,
@@ -122,7 +122,7 @@ export default function Index() {
               width={sidebarWidth}
               onWidthChange={setSidebarWidth}
             />
-          )}
+          </div>
         </div>
 
         {/* Sidebar Toggle - morphed tab shape at sidebar edge */}
