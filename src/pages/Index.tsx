@@ -85,8 +85,8 @@ export default function Index() {
   const ActiveSlideComponent = slides[activeSlideIndex]?.component || showcaseSlides[0].component;
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      {/* Toolbar */}
+    <div className="h-screen flex bg-background relative">
+      {/* Floating Menu */}
       <Toolbar
         showGrid={showGrid}
         onToggleGrid={() => setShowGrid(!showGrid)}
@@ -98,54 +98,52 @@ export default function Index() {
         onStartPresenterView={() => setIsPresenterView(true)}
       />
 
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar */}
-        <Sidebar
-          slides={slides.map((slide) => ({
-            id: slide.id,
-            content: <slide.component />,
-          }))}
-          activeSlideIndex={activeSlideIndex}
-          onSlideClick={setActiveSlideIndex}
-          width={sidebarWidth}
-          onWidthChange={setSidebarWidth}
-        />
+      {/* Left Sidebar */}
+      <Sidebar
+        slides={slides.map((slide) => ({
+          id: slide.id,
+          content: <slide.component />,
+        }))}
+        activeSlideIndex={activeSlideIndex}
+        onSlideClick={setActiveSlideIndex}
+        width={sidebarWidth}
+        onWidthChange={setSidebarWidth}
+      />
 
-        {/* Main Canvas Area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 relative overflow-hidden">
-            <SlideCanvas
-              showGrid={false}
-              zoom={zoom}
-              onZoomChange={setZoom}
-              currentSlide={activeSlideIndex + 1}
-              totalSlides={slides.length}
-              onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
-              onNextSlide={() => setActiveSlideIndex(Math.min(slides.length - 1, activeSlideIndex + 1))}
-            >
-              <ActiveSlideComponent />
-            </SlideCanvas>
+      {/* Main Canvas Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 relative overflow-hidden">
+          <SlideCanvas
+            showGrid={false}
+            zoom={zoom}
+            onZoomChange={setZoom}
+            currentSlide={activeSlideIndex + 1}
+            totalSlides={slides.length}
+            onPrevSlide={() => setActiveSlideIndex(Math.max(0, activeSlideIndex - 1))}
+            onNextSlide={() => setActiveSlideIndex(Math.min(slides.length - 1, activeSlideIndex + 1))}
+          >
+            <ActiveSlideComponent />
+          </SlideCanvas>
 
-            {/* Grid View Overlay */}
-            {showGrid && (
-              <SlideOverviewGrid
-                slides={slides}
-                activeSlideIndex={activeSlideIndex}
-                onSlideClick={setActiveSlideIndex}
-                onClose={() => setShowGrid(false)}
-              />
-            )}
-          </div>
-
-          {/* Presenter Notes Panel - Bottom */}
-          {showNotes && (
-            <PresenterNotesPanel
-              slideId={currentSlideId}
-              slideIndex={activeSlideIndex}
-              onClose={() => setShowNotes(false)}
+          {/* Grid View Overlay */}
+          {showGrid && (
+            <SlideOverviewGrid
+              slides={slides}
+              activeSlideIndex={activeSlideIndex}
+              onSlideClick={setActiveSlideIndex}
+              onClose={() => setShowGrid(false)}
             />
           )}
         </div>
+
+        {/* Presenter Notes Panel - Bottom */}
+        {showNotes && (
+          <PresenterNotesPanel
+            slideId={currentSlideId}
+            slideIndex={activeSlideIndex}
+            onClose={() => setShowNotes(false)}
+          />
+        )}
       </div>
 
       {/* Presentation Mode */}
