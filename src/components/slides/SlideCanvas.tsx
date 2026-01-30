@@ -119,21 +119,12 @@ export function SlideCanvas({
   }, [isHoveringZoomPill, clearHideTimeout, startHideTimeout, showZoomControls]);
 
   useEffect(() => {
-    let rafId: number | null = null;
-    let lastWidth = 0;
-    let lastHeight = 0;
-    
     const updateScale = () => {
       if (!containerRef.current) return;
       
       const container = containerRef.current;
       const containerWidth = container.clientWidth;
       const containerHeight = container.clientHeight;
-      
-      // Only update if size actually changed (prevents jitter loops)
-      if (containerWidth === lastWidth && containerHeight === lastHeight) return;
-      lastWidth = containerWidth;
-      lastHeight = containerHeight;
       
       setContainerSize({ width: containerWidth, height: containerHeight });
       
@@ -145,22 +136,14 @@ export function SlideCanvas({
       setContainerScale(fitScale);
     };
 
-    const debouncedUpdate = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateScale);
-    };
-
     updateScale();
     
-    const resizeObserver = new ResizeObserver(debouncedUpdate);
+    const resizeObserver = new ResizeObserver(updateScale);
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
     }
 
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      resizeObserver.disconnect();
-    };
+    return () => resizeObserver.disconnect();
   }, []);
 
   // Apply zoom on top of fit scale

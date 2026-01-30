@@ -26,7 +26,12 @@ export default function Slide01Intro() {
         </p>
         
         {/* Feature badges */}
-        
+        <div className="flex gap-4">
+          {features.map((feature, index) => <div key={index} className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 border border-slate-200">
+              <feature.icon className="w-4 h-4 text-indigo-600" />
+              <span className="text-sm font-medium text-slate-700">{feature.label}</span>
+            </div>)}
+        </div>
         
         {/* Keyboard hint */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
