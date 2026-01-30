@@ -244,10 +244,7 @@ export function SlideCanvas({
         {/* Scrollable slide area */}
         <div 
           ref={containerRef}
-          className={cn(
-            "flex-1 flex items-center justify-center p-8",
-            needsScroll ? "overflow-auto" : "overflow-hidden"
-          )}
+          className="flex-1 flex items-center justify-center p-8 overflow-hidden"
         >
           {/* Slide */}
           <div
