@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Grid3X3, FileText, MoreVertical, Play, Monitor, Moon, Sun } from 'lucide-react';
+import { Grid3X3, FileText, MoreVertical, Play, Monitor, Moon, Sun, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
@@ -8,6 +8,8 @@ interface ToolbarProps {
   onToggleGrid: () => void;
   showNotes?: boolean;
   onToggleNotes?: () => void;
+  showSidebar?: boolean;
+  onToggleSidebar?: () => void;
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
   onStartPresentation?: () => void;
@@ -20,6 +22,8 @@ export function Toolbar({
   onToggleGrid,
   showNotes,
   onToggleNotes,
+  showSidebar,
+  onToggleSidebar,
   isDarkMode,
   onToggleDarkMode,
   onStartPresentation,
@@ -43,6 +47,13 @@ export function Toolbar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            {onToggleSidebar && (
+              <DropdownMenuItem onClick={onToggleSidebar}>
+                {showSidebar ? <PanelLeftClose className="h-4 w-4 mr-2" /> : <PanelLeft className="h-4 w-4 mr-2" />}
+                {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'}
+                <span className="ml-auto text-xs text-muted-foreground">⇧S</span>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={onToggleGrid}>
               <Grid3X3 className="h-4 w-4 mr-2" />
               {showGrid ? 'Hide Grid' : 'Show Grid'}
