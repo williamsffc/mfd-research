@@ -35,7 +35,7 @@ export function SlideOverviewGrid({
   };
 
   return (
-    <div className="fixed inset-0 top-12 bg-background z-40 overflow-auto p-6">
+    <div className="fixed inset-0 top-12 bg-background z-[60] overflow-auto p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold">All Slides</h2>
