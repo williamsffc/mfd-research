@@ -26,7 +26,7 @@ export function Toolbar({
   className
 }: ToolbarProps) {
   return <TooltipProvider>
-      <div className={cn('h-12 border-b bg-background flex items-center px-4', className)}>
+      <div className={cn('h-12 border-b bg-background flex items-center', className)}>
         {/* Left section - Title (matches sidebar width w-64 = 256px) */}
         <div className="w-64 flex items-center gap-2 flex-shrink-0 px-4">
           
