@@ -97,7 +97,11 @@ export default function Index() {
       {/* Toolbar */}
       <Toolbar
         showGrid={showGrid}
-        onToggleGrid={() => setShowGrid(!showGrid)}
+        onToggleGrid={() => {
+          const newShowGrid = !showGrid;
+          setShowGrid(newShowGrid);
+          if (newShowGrid) setShowSidebar(false);
+        }}
         showNotes={showNotes}
         onToggleNotes={() => setShowNotes(!showNotes)}
         isDarkMode={isDarkMode}
