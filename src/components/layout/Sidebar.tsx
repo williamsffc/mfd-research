@@ -16,6 +16,7 @@ interface SidebarProps {
   onWidthChange: (width: number) => void;
   onResizeStart?: () => void;
   onResizeEnd?: () => void;
+  onSnapClose?: () => void;
   className?: string;
 }
 
@@ -27,9 +28,14 @@ export function Sidebar({
   onWidthChange,
   onResizeStart,
   onResizeEnd,
+  onSnapClose,
   className,
 }: SidebarProps) {
   const [isResizing, setIsResizing] = useState(false);
+
+  const SNAP_CLOSE_THRESHOLD = 150;
+  const MIN_WIDTH = 200;
+  const MAX_WIDTH = 400;
 
   // Handle resize
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
@@ -39,23 +45,39 @@ export function Sidebar({
     
     const startX = e.clientX;
     const startWidth = width;
+    let shouldSnapClose = false;
     
     const handleMouseMove = (e: MouseEvent) => {
       const delta = e.clientX - startX;
-      const newWidth = Math.max(200, Math.min(400, startWidth + delta));
-      onWidthChange(newWidth);
+      const rawWidth = startWidth + delta;
+      
+      // If dragged below threshold, mark for snap close
+      if (rawWidth < SNAP_CLOSE_THRESHOLD) {
+        shouldSnapClose = true;
+        onWidthChange(MIN_WIDTH); // Keep at min visually
+      } else {
+        shouldSnapClose = false;
+        const newWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, rawWidth));
+        onWidthChange(newWidth);
+      }
     };
     
     const handleMouseUp = () => {
       setIsResizing(false);
       onResizeEnd?.();
+      
+      // Snap close if below threshold on release
+      if (shouldSnapClose) {
+        onSnapClose?.();
+      }
+      
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
     
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  }, [width, onWidthChange, onResizeStart, onResizeEnd]);
+  }, [width, onWidthChange, onResizeStart, onResizeEnd, onSnapClose]);
 
   return (
     <div

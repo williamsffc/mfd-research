@@ -127,6 +127,7 @@ export default function Index() {
               onWidthChange={setSidebarWidth}
               onResizeStart={() => setIsResizing(true)}
               onResizeEnd={() => setIsResizing(false)}
+              onSnapClose={() => setShowSidebar(false)}
             />
           </div>
         </div>
