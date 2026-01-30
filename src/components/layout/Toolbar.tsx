@@ -33,30 +33,10 @@ export function Toolbar({
           
         </div>
 
-        {/* Center section - Tools aligned to slide area */}
-        <div className="flex-1 flex items-center justify-center gap-1">
-          {/* Grid toggle */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant={showGrid ? 'secondary' : 'ghost'} size="icon" onClick={onToggleGrid}>
-                <Grid3X3 className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Grid (⇧G)</TooltipContent>
-          </Tooltip>
+        {/* Spacer */}
+        <div className="flex-1" />
 
-          {/* Presenter Notes toggle */}
-          {onToggleNotes && <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant={showNotes ? 'secondary' : 'ghost'} size="icon" onClick={onToggleNotes}>
-                  <FileText className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Presenter Notes (⇧N)</TooltipContent>
-            </Tooltip>}
-        </div>
-
-        {/* Right section - More options menu (no fixed width so center aligns with slide) */}
+        {/* Right section - All options in menu */}
         <div className="flex items-center justify-end flex-shrink-0 px-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -65,21 +45,42 @@ export function Toolbar({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {onStartPresentation && <DropdownMenuItem onClick={onStartPresentation}>
+              <DropdownMenuItem onClick={onToggleGrid}>
+                <Grid3X3 className="h-4 w-4 mr-2" />
+                {showGrid ? 'Hide Grid' : 'Show Grid'}
+                <span className="ml-auto text-xs text-muted-foreground">⇧G</span>
+              </DropdownMenuItem>
+              {onToggleNotes && (
+                <DropdownMenuItem onClick={onToggleNotes}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {showNotes ? 'Hide Notes' : 'Show Notes'}
+                  <span className="ml-auto text-xs text-muted-foreground">⇧N</span>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+              {onStartPresentation && (
+                <DropdownMenuItem onClick={onStartPresentation}>
                   <Play className="h-4 w-4 mr-2" />
                   Present
                   <span className="ml-auto text-xs text-muted-foreground">⇧P</span>
-                </DropdownMenuItem>}
-              {onStartPresenterView && <DropdownMenuItem onClick={onStartPresenterView}>
+                </DropdownMenuItem>
+              )}
+              {onStartPresenterView && (
+                <DropdownMenuItem onClick={onStartPresenterView}>
                   <Monitor className="h-4 w-4 mr-2" />
                   Presenter View
                   <span className="ml-auto text-xs text-muted-foreground">⇧V</span>
-                </DropdownMenuItem>}
-              {(onStartPresentation || onStartPresenterView) && onToggleDarkMode && <DropdownMenuSeparator />}
-              {onToggleDarkMode && <DropdownMenuItem onClick={onToggleDarkMode}>
-                  {isDarkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-                  {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-                </DropdownMenuItem>}
+                </DropdownMenuItem>
+              )}
+              {onToggleDarkMode && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onToggleDarkMode}>
+                    {isDarkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+                    {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
