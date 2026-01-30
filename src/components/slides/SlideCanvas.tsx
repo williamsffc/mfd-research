@@ -53,15 +53,18 @@ export function SlideCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerScale, setContainerScale] = useState(1);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [showZoomControls, setShowZoomControls] = useState(false);
+  
+  // Shared visibility state for both controls
+  const [showControls, setShowControls] = useState(false);
   const [isHoveringZoomPill, setIsHoveringZoomPill] = useState(false);
+  const [isHoveringNavPill, setIsHoveringNavPill] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isHoveringZoomPillRef = useRef(false);
+  const isHoveringAnyPillRef = useRef(false);
 
   // Keep ref in sync with state
   useEffect(() => {
-    isHoveringZoomPillRef.current = isHoveringZoomPill;
-  }, [isHoveringZoomPill]);
+    isHoveringAnyPillRef.current = isHoveringZoomPill || isHoveringNavPill;
+  }, [isHoveringZoomPill, isHoveringNavPill]);
 
   // Clear any existing timeout
   const clearHideTimeout = useCallback(() => {
@@ -76,23 +79,23 @@ export function SlideCanvas({
     clearHideTimeout();
     hideTimeoutRef.current = setTimeout(() => {
       // Use ref to get current value, not stale closure
-      if (!isHoveringZoomPillRef.current) {
-        setShowZoomControls(false);
+      if (!isHoveringAnyPillRef.current) {
+        setShowControls(false);
       }
     }, HIDE_DELAY);
   }, [clearHideTimeout]);
 
   // Handle mouse movement in canvas
   const handleMouseMove = useCallback(() => {
-    setShowZoomControls(true);
+    setShowControls(true);
     startHideTimeout();
   }, [startHideTimeout]);
 
   // Handle mouse leave from canvas
   const handleMouseLeave = useCallback(() => {
-    if (!isHoveringZoomPillRef.current) {
+    if (!isHoveringAnyPillRef.current) {
       clearHideTimeout();
-      setShowZoomControls(false);
+      setShowControls(false);
     }
   }, [clearHideTimeout]);
 
@@ -101,16 +104,24 @@ export function SlideCanvas({
     return () => clearHideTimeout();
   }, [clearHideTimeout]);
 
-  // Keep visible while hovering zoom pill, restart timeout when leaving
+  // Keep visible while hovering any pill, restart timeout when leaving
   useEffect(() => {
-    if (isHoveringZoomPill) {
+    if (isHoveringZoomPill || isHoveringNavPill) {
       clearHideTimeout();
-      setShowZoomControls(true);
-    } else if (showZoomControls) {
+      setShowControls(true);
+    } else if (showControls) {
       // Only start timeout if controls are visible
       startHideTimeout();
     }
-  }, [isHoveringZoomPill, clearHideTimeout, startHideTimeout, showZoomControls]);
+  }, [isHoveringZoomPill, isHoveringNavPill, clearHideTimeout, startHideTimeout, showControls]);
+
+  // Show controls on slide change
+  useEffect(() => {
+    if (currentSlide !== undefined) {
+      setShowControls(true);
+      startHideTimeout();
+    }
+  }, [currentSlide, startHideTimeout]);
 
   useEffect(() => {
     const updateScale = () => {
@@ -164,7 +175,7 @@ export function SlideCanvas({
             <div 
               className={cn(
                 "absolute top-3 right-3 flex items-center gap-0.5 px-1.5 py-0.5 bg-card/90 backdrop-blur-sm border border-border rounded-full shadow-md z-20 transition-opacity duration-300 ease-in-out",
-                showZoomControls ? "opacity-100" : "opacity-0 pointer-events-none"
+                showControls ? "opacity-100" : "opacity-0 pointer-events-none"
               )}
               onMouseEnter={() => setIsHoveringZoomPill(true)}
               onMouseLeave={() => setIsHoveringZoomPill(false)}
@@ -256,7 +267,7 @@ export function SlideCanvas({
             onClick={onClick}
           >
             {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
-            <div className="absolute inset-0 bg-white dark:bg-slate-900">
+            <div className="absolute inset-0 bg-background">
               {children}
             </div>
           </div>
@@ -266,7 +277,14 @@ export function SlideCanvas({
         {showNavigation && (
           <>
             {/* Center - Navigation pill */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-1 bg-card border border-border rounded-full shadow-md">
+            <div 
+              className={cn(
+                "absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-1 bg-card/90 backdrop-blur-sm border border-border rounded-full shadow-md z-20 transition-opacity duration-300 ease-in-out",
+                showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+              )}
+              onMouseEnter={() => setIsHoveringNavPill(true)}
+              onMouseLeave={() => setIsHoveringNavPill(false)}
+            >
               <Button
                 variant="ghost"
                 size="icon"
