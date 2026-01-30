@@ -54,7 +54,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        'bg-[hsl(var(--sidebar-bg))] border-r border-[hsl(var(--sidebar-border))] flex flex-col outline-none relative',
+        'bg-background border-r flex flex-col outline-none relative',
         className
       )}
       style={{ width }}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Toolbar } from '@/components/layout/Toolbar';
 import { SlideCanvas } from '@/components/slides/SlideCanvas';
@@ -6,6 +7,8 @@ import { SlideOverviewGrid } from '@/components/slides/SlideOverviewGrid';
 import { PresentationMode } from '@/components/slides/PresentationMode';
 import { PresenterView } from '@/components/slides/PresenterView';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { showcaseSlides } from '@/slides/showcase';
 
 interface SlideData {
@@ -20,6 +23,7 @@ export default function Index() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showGrid, setShowGrid] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const [zoom, setZoom] = useState(100);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
@@ -68,6 +72,9 @@ export default function Index() {
       } else if (e.key === 'N' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         setShowNotes(prev => !prev);
+      } else if (e.key === 'S' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setShowSidebar(prev => !prev);
       } else if (e.key === 'P' && e.shiftKey && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         setIsPresentationMode(true);
@@ -98,18 +105,47 @@ export default function Index() {
         onStartPresenterView={() => setIsPresenterView(true)}
       />
 
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar */}
-        <Sidebar
-          slides={slides.map((slide) => ({
-            id: slide.id,
-            content: <slide.component />,
-          }))}
-          activeSlideIndex={activeSlideIndex}
-          onSlideClick={setActiveSlideIndex}
-          width={sidebarWidth}
-          onWidthChange={setSidebarWidth}
-        />
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Left Sidebar - always rendered, clipped when hidden */}
+        <div 
+          className="flex-shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
+          style={{ width: showSidebar ? sidebarWidth : 0 }}
+        >
+          <div style={{ width: sidebarWidth }}>
+            <Sidebar
+              slides={slides.map((slide) => ({
+                id: slide.id,
+                content: <slide.component />,
+              }))}
+              activeSlideIndex={activeSlideIndex}
+              onSlideClick={setActiveSlideIndex}
+              width={sidebarWidth}
+              onWidthChange={setSidebarWidth}
+            />
+          </div>
+        </div>
+
+        {/* Sidebar Toggle - morphed tab shape at sidebar edge */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => setShowSidebar(!showSidebar)}
+                className="absolute top-1.5 z-40 h-6 w-5 flex items-center justify-center bg-background border border-l-0 rounded-r-full shadow-sm hover:bg-muted transition-colors"
+                style={{ left: showSidebar ? sidebarWidth - 1 : 0 }}
+              >
+                {showSidebar ? (
+                  <ChevronsLeft className="h-3 w-3 text-muted-foreground" />
+                ) : (
+                  <ChevronsRight className="h-3 w-3 text-muted-foreground" />
+                )}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'} (⇧S)
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         {/* Main Canvas Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
