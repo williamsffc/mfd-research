@@ -56,8 +56,8 @@ export function Toolbar({
             </Tooltip>}
         </div>
 
-        {/* Right section - More options menu */}
-        <div className="flex items-center">
+        {/* Right section - More options menu (matches left section width for centering) */}
+        <div className="w-64 flex items-center justify-end flex-shrink-0 px-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
