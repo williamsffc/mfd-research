@@ -136,51 +136,60 @@
   }
 }
 
-/* === Typography Scale (Carbon-inspired) === */
+/* === Typography Scale for Slides (Larger for 1920x1080) === */
 @layer components {
-  /* Display - For hero slides */
+  /* Display - Hero headlines (96px+) */
   .type-display {
-    @apply text-7xl font-light tracking-tight leading-none;
+    @apply text-8xl font-light tracking-tight leading-none;
+    /* ~96px at 1920x1080 */
   }
   
-  /* Heading 1 - Section titles */
+  /* Heading 1 - Section titles (72px) */
   .type-h1 {
-    @apply text-5xl font-semibold tracking-tight leading-tight;
+    @apply text-6xl font-semibold tracking-tight leading-tight;
+    /* ~60px at 1920x1080 */
   }
   
-  /* Heading 2 - Slide titles */
+  /* Heading 2 - Slide titles (48px) */
   .type-h2 {
-    @apply text-3xl font-semibold leading-snug;
+    @apply text-4xl font-semibold leading-snug;
+    /* ~36px at 1920x1080 */
   }
   
-  /* Heading 3 - Card titles */
+  /* Heading 3 - Card titles (28px) */
   .type-h3 {
-    @apply text-xl font-medium leading-snug;
+    @apply text-2xl font-medium leading-snug;
+    /* ~24px at 1920x1080 */
   }
   
-  /* Body Large - Subtitles */
+  /* Body Large - Subtitles (24px) */
   .type-body-lg {
-    @apply text-lg font-light leading-relaxed;
+    @apply text-xl font-light leading-relaxed;
+    /* ~20px at 1920x1080 */
   }
   
-  /* Body - Default text */
+  /* Body - Default text (20px minimum) */
   .type-body {
-    @apply text-base font-normal leading-relaxed;
+    @apply text-lg font-normal leading-relaxed;
+    /* ~18px at 1920x1080 - minimum readable size */
   }
   
-  /* Body Small - Supporting text */
+  /* Body Small - Supporting text (18px minimum) */
   .type-body-sm {
-    @apply text-sm font-normal leading-relaxed;
+    @apply text-base font-normal leading-relaxed;
+    /* ~16px at 1920x1080 - absolute minimum */
   }
   
-  /* Label - Metadata, captions */
+  /* Label - Metadata, captions (16px) */
   .type-label {
-    @apply text-xs font-medium uppercase tracking-widest;
+    @apply text-sm font-medium uppercase tracking-widest;
+    /* ~14px at 1920x1080 */
   }
   
-  /* Metric - Large numbers */
+  /* Metric - Large numbers (56px) */
   .type-metric {
-    @apply text-4xl font-semibold tabular-nums;
+    @apply text-5xl font-semibold tabular-nums;
+    /* ~48px at 1920x1080 */
   }
   
   /* Code */
