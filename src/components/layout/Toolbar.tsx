@@ -30,7 +30,7 @@ export function Toolbar({
     <div className={cn('h-12 border-b bg-background flex items-center', className)}>
       {/* Left section - Logo */}
       <div className="flex items-center px-4">
-        <span className="text-sm font-semibold">Lovable Slides</span>
+        <span className="text-sm font-medium tracking-tight text-foreground">Lovable Slides</span>
       </div>
 
       {/* Spacer */}
