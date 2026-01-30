@@ -108,7 +108,7 @@ export default function Index() {
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar - always rendered, clipped when hidden */}
         <div 
-          className="flex-shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
+          className="flex-shrink-0 overflow-hidden transition-[width] duration-200 ease-out z-50"
           style={{ width: showSidebar ? sidebarWidth : 0 }}
         >
           <div style={{ width: sidebarWidth }}>
@@ -132,7 +132,7 @@ export default function Index() {
               <button
                 onClick={() => setShowSidebar(!showSidebar)}
                 className="absolute top-1.5 z-40 h-8 w-6 flex items-center justify-center bg-background border border-l-0 rounded-r-full shadow-sm hover:bg-muted transition-all duration-200 ease-out"
-                style={{ left: showSidebar ? sidebarWidth - 4 : -3 }}
+                style={{ left: showSidebar ? sidebarWidth - 6 : -5 }}
               >
                 {showSidebar ? (
                   <ChevronsLeft className="h-4 w-4 text-muted-foreground" />
