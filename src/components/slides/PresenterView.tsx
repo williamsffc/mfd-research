@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { 
   ChevronLeft, 
@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
 import { usePresenterNotes } from '@/hooks/usePresenterNotes';
+import { ScaledSlide } from './ScaledSlide';
 
 interface SlideInfo {
   id: string;
@@ -27,70 +28,6 @@ interface PresenterViewProps {
   activeIndex: number;
   onIndexChange: (index: number) => void;
   onExit: () => void;
-}
-
-const SLIDE_WIDTH = 1920;
-const SLIDE_HEIGHT = 1080;
-
-/**
- * Scaled slide preview component - handles the transform scaling properly
- */
-function ScaledSlide({ 
-  SlideComponent, 
-  fillContainer = false,
-}: { 
-  SlideComponent: React.ComponentType<any> | undefined;
-  fillContainer?: boolean;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.1);
-
-  useEffect(() => {
-    const updateScale = () => {
-      if (!containerRef.current) return;
-      const containerWidth = containerRef.current.offsetWidth;
-      if (containerWidth > 0) {
-        setScale(containerWidth / SLIDE_WIDTH);
-      }
-    };
-
-    // Use RAF to ensure layout is complete
-    requestAnimationFrame(updateScale);
-
-    const observer = new ResizeObserver(updateScale);
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  if (!SlideComponent) return null;
-
-  return (
-    <div 
-      ref={containerRef}
-      className={cn(
-        "relative bg-white rounded-lg shadow-xl overflow-hidden",
-        fillContainer ? "w-full" : ""
-      )}
-      style={{ aspectRatio: '16/9' }}
-    >
-      <div 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: SLIDE_WIDTH,
-          height: SLIDE_HEIGHT,
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-        }}
-      >
-        <SlideComponent />
-      </div>
-    </div>
-  );
 }
 
 export function PresenterView({
@@ -297,10 +234,7 @@ export function PresenterView({
             {/* Slide container */}
             <div className="w-full h-full flex items-center justify-center">
               <div className="w-full max-w-4xl">
-                <ScaledSlide 
-                  SlideComponent={CurrentSlide} 
-                  fillContainer
-                />
+                <ScaledSlide SlideComponent={CurrentSlide} />
               </div>
             </div>
           </div>

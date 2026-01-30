@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, createContext, useContext, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,12 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-// Context to share scale with child components
-const SlideScaleContext = createContext<number>(1);
+import { SLIDE_WIDTH, SLIDE_HEIGHT, useSlideScale, SlideScaleContext } from './ScaledSlide';
 
-export function useSlideScale() {
-  return useContext(SlideScaleContext);
-}
+// Re-export for backwards compatibility
+export { useSlideScale } from './ScaledSlide';
 
 interface SlideCanvasProps {
   children: React.ReactNode;
@@ -64,10 +62,6 @@ export function SlideCanvas({
   useEffect(() => {
     isHoveringZoomPillRef.current = isHoveringZoomPill;
   }, [isHoveringZoomPill]);
-
-  // Fixed internal resolution
-  const SLIDE_WIDTH = 1920;
-  const SLIDE_HEIGHT = 1080;
 
   // Clear any existing timeout
   const clearHideTimeout = useCallback(() => {
