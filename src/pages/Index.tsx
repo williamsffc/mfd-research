@@ -29,6 +29,7 @@ export default function Index() {
   const [isPresentationMode, setIsPresentationMode] = useState(false);
   const [isPresenterView, setIsPresenterView] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(256);
+  const [isResizing, setIsResizing] = useState(false);
   
   // Derive slides from showcaseSlides with deterministic IDs (for presenter notes persistence)
   // Using useMemo ensures this updates when showcaseSlides changes (including HMR)
@@ -111,8 +112,7 @@ export default function Index() {
           className="flex-shrink-0 overflow-hidden z-50"
           style={{ 
             width: showSidebar ? sidebarWidth : 0,
-            transition: 'width 200ms ease-out',
-            willChange: 'width'
+            transition: isResizing ? 'none' : 'width 200ms ease-out',
           }}
         >
           <div style={{ width: sidebarWidth }}>
@@ -125,6 +125,8 @@ export default function Index() {
               onSlideClick={setActiveSlideIndex}
               width={sidebarWidth}
               onWidthChange={setSidebarWidth}
+              onResizeStart={() => setIsResizing(true)}
+              onResizeEnd={() => setIsResizing(false)}
             />
           </div>
         </div>

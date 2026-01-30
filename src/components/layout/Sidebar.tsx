@@ -14,6 +14,8 @@ interface SidebarProps {
   onSlideClick: (index: number) => void;
   width: number;
   onWidthChange: (width: number) => void;
+  onResizeStart?: () => void;
+  onResizeEnd?: () => void;
   className?: string;
 }
 
@@ -23,6 +25,8 @@ export function Sidebar({
   onSlideClick,
   width,
   onWidthChange,
+  onResizeStart,
+  onResizeEnd,
   className,
 }: SidebarProps) {
   const [isResizing, setIsResizing] = useState(false);
@@ -31,6 +35,7 @@ export function Sidebar({
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     setIsResizing(true);
+    onResizeStart?.();
     
     const startX = e.clientX;
     const startWidth = width;
@@ -43,13 +48,14 @@ export function Sidebar({
     
     const handleMouseUp = () => {
       setIsResizing(false);
+      onResizeEnd?.();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
     
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  }, [width, onWidthChange]);
+  }, [width, onWidthChange, onResizeStart, onResizeEnd]);
 
   return (
     <div
