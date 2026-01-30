@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
 import { showcaseSlides } from '@/slides/showcase';
-import { WIPSlide } from '@/slides/WIPSlide';
-import { ScaledSlide, SLIDE_WIDTH, SLIDE_HEIGHT } from '@/components/slides/ScaledSlide';
+import { ScaledSlide } from '@/components/slides/ScaledSlide';
 
 interface SlideInfo {
   id: string;
   component: React.ComponentType<any>;
-  isWIP?: boolean;
-  description?: string;
 }
 
 // This component is rendered in the popup window for the audience
@@ -18,7 +15,6 @@ export default function AudienceWindow() {
     showcaseSlides.map((s, i) => ({
       id: `slide-${i}`,
       component: s.component,
-      isWIP: false,
     }))
   );
 
@@ -83,10 +79,7 @@ export default function AudienceWindow() {
     );
   }
 
-  // Use a wrapper component for WIP slides
-  const SlideContent = currentSlide.isWIP 
-    ? () => <WIPSlide description={currentSlide.description || ''} onDescriptionChange={() => {}} />
-    : currentSlide.component;
+  const SlideContent = currentSlide.component;
 
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
