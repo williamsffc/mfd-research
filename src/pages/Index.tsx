@@ -131,13 +131,13 @@ export default function Index() {
             <TooltipTrigger asChild>
               <button
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="absolute top-1.5 z-40 h-6 w-5 flex items-center justify-center bg-background border border-l-0 rounded-r-full shadow-sm hover:bg-muted transition-colors"
+                className="absolute top-1.5 z-40 h-8 w-6 flex items-center justify-center bg-background border border-l-0 rounded-r-full shadow-sm hover:bg-muted transition-all duration-200 ease-out"
                 style={{ left: showSidebar ? sidebarWidth - 1 : 0 }}
               >
                 {showSidebar ? (
-                  <ChevronsLeft className="h-3 w-3 text-muted-foreground" />
+                  <ChevronsLeft className="h-4 w-4 text-muted-foreground" />
                 ) : (
-                  <ChevronsRight className="h-3 w-3 text-muted-foreground" />
+                  <ChevronsRight className="h-4 w-4 text-muted-foreground" />
                 )}
               </button>
             </TooltipTrigger>
