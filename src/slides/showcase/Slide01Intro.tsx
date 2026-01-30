@@ -1,15 +1,15 @@
 import React from 'react';
 import { SlideLayout } from '@/components/slides/SlideLayout';
 import { Presentation, Sparkles, Zap, MousePointer2 } from 'lucide-react';
-
-const features = [
-  { icon: Sparkles, label: 'AI-Powered' },
-  { icon: MousePointer2, label: 'Interactive' },
-];
-
+const features = [{
+  icon: Sparkles,
+  label: 'AI-Powered'
+}, {
+  icon: MousePointer2,
+  label: 'Interactive'
+}];
 export default function Slide01Intro() {
-  return (
-    <SlideLayout variant="default">
+  return <SlideLayout variant="default">
       <div className="flex flex-col justify-center items-center h-full px-20 py-16 text-center">
         {/* Logo/Icon */}
         <div className="w-20 h-20 rounded-2xl bg-indigo-100 flex items-center justify-center mb-8 border border-indigo-200">
@@ -18,7 +18,7 @@ export default function Slide01Intro() {
         
         {/* Main title */}
         <h1 className="text-7xl font-bold tracking-tight text-slate-900 mb-4">
-          Slide<span className="text-indigo-600">Forge</span>
+          Lovable<span className="text-indigo-600">Slides</span>
         </h1>
         
         <p className="text-2xl text-slate-500 font-light max-w-2xl mb-12">
@@ -27,15 +27,10 @@ export default function Slide01Intro() {
         
         {/* Feature badges */}
         <div className="flex gap-4">
-          {features.map((feature, index) => (
-            <div 
-              key={index}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 border border-slate-200"
-            >
+          {features.map((feature, index) => <div key={index} className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 border border-slate-200">
               <feature.icon className="w-4 h-4 text-indigo-600" />
               <span className="text-sm font-medium text-slate-700">{feature.label}</span>
-            </div>
-          ))}
+            </div>)}
         </div>
         
         {/* Keyboard hint */}
@@ -45,6 +40,5 @@ export default function Slide01Intro() {
           </p>
         </div>
       </div>
-    </SlideLayout>
-  );
+    </SlideLayout>;
 }
