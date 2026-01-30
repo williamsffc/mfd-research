@@ -231,11 +231,9 @@ export function PresenterView({
               </span>
             </div>
             
-            {/* Slide container */}
+            {/* Slide container - use h-full to give ScaledSlide a measurable parent */}
             <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full max-w-4xl">
-                <ScaledSlide SlideComponent={CurrentSlide} />
-              </div>
+              <ScaledSlide SlideComponent={CurrentSlide} />
             </div>
           </div>
 
@@ -287,16 +285,18 @@ export function PresenterView({
           {/* Next slide preview */}
           <div className="bg-slide-gray-800 rounded-xl p-4 shrink-0 border border-slide-gray-700">
             <p className="text-xs font-medium text-slide-gray-400 mb-3">Up Next</p>
-            {NextSlide ? (
-              <ScaledSlide SlideComponent={NextSlide} />
-            ) : (
-              <div 
-                className="bg-slide-gray-700 rounded-lg flex items-center justify-center text-slide-gray-500 text-xs border border-slide-gray-600"
-                style={{ aspectRatio: '16/9' }}
-              >
-                End of presentation
-              </div>
-            )}
+            {/* Fixed height container for the next slide preview */}
+            <div className="h-36 flex items-center justify-center">
+              {NextSlide ? (
+                <ScaledSlide SlideComponent={NextSlide} />
+              ) : (
+                <div 
+                  className="bg-slide-gray-700 rounded-lg flex items-center justify-center text-slide-gray-500 text-xs border border-slide-gray-600 w-full h-full"
+                >
+                  End of presentation
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
