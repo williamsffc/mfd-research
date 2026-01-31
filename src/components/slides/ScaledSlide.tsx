@@ -104,7 +104,7 @@ export function ScaledSlide({
           height: dimensions.height || 'auto',
         }}
       >
-        {/* Outer frame: fixed dimensions, clips everything */}
+        {/* Outer frame: applies CSS transform for visual scaling */}
         <div 
           className={cn(
             "absolute top-0 left-0 rounded-lg shadow-xl",
@@ -116,14 +116,23 @@ export function ScaledSlide({
             height: SLIDE_HEIGHT,
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
-            overflow: 'hidden', // BULLETPROOF: nothing escapes
           }}
           onClick={onClick}
         >
-          {/* Inner content wrapper: also clips + isolates stacking context */}
+          {/* 
+            Inner content wrapper with CSS containment.
+            contain: strict isolates this subtree from transform effects,
+            so getBoundingClientRect() inside returns correct 1920x1080 values.
+          */}
           <div 
-            className="w-full h-full bg-white dark:bg-slate-900"
-            style={{ overflow: 'hidden' }}
+            className="bg-white dark:bg-slate-900"
+            style={{ 
+              width: SLIDE_WIDTH,
+              height: SLIDE_HEIGHT,
+              position: 'relative',
+              contain: 'strict',
+              overflow: 'hidden',
+            }}
           >
             {content}
           </div>
@@ -194,7 +203,7 @@ export function CenteredScaledSlide({
           containerClassName
         )}
       >
-        {/* Outer frame: fixed dimensions, clips everything */}
+        {/* Outer frame: applies CSS transform for visual scaling */}
         <div 
           className={cn(
             "slide-canvas relative shadow-2xl rounded-lg flex-shrink-0 isolate",
@@ -206,14 +215,25 @@ export function CenteredScaledSlide({
             height: SLIDE_HEIGHT,
             transform: `scale(${finalScale})`,
             transformOrigin: 'center center',
-            overflow: 'hidden', // BULLETPROOF: nothing escapes
           }}
           onClick={onClick}
         >
-          {/* Inner content wrapper: also clips + isolates stacking context */}
+          {/* 
+            Inner content wrapper with CSS containment.
+            contain: strict isolates this subtree from transform effects,
+            so getBoundingClientRect() inside returns correct 1920x1080 values.
+          */}
           <div 
-            className="absolute inset-0 bg-white dark:bg-slate-900"
-            style={{ overflow: 'hidden' }}
+            className="bg-white dark:bg-slate-900"
+            style={{ 
+              width: SLIDE_WIDTH,
+              height: SLIDE_HEIGHT,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              contain: 'strict',
+              overflow: 'hidden',
+            }}
           >
             {content}
           </div>
