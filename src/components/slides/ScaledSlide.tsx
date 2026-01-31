@@ -104,9 +104,10 @@ export function ScaledSlide({
           height: dimensions.height || 'auto',
         }}
       >
+        {/* Outer frame: fixed dimensions, clips everything */}
         <div 
           className={cn(
-            "absolute top-0 left-0 bg-white dark:bg-slate-900 rounded-lg shadow-xl overflow-hidden",
+            "absolute top-0 left-0 rounded-lg shadow-xl",
             showGrid && "grid-overlay",
             className
           )}
@@ -115,10 +116,17 @@ export function ScaledSlide({
             height: SLIDE_HEIGHT,
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
+            overflow: 'hidden', // BULLETPROOF: nothing escapes
           }}
           onClick={onClick}
         >
-          {content}
+          {/* Inner content wrapper: also clips + isolates stacking context */}
+          <div 
+            className="w-full h-full bg-white dark:bg-slate-900"
+            style={{ overflow: 'hidden' }}
+          >
+            {content}
+          </div>
         </div>
       </div>
     </SlideScaleContext.Provider>
@@ -186,9 +194,10 @@ export function CenteredScaledSlide({
           containerClassName
         )}
       >
+        {/* Outer frame: fixed dimensions, clips everything */}
         <div 
           className={cn(
-            "slide-canvas relative shadow-2xl rounded-lg overflow-hidden flex-shrink-0 isolate",
+            "slide-canvas relative shadow-2xl rounded-lg flex-shrink-0 isolate",
             showGrid && "grid-overlay",
             className
           )}
@@ -197,10 +206,15 @@ export function CenteredScaledSlide({
             height: SLIDE_HEIGHT,
             transform: `scale(${finalScale})`,
             transformOrigin: 'center center',
+            overflow: 'hidden', // BULLETPROOF: nothing escapes
           }}
           onClick={onClick}
         >
-          <div className="absolute inset-0 bg-white dark:bg-slate-900">
+          {/* Inner content wrapper: also clips + isolates stacking context */}
+          <div 
+            className="absolute inset-0 bg-white dark:bg-slate-900"
+            style={{ overflow: 'hidden' }}
+          >
             {content}
           </div>
         </div>
