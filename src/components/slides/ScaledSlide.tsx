@@ -104,10 +104,9 @@ export function ScaledSlide({
           height: dimensions.height || 'auto',
         }}
       >
-        {/* Outer frame: applies CSS transform for visual scaling */}
         <div 
           className={cn(
-            "absolute top-0 left-0 rounded-lg shadow-xl",
+            "absolute top-0 left-0 bg-white dark:bg-slate-900 rounded-lg shadow-xl overflow-hidden",
             showGrid && "grid-overlay",
             className
           )}
@@ -119,23 +118,7 @@ export function ScaledSlide({
           }}
           onClick={onClick}
         >
-          {/* 
-            Inner content wrapper with CSS containment.
-            contain: strict isolates this subtree from transform effects,
-            so getBoundingClientRect() inside returns correct 1920x1080 values.
-          */}
-          <div 
-            className="bg-white dark:bg-slate-900"
-            style={{ 
-              width: SLIDE_WIDTH,
-              height: SLIDE_HEIGHT,
-              position: 'relative',
-              contain: 'strict',
-              overflow: 'hidden',
-            }}
-          >
-            {content}
-          </div>
+          {content}
         </div>
       </div>
     </SlideScaleContext.Provider>
@@ -203,10 +186,9 @@ export function CenteredScaledSlide({
           containerClassName
         )}
       >
-        {/* Outer frame: applies CSS transform for visual scaling */}
         <div 
           className={cn(
-            "slide-canvas relative shadow-2xl rounded-lg flex-shrink-0 isolate",
+            "slide-canvas relative shadow-2xl rounded-lg overflow-hidden flex-shrink-0 isolate",
             showGrid && "grid-overlay",
             className
           )}
@@ -218,23 +200,7 @@ export function CenteredScaledSlide({
           }}
           onClick={onClick}
         >
-          {/* 
-            Inner content wrapper with CSS containment.
-            contain: strict isolates this subtree from transform effects,
-            so getBoundingClientRect() inside returns correct 1920x1080 values.
-          */}
-          <div 
-            className="bg-white dark:bg-slate-900"
-            style={{ 
-              width: SLIDE_WIDTH,
-              height: SLIDE_HEIGHT,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              contain: 'strict',
-              overflow: 'hidden',
-            }}
-          >
+          <div className="absolute inset-0 bg-white dark:bg-slate-900">
             {content}
           </div>
         </div>

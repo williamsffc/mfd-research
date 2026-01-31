@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { SLIDE_WIDTH, SLIDE_HEIGHT } from './ScaledSlide';
+import React, { useEffect, useCallback } from 'react';
+
 interface PresentationModeProps {
   slides: Array<{
     id: string;
@@ -97,9 +96,18 @@ export function PresentationMode({
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-      {/* Slide container - 16:9 aspect ratio with iframe */}
+      {/* Slide container - 16:9 aspect ratio */}
       <div className="relative w-full h-full flex items-center justify-center">
-        <PresentationIframeSlide SlideComponent={SlideComponent} />
+        <div
+          className="relative bg-white overflow-hidden"
+          style={{
+            width: 'min(100vw, 177.78vh)', // 16:9 width constraint
+            height: 'min(100vh, 56.25vw)', // 16:9 height constraint
+            aspectRatio: '16 / 9',
+          }}
+        >
+          <SlideComponent />
+        </div>
       </div>
 
       {/* Slide counter */}
@@ -112,97 +120,5 @@ export function PresentationMode({
         ← → to navigate • Esc or P to exit
       </div>
     </div>
-  );
-}
-
-/**
- * Fullscreen iframe slide for presentation mode.
- * Uses the viewport to calculate max scale while maintaining aspect ratio.
- */
-function PresentationIframeSlide({ SlideComponent }: { SlideComponent: React.ComponentType<any> }) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [scale, setScale] = useState(1);
-  const [iframeReady, setIframeReady] = useState(false);
-  const [iframeDocument, setIframeDocument] = useState<Document | null>(null);
-
-  // Calculate scale to fit viewport
-  useEffect(() => {
-    const updateScale = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const scaleX = vw / SLIDE_WIDTH;
-      const scaleY = vh / SLIDE_HEIGHT;
-      setScale(Math.min(scaleX, scaleY));
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
-
-  // Initialize iframe when it loads
-  const handleIframeLoad = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    const doc = iframe.contentDocument;
-    if (!doc) return;
-
-    // Copy all stylesheets from parent document to iframe
-    const parentStyles = document.querySelectorAll('style, link[rel="stylesheet"]');
-    parentStyles.forEach(style => {
-      const clone = style.cloneNode(true) as HTMLElement;
-      doc.head.appendChild(clone);
-    });
-
-    // Add base styles for the iframe body
-    const baseStyle = doc.createElement('style');
-    baseStyle.textContent = `
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: ${SLIDE_WIDTH}px;
-        height: ${SLIDE_HEIGHT}px;
-        overflow: hidden;
-        background: white;
-      }
-      #slide-root {
-        width: ${SLIDE_WIDTH}px;
-        height: ${SLIDE_HEIGHT}px;
-        overflow: hidden;
-        position: relative;
-      }
-    `;
-    doc.head.appendChild(baseStyle);
-
-    // Create root element for React portal
-    let root = doc.getElementById('slide-root');
-    if (!root) {
-      root = doc.createElement('div');
-      root.id = 'slide-root';
-      doc.body.appendChild(root);
-    }
-
-    setIframeDocument(doc);
-    setIframeReady(true);
-  }, []);
-
-  const portalRoot = iframeDocument?.getElementById('slide-root');
-
-  return (
-    <iframe
-      ref={iframeRef}
-      onLoad={handleIframeLoad}
-      title="Presentation Slide"
-      className="border-0"
-      style={{
-        width: SLIDE_WIDTH,
-        height: SLIDE_HEIGHT,
-        transform: `scale(${scale})`,
-        transformOrigin: 'center center',
-      }}
-    >
-      {iframeReady && portalRoot && ReactDOM.createPortal(<SlideComponent />, portalRoot)}
-    </iframe>
   );
 }

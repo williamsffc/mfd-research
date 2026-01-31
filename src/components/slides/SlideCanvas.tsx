@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import ReactDOM from 'react-dom';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { SLIDE_WIDTH, SLIDE_HEIGHT, SlideScaleContext } from './ScaledSlide';
+import { SLIDE_WIDTH, SLIDE_HEIGHT, useSlideScale, SlideScaleContext } from './ScaledSlide';
 
 // Re-export for backwards compatibility
 export { useSlideScale } from './ScaledSlide';
@@ -34,109 +33,6 @@ interface SlideCanvasProps {
 
 const ZOOM_LEVELS = [50, 75, 100, 125, 150];
 const HIDE_DELAY = 500; // 0.5 seconds
-
-/**
- * Iframe-based slide renderer for bulletproof scaling.
- * 
- * The slide content renders inside an iframe with a fixed 1920×1080 viewport.
- * The iframe element is scaled with CSS transform.
- * This means NOTHING inside the slide can detect the scale -
- * getBoundingClientRect(), ResizeObserver, etc. all see 1920×1080.
- * 
- * It's like zooming in on a PNG - pure visual scaling.
- */
-interface IframeSlideProps {
-  children: React.ReactNode;
-  scale: number;
-  showGrid?: boolean;
-  className?: string;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-}
-
-function IframeSlide({ children, scale, showGrid, className, onClick }: IframeSlideProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeReady, setIframeReady] = useState(false);
-  const [iframeDocument, setIframeDocument] = useState<Document | null>(null);
-
-  // Initialize iframe when it loads
-  const handleIframeLoad = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    const doc = iframe.contentDocument;
-    if (!doc) return;
-
-    // Copy all stylesheets from parent document to iframe
-    const parentStyles = document.querySelectorAll('style, link[rel="stylesheet"]');
-    parentStyles.forEach(style => {
-      const clone = style.cloneNode(true) as HTMLElement;
-      doc.head.appendChild(clone);
-    });
-
-    // Add base styles for the iframe body
-    const baseStyle = doc.createElement('style');
-    baseStyle.textContent = `
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: ${SLIDE_WIDTH}px;
-        height: ${SLIDE_HEIGHT}px;
-        overflow: hidden;
-        background: white;
-      }
-      #slide-root {
-        width: ${SLIDE_WIDTH}px;
-        height: ${SLIDE_HEIGHT}px;
-        overflow: hidden;
-        position: relative;
-      }
-    `;
-    doc.head.appendChild(baseStyle);
-
-    // Create root element for React portal
-    let root = doc.getElementById('slide-root');
-    if (!root) {
-      root = doc.createElement('div');
-      root.id = 'slide-root';
-      doc.body.appendChild(root);
-    }
-
-    setIframeDocument(doc);
-    setIframeReady(true);
-  }, []);
-
-  const portalRoot = iframeDocument?.getElementById('slide-root');
-
-  return (
-    <div 
-      className="relative flex-shrink-0"
-      style={{
-        width: SLIDE_WIDTH * scale,
-        height: SLIDE_HEIGHT * scale,
-      }}
-    >
-      <iframe
-        ref={iframeRef}
-        onLoad={handleIframeLoad}
-        title="Slide Content"
-        className={cn(
-          "slide-canvas border-0 shadow-2xl rounded-lg",
-          showGrid && 'grid-overlay',
-          className
-        )}
-        style={{
-          width: SLIDE_WIDTH,
-          height: SLIDE_HEIGHT,
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-          pointerEvents: 'auto',
-        }}
-      />
-      {iframeReady && portalRoot && ReactDOM.createPortal(children, portalRoot)}
-    </div>
-  );
-}
-
 
 export function SlideCanvas({
   children,
@@ -350,19 +246,31 @@ export function SlideCanvas({
           </TooltipProvider>
         )}
 
-        {/* Scrollable slide area with iframe-based rendering */}
+        {/* Scrollable slide area */}
         <div 
           ref={containerRef}
           className="flex-1 flex items-center justify-center p-8 overflow-hidden"
         >
-          <IframeSlide
-            scale={finalScale}
-            showGrid={showGrid}
-            className={className}
+          {/* Slide */}
+          <div
+            className={cn(
+              'slide-canvas relative shadow-2xl rounded-lg overflow-hidden flex-shrink-0 isolate',
+              showGrid && 'grid-overlay',
+              className
+            )}
+            style={{
+              width: SLIDE_WIDTH,
+              height: SLIDE_HEIGHT,
+              transform: `scale(${finalScale})`,
+              transformOrigin: 'center center',
+            }}
             onClick={onClick}
           >
-            {children}
-          </IframeSlide>
+            {/* Fixed 1920x1080 slide content - fully opaque background to prevent bleed-through */}
+            <div className="absolute inset-0 bg-background">
+              {children}
+            </div>
+          </div>
         </div>
 
         {/* Bottom navigation controls */}

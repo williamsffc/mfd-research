@@ -205,7 +205,7 @@ export default function Slide02InteractiveChart() {
           </div>
 
           {/* Right: Controls & Metrics Panel (33%) */}
-          <div className="w-1/3 flex flex-col gap-4 overflow-hidden">
+          <div className="w-1/3 flex flex-col gap-4 overflow-y-auto">
             {/* Curve Controls */}
             <div className="bg-white border border-slate-200 rounded-xl p-5">
               <h3 className="text-xs font-semibold text-slate-700 mb-4 uppercase tracking-wide">

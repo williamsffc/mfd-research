@@ -14,7 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
 import { usePresenterNotes } from '@/hooks/usePresenterNotes';
-import { IframeSlide } from './IframeSlide';
+import { ScaledSlide } from './ScaledSlide';
 
 interface SlideInfo {
   id: string;
@@ -233,7 +233,7 @@ export function PresenterView({
             
             {/* Slide container - use h-full to give ScaledSlide a measurable parent */}
             <div className="w-full h-full flex items-center justify-center">
-              <IframeSlide SlideComponent={CurrentSlide} />
+              <ScaledSlide SlideComponent={CurrentSlide} />
             </div>
           </div>
 
@@ -288,7 +288,7 @@ export function PresenterView({
             {/* Fixed height container for the next slide preview */}
             <div className="h-36 flex items-center justify-center">
               {NextSlide ? (
-                <IframeSlide SlideComponent={NextSlide} />
+                <ScaledSlide SlideComponent={NextSlide} />
               ) : (
                 <div 
                   className="bg-slide-gray-700 rounded-lg flex items-center justify-center text-slide-gray-500 text-xs border border-slide-gray-600 w-full h-full"
