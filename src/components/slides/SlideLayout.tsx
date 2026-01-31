@@ -8,20 +8,18 @@ interface SlideLayoutProps {
 }
 
 export function SlideLayout({ children, variant = 'default', className }: SlideLayoutProps) {
-  const isDark = variant === 'dark' || variant === 'gradient';
-  
   return (
     <div 
       className={cn(
-        'w-full h-full relative font-sans',
+        'w-full h-full relative font-sans overflow-hidden',
         variant === 'default' && 'bg-white text-slate-900',
         variant === 'dark' && 'bg-slate-900 text-white',
         variant === 'gradient' && 'bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white',
         className
       )}
     >
-      {/* Content */}
-      <div className="w-full h-full">
+      {/* Content - overflow-hidden prevents internal scrolling at any scale */}
+      <div className="w-full h-full overflow-hidden">
         {children}
       </div>
       
