@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
 import { showcaseSlides } from '@/slides/showcase';
-import { ScaledSlide } from '@/components/slides/ScaledSlide';
+import { IframeSlide } from '@/components/slides/IframeSlide';
 
 interface SlideInfo {
   id: string;
@@ -83,7 +83,7 @@ export default function AudienceWindow() {
 
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
-      <ScaledSlide SlideComponent={SlideContent} />
+      <IframeSlide SlideComponent={SlideContent} />
     </div>
   );
 }
