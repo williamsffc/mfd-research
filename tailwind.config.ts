@@ -25,6 +25,22 @@ export default {
         // Legacy alias
         ms: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
+      // Slide-optimized font scale (1.25x proportional scale-up, 20px floor)
+      fontSize: {
+        'xs': ['20px', { lineHeight: '1.5' }],      // was 12px → 20px (floor)
+        'sm': ['20px', { lineHeight: '1.5' }],      // was 14px → 20px (floor)
+        'base': ['20px', { lineHeight: '1.6' }],    // was 16px → 20px (floor)
+        'lg': ['22px', { lineHeight: '1.6' }],      // was 18px → 22px
+        'xl': ['24px', { lineHeight: '1.5' }],      // was 20px → 24px
+        '2xl': ['28px', { lineHeight: '1.4' }],     // was 24px → 28px
+        '3xl': ['36px', { lineHeight: '1.35' }],    // was 30px → 36px
+        '4xl': ['44px', { lineHeight: '1.25' }],    // was 36px → 44px
+        '5xl': ['56px', { lineHeight: '1.2' }],     // was 48px → 56px
+        '6xl': ['72px', { lineHeight: '1.1' }],     // was 60px → 72px
+        '7xl': ['88px', { lineHeight: '1.05' }],    // was 72px → 88px
+        '8xl': ['112px', { lineHeight: '1' }],      // was 96px → 112px
+        '9xl': ['144px', { lineHeight: '1' }],      // was 128px → 144px
+      },
       colors: {
         // Slide Design System - Clean, accessible tokens
         slide: {
