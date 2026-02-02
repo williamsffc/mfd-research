@@ -21,7 +21,7 @@ export function MSSlideLayout({ children, variant = 'default', className }: MSSl
   return (
     <div 
       className={cn(
-        'w-full h-full relative font-sans',
+        'w-full h-full relative font-sans slide-content',
         isDark 
           ? 'bg-slide-primary text-white' 
           : 'bg-white text-slide-gray-900',
