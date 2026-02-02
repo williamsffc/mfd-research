@@ -206,17 +206,27 @@
 .slide-canvas {
   aspect-ratio: 16 / 9;
   background: hsl(var(--slide-bg));
-  
-  /* Enforce minimum font size on all slide content */
-  font-size: 16px; /* Base minimum */
 }
 
-/* Prevent tiny text in slides - override any text-xs/text-sm */
-.slide-canvas .text-xs,
-.slide-canvas .text-sm {
-  font-size: 16px !important;
-  line-height: 1.5 !important;
+/* === Slide Font Scaling (1.25x scale, 20px floor) ===
+   Applied only within slide content, not app UI */
+.slide-content {
+  /* Scale up all text proportionally for 1920x1080 projection */
 }
+
+.slide-content .text-xs { font-size: 20px !important; line-height: 1.5 !important; }
+.slide-content .text-sm { font-size: 20px !important; line-height: 1.5 !important; }
+.slide-content .text-base { font-size: 20px !important; line-height: 1.6 !important; }
+.slide-content .text-lg { font-size: 22px !important; line-height: 1.6 !important; }
+.slide-content .text-xl { font-size: 24px !important; line-height: 1.5 !important; }
+.slide-content .text-2xl { font-size: 28px !important; line-height: 1.4 !important; }
+.slide-content .text-3xl { font-size: 36px !important; line-height: 1.35 !important; }
+.slide-content .text-4xl { font-size: 44px !important; line-height: 1.25 !important; }
+.slide-content .text-5xl { font-size: 56px !important; line-height: 1.2 !important; }
+.slide-content .text-6xl { font-size: 72px !important; line-height: 1.1 !important; }
+.slide-content .text-7xl { font-size: 88px !important; line-height: 1.05 !important; }
+.slide-content .text-8xl { font-size: 112px !important; line-height: 1 !important; }
+.slide-content .text-9xl { font-size: 144px !important; line-height: 1 !important; }
 
 /* Grid overlay */
 .grid-overlay {
