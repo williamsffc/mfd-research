@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { SlideLayout } from '@/components/slides/SlideLayout';
-import { Clock, Video, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, Clock, Video, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
 const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
-
 const getDaysInMonth = () => {
   const days: (number | null)[] = [];
   const today = new Date();
@@ -13,66 +11,68 @@ const getDaysInMonth = () => {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
 
+  // Add empty slots for days before the 1st
   for (let i = 0; i < firstDay; i++) {
     days.push(null);
   }
   for (let i = 1; i <= daysInMonth; i++) {
     days.push(i);
   }
+
+  // Pad to complete the last week
   while (days.length % 7 !== 0) {
     days.push(null);
   }
   return days;
 };
-
 export default function Slide04CalendarBooking() {
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [isBooked, setIsBooked] = useState(false);
   const days = getDaysInMonth();
   const today = new Date().getDate();
-  const monthName = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
-
+  const monthName = new Date().toLocaleString('default', {
+    month: 'long',
+    year: 'numeric'
+  });
   const handleBook = () => {
     if (selectedDate && selectedTime) {
       setIsBooked(true);
     }
   };
-
   if (isBooked) {
-    return (
-      <SlideLayout variant="default">
+    return <SlideLayout variant="default">
         <div className="flex flex-col justify-center items-center h-full px-20 py-16 text-center">
-          <div className="w-20 h-20 rounded-full bg-slide-success/20 flex items-center justify-center mb-6">
-            <Check className="w-10 h-10 text-slide-success" strokeWidth={2} />
+          <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
+            <Check className="w-10 h-10 text-green-600" strokeWidth={2} />
           </div>
-          <h2 className="type-h2 text-slide-gray-900 mb-4">Demo Booked!</h2>
-          <p className="type-body text-slide-gray-600 mb-8">
+          <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            Demo Booked!
+          </h2>
+          <p className="text-xl text-slate-600 mb-8">
             {monthName.split(' ')[0]} {selectedDate} at {selectedTime}
           </p>
-          <button
-            onClick={() => {
-              setIsBooked(false);
-              setSelectedDate(null);
-              setSelectedTime(null);
-            }}
-            className="px-6 py-3 rounded-xl bg-slide-primary text-white type-body font-medium hover:opacity-90 transition-opacity"
-          >
+          <button onClick={() => {
+          setIsBooked(false);
+          setSelectedDate(null);
+          setSelectedTime(null);
+        }} className="px-6 py-3 rounded-xl bg-slate-900 text-white font-medium hover:bg-slate-800 transition-colors">
             Book Another
           </button>
         </div>
-      </SlideLayout>
-    );
+      </SlideLayout>;
   }
-
-  return (
-    <SlideLayout variant="default">
+  return <SlideLayout variant="default">
       <div className="flex flex-col h-full px-20 py-16">
         {/* Header */}
         <div className="mb-8">
-          <p className="type-label text-slide-accent mb-2">Schedule a Demo</p>
-          <h2 className="type-h2 text-slide-gray-900 mb-2">Forms and Booking Flows</h2>
-          <p className="type-body text-slide-gray-500">
+          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
+            Schedule a Demo
+          </p>
+          <h2 className="text-4xl font-bold text-slate-900 mb-2">
+            ​Forms and booking flows    
+          </h2>
+          <p className="text-lg text-slate-500 font-light">
             Interactive calendar component — try selecting a date and time
           </p>
         </div>
@@ -80,91 +80,53 @@ export default function Slide04CalendarBooking() {
         {/* Calendar layout */}
         <div className="flex-1 flex gap-8">
           {/* Calendar */}
-          <div className="flex-1 bg-slide-gray-100 rounded-2xl p-6 border border-slide-gray-200">
+          <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
             {/* Month header */}
             <div className="flex items-center justify-between mb-6">
-              <button className="p-2 hover:bg-slide-gray-200 rounded-lg transition-colors">
-                <ChevronLeft className="w-5 h-5 text-slide-gray-600" />
+              <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                <ChevronLeft className="w-5 h-5 text-slate-600" />
               </button>
-              <h3 className="type-body font-semibold text-slide-gray-900">{monthName}</h3>
-              <button className="p-2 hover:bg-slide-gray-200 rounded-lg transition-colors">
-                <ChevronRight className="w-5 h-5 text-slide-gray-600" />
+              <h3 className="text-lg font-semibold text-slate-900">{monthName}</h3>
+              <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                <ChevronRight className="w-5 h-5 text-slate-600" />
               </button>
             </div>
 
             {/* Day headers */}
             <div className="grid grid-cols-7 gap-1 mb-2">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                <div key={day} className="text-center type-caption font-medium text-slide-gray-400 py-2">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} className="text-center text-xs font-medium text-slate-400 py-2">
                   {day}
-                </div>
-              ))}
+                </div>)}
             </div>
 
             {/* Days grid */}
             <div className="grid grid-cols-7 gap-2">
-              {days.map((day, index) => (
-                <button
-                  key={index}
-                  disabled={day === null || day < today}
-                  onClick={() => day && day >= today && setSelectedDate(day)}
-                  className={cn(
-                    "h-12 w-full rounded-lg type-body font-medium transition-all flex items-center justify-center",
-                    day === null && "invisible",
-                    day !== null && day < today && "text-slide-gray-300 cursor-not-allowed",
-                    day !== null && day >= today && "hover:bg-slide-accent-muted text-slide-gray-700 cursor-pointer",
-                    day === today && "ring-2 ring-slide-accent ring-offset-2",
-                    selectedDate === day && day !== null && "bg-slide-accent text-white hover:bg-slide-accent"
-                  )}
-                >
+              {days.map((day, index) => <button key={index} disabled={day === null || day < today} onClick={() => day && day >= today && setSelectedDate(day)} className={cn("h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center", day === null && "invisible", day !== null && day < today && "text-slate-300 cursor-not-allowed", day !== null && day >= today && "hover:bg-indigo-100 text-slate-700 cursor-pointer", day === today && "ring-2 ring-indigo-500 ring-offset-2", selectedDate === day && day !== null && "bg-indigo-600 text-white hover:bg-indigo-700")}>
                   {day}
-                </button>
-              ))}
+                </button>)}
             </div>
           </div>
 
           {/* Time slots */}
           <div className="w-64 flex flex-col">
             <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-5 h-5 text-slide-gray-400" />
-              <span className="type-caption font-medium text-slide-gray-600">Available Times</span>
+              <Clock className="w-5 h-5 text-slate-400" />
+              <span className="text-sm font-medium text-slate-600">Available Times</span>
             </div>
 
             <div className="flex-1 space-y-2 overflow-y-auto">
-              {timeSlots.map(time => (
-                <button
-                  key={time}
-                  onClick={() => setSelectedTime(time)}
-                  disabled={!selectedDate}
-                  className={cn(
-                    "w-full py-3 px-4 rounded-xl type-caption font-medium transition-all",
-                    !selectedDate && "bg-slide-gray-100 text-slide-gray-400 cursor-not-allowed",
-                    selectedDate && "bg-slide-gray-100 hover:bg-slide-accent-muted text-slide-gray-700",
-                    selectedTime === time && "bg-slide-accent text-white hover:bg-slide-accent"
-                  )}
-                >
+              {timeSlots.map(time => <button key={time} onClick={() => setSelectedTime(time)} disabled={!selectedDate} className={cn("w-full py-3 px-4 rounded-xl text-sm font-medium transition-all", !selectedDate && "bg-slate-100 text-slate-400 cursor-not-allowed", selectedDate && "bg-slate-100 hover:bg-indigo-100 text-slate-700", selectedTime === time && "bg-indigo-600 text-white hover:bg-indigo-700")}>
                   {time}
-                </button>
-              ))}
+                </button>)}
             </div>
 
             {/* Book button */}
-            <button
-              onClick={handleBook}
-              disabled={!selectedDate || !selectedTime}
-              className={cn(
-                "mt-4 w-full py-4 rounded-xl type-body font-semibold flex items-center justify-center gap-2 transition-all",
-                selectedDate && selectedTime
-                  ? "bg-slide-accent text-white hover:opacity-90"
-                  : "bg-slide-gray-200 text-slide-gray-400 cursor-not-allowed"
-              )}
-            >
+            <button onClick={handleBook} disabled={!selectedDate || !selectedTime} className={cn("mt-4 w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all", selectedDate && selectedTime ? "bg-indigo-600 text-white hover:bg-indigo-700" : "bg-slate-200 text-slate-400 cursor-not-allowed")}>
               <Video className="w-5 h-5" />
               Confirm Booking
             </button>
           </div>
         </div>
       </div>
-    </SlideLayout>
-  );
+    </SlideLayout>;
 }
