@@ -35,7 +35,7 @@ export default function Slide15TypographyDemo() {
             </div>
             
             <div className="border-b border-slide-gray-200 pb-3">
-              <span className="type-caption text-slide-accent font-mono">type-h3 · 28px</span>
+              <span className="type-caption text-slide-accent font-mono">type-h3 · 32px</span>
               <p className="type-h3 text-slide-gray-900 leading-snug mt-1">Heading Three</p>
             </div>
           </div>
@@ -48,24 +48,24 @@ export default function Slide15TypographyDemo() {
             </div>
             
             <div className="border-b border-slide-gray-200 pb-3">
-              <span className="type-caption text-slide-accent font-mono">type-body-lg · 24px</span>
-              <p className="type-body-lg text-slide-gray-900 mt-1">Body Large for subtitles and callouts</p>
+              <span className="type-caption text-slide-accent font-mono">type-body-lg · 28px</span>
+              <p className="type-body-lg text-slide-gray-900 mt-1">Body Large for subtitles</p>
             </div>
             
             <div className="border-b border-slide-gray-200 pb-3">
-              <span className="type-caption text-slide-accent font-mono">type-body · 20px (default)</span>
-              <p className="type-body text-slide-gray-900 mt-1">Body — the standard size for all content</p>
+              <span className="type-caption text-slide-accent font-mono">type-body · 24px (default)</span>
+              <p className="type-body text-slide-gray-900 mt-1">Body — standard content size</p>
             </div>
             
             <div className="border-b border-slide-gray-200 pb-3">
-              <span className="type-caption text-slide-accent font-mono">type-caption · 18px (minimum!)</span>
-              <p className="type-caption text-slide-gray-900 mt-1">Caption — smallest allowed. Use sparingly.</p>
+              <span className="type-caption text-slide-accent font-mono">type-caption · 20px (minimum!)</span>
+              <p className="type-caption text-slide-gray-900 mt-1">Caption — smallest allowed</p>
             </div>
 
             {/* Warning box */}
             <div className="bg-slide-error/10 border-2 border-slide-error/50 rounded-lg p-5">
-              <p className="type-body font-semibold text-slide-error">⚠️ Nothing smaller than 18px!</p>
-              <p className="type-caption text-slide-error/80 mt-1">Projected slides need readable text.</p>
+              <p className="type-body font-semibold text-slide-error">⚠️ Nothing smaller than 20px!</p>
+              <p className="type-caption text-slide-error/80 mt-1">Minimum for projected readability.</p>
             </div>
           </div>
         </div>
