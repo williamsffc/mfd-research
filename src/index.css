@@ -274,13 +274,6 @@
   line-height: 1.5 !important;
 }
 
-/* DEV WARNING: Red outline on forbidden classes (remove in prod) */
-.slide-canvas .text-xs,
-.slide-canvas .text-sm {
-  outline: 2px dashed hsl(var(--slide-error)) !important;
-  outline-offset: 2px;
-}
-
 /* Grid overlay */
 .grid-overlay {
   background-image: 
