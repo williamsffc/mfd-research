@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { ScaledSlide } from './ScaledSlide';
 
 interface PresentationModeProps {
   slides: Array<{
@@ -96,18 +97,9 @@ export function PresentationMode({
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-      {/* Slide container - 16:9 aspect ratio */}
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div
-          className="relative bg-white overflow-hidden"
-          style={{
-            width: 'min(100vw, 177.78vh)', // 16:9 width constraint
-            height: 'min(100vh, 56.25vw)', // 16:9 height constraint
-            aspectRatio: '16 / 9',
-          }}
-        >
-          <SlideComponent />
-        </div>
+      {/* Slide container - fills the screen, ScaledSlide handles 16:9 scaling */}
+      <div className="w-full h-full flex items-center justify-center">
+        <ScaledSlide SlideComponent={SlideComponent} />
       </div>
 
       {/* Slide counter */}
