@@ -22,9 +22,9 @@ const metrics = [
 export default function Slide02DataViz() {
   const getTrendIcon = (trend: string) => {
     switch(trend) {
-      case 'up': return <TrendingUp className="w-4 h-4 text-green-500" />;
-      case 'down': return <TrendingDown className="w-4 h-4 text-red-500" />;
-      default: return <Minus className="w-4 h-4 text-ms-blue" />;
+      case 'up': return <TrendingUp className="w-5 h-5 text-slide-success" />;
+      case 'down': return <TrendingDown className="w-5 h-5 text-slide-error" />;
+      default: return <Minus className="w-5 h-5 text-slide-accent" />;
     }
   };
 
@@ -33,10 +33,10 @@ export default function Slide02DataViz() {
       <div className="flex flex-col h-full px-20 py-16">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-semibold text-ms-navy mb-2">
+          <h2 className="type-h2 text-slide-gray-900 mb-2">
             Portfolio Performance
           </h2>
-          <p className="text-lg text-ms-navy-80 font-light">
+          <p className="type-body-lg text-slide-gray-600">
             Cumulative returns indexed to 100
           </p>
         </div>
@@ -44,13 +44,13 @@ export default function Slide02DataViz() {
         {/* Metrics row */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {metrics.map((metric, index) => (
-            <div key={index} className="bg-ms-blue-20/50 rounded-sm p-4">
+            <div key={index} className="slide-metric-card">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-ms-navy-80">{metric.label}</span>
+                <span className="type-body-sm text-slide-gray-600">{metric.label}</span>
                 {getTrendIcon(metric.trend)}
               </div>
-              <p className="text-2xl font-semibold text-ms-navy">{metric.value}</p>
-              <p className="text-xs text-ms-navy-80">{metric.period}</p>
+              <p className="type-metric text-slide-gray-900">{metric.value}</p>
+              <p className="type-body-sm text-slide-gray-600">{metric.period}</p>
             </div>
           ))}
         </div>
@@ -61,34 +61,35 @@ export default function Slide02DataViz() {
             <AreaChart data={data} margin={{ top: 20, right: 40, bottom: 20, left: 40 }}>
               <defs>
                 <linearGradient id="msBlueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#187ABA" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#187ABA" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="hsl(var(--slide-accent))" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(var(--slide-accent))" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <XAxis 
                 dataKey="year" 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#002B51', fontSize: 14 }}
+                tick={{ fill: 'hsl(var(--slide-gray-900))', fontSize: 16 }}
               />
               <YAxis 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#002B51', fontSize: 14 }}
+                tick={{ fill: 'hsl(var(--slide-gray-900))', fontSize: 16 }}
                 domain={[80, 200]}
               />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: '#002B51', 
+                  backgroundColor: 'hsl(var(--slide-primary))', 
                   border: 'none',
                   borderRadius: '4px',
-                  color: 'white'
+                  color: 'white',
+                  fontSize: 16
                 }}
               />
               <Area 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#187ABA" 
+                stroke="hsl(var(--slide-accent))" 
                 strokeWidth={3}
                 fill="url(#msBlueGradient)" 
               />
@@ -97,7 +98,7 @@ export default function Slide02DataViz() {
         </div>
         
         {/* Footer note */}
-        <p className="text-xs text-ms-navy-80 mt-4">
+        <p className="type-body-sm text-slide-gray-500 mt-4">
           Source: Morgan Stanley Research. E = Estimate. Past performance is not indicative of future results.
         </p>
       </div>
