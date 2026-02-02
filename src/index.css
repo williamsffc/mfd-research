@@ -263,14 +263,22 @@
   background: hsl(var(--slide-bg));
   
   /* Enforce minimum font size on all slide content */
-  font-size: 16px; /* Base minimum */
+  font-size: 20px; /* Base minimum */
 }
 
-/* Prevent tiny text in slides - override any text-xs/text-sm */
+/* BULLETPROOF: Force forbidden small text classes to minimum size */
+.slide-canvas .text-xs,
+.slide-canvas .text-sm,
+.slide-canvas .text-base {
+  font-size: 1.25rem !important; /* 20px minimum */
+  line-height: 1.5 !important;
+}
+
+/* DEV WARNING: Red outline on forbidden classes (remove in prod) */
 .slide-canvas .text-xs,
 .slide-canvas .text-sm {
-  font-size: 16px !important;
-  line-height: 1.5 !important;
+  outline: 2px dashed hsl(var(--slide-error)) !important;
+  outline-offset: 2px;
 }
 
 /* Grid overlay */
