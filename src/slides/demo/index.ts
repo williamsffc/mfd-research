@@ -12,6 +12,7 @@ import Slide11OrderingProcess from './Slide11OrderingProcess';
 import Slide12ExecutiveSummary from './Slide12ExecutiveSummary';
 import Slide13ThreeProngedStrategy from './Slide13ThreeProngedStrategy';
 import Slide14Heatmap from './Slide14Heatmap';
+import Slide15TypographyDemo from './Slide15TypographyDemo';
 
 export const demoSlides = [
   { component: Slide01Title, name: 'Title', template: 'title' },
@@ -28,4 +29,5 @@ export const demoSlides = [
   { component: Slide12ExecutiveSummary, name: 'Executive Summary', template: 'two-column' },
   { component: Slide13ThreeProngedStrategy, name: 'Three-Pronged Strategy', template: 'two-column' },
   { component: Slide14Heatmap, name: 'AI Adoption Heatmap', template: 'data-story' },
+  { component: Slide15TypographyDemo, name: 'Typography Scale', template: 'blank' },
 ];
