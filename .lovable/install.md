@@ -24,7 +24,6 @@ Copy these files to replicate the project (excluding demo slides and boilerplate
 - `src/components/slides/FloatingMenu.tsx`
 - `src/components/slides/SlideOverviewGrid.tsx`
 - `src/components/slides/TemplatePicker.tsx`
-- `src/components/slides/SlideText.tsx`
 
 ### Hooks
 - `src/hooks/usePresenterNotes.ts`

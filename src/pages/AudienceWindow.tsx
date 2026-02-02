@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePresenterSync } from '@/hooks/usePresenterSync';
-import { demoSlides } from '@/slides/demo';
+import { showcaseSlides } from '@/slides/showcase';
 import { ScaledSlide } from '@/components/slides/ScaledSlide';
 
 interface SlideInfo {
@@ -12,7 +12,7 @@ interface SlideInfo {
 export default function AudienceWindow() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slides] = useState<SlideInfo[]>(() =>
-    demoSlides.map((s, i) => ({
+    showcaseSlides.map((s, i) => ({
       id: `slide-${i}`,
       component: s.component,
     }))
