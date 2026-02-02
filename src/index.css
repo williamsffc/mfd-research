@@ -255,6 +255,16 @@
 .slide-canvas {
   aspect-ratio: 16 / 9;
   background: hsl(var(--slide-bg));
+  
+  /* Enforce minimum font size on all slide content */
+  font-size: 16px; /* Base minimum */
+}
+
+/* Prevent tiny text in slides - override any text-xs/text-sm */
+.slide-canvas .text-xs,
+.slide-canvas .text-sm {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
 }
 
 /* Grid overlay */
