@@ -9,7 +9,7 @@ import { PresenterView } from '@/components/slides/PresenterView';
 import { PresenterNotesPanel } from '@/components/slides/PresenterNotesPanel';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { demoSlides } from '@/slides/demo';
+import { showcaseSlides } from '@/slides/showcase';
 
 interface SlideData {
   id: string;
@@ -31,17 +31,16 @@ export default function Index() {
   const [sidebarWidth, setSidebarWidth] = useState(256);
   const [isResizing, setIsResizing] = useState(false);
   
-  // Derive slides from demoSlides with deterministic IDs (for presenter notes persistence)
-  // Using useMemo ensures this updates when demoSlides changes (including HMR)
+  // Derive slides from showcaseSlides with deterministic IDs (for presenter notes persistence)
   const slides = React.useMemo<SlideData[]>(() => 
-    demoSlides.map((s) => ({
+    showcaseSlides.map((s) => ({
       id: `slide-${s.name.toLowerCase().replace(/\s+/g, '-')}`,
       component: s.component,
       name: s.name,
       isWIP: false,
       description: undefined,
     })),
-    [demoSlides]
+    []
   );
 
   // Get current slide ID for presenter notes
@@ -90,7 +89,7 @@ export default function Index() {
   }, [slides.length, isPresentationMode, isPresenterView]);
 
 
-  const ActiveSlideComponent = slides[activeSlideIndex]?.component || demoSlides[0].component;
+  const ActiveSlideComponent = slides[activeSlideIndex]?.component || showcaseSlides[0].component;
 
   return (
     <div className="h-screen flex flex-col bg-background">

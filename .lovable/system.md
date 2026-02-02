@@ -86,21 +86,21 @@ fill="#2196F3"
 
 ## Typography Scale (for 1920×1080 slides)
 
-**Minimum font size on slides: 16px (type-body-sm)**
+**Minimum font size on slides: 20px (type-caption)**
 
 | Class           | Size    | Usage              |
 | --------------- | ------- | ------------------ |
 | `.type-display` | 96px    | Hero headlines     |
 | `.type-h1`      | 60px    | Section titles     |
 | `.type-h2`      | 36px    | Slide titles       |
-| `.type-h3`      | 24px    | Card titles        |
-| `.type-body-lg` | 20px    | Subtitles          |
-| `.type-body`    | 18px    | Default text       |
-| `.type-body-sm` | 16px    | Supporting (min!)  |
-| `.type-label`   | 14px    | Metadata only      |
+| `.type-h3`      | 32px    | Card titles        |
+| `.type-body-lg` | 28px    | Subtitles          |
+| `.type-body`    | 24px    | Default text       |
+| `.type-caption` | 20px    | Supporting (min!)  |
+| `.type-label`   | 18px    | Metadata only      |
 | `.type-metric`  | 48px    | Large numbers      |
 
-**NEVER use text smaller than `type-body-sm` on slides!**
+**NEVER use text smaller than `type-caption` on slides!**
 
 ---
 
