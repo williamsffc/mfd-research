@@ -158,32 +158,38 @@
   
   /* Heading 3 - Card titles (28px) */
   .type-h3 {
-    @apply text-2xl font-medium leading-snug;
-    /* ~24px at 1920x1080 */
+    @apply text-3xl font-medium leading-snug;
+    /* ~28px at 1920x1080 */
   }
   
   /* Body Large - Subtitles (24px) */
   .type-body-lg {
-    @apply text-xl font-light leading-relaxed;
+    @apply text-2xl font-light leading-relaxed;
+    /* ~24px at 1920x1080 */
+  }
+  
+  /* Body - Default text (20px) */
+  .type-body {
+    @apply text-xl font-normal leading-relaxed;
     /* ~20px at 1920x1080 */
   }
   
-  /* Body - Default text (20px minimum) */
-  .type-body {
+  /* Caption - Supporting text (18px minimum!) */
+  .type-caption {
     @apply text-lg font-normal leading-relaxed;
-    /* ~18px at 1920x1080 - minimum readable size */
+    /* ~18px at 1920x1080 - absolute minimum for slides */
   }
   
-  /* Body Small - Supporting text (18px minimum) */
+  /* DEPRECATED: Use type-caption instead */
   .type-body-sm {
-    @apply text-base font-normal leading-relaxed;
-    /* ~16px at 1920x1080 - absolute minimum */
+    @apply text-lg font-normal leading-relaxed;
+    /* Maps to type-caption for backwards compatibility */
   }
   
-  /* Label - Metadata, captions (16px) */
+  /* Label - Metadata only (16px) */
   .type-label {
-    @apply text-sm font-medium uppercase tracking-widest;
-    /* ~14px at 1920x1080 */
+    @apply text-base font-medium uppercase tracking-widest;
+    /* ~16px at 1920x1080 - only for tiny labels */
   }
   
   /* Metric - Large numbers (56px) */
