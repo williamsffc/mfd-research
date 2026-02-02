@@ -224,23 +224,23 @@ export default function Slide02InteractiveChart() {
                     </span>
                   </div>
                   <Slider value={[demandShift]} onValueChange={v => setDemandShift(v[0])} min={-40} max={40} step={1} className="w-full" />
-                  <p className="type-body-sm text-slide-gray-400">
+                  <p className="text-sm text-slate-400">
                     ← Less demand | More demand →
                   </p>
                 </div>
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="type-body-sm font-medium text-slide-gray-700 flex items-center gap-2">
+                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-emerald-500" />
                       Supply Shift
                     </label>
-                    <span className="type-body-sm text-slide-gray-500 font-mono bg-slide-gray-100 px-2 py-0.5 rounded">
+                    <span className="text-sm text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded">
                       {supplyShift > 0 ? '+' : ''}{supplyShift}
                     </span>
                   </div>
                   <Slider value={[supplyShift]} onValueChange={v => setSupplyShift(v[0])} min={-40} max={40} step={1} className="w-full" />
-                  <p className="type-body-sm text-slide-gray-400">
+                  <p className="text-sm text-slate-400">
                     ← Lower costs | Higher costs →
                   </p>
                 </div>
