@@ -51,7 +51,7 @@ export default function Slide03FeatureAdoption() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-1.5 h-8 bg-violet-600 rounded-full" />
+            <div className="w-1.5 h-8 bg-[#4E93FF] rounded-full" />
             <h1 className="text-4xl font-bold text-slate-900">
               ​Calculations on the fly    
             </h1>
