@@ -92,7 +92,7 @@ export default function Slide03FeatureAdoption() {
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-500">Adoption</span>
-                      <span className={cn("font-semibold", isSelected ? "text-violet-600" : "text-slate-700")}>
+                      <span className={cn("font-semibold", isSelected ? "text-[#4E93FF]" : "text-slate-700")}>
                         {feature.adoption}%
                       </span>
                     </div>
