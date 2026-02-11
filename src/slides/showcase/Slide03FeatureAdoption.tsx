@@ -115,10 +115,10 @@ export default function Slide03FeatureAdoption() {
           {/* Right: Summary Panel */}
           <div className="w-1/3 flex flex-col gap-4">
             {/* Selected count */}
-            <div className="bg-violet-600 text-white rounded-xl p-5">
-              <p className="text-violet-200 text-sm mb-1">Selected Features</p>
-              <p className="text-4xl font-bold mb-2">{selectedFeatures.length}</p>
-              <p className="text-violet-200 text-sm">of {features.length} available</p>
+             <div className="bg-[#4E93FF] text-white rounded-xl p-5">
+               <p className="text-blue-100 text-sm mb-1">Selected Features</p>
+               <p className="text-4xl font-bold mb-2">{selectedFeatures.length}</p>
+               <p className="text-blue-100 text-sm">of {features.length} available</p>
             </div>
 
             {/* Average adoption */}
