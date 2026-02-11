@@ -66,7 +66,7 @@ export default function Slide04CalendarBooking() {
       <div className="flex flex-col h-full px-20 py-16">
         {/* Header */}
         <div className="mb-8">
-          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="text-[#4E93FF] text-sm font-semibold uppercase tracking-widest mb-2">
             Schedule a Demo
           </p>
           <h2 className="text-4xl font-bold text-slate-900 mb-2">
@@ -101,7 +101,7 @@ export default function Slide04CalendarBooking() {
 
             {/* Days grid */}
             <div className="grid grid-cols-7 gap-2">
-              {days.map((day, index) => <button key={index} disabled={day === null || day < today} onClick={() => day && day >= today && setSelectedDate(day)} className={cn("h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center", day === null && "invisible", day !== null && day < today && "text-slate-300 cursor-not-allowed", day !== null && day >= today && "hover:bg-indigo-100 text-slate-700 cursor-pointer", day === today && "ring-2 ring-indigo-500 ring-offset-2", selectedDate === day && day !== null && "bg-indigo-600 text-white hover:bg-indigo-700")}>
+              {days.map((day, index) => <button key={index} disabled={day === null || day < today} onClick={() => day && day >= today && setSelectedDate(day)} className={cn("h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center", day === null && "invisible", day !== null && day < today && "text-slate-300 cursor-not-allowed", day !== null && day >= today && "hover:bg-blue-100 text-slate-700 cursor-pointer", day === today && "ring-2 ring-[#4E93FF] ring-offset-2", selectedDate === day && day !== null && "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]")}>
                   {day}
                 </button>)}
             </div>
@@ -115,13 +115,13 @@ export default function Slide04CalendarBooking() {
             </div>
 
             <div className="flex-1 space-y-2 overflow-y-auto">
-              {timeSlots.map(time => <button key={time} onClick={() => setSelectedTime(time)} disabled={!selectedDate} className={cn("w-full py-3 px-4 rounded-xl text-sm font-medium transition-all", !selectedDate && "bg-slate-100 text-slate-400 cursor-not-allowed", selectedDate && "bg-slate-100 hover:bg-indigo-100 text-slate-700", selectedTime === time && "bg-indigo-600 text-white hover:bg-indigo-700")}>
+              {timeSlots.map(time => <button key={time} onClick={() => setSelectedTime(time)} disabled={!selectedDate} className={cn("w-full py-3 px-4 rounded-xl text-sm font-medium transition-all", !selectedDate && "bg-slate-100 text-slate-400 cursor-not-allowed", selectedDate && "bg-slate-100 hover:bg-blue-100 text-slate-700", selectedTime === time && "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]")}>
                   {time}
                 </button>)}
             </div>
 
             {/* Book button */}
-            <button onClick={handleBook} disabled={!selectedDate || !selectedTime} className={cn("mt-4 w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all", selectedDate && selectedTime ? "bg-indigo-600 text-white hover:bg-indigo-700" : "bg-slate-200 text-slate-400 cursor-not-allowed")}>
+            <button onClick={handleBook} disabled={!selectedDate || !selectedTime} className={cn("mt-4 w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all", selectedDate && selectedTime ? "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]" : "bg-slate-200 text-slate-400 cursor-not-allowed")}>
               <Video className="w-5 h-5" />
               Confirm Booking
             </button>

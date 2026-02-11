@@ -51,7 +51,7 @@ export default function Slide03FeatureAdoption() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-1.5 h-8 bg-violet-600 rounded-full" />
+            <div className="w-1.5 h-8 bg-[#4E93FF] rounded-full" />
             <h1 className="text-4xl font-bold text-slate-900">
               ​Calculations on the fly    
             </h1>
@@ -69,19 +69,19 @@ export default function Slide03FeatureAdoption() {
             const Icon = feature.icon;
             const isSelected = selectedFeatures.includes(feature.id);
             const isHovered = hoveredFeature === feature.id;
-            return <button key={feature.id} onClick={() => toggleFeature(feature.id)} onMouseEnter={() => setHoveredFeature(feature.id)} onMouseLeave={() => setHoveredFeature(null)} className={cn("relative p-5 rounded-xl border-2 text-left transition-all duration-200", isSelected ? "border-violet-500 bg-violet-50 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm")}>
+            return <button key={feature.id} onClick={() => toggleFeature(feature.id)} onMouseEnter={() => setHoveredFeature(feature.id)} onMouseLeave={() => setHoveredFeature(null)} className={cn("relative p-5 rounded-xl border-2 text-left transition-all duration-200", isSelected ? "border-[#4E93FF] bg-blue-50 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm")}>
                   {/* Selection indicator */}
-                  <div className={cn("absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all", isSelected ? "bg-violet-600" : "bg-slate-100 border border-slate-300")}>
+                  <div className={cn("absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all", isSelected ? "bg-[#4E93FF]" : "bg-slate-100 border border-slate-300")}>
                     {isSelected && <Check className="w-4 h-4 text-white" />}
                   </div>
 
                   {/* Icon */}
-                  <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center mb-3 transition-colors", isSelected ? "bg-violet-600" : "bg-slate-100")}>
+                  <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center mb-3 transition-colors", isSelected ? "bg-[#4E93FF]" : "bg-slate-100")}>
                     <Icon className={cn("w-6 h-6", isSelected ? "text-white" : "text-slate-600")} />
                   </div>
 
                   {/* Content */}
-                  <h3 className={cn("text-lg font-semibold mb-1", isSelected ? "text-violet-900" : "text-slate-900")}>
+                  <h3 className={cn("text-lg font-semibold mb-1", isSelected ? "text-blue-900" : "text-slate-900")}>
                     {feature.name}
                   </h3>
                   <p className="text-sm text-slate-500 mb-4">
@@ -92,12 +92,12 @@ export default function Slide03FeatureAdoption() {
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-500">Adoption</span>
-                      <span className={cn("font-semibold", isSelected ? "text-violet-600" : "text-slate-700")}>
+                      <span className={cn("font-semibold", isSelected ? "text-[#4E93FF]" : "text-slate-700")}>
                         {feature.adoption}%
                       </span>
                     </div>
                     <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                      <div className={cn("h-full rounded-full transition-all duration-500", isSelected ? "bg-violet-500" : "bg-slate-400")} style={{
+                      <div className={cn("h-full rounded-full transition-all duration-500", isSelected ? "bg-[#4E93FF]" : "bg-slate-400")} style={{
                     width: `${feature.adoption}%`
                   }} />
                     </div>
@@ -115,10 +115,10 @@ export default function Slide03FeatureAdoption() {
           {/* Right: Summary Panel */}
           <div className="w-1/3 flex flex-col gap-4">
             {/* Selected count */}
-            <div className="bg-violet-600 text-white rounded-xl p-5">
-              <p className="text-violet-200 text-sm mb-1">Selected Features</p>
-              <p className="text-4xl font-bold mb-2">{selectedFeatures.length}</p>
-              <p className="text-violet-200 text-sm">of {features.length} available</p>
+             <div className="bg-[#4E93FF] text-white rounded-xl p-5">
+               <p className="text-blue-100 text-sm mb-1">Selected Features</p>
+               <p className="text-4xl font-bold mb-2">{selectedFeatures.length}</p>
+               <p className="text-blue-100 text-sm">of {features.length} available</p>
             </div>
 
             {/* Average adoption */}
@@ -133,7 +133,7 @@ export default function Slide03FeatureAdoption() {
               
               {/* Visual gauge */}
               <div className="relative h-4 bg-slate-100 rounded-full overflow-hidden mb-6">
-                <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-500" style={{
+                <div className="absolute inset-y-0 left-0 bg-[#4E93FF] rounded-full transition-all duration-500" style={{
                 width: `${selectedFeatures.length > 0 ? totalAdoption : 0}%`
               }} />
               </div>
@@ -145,7 +145,7 @@ export default function Slide03FeatureAdoption() {
                     {selectedFeatures.map(id => {
                   const feature = features.find(f => f.id === id);
                   if (!feature) return null;
-                  return <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-violet-100 text-violet-700 rounded-md text-xs font-medium">
+                  return <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-[#4E93FF] rounded-md text-xs font-medium">
                           <feature.icon className="w-3 h-3" />
                           {feature.name}
                         </span>;

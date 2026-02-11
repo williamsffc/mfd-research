@@ -16,7 +16,7 @@ export default function Slide06CTA() {
         </p>
 
         {/* CTA Button */}
-        <button className="group flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-full text-xl font-semibold shadow-lg hover:bg-indigo-700 transition-all hover:shadow-xl">
+        <button className="group flex items-center gap-3 px-8 py-4 bg-[#4E93FF] text-white rounded-full text-xl font-semibold shadow-lg hover:bg-[#3A7FE8] transition-all hover:shadow-xl">
           Get Started
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
