@@ -121,7 +121,7 @@ export default function Slide04CalendarBooking() {
             </div>
 
             {/* Book button */}
-            <button onClick={handleBook} disabled={!selectedDate || !selectedTime} className={cn("mt-4 w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all", selectedDate && selectedTime ? "bg-indigo-600 text-white hover:bg-indigo-700" : "bg-slate-200 text-slate-400 cursor-not-allowed")}>
+            <button onClick={handleBook} disabled={!selectedDate || !selectedTime} className={cn("mt-4 w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all", selectedDate && selectedTime ? "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]" : "bg-slate-200 text-slate-400 cursor-not-allowed")}>
               <Video className="w-5 h-5" />
               Confirm Booking
             </button>

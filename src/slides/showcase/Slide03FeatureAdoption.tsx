@@ -145,7 +145,7 @@ export default function Slide03FeatureAdoption() {
                     {selectedFeatures.map(id => {
                   const feature = features.find(f => f.id === id);
                   if (!feature) return null;
-                  return <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-violet-100 text-violet-700 rounded-md text-xs font-medium">
+                  return <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-[#4E93FF] rounded-md text-xs font-medium">
                           <feature.icon className="w-3 h-3" />
                           {feature.name}
                         </span>;
