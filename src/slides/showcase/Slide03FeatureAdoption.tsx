@@ -97,7 +97,7 @@ export default function Slide03FeatureAdoption() {
                       </span>
                     </div>
                     <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                      <div className={cn("h-full rounded-full transition-all duration-500", isSelected ? "bg-violet-500" : "bg-slate-400")} style={{
+                      <div className={cn("h-full rounded-full transition-all duration-500", isSelected ? "bg-[#4E93FF]" : "bg-slate-400")} style={{
                     width: `${feature.adoption}%`
                   }} />
                     </div>
