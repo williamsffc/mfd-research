@@ -81,7 +81,7 @@ export default function Slide03FeatureAdoption() {
                   </div>
 
                   {/* Content */}
-                  <h3 className={cn("text-lg font-semibold mb-1", isSelected ? "text-violet-900" : "text-slate-900")}>
+                  <h3 className={cn("text-lg font-semibold mb-1", isSelected ? "text-blue-900" : "text-slate-900")}>
                     {feature.name}
                   </h3>
                   <p className="text-sm text-slate-500 mb-4">
