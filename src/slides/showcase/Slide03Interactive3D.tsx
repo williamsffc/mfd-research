@@ -34,8 +34,8 @@ function Scene() {
   return <>
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
-      <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#6366f1" />
-      <pointLight position={[0, 5, 0]} intensity={0.5} color="#a855f7" />
+       <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#4E93FF" />
+       <pointLight position={[0, 5, 0]} intensity={0.5} color="#6BABFF" />
       
       <AnimatedTorus />
       <FloatingCubes />
