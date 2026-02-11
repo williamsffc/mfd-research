@@ -106,7 +106,7 @@ export function ScaledSlide({
       >
         <div 
           className={cn(
-            "absolute top-0 left-0 bg-white dark:bg-slate-900 rounded-lg shadow-xl overflow-hidden",
+            "absolute top-0 left-0 rounded-lg shadow-xl overflow-hidden",
             showGrid && "grid-overlay",
             className
           )}
