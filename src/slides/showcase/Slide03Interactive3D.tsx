@@ -13,7 +13,7 @@ function AnimatedTorus() {
   });
   return <mesh ref={meshRef} position={[0, 0, 0]}>
       <torusKnotGeometry args={[1, 0.35, 128, 32]} />
-      <MeshDistortMaterial color="#6366f1" roughness={0.2} metalness={0.8} distort={0.2} speed={2} />
+      <MeshDistortMaterial color="#4E93FF" roughness={0.2} metalness={0.8} distort={0.2} speed={2} />
     </mesh>;
 }
 function FloatingCubes() {
