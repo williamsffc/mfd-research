@@ -200,7 +200,7 @@ export function CenteredScaledSlide({
           }}
           onClick={onClick}
         >
-          <div className="absolute inset-0 bg-white dark:bg-slate-900">
+          <div className="absolute inset-0">
             {content}
           </div>
         </div>
