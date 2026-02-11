@@ -14,7 +14,7 @@ export function SlideLayout({ children, variant = 'default', className }: SlideL
     <div 
       className={cn(
         'w-full h-full relative font-sans slide-content',
-        variant === 'default' && 'bg-white text-slate-900',
+        variant === 'default' && 'bg-[#FCFBF8] text-slate-900',
         variant === 'dark' && 'bg-slate-900 text-white',
         variant === 'gradient' && 'bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white',
         className

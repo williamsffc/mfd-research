@@ -24,7 +24,7 @@ export function MSSlideLayout({ children, variant = 'default', className }: MSSl
         'w-full h-full relative font-sans slide-content',
         isDark 
           ? 'bg-slide-primary text-white' 
-          : 'bg-white text-slide-gray-900',
+          : 'bg-[#FCFBF8] text-slide-gray-900',
         className
       )}
     >
