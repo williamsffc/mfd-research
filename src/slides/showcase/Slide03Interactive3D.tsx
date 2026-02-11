@@ -17,7 +17,7 @@ function AnimatedTorus() {
     </mesh>;
 }
 function FloatingCubes() {
-  const colors = ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899'];
+  const colors = ['#4E93FF', '#6BABFF', '#3A7FE8', '#2D6FD4'];
   return <>
       {colors.map((color, i) => {
       const angle = i / colors.length * Math.PI * 2;
