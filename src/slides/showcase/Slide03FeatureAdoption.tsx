@@ -76,7 +76,7 @@ export default function Slide03FeatureAdoption() {
                   </div>
 
                   {/* Icon */}
-                  <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center mb-3 transition-colors", isSelected ? "bg-violet-600" : "bg-slate-100")}>
+                  <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center mb-3 transition-colors", isSelected ? "bg-[#4E93FF]" : "bg-slate-100")}>
                     <Icon className={cn("w-6 h-6", isSelected ? "text-white" : "text-slate-600")} />
                   </div>
 
