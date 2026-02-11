@@ -50,7 +50,7 @@ export default function Slide03Interactive3D() {
       <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
         {/* Header */}
         <div className="absolute top-16 left-20 z-10">
-          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="text-[#4E93FF] text-sm font-semibold uppercase tracking-widest mb-2">
             3D Interactive
           </p>
           <h2 className="text-4xl font-bold text-slate-900 mb-2">3D Simulations</h2>
