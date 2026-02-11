@@ -47,7 +47,7 @@ function Scene() {
 }
 export default function Slide03Interactive3D() {
   return <SlideLayout variant="default">
-      <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50">
+      <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
         {/* Header */}
         <div className="absolute top-16 left-20 z-10">
           <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
