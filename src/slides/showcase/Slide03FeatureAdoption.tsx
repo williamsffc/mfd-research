@@ -69,7 +69,7 @@ export default function Slide03FeatureAdoption() {
             const Icon = feature.icon;
             const isSelected = selectedFeatures.includes(feature.id);
             const isHovered = hoveredFeature === feature.id;
-            return <button key={feature.id} onClick={() => toggleFeature(feature.id)} onMouseEnter={() => setHoveredFeature(feature.id)} onMouseLeave={() => setHoveredFeature(null)} className={cn("relative p-5 rounded-xl border-2 text-left transition-all duration-200", isSelected ? "border-violet-500 bg-violet-50 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm")}>
+            return <button key={feature.id} onClick={() => toggleFeature(feature.id)} onMouseEnter={() => setHoveredFeature(feature.id)} onMouseLeave={() => setHoveredFeature(null)} className={cn("relative p-5 rounded-xl border-2 text-left transition-all duration-200", isSelected ? "border-[#4E93FF] bg-blue-50 shadow-md" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm")}>
                   {/* Selection indicator */}
                   <div className={cn("absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all", isSelected ? "bg-violet-600" : "bg-slate-100 border border-slate-300")}>
                     {isSelected && <Check className="w-4 h-4 text-white" />}
