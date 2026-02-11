@@ -101,7 +101,7 @@ export default function Slide04CalendarBooking() {
 
             {/* Days grid */}
             <div className="grid grid-cols-7 gap-2">
-              {days.map((day, index) => <button key={index} disabled={day === null || day < today} onClick={() => day && day >= today && setSelectedDate(day)} className={cn("h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center", day === null && "invisible", day !== null && day < today && "text-slate-300 cursor-not-allowed", day !== null && day >= today && "hover:bg-indigo-100 text-slate-700 cursor-pointer", day === today && "ring-2 ring-indigo-500 ring-offset-2", selectedDate === day && day !== null && "bg-indigo-600 text-white hover:bg-indigo-700")}>
+              {days.map((day, index) => <button key={index} disabled={day === null || day < today} onClick={() => day && day >= today && setSelectedDate(day)} className={cn("h-12 w-full rounded-lg text-base font-medium transition-all flex items-center justify-center", day === null && "invisible", day !== null && day < today && "text-slate-300 cursor-not-allowed", day !== null && day >= today && "hover:bg-blue-100 text-slate-700 cursor-pointer", day === today && "ring-2 ring-[#4E93FF] ring-offset-2", selectedDate === day && day !== null && "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]")}>
                   {day}
                 </button>)}
             </div>
