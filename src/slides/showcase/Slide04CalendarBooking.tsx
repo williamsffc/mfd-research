@@ -66,7 +66,7 @@ export default function Slide04CalendarBooking() {
       <div className="flex flex-col h-full px-20 py-16">
         {/* Header */}
         <div className="mb-8">
-          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="text-[#4E93FF] text-sm font-semibold uppercase tracking-widest mb-2">
             Schedule a Demo
           </p>
           <h2 className="text-4xl font-bold text-slate-900 mb-2">
