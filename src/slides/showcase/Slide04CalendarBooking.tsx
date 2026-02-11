@@ -115,7 +115,7 @@ export default function Slide04CalendarBooking() {
             </div>
 
             <div className="flex-1 space-y-2 overflow-y-auto">
-              {timeSlots.map(time => <button key={time} onClick={() => setSelectedTime(time)} disabled={!selectedDate} className={cn("w-full py-3 px-4 rounded-xl text-sm font-medium transition-all", !selectedDate && "bg-slate-100 text-slate-400 cursor-not-allowed", selectedDate && "bg-slate-100 hover:bg-indigo-100 text-slate-700", selectedTime === time && "bg-indigo-600 text-white hover:bg-indigo-700")}>
+              {timeSlots.map(time => <button key={time} onClick={() => setSelectedTime(time)} disabled={!selectedDate} className={cn("w-full py-3 px-4 rounded-xl text-sm font-medium transition-all", !selectedDate && "bg-slate-100 text-slate-400 cursor-not-allowed", selectedDate && "bg-slate-100 hover:bg-blue-100 text-slate-700", selectedTime === time && "bg-[#4E93FF] text-white hover:bg-[#3A7FE8]")}>
                   {time}
                 </button>)}
             </div>
