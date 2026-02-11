@@ -13,11 +13,11 @@ function AnimatedTorus() {
   });
   return <mesh ref={meshRef} position={[0, 0, 0]}>
       <torusKnotGeometry args={[1, 0.35, 128, 32]} />
-      <MeshDistortMaterial color="#6366f1" roughness={0.2} metalness={0.8} distort={0.2} speed={2} />
+      <MeshDistortMaterial color="#4E93FF" roughness={0.2} metalness={0.8} distort={0.2} speed={2} />
     </mesh>;
 }
 function FloatingCubes() {
-  const colors = ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899'];
+  const colors = ['#4E93FF', '#6BABFF', '#3A7FE8', '#2D6FD4'];
   return <>
       {colors.map((color, i) => {
       const angle = i / colors.length * Math.PI * 2;
@@ -34,8 +34,8 @@ function Scene() {
   return <>
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
-      <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#6366f1" />
-      <pointLight position={[0, 5, 0]} intensity={0.5} color="#a855f7" />
+       <directionalLight position={[-10, -10, -5]} intensity={0.3} color="#4E93FF" />
+       <pointLight position={[0, 5, 0]} intensity={0.5} color="#6BABFF" />
       
       <AnimatedTorus />
       <FloatingCubes />
@@ -47,10 +47,10 @@ function Scene() {
 }
 export default function Slide03Interactive3D() {
   return <SlideLayout variant="default">
-      <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50">
+      <div className="relative h-full w-full overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
         {/* Header */}
         <div className="absolute top-16 left-20 z-10">
-          <p className="text-indigo-600 text-sm font-semibold uppercase tracking-widest mb-2">
+          <p className="text-[#4E93FF] text-sm font-semibold uppercase tracking-widest mb-2">
             3D Interactive
           </p>
           <h2 className="text-4xl font-bold text-slate-900 mb-2">3D Simulations</h2>
