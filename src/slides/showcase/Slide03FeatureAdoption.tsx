@@ -133,7 +133,7 @@ export default function Slide03FeatureAdoption() {
               
               {/* Visual gauge */}
               <div className="relative h-4 bg-slate-100 rounded-full overflow-hidden mb-6">
-                <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-500" style={{
+                <div className="absolute inset-y-0 left-0 bg-[#4E93FF] rounded-full transition-all duration-500" style={{
                 width: `${selectedFeatures.length > 0 ? totalAdoption : 0}%`
               }} />
               </div>
