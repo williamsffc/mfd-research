@@ -144,7 +144,7 @@ export default function Slide02InteractiveChart() {
         <div className="flex-1 flex gap-6 min-h-0">
           {/* Left: Chart (66%) */}
           <div className="w-2/3 flex flex-col min-h-0">
-            <div className="flex-1 bg-slate-50 rounded-xl border border-slate-200 p-4 min-h-0">
+            <div className="flex-1 bg-white rounded-xl border border-slate-200 p-4 min-h-0">
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={curveData} margin={{
                 top: 20,
