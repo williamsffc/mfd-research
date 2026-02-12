@@ -190,7 +190,7 @@ export default function Slide02InteractiveChart() {
             {/* Legend */}
             <div className="mt-3 flex items-center justify-center gap-8">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-1 bg-indigo-600 rounded" />
+                <div className="w-4 h-1 bg-[#4E93FF] rounded" />
                 <span className="text-sm text-slate-600">Demand</span>
               </div>
               <div className="flex items-center gap-2">
