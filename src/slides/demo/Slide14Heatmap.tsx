@@ -127,7 +127,7 @@ export default function Slide14Heatmap() {
           {/* Info Panel */}
           <div className="w-56 flex flex-col gap-4">
             {/* Legend */}
-            <div className="p-5 bg-ms-blue-20/30 rounded-lg">
+            <div className="p-5 bg-white rounded-lg shadow-sm border border-ms-blue-40">
               <h3 className="text-sm font-semibold text-ms-navy mb-3">Adoption Rate</h3>
               <div className="space-y-2">
                 {[
