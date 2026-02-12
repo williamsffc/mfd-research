@@ -206,6 +206,16 @@ Slides render at 1920×1080 and scale via CSS `transform`. For WebGL/Canvas:
 
 ---
 
+## Animation Guidelines
+
+- **Avoid unnecessary animations.** Slides should feel crisp and immediate, not bouncy or distracting.
+- Do NOT add entrance animations, hover transitions, or decorative motion unless the user explicitly requests it.
+- Functional animations (e.g., chart transitions, 3D orbit controls, explicit user-triggered interactions) are fine.
+- Never add `animate-`, `transition-`, `hover:scale-`, or `group-hover` effects by default.
+- Prefer static, high-contrast layouts that communicate instantly over animated ones.
+
+---
+
 ## IMPORTANT NOTES
 
 1. After remix, help users create their own presentations
