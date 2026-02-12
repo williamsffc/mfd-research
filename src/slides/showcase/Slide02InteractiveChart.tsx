@@ -130,7 +130,7 @@ export default function Slide02InteractiveChart() {
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-1.5 h-8 bg-indigo-600 rounded-full" />
+            <div className="w-1.5 h-8 bg-[#4E93FF] rounded-full" />
             <h1 className="text-4xl font-bold text-slate-900">
               ​Interactive simulations  
             </h1>
@@ -175,7 +175,7 @@ export default function Slide02InteractiveChart() {
                   <Line type="monotone" dataKey="supply" stroke="#10B981" strokeWidth={3} dot={false} name="Supply" isAnimationActive={false} />
                   
                   {/* Demand curve */}
-                  <Line type="monotone" dataKey="demand" stroke="#6366F1" strokeWidth={3} dot={false} name="Demand" isAnimationActive={false} />
+                  <Line type="monotone" dataKey="demand" stroke="#4E93FF" strokeWidth={3} dot={false} name="Demand" isAnimationActive={false} />
                   
                   {/* Equilibrium reference lines */}
                   <ReferenceLine x={equilibrium.quantity} stroke="#F59E0B" strokeDasharray="5 5" strokeWidth={2} />
@@ -190,7 +190,7 @@ export default function Slide02InteractiveChart() {
             {/* Legend */}
             <div className="mt-3 flex items-center justify-center gap-8">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-1 bg-indigo-600 rounded" />
+                <div className="w-4 h-1 bg-[#4E93FF] rounded" />
                 <span className="text-sm text-slate-600">Demand</span>
               </div>
               <div className="flex items-center gap-2">
@@ -216,7 +216,7 @@ export default function Slide02InteractiveChart() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-indigo-600" />
+                      <div className="w-3 h-3 rounded-full bg-[#4E93FF]" />
                       Demand Shift
                     </label>
                     <span className="text-sm text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded">
@@ -275,7 +275,7 @@ export default function Slide02InteractiveChart() {
               </h3>
               
               <div className="space-y-3">
-                <MetricRow icon={DollarSign} label="Total Revenue" value={`$${metrics.revenue.toLocaleString()}`} color="text-indigo-600" />
+                <MetricRow icon={DollarSign} label="Total Revenue" value={`$${metrics.revenue.toLocaleString()}`} color="text-[#4E93FF]" />
                 <MetricRow icon={Package} label="Total Cost" value={`$${metrics.totalCost.toLocaleString()}`} color="text-slate-600" />
                 <div className="border-t border-slate-100 pt-3">
                   <MetricRow icon={TrendingUp} label="Profit" value={`$${metrics.profit.toLocaleString()}`} color={metrics.profit >= 0 ? "text-emerald-600" : "text-red-600"} highlight />
@@ -292,7 +292,7 @@ export default function Slide02InteractiveChart() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-slate-600">Consumer</span>
-                  <span className="font-semibold text-indigo-600 text-sm">
+                  <span className="font-semibold text-[#4E93FF] text-sm">
                     ${metrics.consumerSurplus.toLocaleString()}
                   </span>
                 </div>
