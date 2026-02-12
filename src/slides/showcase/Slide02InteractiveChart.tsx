@@ -175,7 +175,7 @@ export default function Slide02InteractiveChart() {
                   <Line type="monotone" dataKey="supply" stroke="#10B981" strokeWidth={3} dot={false} name="Supply" isAnimationActive={false} />
                   
                   {/* Demand curve */}
-                  <Line type="monotone" dataKey="demand" stroke="#6366F1" strokeWidth={3} dot={false} name="Demand" isAnimationActive={false} />
+                  <Line type="monotone" dataKey="demand" stroke="#4E93FF" strokeWidth={3} dot={false} name="Demand" isAnimationActive={false} />
                   
                   {/* Equilibrium reference lines */}
                   <ReferenceLine x={equilibrium.quantity} stroke="#F59E0B" strokeDasharray="5 5" strokeWidth={2} />
