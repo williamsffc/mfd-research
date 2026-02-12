@@ -60,7 +60,7 @@ export default function Slide13ThreeProngedStrategy() {
             {strategies.map((strategy, index) => (
               <div
                 key={index}
-                className="flex-1 bg-ms-blue-20/40 rounded-lg px-8 py-6 flex items-start gap-6"
+                className="flex-1 bg-white rounded-lg px-8 py-6 flex items-start gap-6 shadow-sm border border-ms-blue-40"
               >
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-lg bg-ms-blue/15 flex items-center justify-center flex-shrink-0">

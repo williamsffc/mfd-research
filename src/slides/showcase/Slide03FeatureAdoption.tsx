@@ -155,7 +155,7 @@ export default function Slide03FeatureAdoption() {
             </div>
 
             {/* Total users */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+            <div className="bg-white border border-slate-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-5 h-5 text-slate-600" />
                 <p className="text-slate-500 text-sm">Total Active Users</p>
