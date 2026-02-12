@@ -216,7 +216,7 @@ export default function Slide02InteractiveChart() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-indigo-600" />
+                      <div className="w-3 h-3 rounded-full bg-[#4E93FF]" />
                       Demand Shift
                     </label>
                     <span className="text-sm text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded">
