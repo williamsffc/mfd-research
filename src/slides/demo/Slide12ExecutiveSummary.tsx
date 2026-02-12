@@ -47,7 +47,7 @@ export default function Slide12ExecutiveSummary() {
           {bulletPoints.map((point, index) => (
             <div 
               key={index} 
-              className="p-6 bg-ms-blue-20/30 rounded-lg border-l-4 border-ms-blue"
+              className="p-6 bg-white rounded-lg border-l-4 border-ms-blue shadow-sm"
             >
               <h3 className="text-base font-semibold text-ms-navy mb-2">
                 {point.header}

@@ -285,7 +285,7 @@ export default function Slide02InteractiveChart() {
             </div>
 
             {/* Surplus */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-4">
               <h3 className="text-xs font-semibold text-slate-700 mb-3 uppercase tracking-wide">
                 Economic Surplus
               </h3>

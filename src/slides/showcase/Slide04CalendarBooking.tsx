@@ -80,7 +80,7 @@ export default function Slide04CalendarBooking() {
         {/* Calendar layout */}
         <div className="flex-1 flex gap-8">
           {/* Calendar */}
-          <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+          <div className="flex-1 bg-white rounded-2xl p-6 border border-slate-200">
             {/* Month header */}
             <div className="flex items-center justify-between mb-6">
               <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors">

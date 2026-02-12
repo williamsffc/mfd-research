@@ -33,7 +33,7 @@ export default function Slide09TwoColumn() {
         {/* Two columns */}
         <div className="flex-1 grid grid-cols-2 gap-12">
           {/* Left column */}
-          <div className="bg-ms-blue-20/30 rounded-sm p-8">
+          <div className="bg-white rounded-sm p-8 shadow-sm border border-ms-blue-40">
             <h3 className="text-xl font-semibold text-ms-navy mb-6 pb-4 border-b border-ms-blue-40">
               Advisory Services
             </h3>

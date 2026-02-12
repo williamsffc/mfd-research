@@ -54,7 +54,7 @@ export default function Slide03ThreeUp() {
           {pillars.map((pillar, index) => (
             <div 
               key={index}
-              className="flex flex-col p-6 bg-ms-blue-20/50 rounded-sm border-t-4 border-ms-blue"
+              className="flex flex-col p-6 bg-white rounded-sm border-t-4 border-ms-blue shadow-sm"
             >
               <pillar.icon className="w-10 h-10 text-ms-blue mb-4" strokeWidth={1.5} />
               
