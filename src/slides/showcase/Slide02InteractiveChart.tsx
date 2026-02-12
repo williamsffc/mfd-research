@@ -292,7 +292,7 @@ export default function Slide02InteractiveChart() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-slate-600">Consumer</span>
-                  <span className="font-semibold text-indigo-600 text-sm">
+                  <span className="font-semibold text-[#4E93FF] text-sm">
                     ${metrics.consumerSurplus.toLocaleString()}
                   </span>
                 </div>
