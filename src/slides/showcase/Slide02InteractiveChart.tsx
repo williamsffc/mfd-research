@@ -275,7 +275,7 @@ export default function Slide02InteractiveChart() {
               </h3>
               
               <div className="space-y-3">
-                <MetricRow icon={DollarSign} label="Total Revenue" value={`$${metrics.revenue.toLocaleString()}`} color="text-indigo-600" />
+                <MetricRow icon={DollarSign} label="Total Revenue" value={`$${metrics.revenue.toLocaleString()}`} color="text-[#4E93FF]" />
                 <MetricRow icon={Package} label="Total Cost" value={`$${metrics.totalCost.toLocaleString()}`} color="text-slate-600" />
                 <div className="border-t border-slate-100 pt-3">
                   <MetricRow icon={TrendingUp} label="Profit" value={`$${metrics.profit.toLocaleString()}`} color={metrics.profit >= 0 ? "text-emerald-600" : "text-red-600"} highlight />
