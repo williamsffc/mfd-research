@@ -686,7 +686,7 @@
 
     .timeline-dot {
       position: absolute;
-      left: -40px;
+      left: -39px;
       top: 6px;
       width: 14px;
       height: 14px;
@@ -714,6 +714,12 @@
       font-weight: 600;
       color: var(--navy);
       margin-bottom: 2px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+    }
+
+    .timeline-item.in-view .timeline-role {
+      color: var(--green);
     }
 
     .timeline-org {
@@ -1780,6 +1786,15 @@
       });
     }, { threshold: 0.12 });
     revealEls.forEach(el => observer.observe(el));
+
+    // Timeline title highlight on scroll
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('in-view', entry.isIntersecting);
+      });
+    }, { threshold: 0.5 });
+    timelineItems.forEach(el => timelineObserver.observe(el));
 
     // Dynamic copyright year
     document.getElementById('footerYear').textContent = new Date().getFullYear();
