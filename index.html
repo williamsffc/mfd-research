@@ -523,6 +523,47 @@
       font-size: 13px;
       font-weight: 500;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .about-tag:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .about-tag .tag-tooltip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: var(--bg-white);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 10px 14px;
+      border-radius: 8px;
+      width: 220px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .about-tag .tag-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--bg-white);
+    }
+
+    .about-tag:hover .tag-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* ─── SERVICES ─── */
@@ -1317,12 +1358,12 @@
           compliance and the art of leadership."</div>
         <div class="about-author">— MFD Research</div>
         <div class="about-tags">
-          <span class="about-tag">Site Development</span>
-          <span class="about-tag">GCP Compliance</span>
-          <span class="about-tag">Staff Training</span>
-          <span class="about-tag">QMS Design</span>
-          <span class="about-tag">Regulatory Strategy</span>
-          <span class="about-tag">Trial Management</span>
+          <span class="about-tag">Site Development<span class="tag-tooltip">End-to-end research site planning, build-out, and sponsor activation.</span></span>
+          <span class="about-tag">GCP Compliance<span class="tag-tooltip">Ensuring adherence to ICH Good Clinical Practice guidelines across all operations.</span></span>
+          <span class="about-tag">Staff Training<span class="tag-tooltip">Customized training programs for coordinators, sub-investigators, and site staff.</span></span>
+          <span class="about-tag">QMS Design<span class="tag-tooltip">Building quality management systems that meet sponsor and regulatory standards.</span></span>
+          <span class="about-tag">Regulatory Strategy<span class="tag-tooltip">Strategic regulatory planning from IRB submissions to ongoing compliance oversight.</span></span>
+          <span class="about-tag">Trial Management<span class="tag-tooltip">Operational oversight across multiple therapeutic areas and concurrent protocols.</span></span>
         </div>
       </div>
     </div>
