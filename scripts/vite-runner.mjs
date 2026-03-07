@@ -9,7 +9,7 @@ if (viteArgs.length === 0) {
 
 const result = spawnSync(
   'npm',
-  ['exec', '--yes', '--package', 'vite@5.4.11', 'vite', ...viteArgs],
+  ['exec', '--yes', '--package=vite@5.4.11', '--', 'vite', ...viteArgs],
   { stdio: 'inherit' }
 );
 
