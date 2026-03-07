@@ -54,6 +54,9 @@
       --btn-primary-hover-shadow: 0 8px 24px rgba(58, 140, 92, 0.3);
       --cred-year-bg: rgba(109, 223, 176, 0.15);
       --cred-year-border: rgba(109, 223, 176, 0.25);
+      --hero-badge-bg: var(--bg-white);
+      --card-bg: var(--bg-white);
+      --card-border-gradient: linear-gradient(to bottom right, rgba(58, 140, 92, 0.25), rgba(26, 39, 68, 0.08));
     }
 
 
@@ -101,6 +104,9 @@
       --btn-primary-hover-shadow: 0 8px 24px rgba(58, 140, 92, 0.4);
       --cred-year-bg: rgba(109, 223, 176, 0.1);
       --cred-year-border: rgba(109, 223, 176, 0.2);
+      --hero-badge-bg: var(--bg-soft);
+      --card-bg: var(--bg-white);
+      --card-border-gradient: linear-gradient(to bottom right, rgba(109, 223, 176, 0.35), rgba(255, 255, 255, 0.08));
     }
 
     html {
@@ -220,7 +226,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg-white);
+      background: var(--hero-badge-bg);
       border: 1px solid var(--border);
       border-radius: 100px;
       padding: 6px 16px 6px 10px;
@@ -684,7 +690,7 @@
       inset: 0;
       backface-visibility: hidden;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid transparent;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -693,13 +699,13 @@
     }
 
     .service-card-front {
-      background: var(--bg-white);
+      background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--card-border-gradient) border-box;
       text-align: center;
       gap: 16px;
     }
 
     .service-card-back {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%) padding-box, var(--card-border-gradient) border-box;
       transform: rotateY(180deg);
       text-align: center;
       gap: 12px;
@@ -870,10 +876,10 @@
     }
 
     .specialty-group {
-      background: var(--bg-white);
+      background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--card-border-gradient) border-box;
+      border: 1px solid transparent;
       border-radius: var(--radius);
       padding: 28px 24px;
-      border: 1px solid var(--border);
       transition: box-shadow 0.2s;
     }
 
@@ -1127,10 +1133,10 @@
     }
 
     .trust-card {
-      background: var(--bg-white);
+      background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--card-border-gradient) border-box;
+      border: 1px solid transparent;
       border-radius: var(--radius);
       padding: 36px 28px;
-      border: 1px solid var(--border);
       transition: box-shadow 0.2s, transform 0.2s;
     }
 
@@ -1435,7 +1441,12 @@
       }
 
       .footer-top {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-tagline {
+        max-width: 320px;
       }
 
       .trust-grid {
@@ -1534,22 +1545,30 @@
       }
 
       footer {
-        padding: 40px 24px 28px;
+        padding: 32px 24px 20px;
       }
 
       .footer-top {
-        grid-template-columns: 1fr;
-        gap: 32px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .footer-top > div:first-child {
+        grid-column: 1 / -1;
       }
 
       .footer-tagline {
         max-width: 100%;
+        margin-bottom: 8px;
       }
 
       .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         gap: 12px;
+        padding-top: 16px;
       }
 
       .hero-title {
