@@ -7,6 +7,11 @@
     "dev": "node scripts/vite-runner.mjs --port 8080",
     "build": "node scripts/vite-runner.mjs build",
     "build:dev": "node scripts/vite-runner.mjs build",
-    "preview": "node scripts/vite-runner.mjs preview"
+    "preview": "node scripts/vite-runner.mjs preview",
+    "test:a11y": "node scripts/test-a11y.mjs",
+    "optimize:images": "node scripts/optimize-images.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.2"
   }
 }

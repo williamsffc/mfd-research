@@ -1,5 +1,12 @@
+/**
+ * Main application initialization
+ * Sets up all interactive features when DOM is ready
+ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Combined scroll handler for better performance
+  /**
+   * Combined scroll handler for navbar and back-to-top button
+   * Uses passive listeners for better scroll performance
+   */
   function setupScrollHandlers() {
     const navbar = document.getElementById('navbar');
     const backToTopBtn = document.getElementById('backToTop');
@@ -17,11 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * Mobile navigation toggle functionality
+   * Handles hamburger menu, escape key, and click outside to close
+   */
   function setupMobileNavToggle() {
     const navLinks = document.getElementById('navLinks');
     const hamburger = document.getElementById('hamburger');
     if (!navLinks || !hamburger) return;
 
+    /**
+     * Toggle navigation menu state
+     * @param {boolean} [forceOpen] - Optional: force menu to specific state
+     */
     function toggleNav(forceOpen) {
       const isOpen =
         typeof forceOpen === 'boolean' ? forceOpen : !navLinks.classList.contains('open');
@@ -41,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /**
+   * Scroll-triggered reveal animations
+   * Uses IntersectionObserver for performance
+   */
   function setupScrollReveal() {
     const revealElements = document.querySelectorAll('.reveal, .timeline-item');
     const revealObserver = new IntersectionObserver(
@@ -58,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach((element) => revealObserver.observe(element));
   }
 
+  /**
+   * Timeline item highlighting based on scroll position
+   * Highlights timeline items as they come into view
+   */
   function setupTimelineHighlight() {
     const timelineItems = document.querySelectorAll('.timeline-item');
     const timelineObserver = new IntersectionObserver(
@@ -72,13 +95,167 @@ document.addEventListener('DOMContentLoaded', () => {
     timelineItems.forEach((item) => timelineObserver.observe(item));
   }
 
+  /**
+   * Automatically sets copyright year in footer
+   */
   function setupFooterYear() {
     const footerYear = document.getElementById('footerYear');
     if (!footerYear) return;
     footerYear.textContent = new Date().getFullYear();
   }
 
-  // Theme toggle
+  /**
+   * Form validation and UX enhancement
+   * Provides real-time validation, error messages, and submit feedback
+   */
+  function setupFormValidation() {
+    const form = document.querySelector('.contact-form');
+    if (!form) return;
+
+    const submitBtn = form.querySelector('.form-submit');
+    const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message →';
+
+    // Real-time validation feedback
+    const inputs = form.querySelectorAll('input[required], textarea[required], select');
+    inputs.forEach(input => {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if (input.classList.contains('error')) {
+          validateField(input);
+        }
+      });
+    });
+
+    /**
+     * Validate a single form field
+     * @param {HTMLElement} field - The input/textarea/select element to validate
+     * @returns {boolean} True if valid, false otherwise
+     */
+    function validateField(field) {
+      const errorMsg = field.parentElement.querySelector('.error-message');
+      if (errorMsg) errorMsg.remove();
+
+      field.classList.remove('error', 'valid');
+
+      if (!field.value.trim() && field.hasAttribute('required')) {
+        showError(field, 'This field is required');
+        return false;
+      }
+
+      if (field.type === 'email' && field.value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(field.value)) {
+          showError(field, 'Please enter a valid email address');
+          return false;
+        }
+      }
+
+      field.classList.add('valid');
+      return true;
+    }
+
+    /**
+     * Display error message for a field
+     * @param {HTMLElement} field - The field that has an error
+     * @param {string} message - The error message to display
+     */
+    function showError(field, message) {
+      field.classList.add('error');
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = message;
+      field.parentElement.appendChild(errorDiv);
+    }
+
+    /**
+     * Handle form submission with validation and error handling
+     * Submits to Netlify Forms with async/await
+     */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validate all fields
+      let isValid = true;
+      inputs.forEach(input => {
+        if (!validateField(input)) isValid = false;
+      });
+
+      if (!isValid) {
+        const firstError = form.querySelector('.error');
+        if (firstError) {
+          firstError.focus();
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      // Show loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.classList.add('loading');
+      }
+
+      try {
+        // Submit to Netlify
+        const formData = new FormData(form);
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString()
+        });
+
+        if (response.ok) {
+          showSuccessMessage();
+          form.reset();
+          inputs.forEach(input => input.classList.remove('valid'));
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (error) {
+        showErrorMessage();
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          submitBtn.classList.remove('loading');
+        }
+      }
+    });
+
+    /**
+     * Display success message after form submission
+     */
+    function showSuccessMessage() {
+      const successDiv = document.createElement('div');
+      successDiv.className = 'form-message success';
+      successDiv.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>Thank you! Your message has been sent successfully. We'll respond within 1-2 business days.</span>
+      `;
+      form.insertAdjacentElement('beforebegin', successDiv);
+      setTimeout(() => successDiv.remove(), 8000);
+    }
+
+    /**
+     * Display error message if form submission fails
+     */
+    function showErrorMessage() {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'form-message error';
+      errorDiv.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Oops! Something went wrong. Please try again or email us directly at info@mfdresearch.com</span>
+      `;
+      form.insertAdjacentElement('beforebegin', errorDiv);
+      setTimeout(() => errorDiv.remove(), 8000);
+    }
+  }
+
+  /**
+   * Dark/light theme toggle functionality
+   * Respects system preferences and saves user choice to localStorage
+   */
   function setupThemeToggle() {
     const toggle = document.getElementById('themeToggle');
     if (!toggle) return;
@@ -93,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
+    /**
+     * Update ARIA label on theme toggle button for accessibility
+     */
     function updateAriaLabel() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
@@ -107,10 +287,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /**
+   * Page loader animation
+   * Hides loader overlay once page is fully loaded
+   */
   function setupLoader() {
     const loader = document.getElementById('loader-overlay');
     if (!loader) return;
 
+    /**
+     * Hide the loading overlay and mark body as loaded
+     */
     const hideLoader = () => {
       loader.classList.add('loader-hidden');
       document.body.classList.add('loaded');
@@ -123,6 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * Smooth scrolling for anchor links
+   * Uses event delegation for better performance
+   */
   function setupSmoothScroll() {
     // Event delegation for smooth scrolling
     document.addEventListener('click', (e) => {
@@ -146,12 +337,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /**
+   * Register service worker for offline support
+   * Only registers in production (when served over HTTPS)
+   */
+  function setupServiceWorker() {
+    if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then((registration) => {
+          console.log('[App] Service Worker registered:', registration.scope);
+
+          // Check for updates periodically
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            console.log('[App] Service Worker update found');
+
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New service worker available, notify user
+                console.log('[App] New content available, please refresh');
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log('[App] Service Worker registration failed:', error);
+        });
+    }
+  }
+
+  // Initialize all features
   setupScrollHandlers();
   setupMobileNavToggle();
   setupScrollReveal();
   setupTimelineHighlight();
   setupFooterYear();
+  setupFormValidation();
   setupThemeToggle();
   setupLoader();
   setupSmoothScroll();
+  setupServiceWorker();
 });
