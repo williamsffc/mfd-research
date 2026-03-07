@@ -8,8 +8,5 @@
     "build": "node scripts/vite-runner.mjs build",
     "build:dev": "node scripts/vite-runner.mjs build",
     "preview": "node scripts/vite-runner.mjs preview"
-  },
-  "dependencies": {
-    "vite": "5.4.11"
   }
 }
