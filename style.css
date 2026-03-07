@@ -8,6 +8,7 @@
     }
 
     :root {
+
       --navy: #1A2744;
       --navy-light: #243560;
       --green: #3A8C5C;
@@ -26,9 +27,7 @@
       --shadow-lg: 0 12px 48px rgba(26, 39, 68, 0.14);
       --radius: 16px;
       --radius-sm: 10px;
-    }
 
-    :root {
       --section-accent-bg: #1A2744;
       --nav-bg: rgba(245, 246, 250, 0.85);
       --nav-bg-scrolled: rgba(255, 255, 255, 0.95);
@@ -56,6 +55,8 @@
       --cred-year-bg: rgba(109, 223, 176, 0.15);
       --cred-year-border: rgba(109, 223, 176, 0.25);
     }
+
+
 
     [data-theme="dark"] {
       --navy: #C8D6E8;
@@ -1543,3 +1544,18 @@
         height: 40px;
       }
     }
+/* A11Y SKIP LINK */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--navy);
+  color: var(--bg-white);
+  padding: 8px;
+  z-index: 99999;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}

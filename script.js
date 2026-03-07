@@ -44,10 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function setupScrollReveal() {
     const revealElements = document.querySelectorAll('.reveal, .timeline-item');
     const revealObserver = new IntersectionObserver(
-      (entries) => {
+      (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
           }
         });
       },
@@ -81,6 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function setupThemeToggle() {
     const toggle = document.getElementById('themeToggle');
     if (!toggle) return;
+
+    // Load saved theme or system preference
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    } catch (e) {}
+
     function updateAriaLabel() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');

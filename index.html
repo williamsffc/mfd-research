@@ -17,6 +17,8 @@
 
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- LOADER -->
   <div id="loader-overlay">
     <div class="loader-content">
@@ -41,8 +43,8 @@
       <li><a href="#contact" class="nav-cta">Contact Us</a></li>
     </ul>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
-      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <button class="nav-hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu"
       aria-controls="navLinks" aria-expanded="false">
@@ -51,7 +53,7 @@
   </nav>
 
   <!-- MAIN CONTENT -->
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
 
   <!-- HERO -->
   <section id="hero">
@@ -75,28 +77,28 @@
     <div class="hero-card">
       <div class="hero-card-title">Core Expertise</div>
       <div class="hero-stat">
-        <div class="hero-stat-icon">🧬</div>
+        <div class="hero-stat-icon" aria-hidden="true">🧬</div>
         <div>
           <div class="hero-stat-label">Experience</div>
           <div class="hero-stat-value">18+ Years</div>
         </div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-icon">📋</div>
+        <div class="hero-stat-icon" aria-hidden="true">📋</div>
         <div>
           <div class="hero-stat-label">Trial Phases</div>
           <div class="hero-stat-value">Phase I – III</div>
         </div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-icon">🏥</div>
+        <div class="hero-stat-icon" aria-hidden="true">🏥</div>
         <div>
           <div class="hero-stat-label">Specialties</div>
           <div class="hero-stat-value">10+ Therapeutic Areas</div>
         </div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-icon">✅</div>
+        <div class="hero-stat-icon" aria-hidden="true">✅</div>
         <div>
           <div class="hero-stat-label">Certification</div>
           <div class="hero-stat-value">ACRP Certified CRC</div>
@@ -109,35 +111,35 @@
   <div id="credibility">
     <div class="cred-inner">
       <div class="cred-item">
-        <div class="cred-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="cred-value">18+</div>
           <div class="cred-text">Years of Experience</div>
         </div>
       </div>
       <div class="cred-item">
-        <div class="cred-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <div>
           <div class="cred-value">Phase I–III</div>
           <div class="cred-text">Clinical Trials</div>
         </div>
       </div>
       <div class="cred-item">
-        <div class="cred-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
         <div>
           <div class="cred-value">GCP Certified</div>
           <div class="cred-text">ICH Guidelines</div>
         </div>
       </div>
       <div class="cred-item">
-        <div class="cred-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <div>
           <div class="cred-value">Multi-Sponsor</div>
           <div class="cred-text">Portfolio Expertise</div>
         </div>
       </div>
       <div class="cred-item">
-        <div class="cred-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
         <div>
           <div class="cred-value">10+ Areas</div>
           <div class="cred-text">Therapeutic Specialties</div>
@@ -188,7 +190,7 @@
       <div class="service-card reveal reveal-delay-1">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
             <div class="service-title">Site Development & Strategy</div>
           </div>
           <div class="service-card-back">
@@ -200,7 +202,7 @@
       <div class="service-card reveal reveal-delay-2">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
             <div class="service-title">Regulatory Compliance & GCP</div>
           </div>
           <div class="service-card-back">
@@ -212,7 +214,7 @@
       <div class="service-card reveal reveal-delay-3">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
             <div class="service-title">Quality Management Systems</div>
           </div>
           <div class="service-card-back">
@@ -224,7 +226,7 @@
       <div class="service-card reveal reveal-delay-1">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
             <div class="service-title">Multi-Specialty Trial Management</div>
           </div>
           <div class="service-card-back">
@@ -236,7 +238,7 @@
       <div class="service-card reveal reveal-delay-2">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
             <div class="service-title">Staff Training & Development</div>
           </div>
           <div class="service-card-back">
@@ -248,7 +250,7 @@
       <div class="service-card reveal reveal-delay-3">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
             <div class="service-title">Operational Assessment & Remediation</div>
           </div>
           <div class="service-card-back">
@@ -339,7 +341,7 @@
       and trial phases.</p>
     <div class="specialties-grid">
       <div class="specialty-group reveal reveal-delay-1">
-        <div class="specialty-group-title"><span class="specialty-group-icon">👁️</span> Ophthalmology</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">👁️</span> Ophthalmology</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Glaucoma</span>
           <span class="specialty-tag">Dry Eye Disease</span>
@@ -352,7 +354,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-2">
-        <div class="specialty-group-title"><span class="specialty-group-icon">⚖️</span> Metabolic</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">⚖️</span> Metabolic</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Diabetes T1 & T2</span>
           <span class="specialty-tag">Obesity / Weight Loss</span>
@@ -362,7 +364,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-3">
-        <div class="specialty-group-title"><span class="specialty-group-icon">🫀</span> Cardiovascular</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🫀</span> Cardiovascular</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Hypertension</span>
           <span class="specialty-tag">Resistant Hypertension</span>
@@ -370,7 +372,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-4">
-        <div class="specialty-group-title"><span class="specialty-group-icon">🦠</span> Gastrointestinal</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🦠</span> Gastrointestinal</div>
         <div class="specialty-tags">
           <span class="specialty-tag">IBS-C / IBS-D</span>
           <span class="specialty-tag">GERD</span>
@@ -379,7 +381,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-1">
-        <div class="specialty-group-title"><span class="specialty-group-icon">🧫</span> Dermatology</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🧫</span> Dermatology</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Psoriasis</span>
           <span class="specialty-tag">Acne</span>
@@ -388,7 +390,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-2">
-        <div class="specialty-group-title"><span class="specialty-group-icon">💉</span> Vaccine & Immunology</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">💉</span> Vaccine & Immunology</div>
         <div class="specialty-tags">
           <span class="specialty-tag">COVID-19</span>
           <span class="specialty-tag">Flu Vaccines</span>
@@ -397,7 +399,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-3">
-        <div class="specialty-group-title"><span class="specialty-group-icon">🩹</span> Pain Management</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🩹</span> Pain Management</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Chronic Pain</span>
           <span class="specialty-tag">Low Back Pain</span>
@@ -406,7 +408,7 @@
         </div>
       </div>
       <div class="specialty-group reveal reveal-delay-4">
-        <div class="specialty-group-title"><span class="specialty-group-icon">🔭</span> Other Indications</div>
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🔭</span> Other Indications</div>
         <div class="specialty-tags">
           <span class="specialty-tag">Chronic Kidney Disease</span>
           <span class="specialty-tag">Hot Flashes</span>
@@ -480,21 +482,21 @@
     <p class="section-sub reveal reveal-delay-2">Our consulting is grounded in real operational experience — not advisory theory.</p>
     <div class="trust-grid">
       <div class="trust-card reveal reveal-delay-1">
-        <div class="trust-card-icon">
+        <div class="trust-card-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div class="trust-card-title">Site-Level Authority</div>
         <div class="trust-card-desc">Our founder has held director-level roles at high-volume, multi-sponsor research sites — giving you access to insight that only comes from running operations firsthand.</div>
       </div>
       <div class="trust-card reveal reveal-delay-2">
-        <div class="trust-card-icon">
+        <div class="trust-card-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <div class="trust-card-title">Full-Spectrum Experience</div>
         <div class="trust-card-desc">From first-in-human Phase I studies through pivotal Phase III trials — across 10+ therapeutic areas — we understand the full complexity of clinical program execution.</div>
       </div>
       <div class="trust-card reveal reveal-delay-3">
-        <div class="trust-card-icon">
+        <div class="trust-card-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <div class="trust-card-title">Confidential Engagements</div>
@@ -514,21 +516,21 @@
           confidential.</p>
         <div class="contact-info-block">
           <div class="contact-info-item reveal reveal-delay-2">
-            <div class="contact-info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
             <div>
               <div class="contact-info-label">Email</div>
               <div class="contact-info-value"><a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a></div>
             </div>
           </div>
           <div class="contact-info-item reveal reveal-delay-3">
-            <div class="contact-info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
             <div>
               <div class="contact-info-label">Confidentiality</div>
               <div class="contact-info-value">All inquiries treated with strict confidentiality</div>
             </div>
           </div>
           <div class="contact-info-item reveal reveal-delay-4">
-            <div class="contact-info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
             <div>
               <div class="contact-info-label">Response Time</div>
               <div class="contact-info-value">We respond within 1–2 business days</div>
@@ -541,20 +543,20 @@
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name</label>
-              <input type="text" id="fname" name="first_name" placeholder="Jane" required />
+              <input type="text" id="fname" name="first_name" placeholder="Jane" autocomplete="given-name" required />
             </div>
             <div class="form-group">
               <label for="lname">Last Name</label>
-              <input type="text" id="lname" name="last_name" placeholder="Smith" required />
+              <input type="text" id="lname" name="last_name" placeholder="Smith" autocomplete="family-name" required />
             </div>
           </div>
           <div class="form-group">
             <label for="email">Work Email</label>
-            <input type="email" id="email" name="email" placeholder="jane@pharmacompany.com" required />
+            <input type="email" id="email" name="email" placeholder="jane@pharmacompany.com" autocomplete="email" required />
           </div>
           <div class="form-group">
             <label for="company">Company / Organization</label>
-            <input type="text" id="company" name="company" placeholder="Pharma Corp" />
+            <input type="text" id="company" name="company" placeholder="Pharma Corp" autocomplete="organization" />
           </div>
           <div class="form-group">
             <label for="service">Area of Interest</label>
@@ -586,7 +588,7 @@
   <footer>
     <img
       src="assets/mfd-logo.jpg"
-      alt="MFD Research" />
+      alt="MFD Research" loading="lazy" />
     <div class="footer-top">
       <div>
         <p class="footer-tagline">Clinical research consulting built on 18+ years of site-level leadership. Partnering with sponsors, CROs, and sites to execute with precision.</p>
@@ -622,7 +624,7 @@
 
   <!-- BACK TO TOP -->
   <button id="backToTop" class="back-to-top" aria-label="Back to top">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" aria-hidden="true" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
   </button>
 
   <script src="script.js" defer></script>
