@@ -79,20 +79,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Timeline item highlighting based on scroll position
-   * Highlights timeline items as they come into view
+   * Keeps one timeline item active based on viewport center
    */
   function setupTimelineHighlight() {
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const timelineObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          entry.target.classList.toggle('in-view', entry.isIntersecting);
-        });
-      },
-      { threshold: 0.5 }
-    );
+    const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
+    if (timelineItems.length === 0) return;
 
-    timelineItems.forEach((item) => timelineObserver.observe(item));
+    let activeItem = null;
+    let ticking = false;
+
+    function setActiveItem(nextItem) {
+      if (activeItem === nextItem) return;
+      timelineItems.forEach((item) => {
+        item.classList.toggle('is-active', item === nextItem);
+      });
+      activeItem = nextItem;
+    }
+
+    function updateActiveItem() {
+      ticking = false;
+      const viewportCenter = window.innerHeight / 2;
+      let closestItem = timelineItems[0];
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      timelineItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(itemCenter - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestItem = item;
+        }
+      });
+
+      setActiveItem(closestItem);
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateActiveItem);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    updateActiveItem();
   }
 
   /**

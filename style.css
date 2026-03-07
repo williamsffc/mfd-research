@@ -762,7 +762,9 @@
       padding-left: 32px;
       opacity: 0;
       transform: translateX(-16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, border-color 0.3s ease;
+      border-left: 2px solid transparent;
+      border-radius: 10px;
       will-change: opacity, transform;
     }
 
@@ -771,27 +773,34 @@
       transform: translateX(0);
     }
 
+    .timeline-item.is-active {
+      background: rgba(58, 140, 92, 0.12);
+      border-left-color: var(--green);
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 10px;
+    }
+
     .timeline-dot {
       position: absolute;
-      left: -39px;
-      top: 6px;
+      left: -40px;
+      top: 50%;
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: var(--bg-white);
-      border: 2px solid var(--green);
-      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      background: var(--bg-soft);
+      border: 2px solid var(--border);
+      opacity: 0.4;
+      transform: translateY(-50%) scale(0.82);
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
     }
 
-    .timeline-dot.current {
+    .timeline-item.is-active .timeline-dot {
       background: var(--green);
-      box-shadow: 0 0 0 4px rgba(58, 140, 92, 0.2);
-    }
-
-    .timeline-item.in-view .timeline-dot {
-      background: var(--green);
-      box-shadow: 0 0 0 5px rgba(58, 140, 92, 0.18);
-      transform: scale(1.3);
+      border-color: var(--green);
+      box-shadow: 0 0 0 6px rgba(58, 140, 92, 0.22);
+      opacity: 1;
+      transform: translateY(-50%) scale(1.3);
     }
 
     .timeline-year {
@@ -799,32 +808,54 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: var(--green);
+      color: var(--text-muted);
       margin-bottom: 4px;
+      opacity: 0.52;
+      transition: color 0.3s ease, opacity 0.3s ease;
     }
 
     .timeline-role {
       font-size: 17px;
       font-weight: 600;
-      color: var(--navy);
+      color: var(--navy-light);
       margin-bottom: 2px;
-      transition: color 0.3s ease;
+      opacity: 0.58;
+      transition: color 0.3s ease, opacity 0.3s ease;
     }
 
-    .timeline-item.in-view .timeline-role {
+    .timeline-item.is-active .timeline-year {
       color: var(--green);
+      opacity: 1;
+    }
+
+    .timeline-item.is-active .timeline-role {
+      color: var(--navy);
+      opacity: 1;
     }
 
     .timeline-org {
       font-size: 14px;
-      color: var(--text-muted);
+      color: var(--green-light);
       margin-bottom: 10px;
+      opacity: 0.52;
+      transition: opacity 0.3s ease, color 0.3s ease;
     }
 
     .timeline-desc {
       font-size: 14px;
       color: var(--text-secondary);
       line-height: 1.7;
+      opacity: 0.48;
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+
+    .timeline-item.is-active .timeline-org,
+    .timeline-item.is-active .timeline-desc {
+      opacity: 1;
+    }
+
+    .timeline-item.is-active .timeline-org {
+      color: var(--green);
     }
 
     /* ===== COMPONENT: SPECIALTIES ===== */
