@@ -9,5 +9,8 @@
     "build:dev": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {
+    "vite": "6"
+  }
 }
