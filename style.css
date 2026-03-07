@@ -1542,6 +1542,16 @@
         gap: 32px;
       }
 
+      .footer-tagline {
+        max-width: 100%;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
       .hero-title {
         font-size: 42px;
       }
@@ -1575,6 +1585,35 @@
         height: 40px;
       }
     }
+
+    @media (max-width: 480px) {
+      footer {
+        padding: 32px 16px 24px;
+      }
+
+      .footer-top {
+        gap: 24px;
+      }
+
+      .footer-col-links {
+        gap: 8px;
+      }
+
+      .footer-bottom {
+        gap: 10px;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer-copy,
+      .footer-links a {
+        font-size: 12px;
+      }
+    }
+
 /* FORM VALIDATION STYLES */
 .form-group input.error,
 .form-group textarea.error,
