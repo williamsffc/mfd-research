@@ -13,6 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
     rel="stylesheet" />
   <style>
+    /* ===== TOKENS & BASE ===== */
     *,
     *::before,
     *::after {
@@ -54,7 +55,7 @@
       line-height: 1.6;
     }
 
-    /* ─── NAV ─── */
+    /* ===== COMPONENT: NAV ===== */
     nav {
       position: fixed;
       top: 0;
@@ -118,7 +119,7 @@
       transform: translateY(-1px);
     }
 
-    /* ─── HERO ─── */
+    /* ===== COMPONENT: HERO ===== */
     #hero {
       min-height: 100vh;
       display: flex;
@@ -269,7 +270,7 @@
       transform: translateY(-2px);
     }
 
-    /* floating card */
+    /* HERO CARD */
     .hero-card {
       position: absolute;
       right: 80px;
@@ -353,7 +354,7 @@
       }
     }
 
-    /* ─── CREDIBILITY BAR ─── */
+    /* ===== COMPONENT: CREDIBILITY BAR ===== */
     #credibility {
       background: var(--navy);
       padding: 28px 80px;
@@ -430,7 +431,7 @@
       color: var(--green-accent);
     }
 
-    /* ─── SECTIONS COMMON ─── */
+    /* ===== LAYOUT & SHARED SECTION STYLES ===== */
     section {
       padding: 100px 80px;
     }
@@ -462,7 +463,7 @@
       margin-bottom: 56px;
     }
 
-    /* ─── ABOUT ─── */
+    /* ===== COMPONENT: ABOUT ===== */
     #about {
       background: var(--bg-white);
     }
@@ -567,7 +568,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ─── SERVICES ─── */
+    /* ===== COMPONENT: SERVICES ===== */
     #services {
       background: var(--bg);
     }
@@ -653,7 +654,7 @@
       line-height: 1.7;
     }
 
-    /* ─── EXPERIENCE TIMELINE ─── */
+    /* ===== COMPONENT: EXPERIENCE TIMELINE ===== */
     #experience {
       background: var(--bg-white);
     }
@@ -743,7 +744,7 @@
       line-height: 1.7;
     }
 
-    /* ─── SPECIALTIES ─── */
+    /* ===== COMPONENT: SPECIALTIES ===== */
     #specialties {
       background: var(--bg);
     }
@@ -808,7 +809,7 @@
       color: var(--navy);
     }
 
-    /* ─── CREDENTIALS ─── */
+    /* ===== COMPONENT: CREDENTIALS ===== */
     #credentials {
       background: var(--navy);
     }
@@ -870,7 +871,7 @@
       line-height: 1.5;
     }
 
-    /* ─── CONTACT ─── */
+    /* ===== COMPONENT: CONTACT ===== */
     #contact {
       background: var(--bg-white);
     }
@@ -1000,7 +1001,7 @@
       box-shadow: 0 8px 24px rgba(58, 140, 92, 0.3);
     }
 
-    /* ─── TRUST ─── */
+    /* ===== COMPONENT: TRUST ===== */
     #trust {
       background: var(--bg-soft);
     }
@@ -1049,7 +1050,7 @@
       line-height: 1.7;
     }
 
-    /* ─── FOOTER ─── */
+    /* ===== COMPONENT: FOOTER ===== */
     footer {
       background: var(--text-primary);
       color: rgba(255, 255, 255, 0.5);
@@ -1133,7 +1134,8 @@
       color: var(--green-accent);
     }
 
-    /* ─── SCROLL REVEAL ─── */
+    /* ===== UTILITIES ===== */
+    /* ===== INTERACTION: SCROLL REVEAL ===== */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -1161,7 +1163,7 @@
       transition-delay: 0.4s;
     }
 
-    /* ─── MOBILE NAV HAMBURGER ─── */
+    /* ===== NAV (MOBILE TOGGLE) ===== */
     .nav-hamburger {
       display: none;
       flex-direction: column;
@@ -1187,7 +1189,7 @@
       border-radius: 6px;
     }
 
-    /* ─── RESPONSIVE ─── */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
       nav {
         padding: 0 24px;
@@ -1368,6 +1370,9 @@
       <span></span><span></span><span></span>
     </button>
   </nav>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
 
   <!-- HERO -->
   <section id="hero">
@@ -1887,6 +1892,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer>
     <img
@@ -1926,52 +1933,77 @@
   </footer>
 
   <script>
-    // Nav scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 40);
-    });
+    function setupNavScrollEffect() {
+      const navbar = document.getElementById('navbar');
+      if (!navbar) return;
 
-    // Mobile nav toggle
-    const navLinks = document.getElementById('navLinks');
-    const hamburger = document.getElementById('hamburger');
-
-    function toggleNav(forceOpen) {
-      const isOpen = typeof forceOpen === 'boolean' ? forceOpen : !navLinks.classList.contains('open');
-      navLinks.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', String(isOpen));
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+      });
     }
 
-    hamburger.addEventListener('click', () => toggleNav());
-    navLinks.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => toggleNav(false));
-    });
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') toggleNav(false);
-    });
+    function setupMobileNavToggle() {
+      const navLinks = document.getElementById('navLinks');
+      const hamburger = document.getElementById('hamburger');
+      if (!navLinks || !hamburger) return;
 
-    // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal, .timeline-item');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+      function toggleNav(forceOpen) {
+        const isOpen =
+          typeof forceOpen === 'boolean' ? forceOpen : !navLinks.classList.contains('open');
+        navLinks.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      }
+
+      hamburger.addEventListener('click', () => toggleNav());
+      navLinks.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => toggleNav(false));
       });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => observer.observe(el));
-
-    // Timeline title highlight on scroll
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const timelineObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        entry.target.classList.toggle('in-view', entry.isIntersecting);
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') toggleNav(false);
       });
-    }, { threshold: 0.5 });
-    timelineItems.forEach(el => timelineObserver.observe(el));
+    }
 
-    // Dynamic copyright year
-    document.getElementById('footerYear').textContent = new Date().getFullYear();
+    function setupScrollReveal() {
+      const revealElements = document.querySelectorAll('.reveal, .timeline-item');
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      revealElements.forEach((element) => revealObserver.observe(element));
+    }
+
+    function setupTimelineHighlight() {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      const timelineObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle('in-view', entry.isIntersecting);
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      timelineItems.forEach((item) => timelineObserver.observe(item));
+    }
+
+    function setupFooterYear() {
+      const footerYear = document.getElementById('footerYear');
+      if (!footerYear) return;
+      footerYear.textContent = new Date().getFullYear();
+    }
+
+    setupNavScrollEffect();
+    setupMobileNavToggle();
+    setupScrollReveal();
+    setupTimelineHighlight();
+    setupFooterYear();
   </script>
 
 </body>
