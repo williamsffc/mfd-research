@@ -390,6 +390,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * Cursor spotlight effect on service and trust cards
+   * Tracks mouse position and renders a radial light on each card
+   */
+  function setupCursorSpotlight() {
+    const cards = document.querySelectorAll('.service-card-front, .trust-card');
+    cards.forEach(card => {
+      const spotlight = document.createElement('div');
+      spotlight.className = 'card-spotlight';
+      card.appendChild(spotlight);
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        spotlight.style.setProperty('--x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+        spotlight.style.setProperty('--y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+      });
+
+      card.addEventListener('mouseenter', () => { spotlight.style.opacity = '1'; });
+      card.addEventListener('mouseleave', () => { spotlight.style.opacity = '0'; });
+    });
+  }
+
+  /**
+   * Animates numeric stats (data-count) counting up when they enter the viewport
+   * Uses ease-out cubic easing for a satisfying feel
+   */
+  function setupCountingStats() {
+    const elements = document.querySelectorAll('[data-count]');
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1400;
+        const start = performance.now();
+
+        const tick = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.6 });
+
+    elements.forEach(el => observer.observe(el));
+  }
+
+  /**
+   * Highlights the matching nav link as sections scroll into view
+   * Excludes the .nav-cta button from the active treatment
+   */
+  function setupScrollspy() {
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]:not(.nav-cta)');
+    if (!sections.length || !navLinks.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => {
+          link.classList.toggle('spy-active', link.getAttribute('href') === `#${entry.target.id}`);
+        });
+      });
+    }, { rootMargin: '-72px 0px -55% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+  }
+
+  /**
+   * Converts the credibility bar into a seamless looping marquee
+   * Clones the inner items and animates via CSS; pauses on hover
+   */
+  function setupMarquee() {
+    const credibility = document.getElementById('credibility');
+    const inner = credibility?.querySelector('.cred-inner');
+    if (!inner) return;
+
+    const track = document.createElement('div');
+    track.className = 'cred-track';
+    inner.parentNode.insertBefore(track, inner);
+    track.appendChild(inner);
+
+    const clone = inner.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  }
+
   // Initialize all features
   setupScrollHandlers();
   setupMobileNavToggle();
@@ -401,4 +496,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupLoader();
   setupSmoothScroll();
   setupServiceWorker();
+  setupCursorSpotlight();
+  setupCountingStats();
+  setupScrollspy();
+  setupMarquee();
 });

@@ -166,10 +166,27 @@
       text-decoration: none;
       letter-spacing: 0.02em;
       transition: color 0.2s;
+      position: relative;
     }
 
     .nav-links a:hover {
       color: var(--navy);
+    }
+
+    .nav-links a.spy-active {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .nav-links a.spy-active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--green);
+      border-radius: 2px;
     }
 
     .nav-cta {
@@ -215,6 +232,7 @@
       background: var(--hero-blob-1);
       top: -150px;
       right: -100px;
+      animation: blob-drift-1 20s ease-in-out infinite;
     }
 
     .hero-blob-2 {
@@ -223,6 +241,19 @@
       background: var(--hero-blob-2);
       bottom: -50px;
       left: 10%;
+      animation: blob-drift-2 26s ease-in-out infinite;
+    }
+
+    @keyframes blob-drift-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(-28px, 22px) scale(1.05); }
+      66%       { transform: translate(18px, -14px) scale(0.97); }
+    }
+
+    @keyframes blob-drift-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(22px, -18px) scale(1.04); }
+      66%       { transform: translate(-14px, 14px) scale(0.96); }
     }
 
     .hero-badge {
@@ -447,22 +478,42 @@
     /* ===== COMPONENT: CREDIBILITY BAR ===== */
     #credibility {
       background: var(--section-accent-bg);
-      padding: 28px 80px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .cred-track {
+      display: flex;
+      animation: cred-marquee 32s linear infinite;
+    }
+
+    #credibility:hover .cred-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes cred-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
     .cred-inner {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+      justify-content: flex-start;
+      gap: 0;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+      padding: 20px 0;
     }
 
     .cred-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 8px 0;
+      padding: 8px 36px;
       color: var(--overlay-white-90);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      flex-shrink: 0;
     }
 
     .cred-tooltip {
@@ -706,6 +757,7 @@
       background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--card-border-gradient) border-box;
       text-align: center;
       gap: 16px;
+      overflow: hidden;
     }
 
     .service-card-back {
@@ -994,6 +1046,28 @@
       line-height: 1.5;
     }
 
+    /* ===== INTERACTION: CURSOR SPOTLIGHT ===== */
+    .card-spotlight {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(109, 223, 176, 0.13) 0%,
+        transparent 62%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .service-card-front > *,
+    .trust-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
     /* ===== COMPONENT: CONTACT ===== */
     #contact {
       background: var(--bg-white);
@@ -1141,6 +1215,8 @@
       border-radius: var(--radius);
       padding: 36px 28px;
       transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
     }
 
     .trust-card:hover {
@@ -1442,7 +1518,7 @@
       }
 
       #credibility {
-        padding: 28px 40px;
+        padding: 0;
       }
 
       footer {
@@ -1575,7 +1651,7 @@
       }
 
       #credibility {
-        padding: 24px;
+        padding: 0;
       }
 
       footer {
@@ -1637,13 +1713,7 @@
       }
 
       .cred-item {
-        padding: 8px 16px;
-      }
-
-      .cred-inner {
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 20px;
+        padding: 8px 24px;
       }
 
       .back-to-top {
@@ -1864,6 +1934,22 @@
   .timeline-desc,
   .cred-entry-text {
     color: #4A5568;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob-1,
+  .hero-blob-2 {
+    animation: none;
+  }
+
+  .cred-track {
+    animation: none;
+  }
+
+  .card-spotlight {
+    transition: none;
   }
 }
 
