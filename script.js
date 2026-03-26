@@ -377,24 +377,16 @@ document.addEventListener('DOMContentLoaded', () => {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then((registration) => {
-          console.log('[App] Service Worker registered:', registration.scope);
-
-          // Check for updates periodically
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
-            console.log('[App] Service Worker update found');
-
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New service worker available, notify user
-                console.log('[App] New content available, please refresh');
+                // New content available — could notify user here
               }
             });
           });
         })
-        .catch((error) => {
-          console.log('[App] Service Worker registration failed:', error);
-        });
+        .catch(() => {});
     }
   }
 
