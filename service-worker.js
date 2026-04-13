@@ -24,6 +24,7 @@ const PRECACHE_URLS = [
 
 // Cache size limits (in items)
 const MAX_CACHE_SIZE = 50;
+const CACHEABLE_DESTINATIONS = new Set(['script', 'style', 'image', 'font']);
 
 /**
  * Install event - cache critical assets
@@ -80,6 +81,26 @@ self.addEventListener('fetch', (event) => {
 
   // Skip form submissions
   if (request.url.includes('submit') || request.url.includes('?')) {
+    return;
+  }
+
+  // Keep navigation documents network-first to reduce stale/poisoned-page risk.
+  if (request.mode === 'navigate' || request.destination === 'document') {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put(request, responseToCache));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  if (!CACHEABLE_DESTINATIONS.has(request.destination)) {
     return;
   }
 
@@ -156,6 +177,11 @@ async function trimCache(cacheName, maxItems) {
  * Message handler - allows page to control service worker
  */
 self.addEventListener('message', (event) => {
+  const sourceUrl = event.source && event.source.url ? new URL(event.source.url) : null;
+  if (sourceUrl && sourceUrl.origin !== self.location.origin) {
+    return;
+  }
+
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
@@ -166,7 +192,9 @@ self.addEventListener('message', (event) => {
         cacheNames.map((cacheName) => caches.delete(cacheName))
       );
     }).then(() => {
-      event.ports[0].postMessage({ success: true });
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: true });
+      }
     });
   }
 });
