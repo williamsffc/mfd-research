@@ -42,10 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {
         typeof forceOpen === 'boolean' ? forceOpen : !navLinks.classList.contains('open');
       navLinks.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        const firstLink = navLinks.querySelector('a');
+        if (firstLink) firstLink.focus();
+      } else {
+        hamburger.focus();
+      }
     }
 
     hamburger.addEventListener('click', () => toggleNav());
-    
+
+    // Focus trap: keep keyboard focus inside the open mobile menu
+    navLinks.addEventListener('keydown', (e) => {
+      if (!navLinks.classList.contains('open')) return;
+      const focusable = Array.from(navLinks.querySelectorAll('a'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
     // Event delegation: One listener for all links
     navLinks.addEventListener('click', (e) => {
       if (e.target.closest('a')) toggleNav(false);
@@ -260,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showSuccessMessage() {
       const successDiv = document.createElement('div');
       successDiv.className = 'form-message success';
+      successDiv.setAttribute('role', 'alert');
       successDiv.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         <span>Thank you! Your message has been sent successfully. We'll respond within 1-2 business days.</span>
@@ -274,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showErrorMessage() {
       const errorDiv = document.createElement('div');
       errorDiv.className = 'form-message error';
+      errorDiv.setAttribute('role', 'alert');
       errorDiv.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <span>Oops! Something went wrong. Please try again or email us directly at info@mfdresearch.com</span>
@@ -302,19 +328,20 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
 
     /**
-     * Update ARIA label on theme toggle button for accessibility
+     * Update ARIA label and aria-pressed on theme toggle button
      */
-    function updateAriaLabel() {
+    function updateAriaState() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      toggle.setAttribute('aria-pressed', String(isDark));
     }
-    updateAriaLabel();
+    updateAriaState();
     toggle.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
-      updateAriaLabel();
+      updateAriaState();
     });
   }
 
@@ -485,6 +512,64 @@ document.addEventListener('DOMContentLoaded', () => {
     track.appendChild(clone);
   }
 
+  /**
+   * Keyboard activation for service cards
+   * Enter/Space toggles the flip; Escape closes it.
+   * Complements the existing :focus-within CSS flip.
+   */
+  function setupServiceCardKeyboard() {
+    const cards = document.querySelectorAll('.service-card[tabindex]');
+    cards.forEach(card => {
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('flipped');
+        }
+        if (e.key === 'Escape') {
+          card.classList.remove('flipped');
+          card.focus();
+        }
+      });
+      card.addEventListener('blur', (e) => {
+        if (!card.contains(e.relatedTarget)) {
+          card.classList.remove('flipped');
+        }
+      });
+    });
+  }
+
+  /**
+   * FAQ accordion: toggle answer visibility with proper ARIA state
+   */
+  function setupFaqAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const btn = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      if (!btn || !answer) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        // Close all others
+        faqItems.forEach(other => {
+          const otherBtn = other.querySelector('.faq-question');
+          const otherAnswer = other.querySelector('.faq-answer');
+          if (otherBtn && otherAnswer) {
+            otherBtn.setAttribute('aria-expanded', 'false');
+            otherAnswer.hidden = true;
+            other.classList.remove('faq-open');
+          }
+        });
+        // Toggle current
+        if (!isOpen) {
+          btn.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+          item.classList.add('faq-open');
+        }
+      });
+    });
+  }
+
   // Initialize all features
   setupScrollHandlers();
   setupMobileNavToggle();
@@ -500,4 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCountingStats();
   setupScrollspy();
   setupMarquee();
+  setupServiceCardKeyboard();
+  setupFaqAccordion();
 });

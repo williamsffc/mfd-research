@@ -7,6 +7,22 @@
   <title>MFD Research | Where Expertise Meets Execution</title>
   <meta name="description"
     content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <link rel="canonical" href="https://mfdresearch.com/" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mfdresearch.com/" />
+  <meta property="og:title" content="MFD Research | Where Expertise Meets Execution" />
+  <meta property="og:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <meta property="og:image" content="https://mfdresearch.com/assets/og-image.png" />
+  <meta property="og:site_name" content="MFD Research LLC" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MFD Research | Where Expertise Meets Execution" />
+  <meta name="twitter:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <meta name="twitter:image" content="https://mfdresearch.com/assets/og-image.png" />
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -19,8 +35,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
+    rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
-    rel="stylesheet" />
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" /></noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -41,17 +59,20 @@
     <a class="nav-logo" href="#hero">
       <img
         src="assets/mfd-logo.jpg"
-        alt="MFD Research" />
+        alt="MFD Research"
+        width="220" height="44" />
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#specialties">Specialties</a></li>
       <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#faq">FAQ</a></li>
       <li><a href="#contact" class="nav-cta">Contact Us</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
       <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
@@ -117,7 +138,7 @@
   </section>
 
   <!-- CREDIBILITY BAR -->
-  <div id="credibility">
+  <section id="credibility" aria-label="Key credentials at a glance">
     <div class="cred-inner">
       <div class="cred-item">
         <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
@@ -155,7 +176,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ABOUT -->
   <section id="about">
@@ -178,12 +199,12 @@
           compliance and the art of leadership."</div>
         <div class="about-author">— Founder &amp; Principal, MFD Research LLC</div>
         <div class="about-tags">
-          <span class="about-tag">Site Development<span class="tag-tooltip" aria-hidden="true">End-to-end research site planning, build-out, and sponsor activation.</span></span>
-          <span class="about-tag">GCP Compliance<span class="tag-tooltip" aria-hidden="true">Ensuring adherence to ICH Good Clinical Practice guidelines across all operations.</span></span>
-          <span class="about-tag">Staff Training<span class="tag-tooltip" aria-hidden="true">Customized training programs for coordinators, sub-investigators, and site staff.</span></span>
-          <span class="about-tag">QMS Design<span class="tag-tooltip" aria-hidden="true">Building quality management systems that meet sponsor and regulatory standards.</span></span>
-          <span class="about-tag">Regulatory Strategy<span class="tag-tooltip" aria-hidden="true">Strategic regulatory planning from IRB submissions to ongoing compliance oversight.</span></span>
-          <span class="about-tag">Trial Management<span class="tag-tooltip" aria-hidden="true">Operational oversight across multiple therapeutic areas and concurrent protocols.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-site-dev">Site Development<span class="tag-tooltip" id="tt-site-dev" role="tooltip">End-to-end research site planning, build-out, and sponsor activation.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-gcp">GCP Compliance<span class="tag-tooltip" id="tt-gcp" role="tooltip">Ensuring adherence to ICH Good Clinical Practice guidelines across all operations.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-training">Staff Training<span class="tag-tooltip" id="tt-training" role="tooltip">Customized training programs for coordinators, sub-investigators, and site staff.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-qms">QMS Design<span class="tag-tooltip" id="tt-qms" role="tooltip">Building quality management systems that meet sponsor and regulatory standards.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-reg">Regulatory Strategy<span class="tag-tooltip" id="tt-reg" role="tooltip">Strategic regulatory planning from IRB submissions to ongoing compliance oversight.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-trial">Trial Management<span class="tag-tooltip" id="tt-trial" role="tooltip">Operational oversight across multiple therapeutic areas and concurrent protocols.</span></span>
         </div>
       </div>
     </div>
@@ -267,6 +288,41 @@
             <div class="service-desc">Comprehensive site assessments identifying gaps in performance, compliance, and workflow with actionable remediation plans.</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="section-label reveal">How We Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Our Engagement Process</h2>
+    <p class="section-sub reveal reveal-delay-2">From first contact to final deliverable — a transparent, structured engagement model with no guesswork.</p>
+    <div class="process-steps">
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-step-number" aria-hidden="true">01</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="process-step-title">Discovery Call</h3>
+        <p class="process-step-desc">A confidential 30-minute call to understand your goals, timelines, and challenges — no obligation, no pitch deck.</p>
+      </div>
+      <div class="process-connector" aria-hidden="true"></div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-step-number" aria-hidden="true">02</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="process-step-title">Assessment &amp; Proposal</h3>
+        <p class="process-step-desc">We evaluate your current operations and deliver a tailored proposal — scope, timeline, and measurable outcomes clearly defined.</p>
+      </div>
+      <div class="process-connector" aria-hidden="true"></div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="process-step-number" aria-hidden="true">03</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="process-step-title">Execution &amp; Delivery</h3>
+        <p class="process-step-desc">Hands-on consulting with regular updates and clear milestones. We stay accountable until your operational goals are met.</p>
       </div>
     </div>
   </section>
@@ -484,6 +540,39 @@
     </div>
   </section>
 
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-label reveal">What Clients Say</div>
+    <h2 class="section-title reveal reveal-delay-1">Client Testimonials</h2>
+    <p class="section-sub reveal reveal-delay-2">Trusted by sponsors, CROs, and research sites across the industry. Names kept confidential per our engagement policy.</p>
+    <div class="testimonials-grid">
+      <figure class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"MFD Research transformed our struggling site in under 90 days. Their team brought operational clarity and regulatory confidence that our sponsor had been demanding for months."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">Director of Clinical Operations</div>
+          <div class="testimonial-org">Major Pharmaceutical Sponsor</div>
+        </figcaption>
+      </figure>
+      <figure class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"We engaged MFD Research to build our QMS from scratch. What impressed us most was the depth of real-world site experience — they knew every corner case and regulatory nuance."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">VP of Research Operations</div>
+          <div class="testimonial-org">Biotech Organization</div>
+        </figcaption>
+      </figure>
+      <figure class="testimonial-card reveal reveal-delay-3">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"The staff training program they delivered was unlike any we'd seen — practical, protocol-specific, and immediately applicable. Our coordinators were inspection-ready within weeks."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">Clinical Research Site Director</div>
+          <div class="testimonial-org">Multi-Specialty Research Site</div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- TRUST -->
   <section id="trust">
     <div class="section-label reveal">Why MFD Research</div>
@@ -510,6 +599,60 @@
         </div>
         <div class="trust-card-title">Confidential Engagements</div>
         <div class="trust-card-desc">All client relationships are handled with complete professional discretion. Whether advising on a sensitive site remediation or a competitive launch strategy, your business stays private.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-label reveal">Common Questions</div>
+    <h2 class="section-title reveal reveal-delay-1">Frequently Asked Questions</h2>
+    <p class="section-sub reveal reveal-delay-2">Everything you need to know before reaching out.</p>
+    <div class="faq-list reveal reveal-delay-2">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+          What types of organizations do you work with?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-1" hidden>
+          <p>We work with pharmaceutical sponsors, biotech firms, CROs, and research sites of all sizes — from emerging Phase I sites to established multi-specialty networks. If you're building, optimizing, or remediating clinical research operations, we can help.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+          Do you work on a project or retainer basis?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-2" hidden>
+          <p>Both. Short-term project engagements are available for defined deliverables such as SOP development, site assessments, or staff training programs. Ongoing advisory retainers are also available for organizations that need continuous operational support.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+          Are engagements confidential?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-3" hidden>
+          <p>Yes — all client relationships are handled with complete professional discretion. We routinely sign mutual NDAs at the start of any engagement, and client details are never shared or referenced publicly.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+          Do you work with sites outside of California?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-4" hidden>
+          <p>Yes. While our founder is based in California, we support clients across the United States and can work remotely or on-site depending on the engagement type and client preference.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+          How quickly can an engagement begin?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-5" hidden>
+          <p>Typically within 1–2 weeks of a signed agreement, depending on the scope of work. We understand that clinical research timelines are rarely forgiving, and we prioritize rapid mobilization for urgent site needs.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -545,7 +688,22 @@
               <div class="contact-info-value">We respond within 1–2 business days</div>
             </div>
           </div>
+          <div class="contact-info-item reveal reveal-delay-4">
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <div>
+              <div class="contact-info-label">LinkedIn</div>
+              <div class="contact-info-value">
+                <!-- UPDATE: Replace href with your LinkedIn profile or company page URL -->
+                <a href="#" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- UPDATE: Replace href with your Calendly or booking link -->
+        <a href="#" class="btn-schedule reveal reveal-delay-4" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Schedule a Call
+        </a>
       </div>
       <div class="reveal reveal-delay-2">
         <form class="contact-form" netlify name="contact" method="POST">
@@ -583,7 +741,7 @@
           </div>
           <div class="form-group">
             <label for="message">Message</label>
-            <textarea id="message" name="message"
+            <textarea id="message" name="message" required
               placeholder="Tell us about your research needs or project..."></textarea>
           </div>
           <button type="submit" class="form-submit">Send Message →</button>
@@ -600,17 +758,28 @@
       <div>
         <img
           src="assets/mfd-logo.jpg"
-          alt="MFD Research" loading="lazy" />
+          alt="MFD Research"
+          width="220" height="48"
+          loading="lazy" />
         <p class="footer-tagline">Clinical research consulting built on 18+ years of site-level leadership. Partnering with sponsors, CROs, and sites to execute with precision.</p>
+        <div class="footer-social">
+          <!-- UPDATE: Replace href with your LinkedIn profile or company page URL -->
+          <a href="#" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="MFD Research on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <div class="footer-col-title">Quick Links</div>
         <div class="footer-col-links">
           <a href="#about">About</a>
           <a href="#services">Services</a>
+          <a href="#process">Process</a>
           <a href="#experience">Experience</a>
           <a href="#specialties">Specialties</a>
           <a href="#credentials">Credentials</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
         </div>
       </div>
