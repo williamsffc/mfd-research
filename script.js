@@ -252,20 +252,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        // Submit to Netlify
+        // Submit to Web3Forms
         const formData = new FormData(form);
-        const response = await fetch('/', {
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData).toString()
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: json
         });
 
-        if (response.ok) {
+        const result = await response.json();
+
+        if (response.status === 200) {
           showSuccessMessage();
           form.reset();
           inputs.forEach(input => input.classList.remove('valid'));
         } else {
-          throw new Error('Form submission failed');
+          throw new Error(result.message || 'Form submission failed');
         }
       } catch (error) {
         showErrorMessage();

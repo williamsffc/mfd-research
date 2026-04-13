@@ -9,6 +9,7 @@
     content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
   <link rel="canonical" href="https://mfdresearch.com/" />
   <meta name="robots" content="index, follow" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self';" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -703,12 +704,13 @@
         </a>
       </div>
       <div class="reveal reveal-delay-2">
-        <form class="contact-form" netlify data-netlify="true" netlify-honeypot="bot-field" name="contact" method="POST">
-          <input type="hidden" name="form-name" value="contact" />
-          <p hidden>
-            <label for="bot-field">Don&apos;t fill this out if you&apos;re human: </label>
-            <input id="bot-field" name="bot-field" autocomplete="off" tabindex="-1" />
-          </p>
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+          <!-- Web3Forms Configuration -->
+          <input type="hidden" name="access_key" value="%VITE_ACCESS_KEY%" />
+          <input type="hidden" name="subject" value="New Contact Form Submission from MFD Research" />
+          <input type="hidden" name="from_name" value="MFD Research Website" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name</label>

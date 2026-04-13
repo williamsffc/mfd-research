@@ -2,3 +2,8 @@ node_modules/
 .DS_Store
 .claude/
 .vite-runtime/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
