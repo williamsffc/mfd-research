@@ -5,23 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy | MFD Research</title>
   <meta name="description" content="Privacy Policy for MFD Research website and inquiries." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self';" />
+  
+  <link rel="stylesheet" href="../style.css">
   <style>
-    :root {
-      --navy: #1A2744;
-      --green: #3A8C5C;
-      --bg: #f5f6fa;
-      --card: #ffffff;
-      --text: #0f1b35;
-      --muted: #4a5568;
-      --border: #e2e8f0;
-    }
-    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--text-primary);
       line-height: 1.65;
+      padding: 0;
+      margin: 0;
     }
     .wrap {
       max-width: 860px;
@@ -42,49 +35,59 @@
       border-radius: 50%;
       border: 1px solid var(--border);
     }
-    .card {
-      background: var(--card);
+    .legal-card {
+      background: var(--bg-white);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-md);
     }
     h1 {
       margin: 0 0 8px;
-      font-size: 2rem;
+      font-size: 2.25rem;
       color: var(--navy);
+      font-family: 'Syne', sans-serif;
     }
     h2 {
-      margin: 26px 0 8px;
-      font-size: 1.15rem;
+      margin: 32px 0 12px;
+      font-size: 1.25rem;
       color: var(--navy);
+      font-family: 'Syne', sans-serif;
     }
-    p, li { color: var(--muted); }
-    ul { padding-left: 20px; }
+    p, li { color: var(--text-secondary); }
+    ul { padding-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 8px; }
     .meta {
       margin-top: 0;
       color: var(--green);
       font-weight: 600;
+      font-size: 0.9rem;
     }
-    .home {
+    .home-btn {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 32px;
       text-decoration: none;
       color: #fff;
       background: var(--navy);
-      border-radius: 999px;
-      padding: 10px 18px;
+      border-radius: 99px;
+      padding: 12px 24px;
       font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .home-btn:hover {
+      background: var(--navy-light);
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <a class="top" href="../index.html" aria-label="Return to home page">
+    <a class="top" href="../" aria-label="Return to home page">
       <img src="../assets/mfd-logo.jpg" alt="MFD Research logo" />
       <strong>MFD Research</strong>
     </a>
 
-    <article class="card">
+    <article class="legal-card">
       <h1>Privacy Policy</h1>
       <p class="meta">Last updated: March 6, 2026</p>
 
@@ -128,7 +131,7 @@
         We may revise this policy from time to time. Updates will be posted on this page with a new effective date.
       </p>
 
-      <a class="home" href="../index.html">Back to Home</a>
+      <a class="home-btn" href="../">Back to Home</a>
     </article>
   </main>
 </body>
