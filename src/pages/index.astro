@@ -1,6 +1,7 @@
 ---
 // Parity port of legacy static `index.html`.
 // Static assets are served from `public/` (style.css, script.js, assets/, and root SEO/PWA files).
+const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 ---
 
 <!DOCTYPE html>
@@ -710,7 +711,7 @@
       <div class="reveal reveal-delay-2">
         <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
           <!-- Web3Forms Configuration -->
-          <input type="hidden" name="access_key" value="%VITE_ACCESS_KEY%" />
+          <input type="hidden" name="access_key" value={web3formsAccessKey} />
           <input type="hidden" name="subject" value="New Contact Form Submission from MFD Research" />
           <input type="hidden" name="from_name" value="MFD Research Website" />
           <input type="checkbox" name="botcheck" class="hidden" style="display: none;">

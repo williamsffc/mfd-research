@@ -4,21 +4,52 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, and missing referenced favicon/Apple/Open Graph assets have been created.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, and Cloudflare preview is working at:
 
-The current goal is to validate Astro parity locally, then validate the same build through a Cloudflare Pages preview before refactoring or redesigning.
+```text
+https://testing.mfd-research.workers.dev/
+```
+
+The current goal is to fix Web3Forms environment variable handling locally before doing more structural refactoring.
 
 ## Active Goals
 
 1. Keep `main` as the stable baseline.
 2. Use `astro-migration` for all migration work.
 3. Validate Astro output parity for homepage and legal pages.
-4. Validate production-like behavior through Cloudflare Pages preview.
-5. Preserve current visual design and JavaScript behavior.
-6. Preserve root routes, legal pages, SEO files, PWA files, and assets.
-7. Fix Web3Forms environment variable handling after Cloudflare preview is working.
+4. Preserve current visual design and JavaScript behavior.
+5. Preserve root routes, legal pages, SEO files, PWA files, and assets.
+6. Fix Web3Forms environment variable handling.
+7. Deploy to Cloudflare only at meaningful milestones.
 8. Replace testimonials with Conferences & Industry Engagement after parity and form behavior are stable.
-9. Prepare future Cloudflare Pages production deployment.
+9. Prepare future Cloudflare Pages/Workers production deployment.
+
+## Deployment Discipline
+
+Do not push/deploy every small change.
+
+Use local testing for frequent iteration:
+
+```bash
+npm run dev
+npm run build
+npm run preview
+```
+
+Commit logical local checkpoints.
+
+Push/deploy to Cloudflare only at meaningful milestones, such as:
+
+```text
+Astro parity complete
+Missing assets fixed
+Web3Forms env handling fixed
+BaseLayout/Header/Footer extraction complete
+Testimonials replaced with Conferences section
+Google Booking CTA added
+ADA 2026 page added
+Final pre-launch QA
+```
 
 ## Completed
 
@@ -226,72 +257,77 @@ OG image is a simple brand-safe composition with the logo centered on a neutral 
 Apple touch icon is centered with padding on the same background color.
 ```
 
-### Completed Task 8: Review Recommended Next Order
+### Completed Task 8: Connect Cloudflare Preview
 
-The recommended next implementation order is:
-
-```text
-1. Run full local QA pass.
-2. Connect Cloudflare Pages preview.
-3. Fix Web3Forms environment variable handling.
-4. Create BaseLayout.astro.
-5. Extract Header/Footer.
-```
-
-Rationale:
+Cloudflare preview is working at:
 
 ```text
-Local QA proves Astro parity before structural changes.
-Cloudflare preview validates HTTPS, path resolution, and service worker behavior.
-Web3Forms env handling should be fixed before refactoring.
-BaseLayout should come before Header/Footer extraction.
-Header/Footer extraction should happen only after parity and form behavior are stable.
+https://testing.mfd-research.workers.dev/
 ```
+
+The preview is currently deployed through Cloudflare Workers static assets using:
+
+```text
+npx wrangler deploy --assets=dist --compatibility-date 2026-04-24
+```
+
+The current deployment should be treated as preview/testing only.
+
+Do not connect the production domain yet.
 
 ## Immediate Tasks
 
-### Task 9: Run Local Astro Parity QA
+### Task 9: Fix Web3Forms Environment Variable Handling
 
-Run local dev server:
-
-```bash
-npm run dev
-```
-
-Open:
+Replace the current placeholder:
 
 ```text
-http://localhost:8080/
-http://localhost:8080/privacy-policy/
-http://localhost:8080/terms-of-service/
+%VITE_ACCESS_KEY%
 ```
 
-Validate:
+with Astro-compatible build-time environment handling.
+
+Recommended variable:
 
 ```text
-Homepage renders correctly
-Legal pages render correctly
-CSS loads
-Logo loads
-Navigation works
-Anchor links work
-Mobile nav works
-Dark mode toggle works
-Theme persists in localStorage
-FAQ expands/collapses
-Service card keyboard behavior works
-Scroll reveal works
-Scrollspy works
-Back-to-top button works
-Contact form displays correctly
-Contact form validation works
-Reduced-motion behavior is preserved
-Skip link works
-Focus states are visible
-No major console errors appear
+PUBLIC_WEB3FORMS_ACCESS_KEY
 ```
 
-### Task 10: Validate Build Preview
+Expected implementation in `src/pages/index.astro`:
+
+```astro
+---
+const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "%VITE_ACCESS_KEY%";
+---
+```
+
+Expected hidden input:
+
+```astro
+<input type="hidden" name="access_key" value={web3formsAccessKey} />
+```
+
+Do not change:
+
+```text
+Web3Forms endpoint
+form field names
+form layout
+form validation behavior
+script.js behavior
+```
+
+### Task 10: Configure Local Environment
+
+Create or update local `.env`:
+
+```env
+PUBLIC_WEB3FORMS_ACCESS_KEY=your_real_web3forms_key_here
+```
+
+Do not commit `.env`.
+
+### Task 11: Validate Form Build Output Locally
 
 Run:
 
@@ -300,91 +336,70 @@ npm run build
 npm run preview
 ```
 
-Confirm these routes work:
+Check built HTML:
 
-```text
-/
- /privacy-policy/
- /terms-of-service/
+```bash
+grep -R "VITE_ACCESS_KEY\|PUBLIC_WEB3FORMS_ACCESS_KEY\|access_key" dist/index.html
 ```
 
-Confirm these root files load:
+Expected:
 
 ```text
-/robots.txt
-/sitemap.xml
-/site.webmanifest
-/service-worker.js
-/style.css
-/script.js
-/assets/mfd-logo.jpg
-/assets/favicon.svg
-/assets/favicon-32x32.png
-/assets/favicon-16x16.png
-/assets/apple-touch-icon.png
-/assets/og-image.png
+No %VITE_ACCESS_KEY% placeholder
+No PUBLIC_WEB3FORMS_ACCESS_KEY text
+access_key input exists
 ```
 
-### Task 11: Connect Cloudflare Pages Preview
+### Task 12: Configure Cloudflare Environment Variable
 
-After local QA passes, connect the `astro-migration` branch to Cloudflare Pages as a preview deployment.
-
-Cloudflare Pages settings:
-
-```text
-Framework preset: Astro
-Build command: npm run build
-Build output directory: dist
-Production branch: main
-Preview branch: astro-migration
-```
-
-Do not connect the production domain yet.
-
-Do not deploy unfinished work to `mfdresearch.com`.
-
-Use the Cloudflare preview URL only.
-
-### Task 12: Validate Cloudflare Preview
-
-On the Cloudflare preview URL, validate:
-
-```text
-Homepage route works
-Privacy Policy route works
-Terms of Service route works
-Root files load
-CSS loads
-JS loads
-Logo and icons load
-Open Graph image loads
-Mobile nav works
-Dark mode works
-FAQ works
-Back-to-top works
-Service worker registers under HTTPS
-No major console errors appear
-```
-
-### Task 13: Fix Web3Forms Environment Variable Handling
-
-After Cloudflare preview works, replace the current placeholder:
-
-```text
-%VITE_ACCESS_KEY%
-```
-
-with Astro-compatible environment variable handling.
-
-Recommended variable:
+In Cloudflare, add:
 
 ```text
 PUBLIC_WEB3FORMS_ACCESS_KEY
 ```
 
-Do not change form field names or the Web3Forms endpoint unless explicitly approved.
+under:
 
-### Task 14: Begin Post-Parity Refactor Planning
+```text
+Settings > Variables and secrets
+```
+
+Use the correct Web3Forms key.
+
+### Task 13: Deploy Form Handling Milestone
+
+After local validation succeeds:
+
+```bash
+git status --short
+git add .
+git commit -m "Use Astro env variable for Web3Forms key"
+git push
+```
+
+This is a meaningful milestone, so Cloudflare preview deployment is acceptable.
+
+### Task 14: Validate Cloudflare Preview Form Behavior
+
+On:
+
+```text
+https://testing.mfd-research.workers.dev/
+```
+
+Validate:
+
+```text
+Contact form renders
+Required field validation works
+Invalid email validation works
+Submit button enters Sending state
+Submission succeeds with real key or fails gracefully if service-side configuration blocks it
+No placeholder key appears in page source
+No major console errors
+```
+
+## Next Planned Refactor Sequence
 
 After local QA, Cloudflare preview, and Web3Forms env handling are stable, begin controlled refactor planning.
 
@@ -421,7 +436,6 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Cloudflare Pages preview connection
 Web3Forms environment variable migration
 Astro component creation
 BaseLayout extraction
@@ -430,6 +444,7 @@ ADA 2026 page
 Google Booking CTA integration
 Conference section implementation
 Legacy file cleanup after parity
+Production domain connection
 ```
 
 ## Blockers / Pending Inputs
@@ -437,6 +452,7 @@ Legacy file cleanup after parity
 Need from project owner:
 
 ```text
+Web3Forms access key
 Google Booking URL
 Final list of six conferences/meetings
 Confirmation of contact form provider
@@ -458,3 +474,5 @@ Use `astro-migration` as the construction branch.
 Do not delete legacy files until Astro parity is confirmed.
 
 Do not connect the production domain until the site is approved.
+
+Deploy to Cloudflare only at meaningful milestones.
