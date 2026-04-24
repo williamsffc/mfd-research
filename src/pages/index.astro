@@ -1,26 +1,819 @@
 ---
-// Astro bootstrap page.
-// Legacy static files remain at repo root for now.
+// Parity port of legacy static `index.html`.
+// Static assets are served from `public/` (style.css, script.js, assets/, and root SEO/PWA files).
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MFD Research</title>
-    <meta
-      name="description"
-      content="MFD Research is migrating to an Astro-powered static site. Please check back soon."
-    />
-  </head>
-  <body>
-    <main style="font-family: system-ui, sans-serif; padding: 24px; line-height: 1.5;">
-      <h1 style="margin: 0 0 8px;">MFD Research</h1>
-      <p style="margin: 0;">
-        Astro setup is in progress. Legacy static files are still present while parity work begins.
-      </p>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MFD Research | Where Expertise Meets Execution</title>
+  <meta name="description"
+    content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <link rel="canonical" href="https://mfdresearch.com/" />
+  <meta name="robots" content="index, follow" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self';" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mfdresearch.com/" />
+  <meta property="og:title" content="MFD Research | Where Expertise Meets Execution" />
+  <meta property="og:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <meta property="og:image" content="https://mfdresearch.com/assets/og-image.png" />
+  <meta property="og:site_name" content="MFD Research LLC" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MFD Research | Where Expertise Meets Execution" />
+  <meta name="twitter:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
+  <meta name="twitter:image" content="https://mfdresearch.com/assets/og-image.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#1A2744" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- LOADER -->
+  <div id="loader-overlay">
+    <div class="loader-content">
+      <div class="loader-text">MFD Research</div>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#hero">
+      <img
+        src="assets/mfd-logo.jpg"
+        alt="MFD Research"
+        width="220" height="44" />
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#specialties">Specialties</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <svg class="icon-moon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="nav-hamburger" id="hamburger" type="button" aria-label="Toggle navigation menu"
+      aria-controls="navLinks" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content" tabindex="-1">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Available for new partnerships
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">Where Expertise<br />Meets <span>Execution.</span></h1>
+      <p class="hero-sub">MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical and
+        biotech organizations build world-class research sites — from concept to completion.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Contact Us</a>
+        <a href="#services" class="btn-secondary">Our Services</a>
+      </div>
+    </div>
+
+    <!-- Floating Card -->
+    <div class="hero-card">
+      <div class="hero-card-title">Core Expertise</div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon" aria-hidden="true">🧬</div>
+        <div>
+          <div class="hero-stat-label">Experience</div>
+          <div class="hero-stat-value" data-count="18" data-suffix="+ Years">18+ Years</div>
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon" aria-hidden="true">📋</div>
+        <div>
+          <div class="hero-stat-label">Trial Phases</div>
+          <div class="hero-stat-value">Phase I – III</div>
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon" aria-hidden="true">🏥</div>
+        <div>
+          <div class="hero-stat-label">Specialties</div>
+          <div class="hero-stat-value" data-count="10" data-suffix="+ Therapeutic Areas">10+ Therapeutic Areas</div>
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-icon" aria-hidden="true">✅</div>
+        <div>
+          <div class="hero-stat-label">Certification</div>
+          <div class="hero-stat-value">ACRP Certified CRC</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDIBILITY BAR -->
+  <section id="credibility" aria-label="Key credentials at a glance">
+    <div class="cred-inner">
+      <div class="cred-item">
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="cred-value" data-count="18" data-suffix="+">18+</div>
+          <div class="cred-text">Years of Experience</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div>
+          <div class="cred-value">Phase I–III</div>
+          <div class="cred-text">Clinical Trials</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <div>
+          <div class="cred-value">GCP Certified</div>
+          <div class="cred-text">ICH Guidelines</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div>
+          <div class="cred-value">Multi-Sponsor</div>
+          <div class="cred-text">Portfolio Expertise</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+        <div>
+          <div class="cred-value" data-count="10" data-suffix="+ Areas">10+ Areas</div>
+          <div class="cred-text">Therapeutic Specialties</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label reveal">Who We Are</div>
+        <h2 class="section-title reveal reveal-delay-1">Strategic Partners in Clinical Excellence</h2>
+        <p class="reveal reveal-delay-2">MFD Research is a specialized consulting firm built on over 18 years of
+          hands-on clinical research leadership. We partner with pharmaceutical companies, biotech firms, and research
+          sponsors to design, build, and optimize high-performing research operations.</p>
+        <p class="reveal reveal-delay-2">Our founder brings direct site-level experience across every stage of a trial's
+          lifecycle — from regulatory setup and staff training to quality management and sponsor relations. We
+          understand what it takes to run a site that sponsors trust and regulators approve.</p>
+        <p class="reveal reveal-delay-3">Whether you're launching a first-in-human study, expanding your therapeutic
+          portfolio, or remediating a struggling site, we bring the operational expertise to move fast and execute with
+          precision.</p>
+      </div>
+      <div class="about-visual reveal reveal-delay-2">
+        <div class="about-quote">"Building world-class clinical research operations requires both the science of
+          compliance and the art of leadership."</div>
+        <div class="about-author">— Founder &amp; Principal, MFD Research LLC</div>
+        <div class="about-tags">
+          <span class="about-tag" tabindex="0" aria-describedby="tt-site-dev">Site Development<span class="tag-tooltip" id="tt-site-dev" role="tooltip">End-to-end research site planning, build-out, and sponsor activation.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-gcp">GCP Compliance<span class="tag-tooltip" id="tt-gcp" role="tooltip">Ensuring adherence to ICH Good Clinical Practice guidelines across all operations.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-training">Staff Training<span class="tag-tooltip" id="tt-training" role="tooltip">Customized training programs for coordinators, sub-investigators, and site staff.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-qms">QMS Design<span class="tag-tooltip" id="tt-qms" role="tooltip">Building quality management systems that meet sponsor and regulatory standards.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-reg">Regulatory Strategy<span class="tag-tooltip" id="tt-reg" role="tooltip">Strategic regulatory planning from IRB submissions to ongoing compliance oversight.</span></span>
+          <span class="about-tag" tabindex="0" aria-describedby="tt-trial">Trial Management<span class="tag-tooltip" id="tt-trial" role="tooltip">Operational oversight across multiple therapeutic areas and concurrent protocols.</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label reveal">What We Do</div>
+    <h2 class="section-title reveal reveal-delay-1">Consulting Services</h2>
+    <p class="section-sub reveal reveal-delay-2">End-to-end clinical research consulting, from strategic planning to
+      operational execution.</p>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+            <div class="service-title">Site Development & Strategy</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Site Development & Strategy</div>
+            <div class="service-desc">We help organizations build research sites from the ground up — from site selection and infrastructure planning to sponsor activation and first patient enrollment.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="service-title">Regulatory Compliance & GCP</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Regulatory Compliance & GCP</div>
+            <div class="service-desc">Proactive compliance strategies aligned with FDA, ICH-GCP, and sponsor requirements. We ensure your site is inspection-ready at all times.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-3" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+            <div class="service-title">Quality Management Systems</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Quality Management Systems</div>
+            <div class="service-desc">Design and implementation of robust QMS frameworks — CAPA processes, deviation management, and internal audit programs that drive continuous improvement.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="service-title">Multi-Specialty Trial Management</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Multi-Specialty Trial Management</div>
+            <div class="service-desc">Operational oversight across multiple therapeutic areas and concurrent trials. Proven systems for managing complex, multi-protocol environments.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="service-title">Staff Training & Development</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Staff Training & Development</div>
+            <div class="service-desc">Customized training programs for research coordinators, sub-investigators, and site staff covering GCP fundamentals and protocol-specific procedures.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-3" tabindex="0">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <div class="service-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <div class="service-title">Operational Assessment & Remediation</div>
+          </div>
+          <div class="service-card-back">
+            <div class="service-back-title">Operational Assessment & Remediation</div>
+            <div class="service-desc">Comprehensive site assessments identifying gaps in performance, compliance, and workflow with actionable remediation plans.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="section-label reveal">How We Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Our Engagement Process</h2>
+    <p class="section-sub reveal reveal-delay-2">From first contact to final deliverable — a transparent, structured engagement model with no guesswork.</p>
+    <div class="process-steps">
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-step-number" aria-hidden="true">01</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="process-step-title">Discovery Call</h3>
+        <p class="process-step-desc">A confidential 30-minute call to understand your goals, timelines, and challenges — no obligation, no pitch deck.</p>
+      </div>
+      <div class="process-connector" aria-hidden="true"></div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-step-number" aria-hidden="true">02</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="process-step-title">Assessment &amp; Proposal</h3>
+        <p class="process-step-desc">We evaluate your current operations and deliver a tailored proposal — scope, timeline, and measurable outcomes clearly defined.</p>
+      </div>
+      <div class="process-connector" aria-hidden="true"></div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="process-step-number" aria-hidden="true">03</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="process-step-title">Execution &amp; Delivery</h3>
+        <p class="process-step-desc">Hands-on consulting with regular updates and clear milestones. We stay accountable until your operational goals are met.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label reveal">Track Record</div>
+    <h2 class="section-title reveal reveal-delay-1">Clinical Research Experience</h2>
+    <p class="section-sub reveal reveal-delay-2">A career built on progressive leadership across the full spectrum of
+      clinical research operations.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot current"></div>
+        <div class="timeline-year">2026 – Present</div>
+        <div class="timeline-role">Chief Clinical Officer</div>
+        <div class="timeline-org">Ark Clinical Research</div>
+        <div class="timeline-desc">Overseeing the strategic direction of clinical research operations, including program
+          development, site expansion, sponsor partnerships, and regulatory oversight across the organization's research
+          portfolio.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2024 – 2025</div>
+        <div class="timeline-role">Director of Clinical Operations</div>
+        <div class="timeline-org">Ark Clinical Research</div>
+        <div class="timeline-desc">Leading full clinical operations across multiple therapeutic programs, overseeing
+          site infrastructure, sponsor relationships, and regulatory compliance for an expanding research portfolio.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2023</div>
+        <div class="timeline-role">Director of Metabolic and Liver Disease</div>
+        <div class="timeline-org">Ark Clinical Research</div>
+        <div class="timeline-desc">Directed specialized research programs in metabolic and hepatic conditions including
+          NAFLD and NASH, managing multi-protocol study execution and team development.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2022 – 2023</div>
+        <div class="timeline-role">Operations Director</div>
+        <div class="timeline-org">Foothill Eye Institute</div>
+        <div class="timeline-desc">Established and scaled clinical research operations at a specialized ophthalmology
+          site, building processes from the ground up and activating multiple sponsor programs across ocular
+          indications.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2017 – 2022</div>
+        <div class="timeline-role">Site Director</div>
+        <div class="timeline-org">Velocity Clinical Research (formerly National Research Institute)</div>
+        <div class="timeline-desc">Managed a high-volume, multi-specialty research site through a major acquisition and
+          rebranding. Maintained sponsor relationships, GCP compliance, and staff performance across a diverse
+          therapeutic portfolio spanning metabolic, GI, cardiovascular, and dermatology studies.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2015 – 2017</div>
+        <div class="timeline-role">Clinical Research Coordinator</div>
+        <div class="timeline-org">Encino Research Center</div>
+        <div class="timeline-desc">Protocol execution, patient management, and data integrity across multiple concurrent
+          trials.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2006 – 2015</div>
+        <div class="timeline-role">CRC → Manager → Director Progression</div>
+        <div class="timeline-org">Translational Research Group / Providence Clinical Research</div>
+        <div class="timeline-desc">Nearly a decade of progressive growth — from Clinical Research Assistant through
+          Coordinator to Manager — at one of California's leading research organizations. Built foundational expertise
+          across patient recruitment, regulatory documentation, and multi-therapeutic program management.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALTIES -->
+  <section id="specialties">
+    <div class="section-label reveal">Therapeutic Expertise</div>
+    <h2 class="section-title reveal reveal-delay-1">Clinical Specialties</h2>
+    <p class="section-sub reveal reveal-delay-2">Deep operational experience across a broad range of therapeutic areas
+      and trial phases.</p>
+    <div class="specialties-grid">
+      <div class="specialty-group reveal reveal-delay-1">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">👁️</span> Ophthalmology</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Glaucoma</span>
+          <span class="specialty-tag">Dry Eye Disease</span>
+          <span class="specialty-tag">AMD</span>
+          <span class="specialty-tag">Retinopathy</span>
+          <span class="specialty-tag">Ocular Inflammation</span>
+          <span class="specialty-tag">Thyroid Eye Disease</span>
+          <span class="specialty-tag">Presbyopia</span>
+          <span class="specialty-tag">Post-Cataract Pain</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-2">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">⚖️</span> Metabolic</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Diabetes T1 & T2</span>
+          <span class="specialty-tag">Obesity / Weight Loss</span>
+          <span class="specialty-tag">NAFLD / NASH</span>
+          <span class="specialty-tag">Hypercholesterolemia</span>
+          <span class="specialty-tag">Obesity with CVD</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-3">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🫀</span> Cardiovascular</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Hypertension</span>
+          <span class="specialty-tag">Resistant Hypertension</span>
+          <span class="specialty-tag">Hypotension</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-4">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🦠</span> Gastrointestinal</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">IBS-C / IBS-D</span>
+          <span class="specialty-tag">GERD</span>
+          <span class="specialty-tag">Chronic Constipation</span>
+          <span class="specialty-tag">Opioid-Induced Constipation</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-1">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🧫</span> Dermatology</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Psoriasis</span>
+          <span class="specialty-tag">Acne</span>
+          <span class="specialty-tag">Rosacea</span>
+          <span class="specialty-tag">Atopic Dermatitis</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-2">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">💉</span> Vaccine & Immunology</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">COVID-19</span>
+          <span class="specialty-tag">Flu Vaccines</span>
+          <span class="specialty-tag">RSV</span>
+          <span class="specialty-tag">Healthy Volunteers</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-3">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🩹</span> Pain Management</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Chronic Pain</span>
+          <span class="specialty-tag">Low Back Pain</span>
+          <span class="specialty-tag">Osteoarthritis</span>
+          <span class="specialty-tag">Knee Pain</span>
+        </div>
+      </div>
+      <div class="specialty-group reveal reveal-delay-4">
+        <div class="specialty-group-title"><span class="specialty-group-icon" aria-hidden="true">🔭</span> Other Indications</div>
+        <div class="specialty-tags">
+          <span class="specialty-tag">Chronic Kidney Disease</span>
+          <span class="specialty-tag">Hot Flashes</span>
+          <span class="specialty-tag">Bio Bank Studies</span>
+          <span class="specialty-tag">PK/PD Trials</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section id="credentials">
+    <div class="section-label reveal">Education & Certifications</div>
+    <h2 class="section-title reveal reveal-delay-1">Credentials</h2>
+    <p class="section-sub reveal reveal-delay-2">A commitment to continuous professional development across the full
+      regulatory and clinical landscape.</p>
+    <div class="creds-grid">
+      <div class="reveal reveal-delay-1">
+        <div class="creds-col-title">Education</div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2011</span>
+          <span class="cred-entry-text">Bachelor of Science in Biology — California State University, Northridge</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2010</span>
+          <span class="cred-entry-text">Medical Assistant, CPR & Phlebotomy — Concorde Career College</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2017</span>
+          <span class="cred-entry-text">ACRP Certified Clinical Research Coordinator (CCRC)</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="creds-col-title">Professional Certifications</div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2022</span>
+          <span class="cred-entry-text">IATA Dangerous Goods Training Certification</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2022</span>
+          <span class="cred-entry-text">ACRP Ethics & Human Subject Protection</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2022</span>
+          <span class="cred-entry-text">ACRP GCP for the Experienced Clinical Research Professional</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2022</span>
+          <span class="cred-entry-text">ACRP Inspection Readiness & Quality Management Systems</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2022</span>
+          <span class="cred-entry-text">CAPA Bloodborne Pathogen Certification</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2017</span>
+          <span class="cred-entry-text">TransCelerate GCP-ICH Certification</span>
+        </div>
+        <div class="cred-entry">
+          <span class="cred-year-badge">2008</span>
+          <span class="cred-entry-text">NIH Investigator Training — Human Subjects Protection & Clinical Research</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-label reveal">What Clients Say</div>
+    <h2 class="section-title reveal reveal-delay-1">Client Testimonials</h2>
+    <p class="section-sub reveal reveal-delay-2">Trusted by sponsors, CROs, and research sites across the industry. Names kept confidential per our engagement policy.</p>
+    <div class="testimonials-grid">
+      <figure class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"MFD Research transformed our struggling site in under 90 days. Their team brought operational clarity and regulatory confidence that our sponsor had been demanding for months."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">Director of Clinical Operations</div>
+          <div class="testimonial-org">Major Pharmaceutical Sponsor</div>
+        </figcaption>
+      </figure>
+      <figure class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"We engaged MFD Research to build our QMS from scratch. What impressed us most was the depth of real-world site experience — they knew every corner case and regulatory nuance."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">VP of Research Operations</div>
+          <div class="testimonial-org">Biotech Organization</div>
+        </figcaption>
+      </figure>
+      <figure class="testimonial-card reveal reveal-delay-3">
+        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"The staff training program they delivered was unlike any we'd seen — practical, protocol-specific, and immediately applicable. Our coordinators were inspection-ready within weeks."</blockquote>
+        <figcaption class="testimonial-author">
+          <div class="testimonial-name">Clinical Research Site Director</div>
+          <div class="testimonial-org">Multi-Specialty Research Site</div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust">
+    <div class="section-label reveal">Why MFD Research</div>
+    <h2 class="section-title reveal reveal-delay-1">What Sets Us Apart</h2>
+    <p class="section-sub reveal reveal-delay-2">Our consulting is grounded in real operational experience — not advisory theory.</p>
+    <div class="trust-grid">
+      <div class="trust-card reveal reveal-delay-1">
+        <div class="trust-card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="trust-card-title">Site-Level Authority</div>
+        <div class="trust-card-desc">Our founder has held director-level roles at high-volume, multi-sponsor research sites — giving you access to insight that only comes from running operations firsthand.</div>
+      </div>
+      <div class="trust-card reveal reveal-delay-2">
+        <div class="trust-card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="trust-card-title">Full-Spectrum Experience</div>
+        <div class="trust-card-desc">From first-in-human Phase I studies through pivotal Phase III trials — across 10+ therapeutic areas — we understand the full complexity of clinical program execution.</div>
+      </div>
+      <div class="trust-card reveal reveal-delay-3">
+        <div class="trust-card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="trust-card-title">Confidential Engagements</div>
+        <div class="trust-card-desc">All client relationships are handled with complete professional discretion. Whether advising on a sensitive site remediation or a competitive launch strategy, your business stays private.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-label reveal">Common Questions</div>
+    <h2 class="section-title reveal reveal-delay-1">Frequently Asked Questions</h2>
+    <p class="section-sub reveal reveal-delay-2">Everything you need to know before reaching out.</p>
+    <div class="faq-list reveal reveal-delay-2">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+          What types of organizations do you work with?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-1" hidden>
+          <p>We work with pharmaceutical sponsors, biotech firms, CROs, and research sites of all sizes — from emerging Phase I sites to established multi-specialty networks. If you're building, optimizing, or remediating clinical research operations, we can help.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+          Do you work on a project or retainer basis?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-2" hidden>
+          <p>Both. Short-term project engagements are available for defined deliverables such as SOP development, site assessments, or staff training programs. Ongoing advisory retainers are also available for organizations that need continuous operational support.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+          Are engagements confidential?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-3" hidden>
+          <p>Yes — all client relationships are handled with complete professional discretion. We routinely sign mutual NDAs at the start of any engagement, and client details are never shared or referenced publicly.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+          Do you work with sites outside of California?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-4" hidden>
+          <p>Yes. While our founder is based in California, we support clients across the United States and can work remotely or on-site depending on the engagement type and client preference.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+          How quickly can an engagement begin?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq-5" hidden>
+          <p>Typically within 1–2 weeks of a signed agreement, depending on the scope of work. We understand that clinical research timelines are rarely forgiving, and we prioritize rapid mobilization for urgent site needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal reveal-delay-1">Ready to Elevate Your Research Operations?</h2>
+        <p class="section-sub reveal reveal-delay-2" style="margin-bottom:40px;">We welcome inquiries from
+          pharmaceutical sponsors, biotech organizations, CROs, and emerging research sites. All consultations are
+          confidential.</p>
+        <div class="contact-info-block">
+          <div class="contact-info-item reveal reveal-delay-2">
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value"><a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item reveal reveal-delay-3">
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div>
+              <div class="contact-info-label">Confidentiality</div>
+              <div class="contact-info-value">All inquiries treated with strict confidentiality</div>
+            </div>
+          </div>
+          <div class="contact-info-item reveal reveal-delay-4">
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div>
+              <div class="contact-info-label">Response Time</div>
+              <div class="contact-info-value">We respond within 1–2 business days</div>
+            </div>
+          </div>
+          <div class="contact-info-item reveal reveal-delay-4">
+            <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <div>
+              <div class="contact-info-label">LinkedIn</div>
+              <div class="contact-info-value">
+                <!-- UPDATE: Replace href with your LinkedIn profile or company page URL -->
+                <a href="#" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- UPDATE: Replace href with your Calendly or booking link -->
+        <a href="#" class="btn-schedule reveal reveal-delay-4" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Schedule a Call
+        </a>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+          <!-- Web3Forms Configuration -->
+          <input type="hidden" name="access_key" value="%VITE_ACCESS_KEY%" />
+          <input type="hidden" name="subject" value="New Contact Form Submission from MFD Research" />
+          <input type="hidden" name="from_name" value="MFD Research Website" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="first_name" placeholder="Jane" autocomplete="given-name" maxlength="80" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="last_name" placeholder="Smith" autocomplete="family-name" maxlength="80" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Work Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@pharmacompany.com" autocomplete="email" maxlength="254" required />
+          </div>
+          <div class="form-group">
+            <label for="company">Company / Organization</label>
+            <input type="text" id="company" name="company" placeholder="Pharma Corp" autocomplete="organization" maxlength="120" />
+          </div>
+          <div class="form-group">
+            <label for="service">Area of Interest</label>
+            <select id="service" name="service">
+              <option value="">Select a service...</option>
+              <option value="site-development">Site Development &amp; Strategy</option>
+              <option value="regulatory-compliance">Regulatory Compliance &amp; GCP</option>
+              <option value="quality-management">Quality Management Systems</option>
+              <option value="trial-management">Multi-Specialty Trial Management</option>
+              <option value="staff-training">Staff Training &amp; Development</option>
+              <option value="operational-assessment">Operational Assessment &amp; Remediation</option>
+              <option value="general">General Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" maxlength="5000" required
+              placeholder="Tell us about your research needs or project..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <img
+          src="assets/mfd-logo.jpg"
+          alt="MFD Research"
+          width="220" height="48"
+          loading="lazy" />
+        <p class="footer-tagline">Clinical research consulting built on 18+ years of site-level leadership. Partnering with sponsors, CROs, and sites to execute with precision.</p>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/in/mike-delgado/" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="MFD Research on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <div class="footer-col-links">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#process">Process</a>
+          <a href="#experience">Experience</a>
+          <a href="#specialties">Specialties</a>
+          <a href="#credentials">Credentials</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-col-links">
+          <a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>
+          <span>All inquiries confidential</span>
+          <span>Response within 1–2 business days</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© <span id="footerYear"></span> MFD Research LLC. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="./privacy-policy/">Privacy Policy</a>
+        <a href="./terms-of-service/">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" aria-hidden="true" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script src="script.js" defer></script>
+
+</body>
 </html>
 
