@@ -6,18 +6,19 @@ Astro migration is in progress on the `astro-migration` branch.
 
 Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, and missing referenced favicon/Apple/Open Graph assets have been created.
 
-The current goal is to validate Astro parity locally before refactoring or redesigning.
+The current goal is to validate Astro parity locally, then validate the same build through a Cloudflare Pages preview before refactoring or redesigning.
 
 ## Active Goals
 
 1. Keep `main` as the stable baseline.
 2. Use `astro-migration` for all migration work.
 3. Validate Astro output parity for homepage and legal pages.
-4. Preserve current visual design and JavaScript behavior.
-5. Preserve root routes, legal pages, SEO files, PWA files, and assets.
-6. Confirm missing favicon, Apple touch icon, and Open Graph image assets are included in build output.
-7. Replace testimonials with Conferences & Industry Engagement after parity.
-8. Prepare future Cloudflare Pages deployment.
+4. Validate production-like behavior through Cloudflare Pages preview.
+5. Preserve current visual design and JavaScript behavior.
+6. Preserve root routes, legal pages, SEO files, PWA files, and assets.
+7. Fix Web3Forms environment variable handling after Cloudflare preview is working.
+8. Replace testimonials with Conferences & Industry Engagement after parity and form behavior are stable.
+9. Prepare future Cloudflare Pages production deployment.
 
 ## Completed
 
@@ -225,35 +226,29 @@ OG image is a simple brand-safe composition with the logo centered on a neutral 
 Apple touch icon is centered with padding on the same background color.
 ```
 
-## Immediate Tasks
+### Completed Task 8: Review Recommended Next Order
 
-### Task 8: Review and Commit Asset Fixes
-
-Run:
-
-```bash
-git status --short
-git diff --stat
-npm run build
-find dist -maxdepth 3 -type f | sort
-```
-
-Confirm build output includes:
+The recommended next implementation order is:
 
 ```text
-dist/assets/favicon-16x16.png
-dist/assets/favicon-32x32.png
-dist/assets/apple-touch-icon.png
-dist/assets/og-image.png
+1. Run full local QA pass.
+2. Connect Cloudflare Pages preview.
+3. Fix Web3Forms environment variable handling.
+4. Create BaseLayout.astro.
+5. Extract Header/Footer.
 ```
 
-If the build succeeds and the changes are safe, commit:
+Rationale:
 
-```bash
-git add .
-git commit -m "Add missing favicon and social preview assets"
-git push
+```text
+Local QA proves Astro parity before structural changes.
+Cloudflare preview validates HTTPS, path resolution, and service worker behavior.
+Web3Forms env handling should be fixed before refactoring.
+BaseLayout should come before Header/Footer extraction.
+Header/Footer extraction should happen only after parity and form behavior are stable.
 ```
+
+## Immediate Tasks
 
 ### Task 9: Run Local Astro Parity QA
 
@@ -293,6 +288,7 @@ Contact form validation works
 Reduced-motion behavior is preserved
 Skip link works
 Focus states are visible
+No major console errors appear
 ```
 
 ### Task 10: Validate Build Preview
@@ -329,11 +325,70 @@ Confirm these root files load:
 /assets/og-image.png
 ```
 
-### Task 11: Begin Post-Parity Refactor Planning
+### Task 11: Connect Cloudflare Pages Preview
 
-After local parity QA passes, begin controlled refactor planning.
+After local QA passes, connect the `astro-migration` branch to Cloudflare Pages as a preview deployment.
 
-Recommended next refactor order:
+Cloudflare Pages settings:
+
+```text
+Framework preset: Astro
+Build command: npm run build
+Build output directory: dist
+Production branch: main
+Preview branch: astro-migration
+```
+
+Do not connect the production domain yet.
+
+Do not deploy unfinished work to `mfdresearch.com`.
+
+Use the Cloudflare preview URL only.
+
+### Task 12: Validate Cloudflare Preview
+
+On the Cloudflare preview URL, validate:
+
+```text
+Homepage route works
+Privacy Policy route works
+Terms of Service route works
+Root files load
+CSS loads
+JS loads
+Logo and icons load
+Open Graph image loads
+Mobile nav works
+Dark mode works
+FAQ works
+Back-to-top works
+Service worker registers under HTTPS
+No major console errors appear
+```
+
+### Task 13: Fix Web3Forms Environment Variable Handling
+
+After Cloudflare preview works, replace the current placeholder:
+
+```text
+%VITE_ACCESS_KEY%
+```
+
+with Astro-compatible environment variable handling.
+
+Recommended variable:
+
+```text
+PUBLIC_WEB3FORMS_ACCESS_KEY
+```
+
+Do not change form field names or the Web3Forms endpoint unless explicitly approved.
+
+### Task 14: Begin Post-Parity Refactor Planning
+
+After local QA, Cloudflare preview, and Web3Forms env handling are stable, begin controlled refactor planning.
+
+Recommended refactor order:
 
 ```text
 1. Create BaseLayout.astro
@@ -366,13 +421,13 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
+Cloudflare Pages preview connection
+Web3Forms environment variable migration
 Astro component creation
 BaseLayout extraction
 Header/Footer extraction
-Cloudflare Pages connection
 ADA 2026 page
 Google Booking CTA integration
-Form environment variable migration
 Conference section implementation
 Legacy file cleanup after parity
 ```
@@ -401,3 +456,5 @@ Keep `main` stable.
 Use `astro-migration` as the construction branch.
 
 Do not delete legacy files until Astro parity is confirmed.
+
+Do not connect the production domain until the site is approved.
