@@ -2,25 +2,28 @@
 
 ## Current Phase
 
-Planning is complete. The project is ready to begin the controlled Astro migration.
+Astro migration has started.
 
-The current site is still on the static HTML/CSS/JS baseline. The next phase is to create the Astro migration branch and begin a parity-first Astro setup.
+The project is now on the `astro-migration` branch with an initial Astro bootstrap completed. The current static HTML/CSS/JS site still exists and has not been moved or deleted.
+
+The current goal is to continue a parity-first migration: preserve the existing site behavior, routes, legal pages, SEO files, PWA files, styling, and JavaScript before refactoring or redesigning.
 
 ## Active Goals
 
 1. Keep `main` as the stable baseline.
-2. Create and use an `astro-migration` branch for all migration work.
-3. Add Astro without deleting or moving legacy files too early.
-4. Preserve current routes, SEO files, legal pages, PWA files, styling, and JavaScript behavior.
-5. Build Astro version with parity before redesigning or refactoring.
-6. Replace testimonials with Conferences & Industry Engagement after parity.
-7. Prepare future Cloudflare Pages deployment.
+2. Use `astro-migration` for all migration work.
+3. Preserve the existing static site until Astro parity is confirmed.
+4. Move root-served static files into Astro `public/` safely.
+5. Port existing pages into Astro with output parity.
+6. Preserve current visual design and JavaScript behavior.
+7. Replace testimonials with Conferences & Industry Engagement after parity.
+8. Prepare future Cloudflare Pages deployment.
 
-## Immediate Tasks
+## Completed
 
-### Task 1: Confirm Planning Files Are Committed
+### Completed Task 1: Add Planning Files
 
-Files that should exist in the repo root:
+The repo should contain:
 
 ```text
 architecture.md
@@ -28,111 +31,101 @@ handoff.md
 current_tasks.md
 ```
 
-Check status:
+These files define project strategy, handoff context, and active implementation tasks.
 
-```bash
-git status --short
-```
+### Completed Task 2: Create Astro Migration Branch
 
-If these files are not committed yet, commit them:
-
-```bash
-git add architecture.md handoff.md current_tasks.md
-git commit -m "Add project planning documents"
-git push origin main
-```
-
-### Task 2: Create Astro Migration Branch
-
-Create the migration branch from `main`:
-
-```bash
-git checkout main
-git pull origin main
-git checkout -b astro-migration
-git push -u origin astro-migration
-```
-
-Use `astro-migration` for all migration work.
-
-Do not migrate directly on `main`.
-
-### Task 3: Ask Cursor to Start Astro Setup Only
-
-Use this prompt in Cursor:
+Migration work should happen on:
 
 ```text
-Based on the approved architecture, handoff, current_tasks, and your migration analysis, begin Step 1 only.
-
-Set up Astro in the existing repository for static output, but do not delete or move the legacy static files yet.
-
-Requirements:
-- Preserve the current root files for now.
-- Add astro.config.mjs.
-- Add the minimum Astro dependencies.
-- Configure npm run dev, npm run build, and npm run preview for Astro.
-- Create the initial src/pages and public folder structure only if safe.
-- Do not refactor homepage content yet.
-- Do not remove index.html, style.css, script.js, privacy-policy, terms-of-service, robots.txt, sitemap.xml, site.webmanifest, or service-worker.js.
-- Make the smallest safe change possible.
+astro-migration
 ```
 
-### Task 4: Confirm Astro Setup
+`main` should remain the stable baseline.
 
-After Cursor makes changes, run:
+### Completed Task 3: Initial Astro Bootstrap
 
-```bash
-npm install
-npm run build
-```
+Astro has been added in the smallest safe way.
 
-Then inspect:
-
-```bash
-git status --short
-```
-
-Expected new/modified files may include:
+Completed setup includes:
 
 ```text
 astro.config.mjs
-package.json
-package-lock.json
-src/
-public/
+src/pages/index.astro
+public/.gitkeep
 ```
 
-Do not commit until the build succeeds.
+`package.json` has been updated so:
 
-### Task 5: Review Cursor Changes Before Commit
-
-Before committing, check what changed:
-
-```bash
-git diff --stat
-git diff
+```text
+npm run dev
+npm run build
+npm run preview
 ```
 
-Confirm Cursor did not delete or heavily rewrite:
+use Astro equivalents.
+
+Astro is configured for static output and directory-style builds.
+
+`npm install` succeeded.
+
+`npm run build` succeeded and produced output in:
+
+```text
+dist/
+```
+
+No legacy files were moved or deleted during the bootstrap.
+
+Preserved legacy files include:
 
 ```text
 index.html
 style.css
 script.js
-privacy-policy/index.html
-terms-of-service/index.html
+privacy-policy/
+terms-of-service/
 robots.txt
 sitemap.xml
 site.webmanifest
 service-worker.js
+assets/
 ```
 
-### Task 6: Commit Astro Setup
+## Immediate Tasks
 
-If the build succeeds and the changes are safe:
+### Task 4: Review and Commit Astro Bootstrap
+
+Confirm current branch:
 
 ```bash
-git add .
+git branch --show-current
+```
+
+Expected:
+
+```text
+astro-migration
+```
+
+Review changes:
+
+```bash
+git status --short
+git diff --stat
+git diff
+```
+
+Confirm build:
+
+```bash
+npm run build
+```
+
+If the build succeeds and the changes are safe, commit:
+
+```bash
+git add astro.config.mjs package.json package-lock.json src public current_tasks.md
 git commit -m "Set up Astro migration baseline"
 ```
 
@@ -142,13 +135,11 @@ Push when ready:
 git push
 ```
 
-## Parity Migration Tasks
+### Task 5: Begin Public File Preservation
 
-These are next, but do not start until the Astro baseline is committed.
+After the Astro bootstrap commit is complete, move or copy root-served files into `public/` so Astro can serve them at the same URLs.
 
-### Task 7: Move Root-Served Files Into Astro Public
-
-Move or copy these into `public/` so Astro serves them at the same root URLs:
+Files to preserve through `public/`:
 
 ```text
 robots.txt
@@ -173,11 +164,11 @@ public/
   script.js
 ```
 
-Do not delete legacy root copies until Astro parity is confirmed.
+Important: do not delete the legacy root copies until Astro parity is confirmed.
 
-### Task 8: Create Astro Pages With HTML Parity
+### Task 6: Create Astro Page Parity
 
-Create:
+Create Astro pages for:
 
 ```text
 src/pages/index.astro
@@ -185,27 +176,22 @@ src/pages/privacy-policy/index.astro
 src/pages/terms-of-service/index.astro
 ```
 
-The first Astro pages should preserve:
+These should preserve:
 
 ```text
-section IDs
-headings
-SEO tags
-Open Graph tags
-Twitter tags
-canonical URLs
-CSP meta tag
-legal page routes
-stylesheet behavior
-script behavior
+/
+ /privacy-policy/
+ /terms-of-service/
 ```
 
-### Task 9: Validate Existing Behavior
+The first Astro version should preserve the existing HTML structure, IDs, SEO metadata, Open Graph tags, Twitter tags, canonical URLs, CSP meta tag, stylesheet behavior, and script behavior.
+
+### Task 7: Validate Existing Behavior
 
 Validate:
 
 ```text
-Mobile nav
+Mobile navigation
 Scroll reveal
 Scrollspy
 Theme toggle
@@ -219,6 +205,8 @@ Service worker registration
 Reduced-motion behavior
 Skip link
 Focus states
+Legal page routes
+Root SEO/PWA files
 ```
 
 ## Missing Assets Inventory
