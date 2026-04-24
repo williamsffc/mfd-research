@@ -4,9 +4,9 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, `BaseLayout.astro` has been created, and `Header.astro` has been extracted as a controlled structural refactor.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, `BaseLayout.astro` has been created, and both `Header.astro` and `Footer.astro` have been extracted as controlled structural refactors.
 
-The current goal is to complete basic structural component extraction while preserving visual output, routes, SEO metadata, CSS, JavaScript behavior, and form behavior.
+The current goal is to validate the completed BaseLayout/Header/Footer milestone locally and in Cloudflare preview before starting content restructuring.
 
 ## Active Goals
 
@@ -15,9 +15,9 @@ The current goal is to complete basic structural component extraction while pres
 3. Preserve current visual design and JavaScript behavior.
 4. Preserve root routes, legal pages, SEO files, PWA files, and assets.
 5. Deploy to Cloudflare only at meaningful milestones.
-6. Continue controlled Astro structure refactor.
-7. Replace testimonials with Conferences & Industry Engagement after structure is stable.
-8. Add Google Booking CTA after structure is stable.
+6. Validate the BaseLayout/Header/Footer structural milestone.
+7. Replace testimonials with Conferences & Industry Engagement after structure is validated.
+8. Add Google Booking CTA after structure is validated.
 9. Add ADA 2026 landing page after homepage structure/content is stable.
 10. Replace Web3Forms later with a Cloudflare-native form architecture.
 11. Prepare future Cloudflare Pages/Workers production deployment.
@@ -516,6 +516,64 @@ Build confirmation:
 npm run build succeeds
 ```
 
+### Completed Task 15: Extract Footer.astro
+
+`Footer.astro` has been added as a controlled structural refactor.
+
+Created file:
+
+```text
+src/components/Footer.astro
+```
+
+Current Footer responsibilities:
+
+```text
+Contains the existing footer markup that was previously inline in src/pages/index.astro.
+Preserves span#footerYear for public/script.js behavior.
+Preserves all classes and structure used by public/style.css.
+Preserves LinkedIn social link and attributes.
+Preserves Quick Links.
+Preserves Contact block.
+Preserves Privacy Policy and Terms of Service links.
+```
+
+Updated page:
+
+```text
+src/pages/index.astro
+```
+
+Preserved:
+
+```text
+Footer layout
+Footer styling selectors
+footerYear behavior
+Social link behavior
+Legal links
+Footer copy
+public/script.js behavior
+public/style.css styling
+```
+
+Not changed:
+
+```text
+No other sections were extracted.
+No redesign was performed.
+No copy/content strategy changes were made.
+Testimonials were not replaced.
+Web3Forms behavior was not changed.
+Legacy files were not deleted.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
 ## Form Architecture Decision
 
 Web3Forms is acceptable as temporary MVP plumbing.
@@ -548,7 +606,7 @@ Implement after the site structure, messaging, booking CTA, and conference secti
 
 ## Immediate Tasks
 
-### Task 15: Validate and Commit Header Refactor
+### Task 16: Validate and Commit Footer Refactor
 
 Run:
 
@@ -566,16 +624,12 @@ Check route:
 Validate:
 
 ```text
-Desktop nav renders correctly.
-Logo renders correctly.
-Anchor links work.
-Mobile hamburger appears at mobile widths.
-Mobile menu opens and closes.
-Escape closes mobile menu.
-Clicking a nav link closes mobile menu.
-Theme toggle works.
-Theme persists after reload.
-Scrollspy still works.
+Footer renders correctly.
+Footer layout/spacing/colors match previous version.
+Footer year updates to the current year.
+Privacy Policy link works.
+Terms of Service link works.
+LinkedIn social link opens correctly in a new tab.
 No major console errors.
 ```
 
@@ -584,81 +638,74 @@ Commit locally:
 ```bash
 git status --short
 git diff --stat
-git add src/components/Header.astro src/pages/index.astro current_tasks.md
-git commit -m "Extract Header component"
+git add src/components/Footer.astro src/pages/index.astro current_tasks.md
+git commit -m "Extract Footer component"
 ```
 
-Push only if ready to deploy this milestone:
+Push because BaseLayout/Header/Footer extraction is a meaningful milestone:
 
 ```bash
 git push
 ```
 
-### Task 16: Extract Footer.astro
+### Task 17: Validate Cloudflare Preview After Structural Refactor
 
-After Header is committed and local QA passes, extract the footer only.
-
-Expected file:
+After Cloudflare deploys, test:
 
 ```text
-src/components/Footer.astro
+https://testing.mfd-research.workers.dev/
 ```
 
-Requirements:
+Validate:
 
 ```text
-Preserve existing footer markup.
-Preserve footer-copy and footerYear behavior expected by public/script.js.
-Preserve footer social link.
-Preserve Quick Links.
-Preserve Contact block.
-Preserve Privacy Policy and Terms of Service links.
-Preserve classes used by public/style.css.
-Do not change copy.
-Do not redesign.
-Do not extract other sections yet.
-Do not replace testimonials yet.
-Do not delete legacy files.
-```
-
-Validation after Footer extraction:
-
-```bash
-npm run build
-npm run preview
-```
-
-Check:
-
-```text
+Homepage renders correctly.
+Header renders correctly.
 Footer renders correctly.
+Mobile navigation works.
+Theme toggle works.
+Scrollspy works.
 Footer year updates.
-Footer links work.
-Footer social link works.
-Privacy Policy and Terms of Service links work.
-No console errors.
+Legal links work.
+Contact form still works.
+No major console errors.
 ```
+
+### Task 18: Plan Next Content Refactor
+
+After Cloudflare preview validates the structure milestone, begin planning the content refactor.
+
+Recommended next content priorities:
+
+```text
+1. Reframe homepage as company-led and founder-validated.
+2. Reduce resume-style timeline emphasis.
+3. Add Who We Help section if not already present.
+4. Replace Testimonials with Conferences & Industry Engagement.
+5. Add Google Booking CTA.
+6. Add ADA 2026 page later.
+```
+
+Do not begin content changes until structural milestone QA passes.
 
 ## Next Planned Refactor Sequence
 
-Recommended refactor order:
+Current completed structural sequence:
 
 ```text
-1. Create BaseLayout.astro
-2. Extract Header.astro
-3. Extract Footer.astro
-4. Preserve existing visual output
-5. Preserve existing script behavior
-6. Do not redesign yet
-7. Do not replace testimonials yet
+1. BaseLayout.astro complete.
+2. Header.astro complete.
+3. Footer.astro complete.
 ```
 
-Current status:
+Next strategic sequence:
 
 ```text
-BaseLayout.astro complete.
-Header.astro complete.
-Footer.astro next.
+1. Validate Cloudflare preview after structural refactor.
+2. Plan company-led content restructure.
+3. Replace testimonials with Conferences & Industry Engagement.
+4. Add Google Booking CTA.
+5. Add ADA 2026 page.
 ```
 
 ## Conference Data Collection
@@ -682,7 +729,8 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Footer extraction
+Cloudflare validation after Header/Footer extraction
+Company-led homepage content restructure
 ADA 2026 page
 Google Booking CTA integration
 Conference section implementation
