@@ -5,6 +5,7 @@ import { Fragment } from 'astro/jsx-runtime';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Conferences from '../components/Conferences.astro';
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 ---
 
@@ -71,12 +72,11 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
       Available for new partnerships
     </div>
     <div class="hero-content">
-      <h1 class="hero-title">Where Expertise<br />Meets <span>Execution.</span></h1>
-      <p class="hero-sub">MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical and
-        biotech organizations build world-class research sites — from concept to completion.</p>
+      <h1 class="hero-title">Clinical Research Operations<br />Built for <span>Execution</span></h1>
+      <p class="hero-sub">MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Contact Us</a>
-        <a href="#services" class="btn-secondary">Our Services</a>
+        <a href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" class="btn-primary" target="_blank" rel="noopener noreferrer">Schedule a Confidential Consultation</a>
+        <a href="#services" class="btn-secondary">View Consulting Services</a>
       </div>
     </div>
 
@@ -161,15 +161,9 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
       <div class="about-text">
         <div class="section-label reveal">Who We Are</div>
         <h2 class="section-title reveal reveal-delay-1">Strategic Partners in Clinical Excellence</h2>
-        <p class="reveal reveal-delay-2">MFD Research is a specialized consulting firm built on over 18 years of
-          hands-on clinical research leadership. We partner with pharmaceutical companies, biotech firms, and research
-          sponsors to design, build, and optimize high-performing research operations.</p>
-        <p class="reveal reveal-delay-2">Our founder brings direct site-level experience across every stage of a trial's
-          lifecycle — from regulatory setup and staff training to quality management and sponsor relations. We
-          understand what it takes to run a site that sponsors trust and regulators approve.</p>
-        <p class="reveal reveal-delay-3">Whether you're launching a first-in-human study, expanding your therapeutic
-          portfolio, or remediating a struggling site, we bring the operational expertise to move fast and execute with
-          precision.</p>
+        <p class="reveal reveal-delay-2">MFD Research is a specialized clinical research operations consulting firm helping sponsors, CROs, biotech organizations, and research sites strengthen operational execution, site readiness, quality systems, and trial delivery.</p>
+        <p class="reveal reveal-delay-2">Founded by Michael Delgado, CCRC, the firm brings more than 18 years of hands-on clinical research leadership across site operations, sponsor partnerships, regulatory readiness, staff development, and multi-therapeutic trial execution.</p>
+        <p class="reveal reveal-delay-3">Whether you’re building a new research capability or strengthening an existing program, we focus on practical, compliant execution—so your teams are ready to deliver with confidence.</p>
       </div>
       <div class="about-visual reveal reveal-delay-2">
         <div class="about-quote">"Building world-class clinical research operations requires both the science of
@@ -517,37 +511,9 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section id="testimonials">
-    <div class="section-label reveal">What Clients Say</div>
-    <h2 class="section-title reveal reveal-delay-1">Client Testimonials</h2>
-    <p class="section-sub reveal reveal-delay-2">Trusted by sponsors, CROs, and research sites across the industry. Names kept confidential per our engagement policy.</p>
-    <div class="testimonials-grid">
-      <figure class="testimonial-card reveal reveal-delay-1">
-        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <blockquote class="testimonial-quote">"MFD Research transformed our struggling site in under 90 days. Their team brought operational clarity and regulatory confidence that our sponsor had been demanding for months."</blockquote>
-        <figcaption class="testimonial-author">
-          <div class="testimonial-name">Director of Clinical Operations</div>
-          <div class="testimonial-org">Major Pharmaceutical Sponsor</div>
-        </figcaption>
-      </figure>
-      <figure class="testimonial-card reveal reveal-delay-2">
-        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <blockquote class="testimonial-quote">"We engaged MFD Research to build our QMS from scratch. What impressed us most was the depth of real-world site experience — they knew every corner case and regulatory nuance."</blockquote>
-        <figcaption class="testimonial-author">
-          <div class="testimonial-name">VP of Research Operations</div>
-          <div class="testimonial-org">Biotech Organization</div>
-        </figcaption>
-      </figure>
-      <figure class="testimonial-card reveal reveal-delay-3">
-        <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <blockquote class="testimonial-quote">"The staff training program they delivered was unlike any we'd seen — practical, protocol-specific, and immediately applicable. Our coordinators were inspection-ready within weeks."</blockquote>
-        <figcaption class="testimonial-author">
-          <div class="testimonial-name">Clinical Research Site Director</div>
-          <div class="testimonial-org">Multi-Specialty Research Site</div>
-        </figcaption>
-      </figure>
-    </div>
+  <!-- CONFERENCES (replaces testimonials content; anchor updated) -->
+  <section id="conferences">
+    <Conferences />
   </section>
 
   <!-- TRUST -->

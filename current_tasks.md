@@ -4,9 +4,9 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, `BaseLayout.astro` has been created, and both `Header.astro` and `Footer.astro` have been extracted as controlled structural refactors.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, `BaseLayout.astro` has been created, `Header.astro` and `Footer.astro` have been extracted, the former Testimonials section has been replaced with a Conferences & Industry Engagement section, and the hero has been updated to position MFD Research as a company-led clinical research operations consulting firm.
 
-The current goal is to validate the completed BaseLayout/Header/Footer milestone locally and in Cloudflare preview before starting content restructuring.
+The current goal is to rework the About section so it reinforces the company-led, founder-validated positioning before reducing the resume-style Experience timeline.
 
 ## Active Goals
 
@@ -15,12 +15,13 @@ The current goal is to validate the completed BaseLayout/Header/Footer milestone
 3. Preserve current visual design and JavaScript behavior.
 4. Preserve root routes, legal pages, SEO files, PWA files, and assets.
 5. Deploy to Cloudflare only at meaningful milestones.
-6. Validate the BaseLayout/Header/Footer structural milestone.
-7. Replace testimonials with Conferences & Industry Engagement after structure is validated.
-8. Add Google Booking CTA after structure is validated.
-9. Add ADA 2026 landing page after homepage structure/content is stable.
-10. Replace Web3Forms later with a Cloudflare-native form architecture.
-11. Prepare future Cloudflare Pages/Workers production deployment.
+6. Validate Conferences & Industry Engagement locally and on Cloudflare preview.
+7. Rework homepage content toward company-led and founder-validated positioning.
+8. Update the About section to be company-first.
+9. Add Google Booking CTA to stronger homepage locations after messaging is stable.
+10. Add ADA 2026 landing page after homepage structure/content is stable.
+11. Replace Web3Forms later with a Cloudflare-native form architecture.
+12. Prepare future Cloudflare Pages/Workers production deployment.
 
 ## Deployment Discipline
 
@@ -45,6 +46,8 @@ Web3Forms env handling fixed
 Web3Forms CSP submission fixed
 BaseLayout/Header/Footer extraction complete
 Testimonials replaced with Conferences section
+Hero positioning updated
+About section repositioned
 Google Booking CTA added
 ADA 2026 page added
 Final pre-launch QA
@@ -574,6 +577,202 @@ Build confirmation:
 npm run build succeeds
 ```
 
+### Completed Task 16: Replace Testimonials with Conferences & Industry Engagement
+
+The previous Testimonials section has been replaced with a Conferences & Industry Engagement section.
+
+Created files:
+
+```text
+src/data/conferences.ts
+src/components/Conferences.astro
+```
+
+Updated files:
+
+```text
+src/pages/index.astro
+public/style.css
+```
+
+Preserved:
+
+```text
+Header was not changed.
+Footer was not changed.
+BaseLayout was not changed.
+Web3Forms behavior was not changed.
+Other homepage sections were not changed.
+Legacy files were not deleted.
+```
+
+Conference section behavior:
+
+```text
+Conference data is driven from src/data/conferences.ts.
+ADA 2026 is rendered as the featured upcoming card.
+Only the ADA 2026 card includes the Google Booking CTA.
+Google Booking URL: https://calendar.app.google/8fQfrSyLumEMRKHQ9
+Incomplete events use honest labels such as Details Pending.
+No missing event details were invented.
+```
+
+CSS changes:
+
+```text
+Small targeted CSS was added to public/style.css.
+The new section preserves the dark background visual direction.
+The section uses a featured current/upcoming engagement with a compact recent/past engagements list.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
+### Completed Task 17: Refine Conferences Layout and Navigation
+
+The Conferences & Industry Engagement section was refined after visual review.
+
+Updated behavior:
+
+```text
+Section anchor changed to #conferences.
+Header nav label changed to Conferences.
+Footer quick link changed to Conferences.
+Conferences appears before FAQ in the header.
+ADA 2026 remains the featured upcoming engagement.
+Recent/past engagements render as a compact list/timeline rather than large cards.
+The featured card is compact and no longer stretches to match the full recent/past list height.
+```
+
+Preserved:
+
+```text
+Data-driven conference structure.
+featured flag for current/upcoming engagement.
+startDate/endDate values for sorting.
+Details Pending labels for incomplete events.
+Google Booking CTA on ADA card.
+Web3Forms behavior.
+Header/Footer behavior.
+Dark mode readability.
+Mobile layout.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
+### Completed Task 18: Update Hero Positioning and Booking CTA
+
+The hero/top-page copy has been updated to make the site more company-led and consulting-focused.
+
+Updated hero headline:
+
+```text
+Clinical Research Operations
+Built for Execution
+```
+
+Updated hero subheadline:
+
+```text
+MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.
+```
+
+Updated hero CTA behavior:
+
+```text
+Primary CTA changed to Schedule a Confidential Consultation.
+Primary CTA links to https://calendar.app.google/8fQfrSyLumEMRKHQ9.
+Primary CTA opens in a new tab with rel="noopener noreferrer".
+Secondary CTA changed to View Consulting Services.
+Secondary CTA links to #services.
+```
+
+Preserved:
+
+```text
+Hero visual layout.
+Hero CSS classes.
+Other homepage sections.
+Header/Footer behavior.
+Web3Forms behavior.
+Conferences section.
+Legacy files.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
+## Current Known Inputs
+
+### Google Booking URL
+
+```text
+https://calendar.app.google/8fQfrSyLumEMRKHQ9
+```
+
+### Conference / Meeting Data
+
+```text
+June 4–8, 2026
+New Orleans, LA
+American Diabetes Association (ADA) 2026 Scientific Sessions
+Status: Upcoming
+Focus: Diabetes, obesity, metabolic disease, clinical research innovation
+Featured: true
+CTA: Schedule a Meeting
+CTA URL: https://calendar.app.google/8fQfrSyLumEMRKHQ9
+```
+
+```text
+March 3–4, 2026
+Seattle, WA
+ENLIGHTEN Investigator Engagement Meeting
+Status: Attended
+Focus: Investigator engagement, clinical trial collaboration
+```
+
+```text
+February 25–26, 2026
+Dallas/Fort Worth, TX
+Dallas/Fort Worth Industry Meeting
+Status: Details Pending
+Focus: Details pending
+```
+
+```text
+September 4–5, 2025
+Indianapolis, IN
+Lilly CoDesign, MASLD/MASH CoLAB
+Status: Attended
+Focus: MASLD/MASH, metabolic and liver disease research
+```
+
+```text
+August 12–13, 2025
+Indianapolis, IN
+Industry Meeting
+Status: Details Pending
+Focus: Details pending
+```
+
+```text
+May 8–9, 2025
+Indianapolis, IN
+Lilly - Sarcopenic Obesity CoDesign
+Status: Attended
+Focus: Sarcopenic obesity, clinical research collaboration
+```
+
 ## Form Architecture Decision
 
 Web3Forms is acceptable as temporary MVP plumbing.
@@ -606,7 +805,7 @@ Implement after the site structure, messaging, booking CTA, and conference secti
 
 ## Immediate Tasks
 
-### Task 16: Validate and Commit Footer Refactor
+### Task 19: Validate and Commit Hero Positioning Milestone
 
 Run:
 
@@ -615,21 +814,23 @@ npm run build
 npm run preview
 ```
 
-Check route:
+Open:
 
 ```text
-/
+http://localhost:8080/
 ```
 
 Validate:
 
 ```text
-Footer renders correctly.
-Footer layout/spacing/colors match previous version.
-Footer year updates to the current year.
-Privacy Policy link works.
-Terms of Service link works.
-LinkedIn social link opens correctly in a new tab.
+Hero headline renders cleanly on desktop.
+Hero headline wraps cleanly on mobile.
+Primary CTA opens Google Booking in a new tab.
+Secondary CTA scrolls to #services.
+Header still works.
+Footer still works.
+Conferences section still works.
+Contact form still works.
 No major console errors.
 ```
 
@@ -638,102 +839,103 @@ Commit locally:
 ```bash
 git status --short
 git diff --stat
-git add src/components/Footer.astro src/pages/index.astro current_tasks.md
-git commit -m "Extract Footer component"
+git add src/pages/index.astro current_tasks.md
+git commit -m "Update hero positioning and booking CTA"
 ```
 
-Push because BaseLayout/Header/Footer extraction is a meaningful milestone:
+Push because this is a meaningful content milestone:
 
 ```bash
 git push
 ```
 
-### Task 17: Validate Cloudflare Preview After Structural Refactor
+### Task 20: Rework About Section
 
-After Cloudflare deploys, test:
-
-```text
-https://testing.mfd-research.workers.dev/
-```
-
-Validate:
+Next safe content milestone:
 
 ```text
-Homepage renders correctly.
-Header renders correctly.
-Footer renders correctly.
-Mobile navigation works.
-Theme toggle works.
-Scrollspy works.
-Footer year updates.
-Legal links work.
-Contact form still works.
-No major console errors.
+Rework the About section to be company-first and founder-validated.
 ```
 
-### Task 18: Plan Next Content Refactor
-
-After Cloudflare preview validates the structure milestone, begin planning the content refactor.
-
-Recommended next content priorities:
+Requirements:
 
 ```text
-1. Reframe homepage as company-led and founder-validated.
-2. Reduce resume-style timeline emphasis.
-3. Add Who We Help section if not already present.
-4. Replace Testimonials with Conferences & Industry Engagement.
-5. Add Google Booking CTA.
-6. Add ADA 2026 page later.
+Preserve id="about".
+Preserve existing layout/grid if possible.
+Preserve classes needed for styling and reveal behavior.
+Do not change Services, Process, Experience, Specialties, Credentials, Conferences, FAQ, Contact, Header, or Footer.
+Do not change Web3Forms behavior.
+Do not redesign the full homepage.
+Do not delete legacy files.
 ```
 
-Do not begin content changes until structural milestone QA passes.
+Messaging goals:
 
-## Next Planned Refactor Sequence
+```text
+Lead with MFD Research as the consulting firm.
+Make who the firm helps explicit: sponsors, CROs, biotech organizations, research sites.
+Make what the firm supports explicit: clinical operations, site readiness, quality systems, regulatory/GCP readiness, trial delivery.
+Use Michael Delgado as founder-led credibility, not as the entire brand.
+Keep founder credibility concise.
+Avoid generic consulting language.
+Avoid turning the section into a resume.
+```
 
-Current completed structural sequence:
+Suggested company-first copy:
+
+```text
+MFD Research is a specialized clinical research operations consulting firm helping sponsors, CROs, biotech organizations, and research sites strengthen operational execution, site readiness, quality systems, and trial delivery.
+
+Founded by Michael Delgado, CCRC, the firm brings more than 18 years of hands-on clinical research leadership across site operations, sponsor partnerships, regulatory readiness, staff development, and multi-therapeutic trial execution.
+```
+
+Validation:
+
+```bash
+npm run build
+npm run preview
+```
+
+Check:
+
+```text
+#about still works.
+Header About link scrolls correctly.
+Scroll reveal still works.
+Copy feels company-led and founder-validated.
+No unrelated sections changed.
+No console errors.
+```
+
+## Next Planned Strategic Sequence
+
+Current completed structural/content sequence:
 
 ```text
 1. BaseLayout.astro complete.
 2. Header.astro complete.
 3. Footer.astro complete.
+4. Testimonials replaced with Conferences & Industry Engagement.
+5. Hero positioning updated.
 ```
 
 Next strategic sequence:
 
 ```text
-1. Validate Cloudflare preview after structural refactor.
-2. Plan company-led content restructure.
-3. Replace testimonials with Conferences & Industry Engagement.
-4. Add Google Booking CTA.
-5. Add ADA 2026 page.
+1. Rework About as company-first and founder-validated.
+2. Reduce resume-style Experience timeline emphasis.
+3. Add Google Booking CTA to another appropriate conversion point.
+4. Add ADA 2026 page.
+5. Later implement Cloudflare Worker + Turnstile + Resend/Postmark form architecture.
 ```
-
-## Conference Data Collection
-
-Collect the last six conferences/meetings, including ADA 2026.
-
-For each conference, capture:
-
-```text
-Conference name:
-Year:
-Location:
-Attended or upcoming:
-Relevant focus area:
-URL:
-Notes:
-```
-
-These will become the `Conferences & Industry Engagement` section.
 
 ## Not Started Yet
 
 ```text
-Cloudflare validation after Header/Footer extraction
-Company-led homepage content restructure
+Company-first About rewrite
+Resume-style timeline reduction
+Google Booking CTA integration beyond hero and ADA card
 ADA 2026 page
-Google Booking CTA integration
-Conference section implementation
 Cloudflare Worker + Turnstile form architecture
 Legacy file cleanup after parity
 Production domain connection
@@ -744,12 +946,11 @@ Production domain connection
 Need from project owner:
 
 ```text
-Google Booking URL
-Final list of six conferences/meetings
 Final email address
 Final decision on whether to keep or remove service worker
 Final Open Graph image approval
 Future email provider choice for Cloudflare Worker form: Resend or Postmark
+Final names/details for currently unspecified meetings
 ```
 
 ## Working Principle
