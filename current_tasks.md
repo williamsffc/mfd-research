@@ -4,18 +4,18 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-The initial Astro bootstrap is complete, and root-served static files have been copied into `public/` for Astro parity. The legacy static site still exists and has not been moved or deleted.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, and the existing static pages have been ported into Astro with near-verbatim page parity.
 
-The current goal is to port the existing pages into Astro with output parity before refactoring or redesigning.
+The current goal is to validate Astro parity locally and fix missing launch-critical assets before refactoring or redesigning.
 
 ## Active Goals
 
 1. Keep `main` as the stable baseline.
 2. Use `astro-migration` for all migration work.
-3. Preserve the existing static site until Astro parity is confirmed.
-4. Port existing pages into Astro with output parity.
-5. Preserve current visual design and JavaScript behavior.
-6. Preserve root routes, legal pages, SEO files, PWA files, and assets.
+3. Validate Astro output parity for homepage and legal pages.
+4. Preserve current visual design and JavaScript behavior.
+5. Preserve root routes, legal pages, SEO files, PWA files, and assets.
+6. Fix missing favicon, Apple touch icon, and Open Graph image assets.
 7. Replace testimonials with Conferences & Industry Engagement after parity.
 8. Prepare future Cloudflare Pages deployment.
 
@@ -107,55 +107,11 @@ public/assets/
 
 Legacy root files remain in place and have not been deleted.
 
-Preserved legacy files include:
+### Completed Task 5: Create Astro Page Parity
 
-```text
-index.html
-style.css
-script.js
-privacy-policy/
-terms-of-service/
-robots.txt
-sitemap.xml
-site.webmanifest
-service-worker.js
-assets/
-```
+Existing static pages have been ported into Astro with near-verbatim parity.
 
-## Immediate Tasks
-
-### Task 5: Review and Commit Static Preservation
-
-Review changes:
-
-```bash
-git status --short
-git diff --stat
-```
-
-Confirm build:
-
-```bash
-npm run build
-```
-
-Confirm public files:
-
-```bash
-find public -maxdepth 3 -type f | sort
-```
-
-If the build succeeds and the changes are safe, commit:
-
-```bash
-git add public current_tasks.md
-git commit -m "Preserve static assets for Astro"
-git push
-```
-
-### Task 6: Create Astro Page Parity
-
-Create Astro pages for:
+Created or updated Astro pages:
 
 ```text
 src/pages/index.astro
@@ -163,7 +119,7 @@ src/pages/privacy-policy/index.astro
 src/pages/terms-of-service/index.astro
 ```
 
-These should preserve the existing routes:
+Preserved routes:
 
 ```text
 /
@@ -171,40 +127,141 @@ These should preserve the existing routes:
  /terms-of-service/
 ```
 
-The first Astro pages should preserve the existing HTML structure, IDs, SEO metadata, Open Graph tags, Twitter tags, canonical URLs, CSP meta tag, stylesheet behavior, and script behavior.
+Preserved page behavior and markup:
 
-Do not refactor sections yet.
+```text
+section IDs
+anchor links
+CSS classes
+existing page structure
+title tags
+meta descriptions
+canonical tags
+robots meta tag
+Open Graph tags
+Twitter tags
+CSP meta tag
+stylesheet references
+script references
+Web3Forms placeholder and behavior
+```
 
-Do not replace testimonials yet.
+No redesign, componentization, testimonial replacement, or Web3Forms changes were made during this step.
 
-Do not redesign.
+Legacy files remain in place and have not been deleted.
 
-Do not delete legacy root files yet.
+`npm run build` succeeds and generates:
 
-### Task 7: Validate Existing Behavior
+```text
+dist/index.html
+dist/privacy-policy/index.html
+dist/terms-of-service/index.html
+```
+
+### Completed Task 6: Generate Repo-Specific QA Checklist
+
+A repo-specific Astro parity QA checklist has been generated.
+
+It covers:
+
+```text
+Build output
+Routes
+SEO tags
+Canonical URLs
+Open Graph tags
+Twitter tags
+CSP meta tag
+CSS loading
+JS loading
+Asset loading
+Mobile navigation
+Dark mode persistence
+Scroll reveal
+Scrollspy
+FAQ accordion
+Back-to-top button
+Service worker registration
+Contact form validation
+Web3Forms behavior
+Legal page styling
+Root file content parity
+```
+
+## Immediate Tasks
+
+### Task 7: Run Local Astro Parity QA
+
+Run local dev server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:8080/
+http://localhost:8080/privacy-policy/
+http://localhost:8080/terms-of-service/
+```
 
 Validate:
 
 ```text
-Mobile navigation
-Scroll reveal
-Scrollspy
-Theme toggle
-LocalStorage theme persistence
-Back-to-top button
-FAQ accordion
-Service card keyboard behavior
-Form validation
-Web3Forms async submit
-Service worker registration
-Reduced-motion behavior
-Skip link
-Focus states
-Legal page routes
-Root SEO/PWA files
+Homepage renders correctly
+Legal pages render correctly
+CSS loads
+Logo loads
+Navigation works
+Anchor links work
+Mobile nav works
+Dark mode toggle works
+Theme persists in localStorage
+FAQ expands/collapses
+Service card keyboard behavior works
+Scroll reveal works
+Scrollspy works
+Back-to-top button works
+Contact form displays correctly
+Contact form validation works
+Reduced-motion behavior is preserved
+Skip link works
+Focus states are visible
 ```
 
-## Missing Assets Inventory
+### Task 8: Validate Build Output and Preview
+
+Run:
+
+```bash
+npm run build
+npm run preview
+```
+
+Inspect generated files:
+
+```bash
+find dist -maxdepth 3 -type f | sort
+```
+
+Expected important files:
+
+```text
+dist/index.html
+dist/privacy-policy/index.html
+dist/terms-of-service/index.html
+dist/style.css
+dist/script.js
+dist/robots.txt
+dist/sitemap.xml
+dist/site.webmanifest
+dist/service-worker.js
+dist/assets/favicon.svg
+dist/assets/mfd-logo.jpg
+```
+
+### Task 9: Fix Missing Referenced Assets
 
 The current site references these files, but they are missing:
 
@@ -215,9 +272,57 @@ assets/apple-touch-icon.png
 assets/og-image.png
 ```
 
-These must be added to both `assets/` and `public/assets/`, or references must be corrected before launch.
+These must be added to both:
+
+```text
+assets/
+public/assets/
+```
+
+Preferred path:
+
+```text
+Create the missing files and keep the existing references.
+```
 
 Do not launch until these are resolved.
+
+### Task 10: Confirm Root File URLs
+
+Confirm these return successfully in local preview:
+
+```text
+/robots.txt
+/sitemap.xml
+/site.webmanifest
+/service-worker.js
+/style.css
+/script.js
+/assets/mfd-logo.jpg
+/assets/favicon.svg
+```
+
+After missing assets are added, also confirm:
+
+```text
+/assets/favicon-32x32.png
+/assets/favicon-16x16.png
+/assets/apple-touch-icon.png
+/assets/og-image.png
+```
+
+### Task 11: Commit QA and Asset Fixes
+
+After QA passes and missing assets are fixed:
+
+```bash
+git status --short
+git diff --stat
+npm run build
+git add .
+git commit -m "Fix static assets and validate Astro parity"
+git push
+```
 
 ## Conference Data Collection
 
@@ -240,9 +345,9 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Astro homepage parity
-Astro legal page parity
 Astro component creation
+BaseLayout extraction
+Header/Footer extraction
 Cloudflare Pages connection
 ADA 2026 page
 Google Booking CTA integration
