@@ -4,9 +4,9 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, and `BaseLayout.astro` has been created as the first controlled structural refactor.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, `BaseLayout.astro` has been created, and `Header.astro` has been extracted as a controlled structural refactor.
 
-The current goal is to continue controlled component extraction while preserving visual output, routes, SEO metadata, CSS, JavaScript behavior, and form behavior.
+The current goal is to complete basic structural component extraction while preserving visual output, routes, SEO metadata, CSS, JavaScript behavior, and form behavior.
 
 ## Active Goals
 
@@ -456,6 +456,66 @@ Build confirmation:
 npm run build succeeds
 ```
 
+### Completed Task 14: Extract Header.astro
+
+`Header.astro` has been added as a controlled structural refactor.
+
+Created file:
+
+```text
+src/components/Header.astro
+```
+
+Current Header responsibilities:
+
+```text
+Contains the existing navigation/header markup that was previously inline in src/pages/index.astro.
+Preserves nav#navbar.
+Preserves #navLinks.
+Preserves #themeToggle.
+Preserves #hamburger.
+Preserves all existing classes, aria attributes, logo path, anchor links, theme toggle markup, and hamburger markup.
+```
+
+Updated page:
+
+```text
+src/pages/index.astro
+```
+
+Preserved:
+
+```text
+Desktop navigation
+Mobile navigation selectors
+Theme toggle selectors
+Hamburger selectors
+Scrollspy expectations
+Anchor links
+Logo path
+CSS classes
+ARIA attributes
+public/script.js behavior
+public/style.css styling
+```
+
+Not changed:
+
+```text
+Footer was not extracted.
+No redesign was performed.
+No copy/content strategy changes were made.
+Testimonials were not replaced.
+Web3Forms behavior was not changed.
+Legacy files were not deleted.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
 ## Form Architecture Decision
 
 Web3Forms is acceptable as temporary MVP plumbing.
@@ -488,7 +548,7 @@ Implement after the site structure, messaging, booking CTA, and conference secti
 
 ## Immediate Tasks
 
-### Task 14: Validate and Commit BaseLayout Refactor
+### Task 15: Validate and Commit Header Refactor
 
 Run:
 
@@ -497,28 +557,26 @@ npm run build
 npm run preview
 ```
 
-Check routes:
+Check route:
 
 ```text
 /
- /privacy-policy/
- /terms-of-service/
 ```
 
 Validate:
 
 ```text
-Homepage renders correctly
-Legal pages render correctly
-CSS loads
-JS loads
-Meta tags remain present
-CSP remains present
-Dark mode works
-Mobile navigation works
-FAQ works
-Contact form still renders
-No major console errors
+Desktop nav renders correctly.
+Logo renders correctly.
+Anchor links work.
+Mobile hamburger appears at mobile widths.
+Mobile menu opens and closes.
+Escape closes mobile menu.
+Clicking a nav link closes mobile menu.
+Theme toggle works.
+Theme persists after reload.
+Scrollspy still works.
+No major console errors.
 ```
 
 Commit locally:
@@ -526,8 +584,8 @@ Commit locally:
 ```bash
 git status --short
 git diff --stat
-git add src/layouts/BaseLayout.astro src/pages/index.astro src/pages/privacy-policy/index.astro src/pages/terms-of-service/index.astro current_tasks.md
-git commit -m "Add BaseLayout for Astro pages"
+git add src/components/Header.astro src/pages/index.astro current_tasks.md
+git commit -m "Extract Header component"
 ```
 
 Push only if ready to deploy this milestone:
@@ -536,33 +594,34 @@ Push only if ready to deploy this milestone:
 git push
 ```
 
-### Task 15: Extract Header.astro
+### Task 16: Extract Footer.astro
 
-After BaseLayout is committed and local QA passes, extract the navigation/header only.
+After Header is committed and local QA passes, extract the footer only.
 
 Expected file:
 
 ```text
-src/components/Header.astro
+src/components/Footer.astro
 ```
 
 Requirements:
 
 ```text
-Preserve existing nav markup.
-Preserve IDs used by public/script.js.
+Preserve existing footer markup.
+Preserve footer-copy and footerYear behavior expected by public/script.js.
+Preserve footer social link.
+Preserve Quick Links.
+Preserve Contact block.
+Preserve Privacy Policy and Terms of Service links.
 Preserve classes used by public/style.css.
-Preserve hamburger button behavior.
-Preserve theme toggle behavior.
-Preserve anchor links.
 Do not change copy.
 Do not redesign.
-Do not extract Footer yet.
+Do not extract other sections yet.
 Do not replace testimonials yet.
 Do not delete legacy files.
 ```
 
-Validation after Header extraction:
+Validation after Footer extraction:
 
 ```bash
 npm run build
@@ -572,12 +631,12 @@ npm run preview
 Check:
 
 ```text
-Desktop nav works
-Mobile nav works
-Theme toggle works
-Scrollspy still works
-Anchor links still work
-No console errors
+Footer renders correctly.
+Footer year updates.
+Footer links work.
+Footer social link works.
+Privacy Policy and Terms of Service links work.
+No console errors.
 ```
 
 ## Next Planned Refactor Sequence
@@ -598,8 +657,8 @@ Current status:
 
 ```text
 BaseLayout.astro complete.
-Header.astro next.
-Footer.astro after Header.astro.
+Header.astro complete.
+Footer.astro next.
 ```
 
 ## Conference Data Collection
@@ -623,7 +682,7 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Header/Footer extraction
+Footer extraction
 ADA 2026 page
 Google Booking CTA integration
 Conference section implementation
