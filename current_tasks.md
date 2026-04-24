@@ -4,9 +4,9 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, and the existing static pages have been ported into Astro with near-verbatim page parity.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, and missing referenced favicon/Apple/Open Graph assets have been created.
 
-The current goal is to validate Astro parity locally and fix missing launch-critical assets before refactoring or redesigning.
+The current goal is to validate Astro parity locally before refactoring or redesigning.
 
 ## Active Goals
 
@@ -15,7 +15,7 @@ The current goal is to validate Astro parity locally and fix missing launch-crit
 3. Validate Astro output parity for homepage and legal pages.
 4. Preserve current visual design and JavaScript behavior.
 5. Preserve root routes, legal pages, SEO files, PWA files, and assets.
-6. Fix missing favicon, Apple touch icon, and Open Graph image assets.
+6. Confirm missing favicon, Apple touch icon, and Open Graph image assets are included in build output.
 7. Replace testimonials with Conferences & Industry Engagement after parity.
 8. Prepare future Cloudflare Pages deployment.
 
@@ -188,9 +188,74 @@ Legal page styling
 Root file content parity
 ```
 
+### Completed Task 7: Fix Missing Referenced Assets
+
+The previously missing referenced assets have been created in both legacy and Astro public asset locations.
+
+Created files:
+
+```text
+assets/favicon-16x16.png
+assets/favicon-32x32.png
+assets/apple-touch-icon.png
+assets/og-image.png
+public/assets/favicon-16x16.png
+public/assets/favicon-32x32.png
+public/assets/apple-touch-icon.png
+public/assets/og-image.png
+```
+
+Source assets used:
+
+```text
+assets/favicon.svg
+assets/mfd-logo.jpg
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
+Visual notes:
+
+```text
+OG image is a simple brand-safe composition with the logo centered on a neutral background.
+Apple touch icon is centered with padding on the same background color.
+```
+
 ## Immediate Tasks
 
-### Task 7: Run Local Astro Parity QA
+### Task 8: Review and Commit Asset Fixes
+
+Run:
+
+```bash
+git status --short
+git diff --stat
+npm run build
+find dist -maxdepth 3 -type f | sort
+```
+
+Confirm build output includes:
+
+```text
+dist/assets/favicon-16x16.png
+dist/assets/favicon-32x32.png
+dist/assets/apple-touch-icon.png
+dist/assets/og-image.png
+```
+
+If the build succeeds and the changes are safe, commit:
+
+```bash
+git add .
+git commit -m "Add missing favicon and social preview assets"
+git push
+```
+
+### Task 9: Run Local Astro Parity QA
 
 Run local dev server:
 
@@ -230,7 +295,7 @@ Skip link works
 Focus states are visible
 ```
 
-### Task 8: Validate Build Output and Preview
+### Task 10: Validate Build Preview
 
 Run:
 
@@ -239,57 +304,15 @@ npm run build
 npm run preview
 ```
 
-Inspect generated files:
-
-```bash
-find dist -maxdepth 3 -type f | sort
-```
-
-Expected important files:
+Confirm these routes work:
 
 ```text
-dist/index.html
-dist/privacy-policy/index.html
-dist/terms-of-service/index.html
-dist/style.css
-dist/script.js
-dist/robots.txt
-dist/sitemap.xml
-dist/site.webmanifest
-dist/service-worker.js
-dist/assets/favicon.svg
-dist/assets/mfd-logo.jpg
+/
+ /privacy-policy/
+ /terms-of-service/
 ```
 
-### Task 9: Fix Missing Referenced Assets
-
-The current site references these files, but they are missing:
-
-```text
-assets/favicon-32x32.png
-assets/favicon-16x16.png
-assets/apple-touch-icon.png
-assets/og-image.png
-```
-
-These must be added to both:
-
-```text
-assets/
-public/assets/
-```
-
-Preferred path:
-
-```text
-Create the missing files and keep the existing references.
-```
-
-Do not launch until these are resolved.
-
-### Task 10: Confirm Root File URLs
-
-Confirm these return successfully in local preview:
+Confirm these root files load:
 
 ```text
 /robots.txt
@@ -300,28 +323,26 @@ Confirm these return successfully in local preview:
 /script.js
 /assets/mfd-logo.jpg
 /assets/favicon.svg
-```
-
-After missing assets are added, also confirm:
-
-```text
 /assets/favicon-32x32.png
 /assets/favicon-16x16.png
 /assets/apple-touch-icon.png
 /assets/og-image.png
 ```
 
-### Task 11: Commit QA and Asset Fixes
+### Task 11: Begin Post-Parity Refactor Planning
 
-After QA passes and missing assets are fixed:
+After local parity QA passes, begin controlled refactor planning.
 
-```bash
-git status --short
-git diff --stat
-npm run build
-git add .
-git commit -m "Fix static assets and validate Astro parity"
-git push
+Recommended next refactor order:
+
+```text
+1. Create BaseLayout.astro
+2. Extract Header.astro
+3. Extract Footer.astro
+4. Preserve existing visual output
+5. Preserve existing script behavior
+6. Do not redesign yet
+7. Do not replace testimonials yet
 ```
 
 ## Conference Data Collection
@@ -352,7 +373,6 @@ Cloudflare Pages connection
 ADA 2026 page
 Google Booking CTA integration
 Form environment variable migration
-SEO/Open Graph image finalization
 Conference section implementation
 Legacy file cleanup after parity
 ```
@@ -367,7 +387,7 @@ Final list of six conferences/meetings
 Confirmation of contact form provider
 Final email address
 Final decision on whether to keep or remove service worker
-Final Open Graph image design
+Final Open Graph image approval
 ```
 
 ## Working Principle
