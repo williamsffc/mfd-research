@@ -11,80 +11,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self';" />
 
   <link rel="stylesheet" href="../style.css">
-  <style>
-    body {
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.65;
-      padding: 0;
-      margin: 0;
-    }
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 32px 20px 64px;
-    }
-    .top {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-      text-decoration: none;
-      color: var(--navy);
-    }
-    .top img {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-    }
-    .legal-card {
-      background: var(--bg-white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: var(--shadow-md);
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 2.25rem;
-      color: var(--navy);
-      font-family: 'Syne', sans-serif;
-    }
-    h2 {
-      margin: 32px 0 12px;
-      font-size: 1.25rem;
-      color: var(--navy);
-      font-family: 'Syne', sans-serif;
-    }
-    p, li { color: var(--text-secondary); }
-    ul { padding-left: 20px; margin-bottom: 16px; }
-    li { margin-bottom: 8px; }
-    .meta {
-      margin-top: 0;
-      color: var(--green);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .home-btn {
-      display: inline-block;
-      margin-top: 32px;
-      text-decoration: none;
-      color: #fff;
-      background: var(--navy);
-      border-radius: 99px;
-      padding: 12px 24px;
-      font-weight: 600;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-    .home-btn:hover {
-      background: var(--navy-light);
-      transform: translateY(-2px);
-    }
-  </style>
   </Fragment>
-  <main class="wrap">
-    <a class="top" href="../" aria-label="Return to home page">
+  <main class="legal-page wrap">
+    <a class="legal-top" href="../" aria-label="Return to home page">
       <img src="../assets/mfd-logo.jpg" alt="MFD Research logo" />
       <strong>MFD Research</strong>
     </a>

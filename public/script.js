@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.getElementById('navLinks');
     const hamburger = document.getElementById('hamburger');
     if (!navLinks || !hamburger) return;
+    const pageRoot = document.documentElement;
 
     /**
      * Toggle navigation menu state
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typeof forceOpen === 'boolean' ? forceOpen : !navLinks.classList.contains('open');
       navLinks.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
+      pageRoot.classList.toggle('nav-open', isOpen);
       if (isOpen) {
         const firstLink = navLinks.querySelector('a');
         if (firstLink) firstLink.focus();
@@ -51,6 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     hamburger.addEventListener('click', () => toggleNav());
+
+    document.addEventListener('click', (event) => {
+      if (!navLinks.classList.contains('open')) return;
+      if (navLinks.contains(event.target) || hamburger.contains(event.target)) return;
+      toggleNav(false);
+    });
 
     // Focus trap: keep keyboard focus inside the open mobile menu
     navLinks.addEventListener('keydown', (e) => {
@@ -76,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') toggleNav(false);
+      if (event.key === 'Escape' && navLinks.classList.contains('open')) toggleNav(false);
     });
   }
 
@@ -169,10 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const submitBtn = form.querySelector('.form-submit');
     const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message →';
+    const statusRegion = document.getElementById('contact-status');
 
     // Real-time validation feedback
     const inputs = form.querySelectorAll('input[required], textarea[required], select');
     inputs.forEach(input => {
+      input.dataset.baseDescribedby = input.getAttribute('aria-describedby') || '';
       input.addEventListener('blur', () => validateField(input));
       input.addEventListener('input', () => {
         if (input.classList.contains('error')) {
@@ -187,20 +197,28 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {boolean} True if valid, false otherwise
      */
     function validateField(field) {
+      const fieldId = field.id || field.name;
+      const existingDescription = field.dataset.baseDescribedby || field.getAttribute('aria-describedby') || '';
       const errorMsg = field.parentElement.querySelector('.error-message');
       if (errorMsg) errorMsg.remove();
 
       field.classList.remove('error', 'valid');
+      field.removeAttribute('aria-invalid');
+      if (existingDescription) {
+        field.setAttribute('aria-describedby', existingDescription);
+      } else {
+        field.removeAttribute('aria-describedby');
+      }
 
       if (!field.value.trim() && field.hasAttribute('required')) {
-        showError(field, 'This field is required');
+        showError(field, 'This field is required', fieldId);
         return false;
       }
 
       if (field.type === 'email' && field.value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(field.value)) {
-          showError(field, 'Please enter a valid email address');
+          showError(field, 'Please enter a valid email address', fieldId);
           return false;
         }
       }
@@ -214,12 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {HTMLElement} field - The field that has an error
      * @param {string} message - The error message to display
      */
-    function showError(field, message) {
+    function showError(field, message, fieldId) {
       field.classList.add('error');
-      const errorDiv = document.createElement('div');
+      field.setAttribute('aria-invalid', 'true');
+      const errorDiv = document.createElement('p');
       errorDiv.className = 'error-message';
+      errorDiv.id = `${fieldId}-error`;
       errorDiv.textContent = message;
       field.parentElement.appendChild(errorDiv);
+      const describedBy = [field.dataset.baseDescribedby, errorDiv.id].filter(Boolean).join(' ').trim();
+      field.setAttribute('aria-describedby', describedBy);
     }
 
     /**
@@ -237,6 +259,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!isValid) {
         const firstError = form.querySelector('.error');
+        if (statusRegion) {
+          statusRegion.textContent = 'Please correct the highlighted form fields before submitting.';
+        }
         if (firstError) {
           firstError.focus();
           firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -247,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show loading state
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
+        submitBtn.textContent = 'Sending…';
         submitBtn.classList.add('loading');
       }
 
@@ -290,6 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * Display success message after form submission
      */
     function showSuccessMessage() {
+      if (statusRegion) {
+        statusRegion.textContent = 'Thank you. Your message was sent successfully.';
+      }
       const successDiv = document.createElement('div');
       successDiv.className = 'form-message success';
       successDiv.setAttribute('role', 'alert');
@@ -305,6 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * Display error message if form submission fails
      */
     function showErrorMessage() {
+      if (statusRegion) {
+        statusRegion.textContent = 'There was a problem sending your message. Please try again or email directly.';
+      }
       const errorDiv = document.createElement('div');
       errorDiv.className = 'form-message error';
       errorDiv.setAttribute('role', 'alert');
@@ -448,6 +479,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
+   * Service card flip support for touch and keyboard users.
+   * Hover still works via CSS; click toggles a persistent flipped state.
+   */
+  function setupServiceCardFlip() {
+    const cards = document.querySelectorAll('.service-card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const nextState = !card.classList.contains('flipped');
+        cards.forEach(other => {
+          if (other !== card) {
+            other.classList.remove('flipped');
+            other.setAttribute('aria-expanded', 'false');
+          }
+        });
+        card.classList.toggle('flipped', nextState);
+        card.setAttribute('aria-expanded', String(nextState));
+      });
+
+      card.addEventListener('blur', (event) => {
+        if (!card.contains(event.relatedTarget)) {
+          card.classList.remove('flipped');
+          card.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          card.classList.remove('flipped');
+          card.setAttribute('aria-expanded', 'false');
+          card.blur();
+        }
+      });
+    });
+  }
+
+  /**
    * Animates numeric stats (data-count) counting up when they enter the viewport
    * Uses ease-out cubic easing for a satisfying feel
    */
@@ -521,32 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Keyboard activation for service cards
-   * Enter/Space toggles the flip; Escape closes it.
-   * Complements the existing :focus-within CSS flip.
-   */
-  function setupServiceCardKeyboard() {
-    const cards = document.querySelectorAll('.service-card[tabindex]');
-    cards.forEach(card => {
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          card.classList.toggle('flipped');
-        }
-        if (e.key === 'Escape') {
-          card.classList.remove('flipped');
-          card.focus();
-        }
-      });
-      card.addEventListener('blur', (e) => {
-        if (!card.contains(e.relatedTarget)) {
-          card.classList.remove('flipped');
-        }
-      });
-    });
-  }
-
-  /**
    * FAQ accordion: toggle answer visibility with proper ARIA state
    */
   function setupFaqAccordion() {
@@ -590,9 +631,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSmoothScroll();
   setupServiceWorker();
   setupCursorSpotlight();
+  setupServiceCardFlip();
   setupCountingStats();
   setupScrollspy();
   setupMarquee();
-  setupServiceCardKeyboard();
   setupFaqAccordion();
 });
