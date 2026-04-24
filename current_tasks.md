@@ -4,25 +4,23 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, and Cloudflare preview is working at:
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms uses Astro build-time environment variable handling, the Content Security Policy has been updated to allow Web3Forms submission, and the contact form has been validated successfully both locally and on the Cloudflare preview deployment.
 
-```text
-https://testing.mfd-research.workers.dev/
-```
-
-The current goal is to fix Web3Forms environment variable handling locally before doing more structural refactoring.
+The current goal is to begin controlled structural refactoring while preserving visual output and JavaScript behavior.
 
 ## Active Goals
 
 1. Keep `main` as the stable baseline.
 2. Use `astro-migration` for all migration work.
-3. Validate Astro output parity for homepage and legal pages.
-4. Preserve current visual design and JavaScript behavior.
-5. Preserve root routes, legal pages, SEO files, PWA files, and assets.
-6. Fix Web3Forms environment variable handling.
-7. Deploy to Cloudflare only at meaningful milestones.
-8. Replace testimonials with Conferences & Industry Engagement after parity and form behavior are stable.
-9. Prepare future Cloudflare Pages/Workers production deployment.
+3. Preserve current visual design and JavaScript behavior.
+4. Preserve root routes, legal pages, SEO files, PWA files, and assets.
+5. Deploy to Cloudflare only at meaningful milestones.
+6. Begin controlled Astro structure refactor.
+7. Replace testimonials with Conferences & Industry Engagement after structure is stable.
+8. Add Google Booking CTA after structure is stable.
+9. Add ADA 2026 landing page after homepage structure/content is stable.
+10. Replace Web3Forms later with a Cloudflare-native form architecture.
+11. Prepare future Cloudflare Pages/Workers production deployment.
 
 ## Deployment Discipline
 
@@ -44,6 +42,7 @@ Push/deploy to Cloudflare only at meaningful milestones, such as:
 Astro parity complete
 Missing assets fixed
 Web3Forms env handling fixed
+Web3Forms CSP submission fixed
 BaseLayout/Header/Footer extraction complete
 Testimonials replaced with Conferences section
 Google Booking CTA added
@@ -175,10 +174,9 @@ Twitter tags
 CSP meta tag
 stylesheet references
 script references
-Web3Forms placeholder and behavior
 ```
 
-No redesign, componentization, testimonial replacement, or Web3Forms changes were made during this step.
+No redesign, componentization, testimonial replacement, or form behavior redesign was made during this step.
 
 Legacy files remain in place and have not been deleted.
 
@@ -275,133 +273,236 @@ The current deployment should be treated as preview/testing only.
 
 Do not connect the production domain yet.
 
-## Immediate Tasks
+### Completed Task 9: Add Astro Environment Variable Handling for Web3Forms
 
-### Task 9: Fix Web3Forms Environment Variable Handling
-
-Replace the current placeholder:
-
-```text
-%VITE_ACCESS_KEY%
-```
-
-with Astro-compatible build-time environment handling.
-
-Recommended variable:
+The Web3Forms access key is now read at build time from:
 
 ```text
 PUBLIC_WEB3FORMS_ACCESS_KEY
 ```
 
-Expected implementation in `src/pages/index.astro`:
+Current implementation:
 
 ```astro
 ---
-const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "%VITE_ACCESS_KEY%";
+const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 ---
 ```
 
-Expected hidden input:
+The hidden input now uses:
 
 ```astro
 <input type="hidden" name="access_key" value={web3formsAccessKey} />
 ```
 
-Do not change:
+The following were not changed:
 
 ```text
 Web3Forms endpoint
 form field names
-form layout
-form validation behavior
-script.js behavior
+contact form layout
+public/script.js behavior
+component structure
+visual design
+legacy files
 ```
 
-### Task 10: Configure Local Environment
+Fallback behavior:
 
-Create or update local `.env`:
-
-```env
-PUBLIC_WEB3FORMS_ACCESS_KEY=your_real_web3forms_key_here
+```text
+If PUBLIC_WEB3FORMS_ACCESS_KEY is missing, the input value is empty.
+The page still builds and loads.
+Submission should fail gracefully using existing error handling.
 ```
 
-Do not commit `.env`.
+### Completed Task 10: Update CSP for Web3Forms Submission
 
-### Task 11: Validate Form Build Output Locally
+The Content Security Policy in `src/pages/index.astro` has been updated to allow Web3Forms submission.
 
-Run:
+Previous CSP issue:
+
+```text
+connect-src was only 'self', which blocked fetch requests to https://api.web3forms.com/submit.
+form-action was not present, which could block native form POST submission.
+```
+
+Updated CSP now includes:
+
+```text
+connect-src 'self' https://api.web3forms.com;
+form-action 'self' https://api.web3forms.com;
+```
+
+The following were not changed:
+
+```text
+Web3Forms endpoint
+form field names
+contact form layout
+public/script.js behavior
+component structure
+visual design
+legacy files
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
+### Completed Task 11: Validate Local Web3Forms Submission
+
+Local Web3Forms form submission has been validated successfully.
+
+Validated conditions:
+
+```text
+PUBLIC_WEB3FORMS_ACCESS_KEY was set in local .env.
+Astro injected the key into dist/index.html.
+%VITE_ACCESS_KEY% no longer appears in dist/index.html.
+PUBLIC_WEB3FORMS_ACCESS_KEY variable name does not appear in dist/index.html.
+CSP no longer blocks submission.
+Test form submission succeeded.
+Test email was received.
+```
+
+Important:
+
+```text
+.env must not be committed.
+The Web3Forms access key is temporary MVP plumbing and should later be replaced by Cloudflare Worker + Turnstile + Resend/Postmark.
+```
+
+### Completed Task 12: Validate Cloudflare Preview Web3Forms Submission
+
+Cloudflare preview form submission has been validated successfully.
+
+Validated conditions:
+
+```text
+PUBLIC_WEB3FORMS_ACCESS_KEY was configured in Cloudflare.
+The deployed HTML contains a populated Web3Forms access_key value.
+%VITE_ACCESS_KEY% no longer appears in deployed HTML.
+PUBLIC_WEB3FORMS_ACCESS_KEY variable name does not appear in deployed HTML.
+CSP no longer blocks submission.
+A realistic form submission succeeded.
+Test email was received.
+```
+
+Notes:
+
+```text
+An earlier submission using obvious spam values such as test@test.com and repeated "test" fields was rejected by Web3Forms spam filtering.
+A realistic test submission worked successfully.
+```
+
+## Form Architecture Decision
+
+Web3Forms is acceptable as temporary MVP plumbing.
+
+Long-term preferred architecture:
+
+```text
+Cloudflare Worker + Turnstile + Resend/Postmark
+```
+
+Recommended future architecture:
+
+```text
+Astro contact form
+  ↓
+Cloudflare Worker endpoint
+  ↓
+Cloudflare Turnstile verification
+  ↓
+Server-side validation
+  ↓
+Email provider such as Resend or Postmark
+  ↓
+MFD Research inbox
+```
+
+Do not implement this yet.
+
+Implement after the site structure, messaging, booking CTA, and conference section are stable.
+
+## Immediate Tasks
+
+### Task 13: Commit Current Form Milestone
+
+Confirm `.env` is not tracked:
+
+```bash
+git status --short
+```
+
+If `.env` appears, stop before committing.
+
+Then run:
+
+```bash
+git diff --stat
+npm run build
+git add src/pages/index.astro current_tasks.md
+git commit -m "Validate Web3Forms submission flow"
+```
+
+Push only if this milestone is ready for Cloudflare deployment:
+
+```bash
+git push
+```
+
+### Task 14: Begin Controlled Astro Structure Refactor
+
+Next safe implementation step:
+
+```text
+Create BaseLayout.astro
+```
+
+Goal:
+
+```text
+Reduce duplication safely.
+Preserve visual output.
+Preserve existing scripts.
+Preserve existing CSS.
+Preserve routes.
+Preserve SEO metadata.
+Do not extract Header/Footer yet.
+Do not redesign.
+Do not replace testimonials yet.
+Do not change content strategy yet.
+Do not delete legacy files yet.
+```
+
+Expected files:
+
+```text
+src/layouts/BaseLayout.astro
+src/pages/index.astro
+src/pages/privacy-policy/index.astro
+src/pages/terms-of-service/index.astro
+```
+
+Validation after BaseLayout:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Check built HTML:
-
-```bash
-grep -R "VITE_ACCESS_KEY\|PUBLIC_WEB3FORMS_ACCESS_KEY\|access_key" dist/index.html
-```
-
-Expected:
+Check:
 
 ```text
-No %VITE_ACCESS_KEY% placeholder
-No PUBLIC_WEB3FORMS_ACCESS_KEY text
-access_key input exists
-```
-
-### Task 12: Configure Cloudflare Environment Variable
-
-In Cloudflare, add:
-
-```text
-PUBLIC_WEB3FORMS_ACCESS_KEY
-```
-
-under:
-
-```text
-Settings > Variables and secrets
-```
-
-Use the correct Web3Forms key.
-
-### Task 13: Deploy Form Handling Milestone
-
-After local validation succeeds:
-
-```bash
-git status --short
-git add .
-git commit -m "Use Astro env variable for Web3Forms key"
-git push
-```
-
-This is a meaningful milestone, so Cloudflare preview deployment is acceptable.
-
-### Task 14: Validate Cloudflare Preview Form Behavior
-
-On:
-
-```text
-https://testing.mfd-research.workers.dev/
-```
-
-Validate:
-
-```text
-Contact form renders
-Required field validation works
-Invalid email validation works
-Submit button enters Sending state
-Submission succeeds with real key or fails gracefully if service-side configuration blocks it
-No placeholder key appears in page source
-No major console errors
+/
+ /privacy-policy/
+ /terms-of-service/
 ```
 
 ## Next Planned Refactor Sequence
-
-After local QA, Cloudflare preview, and Web3Forms env handling are stable, begin controlled refactor planning.
 
 Recommended refactor order:
 
@@ -436,13 +537,12 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Web3Forms environment variable migration
-Astro component creation
-BaseLayout extraction
+Astro BaseLayout creation
 Header/Footer extraction
 ADA 2026 page
 Google Booking CTA integration
 Conference section implementation
+Cloudflare Worker + Turnstile form architecture
 Legacy file cleanup after parity
 Production domain connection
 ```
@@ -452,13 +552,12 @@ Production domain connection
 Need from project owner:
 
 ```text
-Web3Forms access key
 Google Booking URL
 Final list of six conferences/meetings
-Confirmation of contact form provider
 Final email address
 Final decision on whether to keep or remove service worker
 Final Open Graph image approval
+Future email provider choice for Cloudflare Worker form: Resend or Postmark
 ```
 
 ## Working Principle

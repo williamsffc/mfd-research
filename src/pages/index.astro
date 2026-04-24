@@ -1,14 +1,13 @@
 ---
 // Parity port of legacy static `index.html`.
 // Static assets are served from `public/` (style.css, script.js, assets/, and root SEO/PWA files).
+import { Fragment } from 'astro/jsx-runtime';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<BaseLayout>
+  <Fragment slot="head">
   <title>MFD Research | Where Expertise Meets Execution</title>
   <meta name="description"
     content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
@@ -43,9 +42,7 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" />
   <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
+  </Fragment>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -814,7 +811,6 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
   </button>
 
   <script src="script.js" defer></script>
-
-</body>
-</html>
+  
+</BaseLayout>
 
