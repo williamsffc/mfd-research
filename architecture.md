@@ -1,73 +1,31 @@
 # MFD Research Website Architecture
 
-## 1. Project Purpose
+## Project Overview
 
-The MFD Research website is a founder-led, company-branded consulting website for **MFD Research LLC**.
+MFD Research is a founder-led clinical research consulting firm website. The site should position MFD Research as a credible consulting business while using Michael Delgado’s professional background as the authority behind the firm.
 
-The website should position MFD Research as a serious clinical research consulting firm while using **Michael Delgado, CCRC** as the credibility engine behind the company.
-
-The site should not feel like Michael's LinkedIn profile copied into a website. LinkedIn should remain Michael-forward. The website should be MFD Research-forward.
-
-## 2. Strategic Brand Direction
-
-### Brand Model
+The brand strategy is:
 
 **MFD Research = the consulting firm**  
-Clinical research operations consulting for sponsors, CROs, biotech organizations, research sites, and site networks.
+**Michael Delgado = founder-led credibility engine**
 
-**Michael Delgado = founder/principal authority**  
-The credibility engine behind the firm, based on 18+ years of clinical research operations leadership.
+The site should not feel like a duplicate of Michael’s LinkedIn profile. LinkedIn should remain Michael-forward. The website should be company-forward, service-oriented, and conversion-focused.
 
-### Positioning Statement
+## Strategic Positioning
 
-MFD Research is a specialized clinical research consulting firm helping sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.
+### Primary Positioning
 
-### Founder Validation Statement
+MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.
 
-Founded by Michael Delgado, CCRC, MFD Research brings more than 18 years of hands-on clinical research leadership across site operations, sponsor relationships, regulatory readiness, staff development, and multi-therapeutic trial execution.
+### Founder Validation
 
-### Tone
+MFD Research was founded by Michael Delgado, CCRC, a clinical research operations leader with more than 18 years of experience across site operations, sponsor relationships, regulatory readiness, staff training, and multi-therapeutic trial execution.
 
-The website should feel:
-
-- Professional
-- Clinical research-focused
-- Executive-level
-- Trustworthy
-- Confidential
-- Operationally grounded
-- Company-led, not personal-resume-led
-
-Avoid language that feels like generic consulting fluff. The site should communicate practical execution, compliance awareness, and site-level operational credibility.
-
-## 3. Primary Website Goals
-
-The website should accomplish five goals:
-
-1. Clearly explain what MFD Research does.
-2. Establish credibility through founder-led experience.
-3. Convert visitors into booked consultations or qualified inquiries.
-4. Support LinkedIn and conference outreach.
-5. Provide a scalable foundation for future service pages, conference pages, and content.
-
-## 4. Recommended Technology Stack
-
-### Frontend Framework
-
-Use **Astro**.
-
-Reasoning:
-
-- Excellent for static and content-forward websites.
-- Fast by default.
-- Easy to structure into reusable components.
-- Supports Markdown/MDX content if needed later.
-- Lower complexity than Next.js for this use case.
-- Works well with Cloudflare Pages.
+Michael should appear on the site as the founder/principal authority behind the business, but the website should remain branded around MFD Research as the company.
 
 ## Current Repository Baseline
 
-The project currently exists as a static HTML/CSS/JavaScript website with a lightweight Node-based tooling layer.
+The project currently exists as a vanilla static HTML/CSS/JavaScript website with a lightweight Node-based tooling layer.
 
 ### Existing Core Files
 
@@ -87,167 +45,147 @@ CLAUDE.md
 package.json
 package-lock.json
 scripts/
+```
 
-### Styling
+### Existing Tooling
 
-Preferred options:
+The current `package.json` includes scripts for local development, building, previewing, accessibility testing, and image optimization.
 
-1. **Tailwind CSS** for fast, consistent component styling.
-2. Or a clean global CSS system if preserving the existing design language.
+```json
+{
+  "dev": "node scripts/vite-runner.mjs --port 8080",
+  "build": "node scripts/vite-runner.mjs build",
+  "build:dev": "node scripts/vite-runner.mjs build",
+  "preview": "node scripts/vite-runner.mjs preview",
+  "test:a11y": "node scripts/test-a11y.mjs",
+  "optimize:images": "node scripts/optimize-images.mjs"
+}
+```
 
-Recommendation: use Tailwind if rebuilding from scratch. Use organized CSS variables if preserving the current visual identity.
+The current project includes:
+
+- Local development script
+- Build script
+- Preview script
+- Accessibility testing using `axe-core`
+- Image optimization script
+- Static privacy policy page
+- Static terms of service page
+- Sitemap
+- Robots file
+- Web app manifest
+- Service worker
+- Static assets
+- Existing CSS design system
+
+### Repository Hygiene
+
+The repository correctly ignores local environment files and dependencies.
+
+```gitignore
+node_modules/
+.env
+.env.local
+.env.*.local
+```
+
+The `.env` file and `node_modules/` directory must not be committed.
+
+## Known Current Issues
+
+The current static site references several assets that are not currently present in the repository and should be added or the references should be corrected.
+
+Missing referenced assets:
+
+```text
+assets/favicon-32x32.png
+assets/favicon-16x16.png
+assets/apple-touch-icon.png
+assets/og-image.png
+```
+
+These are important for browser icons, mobile home screen behavior, PWA metadata, and LinkedIn/Open Graph previews.
+
+The contact form currently uses a placeholder access key:
+
+```html
+%VITE_ACCESS_KEY%
+```
+
+During Astro migration, form environment handling should be updated so the Web3Forms key is rendered safely at build time using an Astro-compatible environment variable.
+
+Recommended variable:
+
+```text
+PUBLIC_WEB3FORMS_ACCESS_KEY
+```
+
+The current documentation references Netlify in some places, but the confirmed target hosting platform is Cloudflare Pages.
+
+## Target Technical Architecture
+
+### Framework
+
+The target framework is:
+
+```text
+Astro
+```
+
+Astro should be used because MFD Research is primarily a content-forward business website, not a heavy web application.
+
+Astro should be configured for static output.
 
 ### Hosting
 
-Use **Cloudflare Pages**.
-
-Recommended deployment settings:
+The confirmed hosting target is:
 
 ```text
-Build command: npm run build
-Output directory: dist
-Framework preset: Astro
+Cloudflare Pages
 ```
 
-### DNS
+Cloudflare will be used for:
 
-Use **Cloudflare DNS** for:
+- Static site hosting
+- DNS
+- Performance
+- Security
+- Preview deployments
+- Future analytics and edge options if needed
 
-```text
-mfdresearch.com
-www.mfdresearch.com
-```
+### Booking
 
-The production domain should only be connected after the site is polished and approved.
+The primary booking/conversion path will use Google Booking.
 
-### Scheduling
+Google Booking should be the main CTA destination across the site.
 
-Use the existing **Google Booking page** as the primary conversion CTA.
-
-Recommended CTA text:
+Recommended CTA language:
 
 ```text
 Schedule a Confidential Consultation
 ```
 
-Alternative CTA text for event/conference pages:
+Alternative CTA for ADA/conference content:
 
 ```text
 Schedule a 30-Minute Meeting
 ```
 
-### Contact Form
+### Forms
 
-The booking link should be the primary conversion path. A contact form may remain secondary.
+The contact form should remain secondary to the booking CTA.
 
-Possible form options:
+Preferred conversion hierarchy:
 
-- Web3Forms
-- Formspree
-- Basin
-- Cloudflare Workers/Pages Function
-- Google Forms, if simplicity matters more than polish
+1. Schedule a confidential consultation
+2. Email MFD Research
+3. Submit contact form
 
-If Web3Forms is used, ensure the access key is not left as a placeholder.
+Form behavior should remain stable during migration. Do not change the form provider or field names unless explicitly approved.
 
-### Analytics
+## Target Site Structure
 
-Recommended analytics options:
-
-- Cloudflare Web Analytics
-- Plausible
-- Fathom
-- Google Analytics, only if broader marketing tracking is needed
-
-For this project, start with Cloudflare Web Analytics.
-
-## 5. Development Workflow
-
-The site should be built locally first. Do not expose or attach the production domain until the site is ready.
-
-### Local Development
-
-```bash
-npm create astro@latest
-npm install
-npm run dev
-```
-
-### Build Check
-
-Before deployment:
-
-```bash
-npm run build
-npm run preview
-```
-
-### GitHub Workflow
-
-Use GitHub as the source of truth.
-
-Recommended branches:
-
-```text
-main        production-ready branch
-dev         active development branch
-feature/*   isolated work branches if needed
-```
-
-For a small project, `main` and `dev` are enough.
-
-## 6. Recommended Project File Structure
-
-```text
-mfd-research/
-  public/
-    assets/
-      logos/
-      images/
-      icons/
-      og-image.png
-      favicon.svg
-      favicon-32x32.png
-      favicon-16x16.png
-      apple-touch-icon.png
-  src/
-    components/
-      Header.astro
-      Hero.astro
-      WhoWeHelp.astro
-      Services.astro
-      WhyMFD.astro
-      FounderExpertise.astro
-      Conferences.astro
-      TherapeuticExpertise.astro
-      EngagementProcess.astro
-      ContactCTA.astro
-      Footer.astro
-      SEO.astro
-    data/
-      services.ts
-      audiences.ts
-      conferences.ts
-      therapeuticAreas.ts
-      credentials.ts
-      siteConfig.ts
-    layouts/
-      BaseLayout.astro
-    pages/
-      index.astro
-      ada-2026.astro
-      privacy-policy.astro
-      terms-of-service.astro
-    styles/
-      global.css
-  architecture.md
-  package.json
-  astro.config.mjs
-  tsconfig.json
-  README.md
-```
-
-## 7. Homepage Content Architecture
+The site should be structured as a professional, company-led consulting website.
 
 Recommended homepage order:
 
@@ -264,13 +202,320 @@ Recommended homepage order:
 10. Footer
 ```
 
-## 8. Section Details
+## Recommended Route Structure
 
-### 8.1 Hero
+Initial required routes:
 
-Purpose: communicate the company's value within five seconds.
+```text
+/
+ /privacy-policy/
+ /terms-of-service/
+```
 
-Recommended headline:
+Future planned route:
+
+```text
+/ada-2026/
+```
+
+Possible future routes:
+
+```text
+/services/
+ /founder/
+ /contact/
+ /insights/
+```
+
+Do not add future routes until the homepage and core migration are stable.
+
+## Required Route Preservation
+
+During migration, these routes must continue to work:
+
+```text
+/
+ /privacy-policy/
+ /terms-of-service/
+```
+
+These root-level files must also continue to be served correctly:
+
+```text
+robots.txt
+sitemap.xml
+site.webmanifest
+service-worker.js
+```
+
+Do not break existing URLs or trailing slash behavior.
+
+## Astro Target Structure
+
+Recommended Astro structure:
+
+```text
+src/
+  components/
+    Header.astro
+    Hero.astro
+    WhoWeHelp.astro
+    Services.astro
+    WhyMFD.astro
+    FounderExpertise.astro
+    Conferences.astro
+    TherapeuticExpertise.astro
+    EngagementProcess.astro
+    ContactCTA.astro
+    Footer.astro
+  data/
+    services.ts
+    audiences.ts
+    conferences.ts
+    therapeuticAreas.ts
+  layouts/
+    BaseLayout.astro
+  pages/
+    index.astro
+    privacy-policy/
+      index.astro
+    terms-of-service/
+      index.astro
+    ada-2026.astro
+  styles/
+    global.css
+public/
+  assets/
+  robots.txt
+  sitemap.xml
+  site.webmanifest
+  service-worker.js
+```
+
+## Migration Principle
+
+The Astro migration should be treated as a controlled migration, not a full rebuild from scratch.
+
+The goal is to preserve working assets, SEO files, legal pages, useful scripts, accessibility behavior, visual style, and routing while reorganizing the website into an Astro component-based architecture.
+
+## Migration Strategy
+
+### Phase 0: Freeze Compatibility Targets
+
+Before modifying the structure, confirm the required URLs and files that must remain stable.
+
+Required routes:
+
+```text
+/
+ /privacy-policy/
+ /terms-of-service/
+```
+
+Required root files:
+
+```text
+robots.txt
+sitemap.xml
+site.webmanifest
+service-worker.js
+```
+
+### Phase 1: Preserve Current Site Baseline
+
+Commit the current architecture documentation before migration begins.
+
+Do not delete the existing static files until the Astro build reaches functional parity.
+
+### Phase 2: Create Astro Structure
+
+Add Astro to the existing repository.
+
+Configure Astro for static output.
+
+Cloudflare Pages build settings should eventually be:
+
+```text
+Build command: npm run build
+Output directory: dist
+```
+
+### Phase 3: Preserve Public Files
+
+Move or copy the following files into Astro’s `public/` directory so they continue to ship at the same root URLs:
+
+```text
+robots.txt
+sitemap.xml
+site.webmanifest
+service-worker.js
+assets/
+```
+
+Any missing referenced assets should be created or references should be corrected.
+
+### Phase 4: Port Visual Design
+
+Preserve the existing visual direction:
+
+- Navy/green clinical-executive palette
+- Rounded cards
+- Subtle gradients and blobs
+- Dark mode support
+- Reduced-motion support
+- Responsive behavior
+- Clear executive consulting tone
+
+The existing `style.css` may be used as the starting point, either by importing it globally or converting it into `src/styles/global.css`.
+
+Do not redesign the entire visual system during the first Astro migration pass.
+
+### Phase 5: Port Pages with Parity First
+
+Create Astro pages for:
+
+```text
+src/pages/index.astro
+src/pages/privacy-policy/index.astro
+src/pages/terms-of-service/index.astro
+```
+
+The first Astro version should aim for output and behavior parity before heavy refactoring.
+
+### Phase 6: Reattach JavaScript Behavior
+
+The existing `script.js` may be preserved initially and loaded with `defer`.
+
+Validate:
+
+- Mobile navigation
+- Focus handling
+- Skip link
+- Scroll reveal
+- Scrollspy
+- Theme toggle
+- LocalStorage theme persistence
+- Form validation
+- Async form submit
+- Back-to-top behavior
+- Service worker registration
+- Reduced-motion behavior
+
+### Phase 7: Replace Testimonials with Conferences
+
+The current testimonial section should be removed or replaced.
+
+New section:
+
+```text
+Conferences & Industry Engagement
+```
+
+Purpose:
+
+- Show Michael/MFD Research is active in clinical research and therapeutic-area industry conversations.
+- Avoid unverified or generic testimonials.
+- Support ADA 2026 outreach.
+- Reinforce credibility without making the site feel like a resume.
+
+Conference cards should include:
+
+```text
+Conference name
+Year
+Location
+Status: Upcoming or Attended
+Relevant focus area
+Optional URL
+```
+
+ADA 2026 should be highlighted as upcoming.
+
+### Phase 8: Refactor into Components
+
+After functional parity is reached, split homepage sections into Astro components.
+
+Recommended components:
+
+```text
+Header.astro
+Hero.astro
+WhoWeHelp.astro
+Services.astro
+WhyMFD.astro
+FounderExpertise.astro
+Conferences.astro
+TherapeuticExpertise.astro
+EngagementProcess.astro
+ContactCTA.astro
+Footer.astro
+```
+
+Move structured content into `src/data/`.
+
+### Phase 9: ADA 2026 Landing Page
+
+After the homepage is stable, create:
+
+```text
+/ada-2026/
+```
+
+Purpose:
+
+- Dedicated landing page for LinkedIn posts
+- Conference outreach
+- QR codes
+- Email signatures
+- Booking CTA
+
+Primary CTA:
+
+```text
+Schedule a 30-Minute Meeting
+```
+
+### Phase 10: Cloudflare Pages Deployment
+
+Do not connect the production domain until the site is polished and approved.
+
+Deployment sequence:
+
+1. Build and test locally.
+2. Push Astro branch to GitHub.
+3. Connect repo to Cloudflare Pages.
+4. Use Cloudflare preview URL first.
+5. Test all routes and CTAs.
+6. Connect `mfdresearch.com`.
+7. Add `www` redirect.
+8. Enable analytics.
+9. Test LinkedIn preview card.
+10. Submit sitemap to Google Search Console.
+
+## Content Strategy
+
+### Voice
+
+The site should sound:
+
+- Executive
+- Clinical
+- Precise
+- Trustworthy
+- Practical
+- Confidential
+- Service-oriented
+
+Avoid sounding like:
+
+- A freelancer portfolio
+- A generic agency website
+- A resume copied from LinkedIn
+- A hype-heavy startup landing page
+
+### Hero Direction
+
+Recommended hero headline:
 
 ```text
 Clinical Research Operations Built for Execution
@@ -294,492 +539,217 @@ Secondary CTA:
 View Consulting Services
 ```
 
-Hero should be company-led, not Michael-led.
+### Founder Section
 
-### 8.2 Who We Help
+Michael should appear in a dedicated founder-led credibility section.
 
-Purpose: show target audiences clearly.
-
-Recommended audience cards:
-
-- Pharmaceutical sponsors
-- Biotech organizations
-- CROs
-- Research sites
-- Site networks or emerging research programs
-
-Each card should explain the problem MFD Research helps solve for that audience.
-
-### 8.3 What We Do
-
-Purpose: describe consulting services.
-
-Recommended service categories:
-
-1. Research Site Development
-2. Clinical Operations Optimization
-3. Regulatory & GCP Readiness
-4. Quality Management Systems
-5. Staff Training & Development
-6. Therapeutic Program Support
-
-Avoid overly broad or vague service descriptions. Each service should feel practical and operational.
-
-### 8.4 Why MFD Research
-
-Purpose: explain why the firm is credible and differentiated.
-
-Recommended proof points:
-
-- 18+ years of clinical research operations experience
-- Phase I-III trial execution
-- Multi-sponsor, multi-therapeutic site leadership
-- Site-level operational authority
-- Regulatory, quality, and staff training depth
-- Confidential consulting model
-
-### 8.5 Founder-Led Expertise
-
-Purpose: introduce Michael as the authority behind the company.
-
-Recommended headline:
+Recommended framing:
 
 ```text
 Founder-Led Expertise
 ```
 
-Recommended copy:
+Michael should be described as the founder/principal authority behind the business, not as the entire brand.
 
-```text
-MFD Research was founded by Michael Delgado, CCRC, a clinical research operations leader with more than 18 years of experience across site development, regulatory readiness, sponsor partnerships, staff training, and multi-therapeutic trial execution.
+The full career timeline should be reduced or removed from the homepage. LinkedIn should carry the detailed career history.
 
-Michael's background includes leadership across high-volume research sites, ophthalmology research operations, metabolic and liver disease programs, and multi-specialty clinical trials. His work gives MFD Research a practical, site-level perspective grounded in real execution, not advisory theory.
-```
+### Conferences Section
 
-Recommended buttons:
+The site should include a section for recent and upcoming conferences/meetings.
 
-```text
-Connect with Michael on LinkedIn
-Schedule a Consultation
-```
-
-Do not include a full LinkedIn-style resume timeline on the homepage.
-
-### 8.6 Conferences & Industry Engagement
-
-Purpose: replace testimonials with credible industry participation.
-
-This section should highlight recent and upcoming conferences/meetings, including ADA 2026 as an upcoming event.
-
-Recommended headline:
+Recommended section title:
 
 ```text
 Conferences & Industry Engagement
 ```
 
-Recommended intro:
+ADA 2026 should be included as upcoming.
+
+A dedicated ADA page may be added after the core site is stable.
+
+### Testimonials
+
+Do not use testimonials unless they are real, approved, and attributable or intentionally anonymized with permission.
+
+Current plan:
 
 ```text
-MFD Research stays connected to the evolving clinical research landscape through participation in major medical, scientific, and industry meetings.
+Replace testimonials with Conferences & Industry Engagement.
 ```
 
-Each conference card should include:
+## SEO and Metadata Requirements
+
+Preserve:
+
+- Canonical URLs
+- Meta descriptions
+- Open Graph tags
+- Twitter card tags
+- Sitemap
+- Robots file
+- Page titles
+- Favicon references
+- `og-image.png` or equivalent social preview image
+
+Add or fix:
+
+- Missing favicon PNG files
+- Missing Apple touch icon
+- Missing Open Graph image
+
+For LinkedIn sharing, the Open Graph image is especially important.
+
+## Security Requirements
+
+The current site uses a Content Security Policy meta tag.
+
+During migration:
+
+- Preserve CSP behavior initially.
+- Later consider moving CSP from meta tags to Cloudflare headers.
+- Do not weaken security policy without a specific reason.
+- Ensure external resources such as Google Fonts, Web3Forms, and booking links are allowed as needed.
+
+## Accessibility Requirements
+
+Preserve or improve:
+
+- Skip link
+- Semantic landmarks
+- Keyboard navigation
+- Focus states
+- Button labels
+- Form labels and validation
+- `aria-expanded` for menus and FAQ items
+- Reduced motion support
+- Color contrast
+- Mobile navigation behavior
+
+Run accessibility checks before launch.
+
+## Performance Requirements
+
+The site should remain:
+
+- Fast
+- Static-first
+- Low JavaScript
+- Mobile-friendly
+- SEO-friendly
+- Easy to cache
+
+Avoid unnecessary client-side frameworks or heavy dependencies.
+
+## AI Tooling Workflow
+
+The project will be built with assistance from:
 
 ```text
-Conference name
-Year
-Location
-Status: Upcoming or Attended
-Relevant focus area
-Optional URL
+Cursor
+Claude Code
+Codex
+ChatGPT
 ```
 
-Important accuracy rule:
+ChatGPT is used as the strategic and architectural planning layer.
 
-Do not imply that MFD Research officially represented every historical conference unless that is accurate.
+Cursor/Claude/Codex may be used to implement code changes.
 
-Safer wording:
+AI coding tools should be instructed to:
+
+- Read `architecture.md` before making changes.
+- Preserve existing routes and assets.
+- Avoid deleting working files until replacements are verified.
+- Make small, reviewable commits.
+- Prefer parity first, then refactor.
+- Avoid large uncontrolled rewrites.
+- Keep changes aligned with the company-led, founder-validated strategy.
+
+## Documentation Files
+
+This repo should maintain three project-control documents:
 
 ```text
-Michael Delgado's recent industry participation includes:
+architecture.md
+handoff.md
+current_tasks.md
 ```
 
-or:
+### architecture.md
+
+Stable project blueprint.
+
+Update only when major strategy, architecture, framework, hosting, routing, or content-structure decisions change.
+
+### handoff.md
+
+Context transfer file for future ChatGPT sessions, Cursor agents, Claude Code, Codex, or collaborators.
+
+Update whenever a meaningful decision is made or a phase is completed.
+
+### current_tasks.md
+
+Active working queue.
+
+Update frequently during implementation.
+
+Use this for the next immediate tasks, task status, blockers, and Cursor prompts.
+
+## Git Workflow
+
+Recommended workflow:
 
 ```text
-Recent and upcoming conferences connected to MFD Research's clinical focus areas:
+main = stable baseline
+astro-migration = active Astro migration branch
+feature branches = optional for focused tasks
 ```
 
-ADA 2026 should have a CTA:
+Recommended initial commit:
 
-```text
-Attending ADA 2026? Schedule a time to connect.
+```bash
+git add architecture.md handoff.md current_tasks.md
+git commit -m "Add project planning documents"
+git push origin main
 ```
 
-### 8.7 Therapeutic Expertise
+After documentation is committed:
 
-Purpose: show clinical breadth.
-
-Recommended framing:
-
-```text
-Therapeutic Areas Supported by MFD Research Experience
+```bash
+git checkout -b astro-migration
 ```
 
-Suggested categories:
-
-- Ophthalmology
-- Metabolic
-- Cardiovascular
-- Gastrointestinal
-- Dermatology
-- Vaccine & Immunology
-- Pain Management
-- Other Indications
-
-### 8.8 Engagement Process
-
-Purpose: explain how a prospect works with MFD Research.
-
-Recommended three-step process:
-
-1. Confidential Discovery Call
-2. Operational Assessment & Scope
-3. Execution, Advisory, or Remediation Support
-
-### 8.9 Contact / Schedule Consultation
-
-Purpose: convert visitors.
-
-Conversion hierarchy:
-
-1. Google Booking CTA
-2. Email link
-3. Contact form
-
-Recommended CTA:
-
-```text
-Schedule a Confidential Consultation
-```
-
-Secondary text:
-
-```text
-All inquiries are handled confidentially.
-```
-
-## 9. Pages to Build
-
-### Phase 1 Pages
-
-```text
-/
-/privacy-policy
-/terms-of-service
-```
-
-### Phase 2 Pages
-
-```text
-/ada-2026
-/services
-/founder
-/contact
-```
-
-### Future Pages
-
-```text
-/services/site-development
-/services/clinical-operations
-/services/regulatory-gcp-readiness
-/services/quality-management-systems
-/services/staff-training
-/insights
-/case-studies
-```
-
-## 10. ADA 2026 Landing Page
-
-Create this page after the main homepage is stable.
-
-Path:
-
-```text
-/ada-2026
-```
-
-Purpose:
-
-Support LinkedIn posts, conference outreach, email signatures, QR codes, and direct meeting scheduling.
-
-Recommended headline:
-
-```text
-Meet MFD Research at ADA 2026
-```
-
-Recommended copy:
-
-```text
-Michael Delgado, CCRC, Founder of MFD Research, will be attending the ADA 2026 Scientific Sessions in New Orleans. Schedule a confidential conversation about clinical research operations, site development, sponsor readiness, or therapeutic program support.
-```
-
-Primary CTA:
-
-```text
-Schedule a 30-Minute Meeting
-```
-
-## 11. Data Files
-
-Use TypeScript data files to keep content manageable.
-
-### `src/data/siteConfig.ts`
-
-```ts
-export const siteConfig = {
-  name: "MFD Research",
-  legalName: "MFD Research LLC",
-  domain: "https://mfdresearch.com",
-  email: "info@mfdresearch.com",
-  linkedinUrl: "https://www.linkedin.com/in/mike-delgado/",
-  bookingUrl: "REPLACE_WITH_GOOGLE_BOOKING_URL",
-  description:
-    "MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations.",
-};
-```
-
-### `src/data/conferences.ts`
-
-```ts
-export const conferences = [
-  {
-    name: "ADA 2026 Scientific Sessions",
-    status: "Upcoming",
-    year: "2026",
-    location: "New Orleans, LA",
-    focus: "Diabetes, obesity, metabolic disease, and clinical research innovation",
-    url: "https://corereg.cmrus.com/ada2026",
-  },
-];
-```
-
-### `src/data/services.ts`
-
-```ts
-export const services = [
-  {
-    title: "Research Site Development",
-    description:
-      "Support for site launch planning, infrastructure readiness, sponsor activation, and first-patient-in preparation.",
-  },
-  {
-    title: "Clinical Operations Optimization",
-    description:
-      "Workflow design, staff role clarity, trial execution support, and site performance remediation.",
-  },
-  {
-    title: "Regulatory & GCP Readiness",
-    description:
-      "Inspection readiness, ICH-GCP alignment, documentation workflows, and compliance gap review.",
-  },
-  {
-    title: "Quality Management Systems",
-    description:
-      "SOP development, CAPA process support, deviation management, and internal audit preparation.",
-  },
-  {
-    title: "Staff Training & Development",
-    description:
-      "Coordinator training, site team onboarding, protocol-specific workflows, and operational leadership coaching.",
-  },
-  {
-    title: "Therapeutic Program Support",
-    description:
-      "Multi-specialty trial operations, Phase I-III execution support, and sponsor/CRO communication support.",
-  },
-];
-```
-
-## 12. SEO Requirements
-
-Each page should include:
-
-- Unique title
-- Meta description
-- Canonical URL
-- Open Graph title
-- Open Graph description
-- Open Graph image
-- Twitter card metadata
-- Robots tag
-
-Recommended homepage title:
-
-```text
-MFD Research | Clinical Research Operations Consulting
-```
-
-Recommended homepage description:
-
-```text
-MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.
-```
-
-## 13. Accessibility Requirements
-
-The site should include:
-
-- Semantic HTML landmarks
-- Accessible navigation
-- Skip-to-content link
-- Proper heading hierarchy
-- Descriptive alt text
-- Keyboard-accessible menus
-- Visible focus states
-- Sufficient color contrast
-- Accessible form labels
-- Reduced-motion consideration for animations
-
-## 14. Performance Requirements
-
-Target:
-
-- Fast static pages
-- Minimal JavaScript
-- Optimized images
-- Lazy-loaded non-critical images
-- Proper image dimensions
-- Compressed assets
-- No unnecessary third-party scripts
-
-Avoid heavy animations or app-like interactivity unless it supports conversion.
-
-## 15. Security and Privacy Requirements
-
-- Do not expose private API keys in frontend code.
-- Use environment variables for service keys.
-- Use secure external links with `rel="noopener noreferrer"`.
-- Use form spam protection.
-- Include Privacy Policy and Terms of Service pages.
-- Avoid collecting unnecessary personal data.
-
-## 16. Deployment Plan
-
-### Phase 1: Local Build
-
-- Create Astro project.
-- Build homepage structure.
-- Add core sections.
-- Add placeholder Google Booking URL.
-- Add placeholder conference data.
-- Test locally.
-
-### Phase 2: Content Finalization
-
-- Finalize homepage copy.
-- Replace testimonials with conferences.
-- Add real conference list.
-- Add real Google Booking URL.
-- Add Michael LinkedIn URL.
-- Confirm email address.
-- Confirm logo and image assets.
-
-### Phase 3: GitHub Cleanup
-
-- Commit clean Astro structure.
-- Add README.
-- Add architecture.md.
-- Remove unused old files.
-- Confirm `npm run build` works.
-
-### Phase 4: Cloudflare Preview
-
-- Connect GitHub repo to Cloudflare Pages.
-- Deploy preview.
-- Do not connect production domain yet.
-- QA preview URL.
-
-### Phase 5: Production Launch
-
-- Connect `mfdresearch.com`.
-- Add `www` redirect.
-- Enable Cloudflare Web Analytics.
-- Test Google Booking link.
-- Test form submission.
-- Test LinkedIn preview card.
-- Submit sitemap to Google Search Console.
-
-## 17. Launch Checklist
-
-Before launch, confirm:
-
-- [ ] Homepage is company-led, not resume-led.
-- [ ] Michael appears as founder/principal authority.
-- [ ] Booking CTA works.
-- [ ] LinkedIn link works.
-- [ ] Email link works.
-- [ ] Contact form works or is removed.
-- [ ] Testimonials are removed or replaced.
-- [ ] Conference section is accurate.
-- [ ] ADA 2026 is marked as upcoming.
-- [ ] Mobile navigation works.
-- [ ] Site is responsive on iPhone and desktop.
-- [ ] SEO metadata is complete.
-- [ ] Open Graph image displays on LinkedIn.
-- [ ] Favicon works.
-- [ ] Privacy and Terms pages exist.
-- [ ] Cloudflare Web Analytics is enabled.
-- [ ] No placeholder links remain.
-- [ ] No fake claims or unapproved testimonials remain.
-
-## 18. Content Rules
-
-### Do
-
-- Keep MFD Research as the main brand.
-- Use Michael as founder-led credibility.
-- Keep the language practical and specific.
-- Emphasize execution, compliance, and site operations.
-- Use conferences as trust signals.
-- Make scheduling the primary action.
-
-### Do Not
-
-- Do not make the website a duplicate of Michael's LinkedIn.
-- Do not overuse generic consulting language.
-- Do not include fake or unapproved testimonials.
-- Do not imply official representation at events unless accurate.
-- Do not expose unfinished work on the production domain.
-- Do not overbuild dynamic features before the business need exists.
-
-## 19. Future Enhancement Ideas
-
-After launch, consider:
-
-- ADA 2026 campaign page
-- Downloadable capability statement PDF
-- Service-specific landing pages
-- Founder profile page
-- Insights/articles section
-- Case-study-style outcomes without client names
-- Company LinkedIn page
-- Email capture
-- CRM integration
-- Conference QR code landing pages
-- Structured data/schema markup
-
-## 20. Final Direction
-
-Build MFD Research as a **modern, founder-led consulting firm website**.
-
-The final product should communicate:
-
-```text
-MFD Research is the company.
-Michael Delgado is the proof.
-Clinical research operations execution is the value.
-Confidential consultation is the conversion path.
-```
+Do not deploy from an unfinished migration branch to production.
+
+## Definition of Ready for Cloudflare Connection
+
+The site is ready to connect to Cloudflare Pages when:
+
+- `npm run build` succeeds.
+- Homepage renders correctly.
+- Legal pages render correctly.
+- Root SEO/PWA files are served correctly.
+- Booking CTA links work.
+- Contact form behavior is validated.
+- Missing favicon and OG assets are fixed.
+- Mobile navigation works.
+- Accessibility checks pass.
+- LinkedIn preview card has been tested.
+- No `.env` or `node_modules` files are committed.
+- Content reflects the company-led, founder-validated strategy.
+
+## Definition of Done for Initial Launch
+
+Initial launch is complete when:
+
+- Site is deployed to Cloudflare Pages.
+- Custom domain is connected.
+- `www` redirect works.
+- Google Booking CTA works.
+- Contact form works or is intentionally disabled.
+- Privacy Policy and Terms of Service pages work.
+- Sitemap and robots.txt work.
+- Open Graph preview works.
+- Site is indexed or ready for indexing.
+- Cloudflare analytics or another privacy-conscious analytics tool is enabled.
+- ADA 2026 content is either present on the homepage or planned as a follow-up landing page.
