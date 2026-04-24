@@ -1,0 +1,76 @@
+---
+import { conferences } from '../data/conferences';
+
+function safeIsoTime(iso?: string) {
+  if (!iso) return 0;
+  const t = Date.parse(iso);
+  return Number.isFinite(t) ? t : 0;
+}
+
+const featured =
+  conferences.find((c) => c.featured) ??
+  conferences.find((c) => c.status === 'Upcoming') ??
+  conferences[0];
+
+const rest = conferences
+  .filter((c) => c !== featured)
+  .slice()
+  .sort((a, b) => safeIsoTime(b.startDate) - safeIsoTime(a.startDate));
+---
+
+<div class="section-label reveal">Conferences &amp; Industry Engagement</div>
+<h2 class="section-title reveal reveal-delay-1">Conferences &amp; Industry Engagement</h2>
+<p class="section-sub section-sub--conferences reveal reveal-delay-2">
+  Founder-led participation in major clinical research meetings—shared as professional context, with details included
+  only where confirmed.
+</p>
+
+<div class="conferences-layout">
+  {featured ? (
+    <article class="testimonial-card conference-card conferences-featured reveal reveal-delay-1" tabindex="0">
+      <div class="conference-top">
+        <div class={`conference-status status-${featured.status.replace(/\s+/g, '-').toLowerCase()}`}>
+          {featured.status}
+        </div>
+        <div class="conference-date">{featured.date || 'Details Pending'}</div>
+      </div>
+
+      <h3 class="conference-name">{featured.name}</h3>
+
+      <div class="conference-meta">
+        <div><strong>Location:</strong> {featured.location || 'Details Pending'}</div>
+        <div><strong>Focus:</strong> {featured.focus || 'Details Pending'}</div>
+      </div>
+
+      {featured.ctaUrl ? (
+        <div class="conference-actions">
+          <a class="conference-cta" href={featured.ctaUrl} target="_blank" rel="noopener noreferrer">
+            {featured.ctaLabel ?? 'Schedule a Meeting'}
+          </a>
+        </div>
+      ) : null}
+    </article>
+  ) : null}
+
+  <aside class="conferences-recent reveal reveal-delay-2" aria-label="Recent and past engagements">
+    <div class="conferences-recent-title">Recent &amp; Past Engagements</div>
+    <ul class="conferences-recent-list">
+      {rest.map((c) => (
+        <li class="conference-list-item">
+          <div class="conference-list-top">
+            <div class={`conference-status status-${c.status.replace(/\s+/g, '-').toLowerCase()}`}>
+              {c.status}
+            </div>
+            <div class="conference-date">{c.date || 'Details Pending'}</div>
+          </div>
+          <div class="conference-list-name">{c.name}</div>
+          <div class="conference-list-meta">
+            <span><strong>Location:</strong> {c.location || 'Details Pending'}</span>
+            <span><strong>Focus:</strong> {c.focus || 'Details Pending'}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </aside>
+</div>
+

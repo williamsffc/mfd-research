@@ -1,7 +1,10 @@
+# Node Modules
 node_modules/
 .DS_Store
 .claude/
 .vite-runtime/
+.astro/
+dist/
 
 # Environment Variables
 .env

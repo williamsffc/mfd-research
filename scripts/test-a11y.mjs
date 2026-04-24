@@ -2,18 +2,22 @@
 
 /**
  * Accessibility Testing Script
- * Uses axe-core to test the built site for accessibility issues
+ * Runs basic checks against the built site HTML.
  * Run with: npm run test:a11y
  */
 
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const indexPath = join(__dirname, '../index.html');
+const distIndexPath = join(__dirname, '..', 'dist', 'index.html');
+const legacyIndexPath = join(__dirname, '..', 'index.html');
+
+const indexPath = existsSync(distIndexPath) ? distIndexPath : legacyIndexPath;
 
 console.log('\n🔍 Running Accessibility Tests...\n');
+console.log(`Target HTML: ${indexPath}\n`);
 
 try {
   const html = readFileSync(indexPath, 'utf-8');
