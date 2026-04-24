@@ -4,9 +4,9 @@
 
 Astro migration is in progress on the `astro-migration` branch.
 
-Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms uses Astro build-time environment variable handling, the Content Security Policy has been updated to allow Web3Forms submission, and the contact form has been validated successfully both locally and on the Cloudflare preview deployment.
+Astro bootstrap is complete, root-served static files have been copied into `public/`, existing static pages have been ported into Astro with near-verbatim page parity, missing referenced favicon/Apple/Open Graph assets have been created, Cloudflare preview is working, Web3Forms submission has been validated locally and on Cloudflare preview, and `BaseLayout.astro` has been created as the first controlled structural refactor.
 
-The current goal is to begin controlled structural refactoring while preserving visual output and JavaScript behavior.
+The current goal is to continue controlled component extraction while preserving visual output, routes, SEO metadata, CSS, JavaScript behavior, and form behavior.
 
 ## Active Goals
 
@@ -15,7 +15,7 @@ The current goal is to begin controlled structural refactoring while preserving 
 3. Preserve current visual design and JavaScript behavior.
 4. Preserve root routes, legal pages, SEO files, PWA files, and assets.
 5. Deploy to Cloudflare only at meaningful milestones.
-6. Begin controlled Astro structure refactor.
+6. Continue controlled Astro structure refactor.
 7. Replace testimonials with Conferences & Industry Engagement after structure is stable.
 8. Add Google Booking CTA after structure is stable.
 9. Add ADA 2026 landing page after homepage structure/content is stable.
@@ -397,6 +397,65 @@ An earlier submission using obvious spam values such as test@test.com and repeat
 A realistic test submission worked successfully.
 ```
 
+### Completed Task 13: Create BaseLayout.astro
+
+`BaseLayout.astro` has been added as the first controlled structural refactor.
+
+Created file:
+
+```text
+src/layouts/BaseLayout.astro
+```
+
+Current BaseLayout responsibilities:
+
+```text
+Centralizes <!DOCTYPE html>, <html lang>, <head>, and <body>.
+Includes shared charset and viewport meta tags.
+Provides a named head slot for page-specific head content.
+Preserves page-specific title, description, canonical, Open Graph, Twitter, CSP, CSS, and script behavior through page-level slots and markup.
+```
+
+Updated pages:
+
+```text
+src/pages/index.astro
+src/pages/privacy-policy/index.astro
+src/pages/terms-of-service/index.astro
+```
+
+Preserved:
+
+```text
+Routes
+Page-specific head tags
+CSP behavior
+Stylesheet references
+Script references
+Markup
+IDs
+CSS classes
+Web3Forms behavior
+Legal page styling
+```
+
+Not changed:
+
+```text
+Header/Footer were not extracted.
+No redesign was performed.
+No copy/content strategy changes were made.
+Testimonials were not replaced.
+Web3Forms behavior was not changed.
+Legacy files were not deleted.
+```
+
+Build confirmation:
+
+```text
+npm run build succeeds
+```
+
 ## Form Architecture Decision
 
 Web3Forms is acceptable as temporary MVP plumbing.
@@ -429,65 +488,81 @@ Implement after the site structure, messaging, booking CTA, and conference secti
 
 ## Immediate Tasks
 
-### Task 13: Commit Current Form Milestone
+### Task 14: Validate and Commit BaseLayout Refactor
 
-Confirm `.env` is not tracked:
+Run:
+
+```bash
+npm run build
+npm run preview
+```
+
+Check routes:
+
+```text
+/
+ /privacy-policy/
+ /terms-of-service/
+```
+
+Validate:
+
+```text
+Homepage renders correctly
+Legal pages render correctly
+CSS loads
+JS loads
+Meta tags remain present
+CSP remains present
+Dark mode works
+Mobile navigation works
+FAQ works
+Contact form still renders
+No major console errors
+```
+
+Commit locally:
 
 ```bash
 git status --short
-```
-
-If `.env` appears, stop before committing.
-
-Then run:
-
-```bash
 git diff --stat
-npm run build
-git add src/pages/index.astro current_tasks.md
-git commit -m "Validate Web3Forms submission flow"
+git add src/layouts/BaseLayout.astro src/pages/index.astro src/pages/privacy-policy/index.astro src/pages/terms-of-service/index.astro current_tasks.md
+git commit -m "Add BaseLayout for Astro pages"
 ```
 
-Push only if this milestone is ready for Cloudflare deployment:
+Push only if ready to deploy this milestone:
 
 ```bash
 git push
 ```
 
-### Task 14: Begin Controlled Astro Structure Refactor
+### Task 15: Extract Header.astro
 
-Next safe implementation step:
+After BaseLayout is committed and local QA passes, extract the navigation/header only.
+
+Expected file:
 
 ```text
-Create BaseLayout.astro
+src/components/Header.astro
 ```
 
-Goal:
+Requirements:
 
 ```text
-Reduce duplication safely.
-Preserve visual output.
-Preserve existing scripts.
-Preserve existing CSS.
-Preserve routes.
-Preserve SEO metadata.
-Do not extract Header/Footer yet.
+Preserve existing nav markup.
+Preserve IDs used by public/script.js.
+Preserve classes used by public/style.css.
+Preserve hamburger button behavior.
+Preserve theme toggle behavior.
+Preserve anchor links.
+Do not change copy.
 Do not redesign.
+Do not extract Footer yet.
 Do not replace testimonials yet.
-Do not change content strategy yet.
-Do not delete legacy files yet.
+Do not delete legacy files.
 ```
 
-Expected files:
-
-```text
-src/layouts/BaseLayout.astro
-src/pages/index.astro
-src/pages/privacy-policy/index.astro
-src/pages/terms-of-service/index.astro
-```
-
-Validation after BaseLayout:
+Validation after Header extraction:
 
 ```bash
 npm run build
@@ -497,9 +572,12 @@ npm run preview
 Check:
 
 ```text
-/
- /privacy-policy/
- /terms-of-service/
+Desktop nav works
+Mobile nav works
+Theme toggle works
+Scrollspy still works
+Anchor links still work
+No console errors
 ```
 
 ## Next Planned Refactor Sequence
@@ -514,6 +592,14 @@ Recommended refactor order:
 5. Preserve existing script behavior
 6. Do not redesign yet
 7. Do not replace testimonials yet
+```
+
+Current status:
+
+```text
+BaseLayout.astro complete.
+Header.astro next.
+Footer.astro after Header.astro.
 ```
 
 ## Conference Data Collection
@@ -537,7 +623,6 @@ These will become the `Conferences & Industry Engagement` section.
 ## Not Started Yet
 
 ```text
-Astro BaseLayout creation
 Header/Footer extraction
 ADA 2026 page
 Google Booking CTA integration
