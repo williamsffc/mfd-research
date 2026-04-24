@@ -1934,21 +1934,32 @@
   border-left-color: var(--border);
 }
 
-/* ===== COMPONENT: TESTIMONIALS ===== */
-#testimonials {
+/* ===== COMPONENT: TESTIMONIALS (repurposed as conferences section) ===== */
+#conferences {
   background: var(--section-accent-bg);
 }
 
-#testimonials .section-title {
+#conferences .section-title {
   color: var(--overlay-white-90);
 }
 
-#testimonials .section-label {
+#conferences .section-label {
   color: var(--green-accent);
 }
 
-#testimonials .section-sub {
+#conferences .section-sub {
   color: var(--footer-text-50);
+}
+
+/* Reduce visual weight so it doesn't read as a second hero */
+#conferences .section-title {
+  font-size: clamp(28px, 3.2vw, 40px);
+  margin-bottom: 12px;
+}
+
+#conferences .section-sub--conferences {
+  max-width: 720px;
+  margin-bottom: 28px;
 }
 
 .testimonials-grid {
@@ -2004,6 +2015,183 @@
   font-size: 13px;
   color: var(--footer-text-50);
   margin-top: 2px;
+}
+
+/* ===== COMPONENT: CONFERENCES (reuses testimonials layout) ===== */
+.conferences-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.conferences-featured {
+  align-self: start;
+  padding: 26px 26px;
+}
+
+.conferences-recent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.conferences-recent-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-accent);
+  opacity: 0.95;
+}
+
+.conferences-recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.conference-card {
+  outline: none;
+}
+
+.conference-list-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--overlay-white-15);
+}
+
+.conference-list-item:first-child {
+  padding-top: 0;
+}
+
+.conference-list-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.conference-list-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.conference-list-name {
+  margin-top: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--overlay-white-90);
+}
+
+.conference-list-meta {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--footer-text-50);
+}
+
+.conference-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.conference-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--overlay-white-15);
+  background: var(--overlay-white-10);
+  color: var(--overlay-white-90);
+  white-space: nowrap;
+}
+
+/* Slightly tighter pills in the compact list */
+.conference-list-item .conference-status {
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
+.conference-date {
+  font-size: 13px;
+  color: var(--footer-text-50);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.conference-name {
+  margin-top: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--overlay-white-90);
+}
+
+.conference-meta {
+  margin-top: 14px;
+  border-top: 1px solid var(--overlay-white-15);
+  padding-top: 14px;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--footer-text-50);
+}
+
+.conference-meta strong {
+  color: var(--overlay-white-90);
+  font-weight: 700;
+}
+
+.conference-actions {
+  margin-top: 18px;
+}
+
+.conference-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid rgba(109, 223, 176, 0.35);
+  background: rgba(109, 223, 176, 0.12);
+  color: var(--green-accent);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.conference-cta:hover {
+  transform: translateY(-2px);
+  background: rgba(109, 223, 176, 0.18);
+  border-color: rgba(109, 223, 176, 0.55);
+}
+
+.conference-cta:focus-visible {
+  outline: 2px solid var(--green-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1024px) {
+  .conferences-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== COMPONENT: FAQ ===== */
