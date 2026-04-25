@@ -79,6 +79,7 @@
       --hero-badge-bg: var(--bg-white);
       --card-bg: var(--bg-white);
       --card-border-gradient: linear-gradient(to bottom right, rgba(47, 125, 85, 0.22), rgba(26, 39, 68, 0.08));
+      --service-card-border-gradient: linear-gradient(to bottom right, rgba(47, 125, 85, 0.42), rgba(26, 39, 68, 0.16));
     }
 
 
@@ -132,6 +133,7 @@
       --hero-badge-bg: var(--bg-soft);
       --card-bg: var(--bg-white);
       --card-border-gradient: linear-gradient(to bottom right, rgba(109, 223, 176, 0.35), rgba(255, 255, 255, 0.08));
+      --service-card-border-gradient: linear-gradient(to bottom right, rgba(109, 223, 176, 0.42), rgba(255, 255, 255, 0.12));
     }
 
     html {
@@ -908,6 +910,12 @@
       background: var(--bg);
     }
 
+    @media (min-width: 900px) {
+      #services .section-sub {
+        max-width: 720px;
+      }
+    }
+
     .services-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -937,6 +945,12 @@
       transform: translateY(-3px);
     }
 
+    @media (hover: none), (pointer: coarse) {
+      .service-card:hover {
+        transform: none;
+      }
+    }
+
     .service-card-inner {
       position: relative;
       width: 100%;
@@ -946,9 +960,14 @@
     }
 
     .service-card:hover .service-card-inner,
-    .service-card:focus-visible .service-card-inner,
     .service-card.flipped .service-card-inner {
       transform: rotateY(180deg);
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .service-card:hover .service-card-inner {
+        transform: none;
+      }
     }
 
     .service-card-front,
@@ -969,15 +988,51 @@
       transition: box-shadow 0.28s ease;
     }
 
+    .service-card-front,
+    .service-card-back {
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(26, 39, 68, 0.08) inset;
+    }
+
+    :root:not([data-theme="dark"]) .service-card-front,
+    :root:not([data-theme="dark"]) .service-card-back {
+      box-shadow:
+        var(--shadow-card),
+        0 0 0 1px rgba(26, 39, 68, 0.10) inset,
+        0 10px 24px rgba(26, 39, 68, 0.08);
+    }
+
+    [data-theme="dark"] .service-card-front,
+    [data-theme="dark"] .service-card-back {
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    }
+
     .service-card-front {
       align-items: flex-start;
-      background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--card-border-gradient) border-box;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(238, 242, 248, 0.86) 100%) padding-box,
+        var(--service-card-border-gradient) border-box;
+    }
+
+    [data-theme="dark"] .service-card-front {
+      background:
+        linear-gradient(180deg, var(--bg-white) 0%, var(--bg-soft) 100%) padding-box,
+        var(--service-card-border-gradient) border-box;
     }
 
     .service-card-back {
       align-items: flex-start;
-      background: linear-gradient(145deg, var(--navy) 0%, var(--navy-light) 55%, var(--navy) 100%) padding-box, var(--card-border-gradient) border-box;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) padding-box,
+        linear-gradient(145deg, var(--navy) 0%, var(--navy-light) 55%, var(--navy) 100%) padding-box,
+        var(--service-card-border-gradient) border-box;
       transform: rotateY(180deg);
+    }
+
+    [data-theme="dark"] .service-card-back {
+      background:
+        linear-gradient(145deg, rgba(214, 227, 247, 0.07) 0%, rgba(214, 227, 247, 0.02) 100%) padding-box,
+        linear-gradient(145deg, #172A55 0%, #1E3A73 55%, #172A55 100%) padding-box,
+        var(--service-card-border-gradient) border-box;
     }
 
     .service-card:hover .service-card-front,
@@ -994,12 +1049,23 @@
       height: 52px;
       border-radius: 12px;
       background: var(--green-pale);
-      border: 1px solid rgba(14, 138, 84,0.18);
+      border: 1px solid rgba(47, 125, 85, 0.18);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 26px;
       flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .service-icon {
+      border-color: rgba(109, 223, 176, 0.18);
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .service-card:hover .service-card-front,
+      .service-card:hover .service-card-back {
+        box-shadow: var(--shadow-card);
+      }
     }
 
     .service-title {
@@ -1012,6 +1078,10 @@
       margin: 0;
     }
 
+    [data-theme="dark"] .service-title {
+      color: var(--text-primary);
+    }
+
     .service-desc {
       font-size: 14px;
       color: var(--text-secondary);
@@ -1019,8 +1089,13 @@
       margin: 0;
     }
 
+    [data-theme="dark"] .service-desc {
+      color: var(--text-secondary);
+    }
+
     .service-card-back .service-desc {
       color: var(--overlay-white-90);
+      max-width: 34ch;
     }
 
     /* ===== COMPONENT: EXPERIENCE TIMELINE ===== */
