@@ -1444,6 +1444,19 @@
       color: var(--footer-text-50);
     }
 
+    @media (min-width: 900px) {
+      #credentials .section-sub {
+        max-width: 760px;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      #credentials .section-sub {
+        max-width: none;
+        white-space: nowrap;
+      }
+    }
+
     .creds-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1451,9 +1464,22 @@
       align-items: start;
     }
 
+    /* Hide Education column (keep markup for future re-enable) */
+    #credentials .creds-grid > :first-child {
+      display: none;
+    }
+
+    /* Center remaining column */
+    #credentials .creds-grid {
+      grid-template-columns: 1fr;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .creds-col-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.12em;
@@ -1465,15 +1491,24 @@
 
     .cred-entry {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 14px;
       padding: 14px 16px;
       margin-bottom: 12px;
       border-radius: var(--radius-sm);
-      background: var(--overlay-white-10);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.06) 100%);
       border: 1px solid var(--overlay-white-15);
-      box-shadow: var(--shadow-card);
-      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    [data-theme="dark"] .cred-entry {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) padding-box,
+        linear-gradient(to bottom, rgba(109, 223, 176, 0.22), rgba(255, 255, 255, 0.06)) border-box;
+      border: 1px solid transparent;
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.07) inset;
     }
 
     .cred-entry:last-child {
@@ -1481,25 +1516,40 @@
     }
 
     .cred-entry:hover {
-      background: var(--overlay-white-15);
-      border-color: rgba(74, 232, 168,0.22);
-      box-shadow: var(--shadow-card-hover);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.08) 100%);
+      border-color: rgba(109, 223, 176, 0.24);
+      box-shadow: var(--shadow-card-hover), 0 0 0 1px rgba(109, 223, 176, 0.10) inset;
+      transform: translateY(-2px);
+    }
+
+    [data-theme="dark"] .cred-entry:hover {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.04) 100%) padding-box,
+        linear-gradient(to bottom, rgba(109, 223, 176, 0.32), rgba(255, 255, 255, 0.08)) border-box;
+      box-shadow: var(--shadow-card-hover), 0 0 0 1px rgba(109, 223, 176, 0.12) inset, 0 18px 44px rgba(0, 0, 0, 0.40);
     }
 
     .cred-year-badge {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--footer-text-70);
-      font-size: 10px;
+      background: rgba(109, 223, 176, 0.14);
+      color: var(--overlay-white-90);
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.06em;
-      padding: 5px 9px;
+      padding: 6px 10px;
       border-radius: 6px;
       white-space: nowrap;
       flex-shrink: 0;
       min-width: 3.1em;
       text-align: center;
-      border: 1px solid rgba(74, 232, 168,0.14);
+      border: 1px solid rgba(109, 223, 176, 0.28);
       font-variant-numeric: tabular-nums;
+    }
+
+    [data-theme="dark"] .cred-year-badge {
+      background: rgba(109, 223, 176, 0.18);
+      border-color: rgba(109, 223, 176, 0.32);
+      color: var(--text-primary);
     }
 
     .cred-entry-text {
@@ -1518,7 +1568,7 @@
       border-radius: inherit;
       background: radial-gradient(
         circle at var(--x, 50%) var(--y, 50%),
-        rgba(74, 232, 168,0.13) 0%,
+        rgba(109, 223, 176, 0.13) 0%,
         transparent 62%
       );
       opacity: 0;
