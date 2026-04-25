@@ -630,23 +630,49 @@ document.addEventListener('DOMContentLoaded', () => {
       const answer = item.querySelector('.faq-answer');
       if (!btn || !answer) return;
 
+      function closeItem(targetItem) {
+        const targetBtn = targetItem.querySelector('.faq-question');
+        const targetAnswer = targetItem.querySelector('.faq-answer');
+        if (!targetBtn || !targetAnswer) return;
+
+        targetBtn.setAttribute('aria-expanded', 'false');
+        targetItem.classList.remove('faq-open');
+        targetAnswer.classList.remove('faq-answer--open');
+
+        // Allow transition to play, then hide for accessibility.
+        // Use a token so rapid reopen doesn't get hidden by an old close handler.
+        const token = String(Date.now());
+        targetAnswer.dataset.closeToken = token;
+
+        const hideIfStillClosed = () => {
+          if (targetAnswer.dataset.closeToken !== token) return;
+          if (targetBtn.getAttribute('aria-expanded') === 'true') return;
+          targetAnswer.hidden = true;
+        };
+
+        targetAnswer.addEventListener('transitionend', hideIfStillClosed, { once: true });
+        window.setTimeout(hideIfStillClosed, 240);
+      }
+
       btn.addEventListener('click', () => {
         const isOpen = btn.getAttribute('aria-expanded') === 'true';
         // Close all others
         faqItems.forEach(other => {
-          const otherBtn = other.querySelector('.faq-question');
-          const otherAnswer = other.querySelector('.faq-answer');
-          if (otherBtn && otherAnswer) {
-            otherBtn.setAttribute('aria-expanded', 'false');
-            otherAnswer.hidden = true;
-            other.classList.remove('faq-open');
-          }
+          if (other !== item) closeItem(other);
         });
         // Toggle current
-        if (!isOpen) {
+        if (isOpen) {
+          closeItem(item);
+        } else {
           btn.setAttribute('aria-expanded', 'true');
           answer.hidden = false;
           item.classList.add('faq-open');
+
+          // Start transition on next frame (so hidden=false takes effect first)
+          window.requestAnimationFrame(() => {
+            answer.dataset.closeToken = '';
+            answer.classList.add('faq-answer--open');
+          });
         }
       });
     });
