@@ -94,7 +94,7 @@ record(!styleSource.includes('.tag-tooltip'), 'Shipped stylesheet no longer cont
 record(!scriptSource.includes('setupServiceCardKeyboard'), 'Shipped script no longer contains faux button keyboard handlers for service cards');
 record(scriptSource.includes('setupServiceCardFlip'), 'Shipped script includes managed service-card flip behavior');
 record(scriptSource.includes("aria-invalid") && scriptSource.includes('contact-status'), 'Form script manages accessible error and status states');
-record(homeSource.includes('Select a service…'), 'Form placeholder copy uses a typographic ellipsis');
+record(homeHtml.includes('Select a service…'), 'Form placeholder copy uses a typographic ellipsis');
 
 if (homeHtml.includes('name="access_key" value=""')) {
   warn('Web3Forms access key is empty in the current build; submissions will fail until PUBLIC_WEB3FORMS_ACCESS_KEY is set.');
