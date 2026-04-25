@@ -18,7 +18,7 @@ const rest = conferences
   .sort((a, b) => safeIsoTime(b.startDate) - safeIsoTime(a.startDate));
 ---
 
-<div class="section-label reveal">Conferences &amp; Industry Engagement</div>
+<div class="section-label reveal">Industry Engagement</div>
 <h2 class="section-title reveal reveal-delay-1">Conferences &amp; Industry Engagement</h2>
 <p class="section-sub section-sub--conferences reveal reveal-delay-2">
   Founder-led participation in major clinical research meetings—shared as professional context, with details included
@@ -27,7 +27,7 @@ const rest = conferences
 
 <div class="conferences-layout">
   {featured ? (
-    <article class="testimonial-card conference-card conferences-featured reveal reveal-delay-1" tabindex="0">
+    <article class="testimonial-card conference-card conferences-featured reveal reveal-delay-1">
       <div class="conference-top">
         <div class={`conference-status status-${featured.status.replace(/\s+/g, '-').toLowerCase()}`}>
           {featured.status}
@@ -57,17 +57,17 @@ const rest = conferences
     <ul class="conferences-recent-list">
       {rest.map((c) => (
         <li class="conference-list-item">
-          <div class="conference-list-top">
-            <div class={`conference-status status-${c.status.replace(/\s+/g, '-').toLowerCase()}`}>
-              {c.status}
+            <div class="conference-list-top">
+              <div class={`conference-status status-${c.status.replace(/\s+/g, '-').toLowerCase()}`}>
+                {c.status}
+              </div>
+              <div class="conference-date">{c.date || 'Details Pending'}</div>
             </div>
-            <div class="conference-date">{c.date || 'Details Pending'}</div>
-          </div>
-          <div class="conference-list-name">{c.name}</div>
-          <div class="conference-list-meta">
-            <span><strong>Location:</strong> {c.location || 'Details Pending'}</span>
-            <span><strong>Focus:</strong> {c.focus || 'Details Pending'}</span>
-          </div>
+            <div class="conference-list-name">{c.name}</div>
+            <div class="conference-list-meta">
+              <span><strong>Location:</strong> {c.location || 'Details Pending'}</span>
+              <span><strong>Focus:</strong> {c.focus || 'Details Pending'}</span>
+            </div>
         </li>
       ))}
     </ul>
