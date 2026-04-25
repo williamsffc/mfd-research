@@ -1588,6 +1588,10 @@
       background: var(--bg-white);
     }
 
+[data-theme="dark"] #contact {
+  background: var(--bg);
+}
+
     .contact-intro {
       margin-bottom: 40px;
     }
@@ -1609,6 +1613,14 @@
       background: var(--bg-soft);
       box-shadow: var(--shadow-card);
     }
+
+[data-theme="dark"] .contact-info-block {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%) padding-box,
+    linear-gradient(to bottom, rgba(109, 223, 176, 0.14), rgba(255, 255, 255, 0.06)) border-box;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
 
     .contact-info-item {
       display: flex;
@@ -1680,6 +1692,26 @@
       box-shadow: var(--shadow-card);
       max-width: 100%;
     }
+
+[data-theme="dark"] .contact-form {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.035) 100%) padding-box,
+    linear-gradient(to bottom, rgba(109, 223, 176, 0.16), rgba(255, 255, 255, 0.06)) border-box;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.form-status {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 52ch;
+}
+
+[data-theme="dark"] .form-status {
+  color: var(--text-secondary);
+}
 
     .form-row {
       display: grid;
@@ -1762,7 +1794,8 @@
       border: none;
       cursor: pointer;
       transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-      width: 100%;
+  width: fit-content;
+  align-self: center;
       min-height: 52px;
       margin-top: 4px;
       font-family: 'Space Grotesk', sans-serif;
@@ -2299,7 +2332,7 @@
       .about-grid,
       .contact-grid {
         grid-template-columns: 1fr;
-        gap: 48px;
+      gap: 40px;
       }
 
       .services-grid {
@@ -2566,6 +2599,22 @@
 .form-group select.error {
   border-color: #DC2626;
   background-color: rgba(220, 38, 38, 0.03);
+}
+
+@media (max-width: 768px) {
+  .contact-info-block,
+  .contact-form {
+    padding: 20px 18px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .form-submit {
+    width: 100%;
+  }
 }
 
 .form-group input.valid,
