@@ -45,12 +45,94 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
   <meta name="twitter:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
   <meta name="twitter:image" content="https://mfdresearch.com/assets/og-image.png" />
 
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mfdresearch.com/#organization",
+        "name": "MFD Research LLC",
+        "url": "https://mfdresearch.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mfdresearch.com/assets/favicon.svg"
+        },
+        "description": "MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion.",
+        "email": "info@mfdresearch.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US",
+          "addressRegion": "CA"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Service",
+          "email": "info@mfdresearch.com",
+          "availableLanguage": "English"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/mike-delgado/"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://mfdresearch.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What types of organizations do you work with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We work with pharmaceutical sponsors, biotech firms, CROs, and research sites of all sizes — from emerging Phase I sites to established multi-specialty networks. If you're building, optimizing, or remediating clinical research operations, we can help."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work on a project or retainer basis?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both. Short-term project engagements are available for defined deliverables such as SOP development, site assessments, or staff training programs. Ongoing advisory retainers are also available for organizations that need continuous operational support."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are engagements confidential?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — all client relationships are handled with complete professional discretion. We routinely sign mutual NDAs at the start of any engagement, and client details are never shared or referenced publicly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work with sites outside of California?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. While our founder is based in California, we support clients across the United States and can work remotely or on-site depending on the engagement type and client preference."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly can an engagement begin?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Typically within 1–2 weeks of a signed agreement, depending on the scope of work. We understand that clinical research timelines are rarely forgiving, and we prioritize rapid mobilization for urgent site needs."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" crossorigin />
   <link rel="stylesheet" href="style.css">
   </Fragment>
 

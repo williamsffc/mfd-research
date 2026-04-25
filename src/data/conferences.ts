@@ -1,15 +1,26 @@
+/** Lifecycle state of a conference appearance. */
 export type ConferenceStatus = 'Upcoming' | 'Attended' | 'Details Pending';
 
 export type Conference = {
+  /** Full official name of the conference or event. */
   name: string;
+  /** Human-readable date range shown in the UI (e.g. "June 4–8, 2026"). */
   date: string;
+  /** ISO 8601 start date used for sorting (e.g. "2026-06-04"). */
   startDate?: string;
+  /** ISO 8601 end date (e.g. "2026-06-08"). */
   endDate?: string;
+  /** City and state/country (e.g. "New Orleans, LA"). */
   location: string;
+  /** Current lifecycle state of the appearance. */
   status: ConferenceStatus;
+  /** Short description of the conference focus or topic area. */
   focus: string;
+  /** When true, this entry is displayed as the hero featured card. */
   featured?: boolean;
+  /** Label for the call-to-action button (only shown when featured). */
   ctaLabel?: string;
+  /** URL for the call-to-action button (only shown when featured). */
   ctaUrl?: string;
 };
 

@@ -10,7 +10,7 @@ const { web3formsAccessKey } = Astro.props;
     <div>
       <div class="section-label reveal">Get In Touch</div>
       <h2 class="section-title reveal reveal-delay-1">Ready to Elevate Your Research Operations?</h2>
-      <p class="section-sub reveal reveal-delay-2" style="margin-bottom:40px;">We welcome inquiries from
+      <p class="section-sub contact-intro reveal reveal-delay-2">We welcome inquiries from
         pharmaceutical sponsors, biotech organizations, CROs, and emerging research sites. All consultations are
         confidential.</p>
       <div class="contact-info-block">
@@ -58,7 +58,7 @@ const { web3formsAccessKey } = Astro.props;
         <input type="hidden" name="access_key" value={web3formsAccessKey} />
         <input type="hidden" name="subject" value="New Contact Form Submission from MFD Research" />
         <input type="hidden" name="from_name" value="MFD Research Website" />
-        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+        <input type="checkbox" id="botcheck" name="botcheck" class="hidden" style="display: none;">
 
         <div class="form-row">
           <div class="form-group">
@@ -94,7 +94,8 @@ const { web3formsAccessKey } = Astro.props;
         <div class="form-group">
           <label for="message">Message</label>
           <textarea id="message" name="message" maxlength="5000" required
-            placeholder="Tell us about your research needs or project..."></textarea>
+            placeholder="Tell us about your research needs or project..." aria-describedby="message-count"></textarea>
+          <div id="message-count" class="char-count" aria-live="polite">0 / 5000</div>
         </div>
         <button type="submit" class="form-submit">Send Message →</button>
       </form>

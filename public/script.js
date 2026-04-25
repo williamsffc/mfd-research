@@ -191,6 +191,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    // Character counter for textarea
+    const messageTextarea = form.querySelector('#message');
+    const charCount = document.getElementById('message-count');
+    if (messageTextarea && charCount) {
+      const maxLen = parseInt(messageTextarea.getAttribute('maxlength'), 10) || 5000;
+      messageTextarea.addEventListener('input', () => {
+        const remaining = messageTextarea.value.length;
+        charCount.textContent = `${remaining} / ${maxLen}`;
+        charCount.classList.toggle('char-count--warning', remaining >= maxLen * 0.9);
+      });
+    }
+
     /**
      * Validate a single form field
      * @param {HTMLElement} field - The input/textarea/select element to validate
@@ -282,14 +294,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const object = Object.fromEntries(formData);
         const json = JSON.stringify(object);
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: json
+          body: json,
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         const result = await response.json();
 
@@ -312,21 +330,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
+     * Creates and inserts a dismissible form status message
+     * @param {string} type - 'success' or 'error'
+     * @param {string} iconSvg - SVG markup for the icon
+     * @param {string} text - Message body text
+     */
+    function showFormMessage(type, iconSvg, text) {
+      const div = document.createElement('div');
+      div.className = `form-message ${type}`;
+      div.setAttribute('role', 'alert');
+      div.innerHTML = `
+        ${iconSvg}
+        <span>${text}</span>
+        <button type="button" class="form-message-close" aria-label="Dismiss message">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+      div.querySelector('.form-message-close').addEventListener('click', () => div.remove());
+      form.insertAdjacentElement('beforebegin', div);
+      // Auto-remove after 20 seconds as a fallback
+      setTimeout(() => div.remove(), 20000);
+    }
+
+    /**
      * Display success message after form submission
      */
     function showSuccessMessage() {
       if (statusRegion) {
         statusRegion.textContent = 'Thank you. Your message was sent successfully.';
       }
-      const successDiv = document.createElement('div');
-      successDiv.className = 'form-message success';
-      successDiv.setAttribute('role', 'alert');
-      successDiv.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <span>Thank you! Your message has been sent successfully. We'll respond within 1-2 business days.</span>
-      `;
-      form.insertAdjacentElement('beforebegin', successDiv);
-      setTimeout(() => successDiv.remove(), 8000);
+      showFormMessage(
+        'success',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        "Thank you! Your message has been sent successfully. We\u2019ll respond within 1\u20132 business days."
+      );
     }
 
     /**
@@ -336,15 +373,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (statusRegion) {
         statusRegion.textContent = 'There was a problem sending your message. Please try again or email directly.';
       }
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'form-message error';
-      errorDiv.setAttribute('role', 'alert');
-      errorDiv.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span>Oops! Something went wrong. Please try again or email us directly at info@mfdresearch.com</span>
-      `;
-      form.insertAdjacentElement('beforebegin', errorDiv);
-      setTimeout(() => errorDiv.remove(), 8000);
+      showFormMessage(
+        'error',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+        'Oops! Something went wrong. Please try again or email us directly at info@mfdresearch.com'
+      );
     }
   }
 
@@ -422,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (targetElement) {
         e.preventDefault();
-        const headerOffset = 80;
+        const headerOffset = 96;
         const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
@@ -563,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
           link.classList.toggle('spy-active', link.getAttribute('href') === `#${entry.target.id}`);
         });
       });
-    }, { rootMargin: '-72px 0px -55% 0px', threshold: 0 });
+    }, { rootMargin: '-72px 0px -40% 0px', threshold: 0 });
 
     sections.forEach(s => observer.observe(s));
   }
