@@ -1,205 +1,201 @@
-# MFD Research Website
+# 🧪 MFD Research Website
 
-Professional website for MFD Research LLC, a clinical research consulting firm specializing in site development, regulatory compliance, and clinical trial management.
+Marketing website for **MFD Research LLC** — clinical research consulting focused on site development, regulatory compliance, and trial execution.
 
-## Overview
+- 🚀 **Astro** static site (no React/Vue)
+- 🎨 **All styling** in `public/style.css`
+- 🧠 **All interactive behavior** in `public/script.js` (deferred)
+- 📨 **Contact form** via **Web3Forms** (no backend)
+- ♿ **Accessibility-forward** (WCAG 2.1 AA target)
 
-This is an accessible marketing site built with **Astro** (static output), with global styling and behavior in **`public/style.css`** and **`public/script.js`**. Features include:
+---
 
-- **Responsive Design** - Mobile-first approach with fluid layouts
-- **Dark Mode** - System preference detection with manual toggle
-- **Accessibility** - WCAG 2.1 AA compliant with ARIA labels and keyboard navigation
-- **Performance** - Optimized with lazy loading, IntersectionObserver, and event delegation
-- **Offline Support** - Service worker for offline functionality and faster loading
-- **Print Optimized** - Clean print styles for professional document output
+## 📚 Docs
 
-## Tech Stack
+- 🏗️ Architecture: `docs/architecture.md`
+- 🔄 Handoff notes: `docs/handoff.md`
+- ✅ Current tasks: `docs/current_tasks.md`
+- 🤖 Agent guidance: `CLAUDE.md` (kept at repo root)
 
-- **Astro** — Static site generator (`src/pages`, `src/components`)
-- **HTML / CSS / JS** — Semantic markup; CSS custom properties; one deferred `script.js` for interactions
-- **Node** — Dev/build and small verification scripts
+---
 
-## Getting Started
+## ✨ What’s in this site
 
-### Prerequisites
+- 🌗 **Light/Dark mode**: system preference + manual toggle (persisted)
+- 📱 **Responsive layout**: mobile-first, fluid sections
+- ♿ **Accessible UX**: skip link, focus management, ARIA where needed, keyboard-friendly components
+- ⚡ **Performance-minded**: IntersectionObserver, event delegation, deferred JS, optimized assets
+- 📴 **Offline support**: `public/service-worker.js` for caching
+- 🖨️ **Print-friendly styles**: clean output for “document-like” pages
 
-- Node.js (v16 or higher recommended)
-- npm or yarn package manager
+---
 
-### Installation
+## 🧰 Tech stack
 
-1. Clone the repository:
-```bash
-git clone https://github.com/williamsffc/mfd-research.git
-cd mfd-research
-```
+- **Astro** (static output) — routes in `src/pages/`, sections/components in `src/components/`
+- **HTML/CSS/JS** — semantic markup + CSS custom properties + one global JS bundle
+- **Node.js** — build + small verification scripts in `scripts/`
 
-2. Install dependencies:
+---
+
+## ✅ Requirements
+
+- Node.js **16+** (18+ recommended)
+- npm (or compatible package manager)
+
+---
+
+## 🏁 Quickstart
+
+Install dependencies:
+
 ```bash
 npm install
 ```
 
-### Development
+Start dev server (port 8080):
 
-Start the development server:
 ```bash
 npm run dev
 ```
 
-The site will be available at `http://localhost:8080`
+Build production output to `dist/`:
 
-### Building for Production
-
-Create an optimized production build:
 ```bash
 npm run build
 ```
 
-The built files will be in the `dist/` directory.
+Preview the production build locally (port 8080):
 
-### Preview Production Build
-
-Preview the production build locally:
 ```bash
 npm run preview
 ```
 
-## Project Structure
+---
 
-```
-mfd-research/
-├── src/
-│   ├── pages/              # Routes (index, privacy-policy, terms-of-service)
-│   ├── components/         # Homepage sections, Header, Footer, etc.
-│   ├── layouts/
-│   └── data/
-├── public/                 # Copied to dist/ root: CSS, JS, SW, assets, robots, sitemap
-│   ├── style.css
-│   ├── script.js
-│   ├── service-worker.js
-│   └── assets/
-├── dist/                   # Production build output (generated)
-├── scripts/                # test-a11y, parity verify, image helpers
-└── package.json
+## 🧪 Testing & verification
+
+Run the full verification suite (build + parity + a11y/invariants):
+
+```bash
+npm test
 ```
 
-## Features
+Run just the accessibility/invariant checks:
 
-### Dark Mode
-The site automatically detects your system's color scheme preference and applies the appropriate theme. Users can manually toggle between light and dark modes using the theme button in the navigation. The preference is saved to localStorage.
-
-### Accessibility
-- Skip-to-content link for keyboard users
-- Proper semantic HTML structure
-- ARIA labels and roles
-- Keyboard navigation support
-- Focus management
-- High contrast ratios
-
-### Performance Optimizations
-- IntersectionObserver for scroll animations
-- Passive event listeners
-- Event delegation for click handlers
-- Lazy loading images
-- Font preloading
-- Deferred script loading
-
-### Contact Form
-The contact form is powered by Netlify Forms. When deployed to Netlify, form submissions are automatically captured without additional backend code.
-
-## Browser Support
-
-- Chrome/Edge (latest 2 versions)
-- Firefox (latest 2 versions)
-- Safari (latest 2 versions)
-- Mobile browsers (iOS Safari, Chrome Android)
-
-**Note:** IE11 is not supported due to use of modern JavaScript features and CSS custom properties.
-
-## Deployment
-
-### Netlify (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Netlify
-3. Configure build settings:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-4. Deploy
-
-The contact form uses **Web3Forms**; set `PUBLIC_WEB3FORMS_ACCESS_KEY` in `.env` (see `.env.example`) and in your host’s environment variables for production.
-
-### Other Hosting Providers
-
-You can deploy to any static hosting provider:
-- Vercel
-- GitHub Pages
-- Cloudflare Pages
-- AWS S3 + CloudFront
-- Firebase Hosting
-
-Build the project with `npm run build` and upload the `dist/` folder.
-
-## Customization
-
-### Colors and Theming
-Edit CSS custom properties in `public/style.css` (see `:root` and `[data-theme="dark"]` near the top of the file):
-```css
-:root {
-  --navy: #1A2744;
-  --green: #3A8C5C;
-  /* ... more variables */
-}
-```
-
-### Content
-Edit `src/pages/index.astro` and the section components under `src/components/` for homepage copy; use `src/data/conferences.ts` for the conferences list. Legal pages live in `src/pages/privacy-policy/` and `src/pages/terms-of-service/`.
-
-### Fonts
-Google Fonts are linked from `src/layouts/BaseLayout.astro` (Instrument Serif, Plus Jakarta Sans). Change the `<link>` there to switch typography.
-
-## Testing
-
-### Accessibility Testing
-Run automated accessibility tests:
 ```bash
 npm run test:a11y
 ```
 
-### Manual Testing Checklist
-- [ ] Test all navigation links
-- [ ] Verify form submission
-- [ ] Test dark mode toggle
-- [ ] Check mobile responsiveness
-- [ ] Test keyboard navigation
-- [ ] Verify print layout
-- [ ] Test offline functionality
+What these checks cover:
 
-## Performance
+- ✅ build output exists for `/`, `/privacy-policy/`, `/terms-of-service/`
+- ✅ key landmarks + required DOM hooks for `public/script.js`
+- ✅ legal pages inherit the shared font stack + avoid inline layout duplication
+- ✅ basic CSS/JS invariants (and guarding against regressions)
 
-Run Lighthouse audits to check performance, accessibility, best practices, and SEO scores:
-```bash
-npm run build
-npm run preview
-# Then run Lighthouse in Chrome DevTools
+---
+
+## 🗂️ Project structure
+
+```text
+mfd-research/
+  src/
+    pages/                 # Routes: home + legal pages
+    components/            # Header/Footer + homepage sections
+    layouts/               # Shared HTML shell + head injection
+    data/                  # Data modules (e.g., conferences list)
+  public/                  # Copied to dist/ root as-is
+    style.css              # Global styles + theming tokens
+    script.js              # All interactivity (nav, theme, scroll, FAQ, form, etc.)
+    service-worker.js      # PWA caching
+    assets/                # Images, icons, OG image, etc.
+    robots.txt
+    sitemap.xml
+    site.webmanifest
+  scripts/                 # Repo verification + image optimization helpers
+  dist/                    # Generated build output (don’t edit by hand)
+  package.json
 ```
 
-Target scores:
-- Performance: 90+
-- Accessibility: 100
-- Best Practices: 100
-- SEO: 90+
+---
 
-## License
+## 📨 Contact form (Web3Forms)
+
+The contact form posts to **Web3Forms** at `https://api.web3forms.com`.
+
+1) Copy `.env.example` → `.env`
+2) Set:
+
+```bash
+PUBLIC_WEB3FORMS_ACCESS_KEY=your_access_key_here
+```
+
+Notes:
+
+- This is a **public** env var by design (it’s embedded in the built HTML for form submissions).
+- If the key is empty, the test script will warn because submissions will fail.
+
+---
+
+## 🎛️ Customization guide
+
+- 🎨 **Theme/colors**: edit CSS custom properties in `public/style.css` (`:root` + `[data-theme="dark"]`)
+- 🧩 **Homepage content**: `src/pages/index.astro` composes section components
+- 🧱 **Sections**: edit individual sections under `src/components/`
+- 🗓️ **Conferences list**: `src/data/conferences.ts`
+- 🧾 **Legal pages**: `src/pages/privacy-policy/index.astro` and `src/pages/terms-of-service/index.astro`
+- 🔤 **Fonts**: configured via Google Fonts in `src/layouts/BaseLayout.astro`
+
+---
+
+## 🌍 Deployment
+
+This is a **static site**. Any static host works.
+
+Recommended host settings:
+
+- **Build command**: `npm run build`
+- **Publish directory**: `dist/`
+- **Environment variables**: set `PUBLIC_WEB3FORMS_ACCESS_KEY`
+
+Works well on:
+
+- Cloudflare Pages
+- Netlify
+- Vercel
+- GitHub Pages (with appropriate static configuration)
+- S3 + CloudFront
+
+---
+
+## 🧭 Browser support
+
+- Chrome / Edge / Firefox / Safari: **last 2 versions**
+- Mobile: iOS Safari, Chrome Android
+
+No IE11 (modern JS + CSS custom properties).
+
+---
+
+## 📈 Performance targets
+
+Suggested Lighthouse targets:
+
+- Performance: **90+**
+- Accessibility: **100**
+- Best Practices: **100**
+- SEO: **90+**
+
+---
+
+## 📄 License
 
 Copyright © 2026 MFD Research LLC. All rights reserved.
 
-## Contact
+---
 
-For questions or support regarding this website:
-- Email: info@mfdresearch.com
+## ✉️ Contact
+
+- Email: `info@mfdresearch.com`
 - Website: [mfdresearch.com](https://mfdresearch.com)
-
-## Acknowledgments
-
-Built with modern web standards and best practices for accessibility, performance, and user experience.
