@@ -441,17 +441,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
+   * Same-document fragment for in-page / home-section links.
+   * Supports `#id` and `/#id` (and full URLs that resolve to this origin + path + hash).
+   */
+  function getInPageHashTarget(anchor) {
+    if (!anchor || anchor.tagName !== 'A') return null;
+    let url;
+    try {
+      url = new URL(anchor.getAttribute('href') || '', window.location.href);
+    } catch {
+      return null;
+    }
+    if (!url.hash || url.hash === '#') return null;
+    if (url.origin !== window.location.origin) return null;
+
+    const path = url.pathname.replace(/\/$/, '') || '/';
+    const here = window.location.pathname.replace(/\/$/, '') || '/';
+    if (path !== here) return null;
+
+    return document.querySelector(url.hash);
+  }
+
+  /**
    * Smooth scrolling for anchor links
    * Uses event delegation for better performance
    */
   function setupSmoothScroll() {
     // Event delegation for smooth scrolling
     document.addEventListener('click', (e) => {
-      const anchor = e.target.closest('a[href^="#"]:not([href="#"])');
+      const anchor = e.target.closest('a[href*="#"]:not([href="#"])');
       if (!anchor) return;
 
-      const targetId = anchor.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
+      const targetElement = getInPageHashTarget(anchor);
 
       if (targetElement) {
         e.preventDefault();
@@ -586,14 +607,25 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function setupScrollspy() {
     const sections = document.querySelectorAll('main section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]:not(.nav-cta)');
+    const navLinks = document.querySelectorAll('.nav-links a[href*="#"]:not(.nav-cta)');
     if (!sections.length || !navLinks.length) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         navLinks.forEach(link => {
-          link.classList.toggle('spy-active', link.getAttribute('href') === `#${entry.target.id}`);
+          let url;
+          try {
+            url = new URL(link.getAttribute('href') || '', window.location.href);
+          } catch {
+            url = null;
+          }
+          const active =
+            !!url &&
+            url.hash === `#${entry.target.id}` &&
+            url.origin === window.location.origin &&
+            (url.pathname.replace(/\/$/, '') || '/') === (window.location.pathname.replace(/\/$/, '') || '/');
+          link.classList.toggle('spy-active', active);
         });
       });
     }, { rootMargin: '-72px 0px -40% 0px', threshold: 0 });
