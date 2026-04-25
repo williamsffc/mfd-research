@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const assetsDir = join(__dirname, '../assets');
+const assetsDir = join(__dirname, '../public/assets');
 
 console.log('\n🖼️  Image Optimization Guide\n');
 
@@ -37,7 +37,7 @@ console.log('4️⃣  Bulk Optimization:');
 console.log('   Install: npm install @squoosh/cli --save-dev');
 console.log('   Run: npx @squoosh/cli --webp auto assets/*.jpg\n');
 
-console.log('📋 Current Images in /assets:\n');
+console.log('📋 Current Images in public/assets:\n');
 
 try {
   const files = await readdir(assetsDir);

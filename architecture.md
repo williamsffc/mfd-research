@@ -25,27 +25,31 @@ Michael should appear on the site as the founder/principal authority behind the 
 
 ## Current Repository Baseline
 
-The project currently exists as a vanilla static HTML/CSS/JavaScript website with a lightweight Node-based tooling layer.
+The site is an **Astro** static build. Shipped CSS, JS, PWA files, and binary assets live under **`public/`** (copied to `dist/` root). Pages and composition live under **`src/`**.
 
-### Existing Core Files
+### Core paths
 
 ```text
-index.html
-style.css
-script.js
-assets/
-privacy-policy/index.html
-terms-of-service/index.html
-robots.txt
-sitemap.xml
-site.webmanifest
-service-worker.js
+src/pages/index.astro
+src/pages/privacy-policy/index.astro
+src/pages/terms-of-service/index.astro
+src/components/
+src/data/
+public/style.css
+public/script.js
+public/service-worker.js
+public/assets/
+public/robots.txt
+public/sitemap.xml
+public/site.webmanifest
 README.md
 CLAUDE.md
 package.json
 package-lock.json
 scripts/
 ```
+
+Legacy root copies of `index.html`, `style.css`, `script.js`, and duplicate static legal HTML have been removed; **`public/` + `src/`** are the source of truth.
 
 ### Existing Tooling
 
@@ -325,7 +329,7 @@ service-worker.js
 
 Commit the current architecture documentation before migration begins.
 
-Do not delete the existing static files until the Astro build reaches functional parity.
+During migration, do not delete the canonical **`public/`** copies of CSS/JS or break Astro routes until parity is verified. Duplicate **root-level** `index.html`, `style.css`, `script.js`, legacy legal HTML, and duplicate `assets/` have been removed after automated parity checks (`npm run verify:parity`).
 
 ### Phase 2: Create Astro Structure
 

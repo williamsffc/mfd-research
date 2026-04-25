@@ -4,7 +4,7 @@ Professional website for MFD Research LLC, a clinical research consulting firm s
 
 ## Overview
 
-This is a modern, accessible, single-page website built with vanilla HTML, CSS, and JavaScript. Features include:
+This is an accessible marketing site built with **Astro** (static output), with global styling and behavior in **`public/style.css`** and **`public/script.js`**. Features include:
 
 - **Responsive Design** - Mobile-first approach with fluid layouts
 - **Dark Mode** - System preference detection with manual toggle
@@ -15,11 +15,9 @@ This is a modern, accessible, single-page website built with vanilla HTML, CSS, 
 
 ## Tech Stack
 
-- **HTML5** - Semantic markup
-- **CSS3** - Custom properties for theming, modern layout techniques
-- **JavaScript (ES6+)** - Module-based, no frameworks
-- **Vite** - Build tool and dev server
-- **Netlify** - Hosting and form handling
+- **Astro** — Static site generator (`src/pages`, `src/components`)
+- **HTML / CSS / JS** — Semantic markup; CSS custom properties; one deferred `script.js` for interactions
+- **Node** — Dev/build and small verification scripts
 
 ## Getting Started
 
@@ -32,8 +30,8 @@ This is a modern, accessible, single-page website built with vanilla HTML, CSS, 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/remix-of-lovable-slides.git
-cd remix-of-lovable-slides
+git clone https://github.com/williamsffc/mfd-research.git
+cd mfd-research
 ```
 
 2. Install dependencies:
@@ -69,20 +67,20 @@ npm run preview
 ## Project Structure
 
 ```
-remix-of-lovable-slides/
-├── index.html              # Main HTML file
-├── script.js               # JavaScript functionality
-├── style.css               # Styles and theming
-├── service-worker.js       # Offline support and caching
-├── package.json            # Dependencies and scripts
-├── assets/                 # Images and media
-│   └── mfd-logo.jpg
-├── privacy-policy/         # Privacy policy page
-│   └── index.html
-├── terms-of-service/       # Terms of service page
-│   └── index.html
-└── scripts/                # Build scripts
-    └── vite-runner.mjs
+mfd-research/
+├── src/
+│   ├── pages/              # Routes (index, privacy-policy, terms-of-service)
+│   ├── components/         # Homepage sections, Header, Footer, etc.
+│   ├── layouts/
+│   └── data/
+├── public/                 # Copied to dist/ root: CSS, JS, SW, assets, robots, sitemap
+│   ├── style.css
+│   ├── script.js
+│   ├── service-worker.js
+│   └── assets/
+├── dist/                   # Production build output (generated)
+├── scripts/                # test-a11y, parity verify, image helpers
+└── package.json
 ```
 
 ## Features
@@ -129,7 +127,7 @@ The contact form is powered by Netlify Forms. When deployed to Netlify, form sub
    - Publish directory: `dist`
 4. Deploy
 
-The contact form will automatically work with Netlify Forms.
+The contact form uses **Web3Forms**; set `PUBLIC_WEB3FORMS_ACCESS_KEY` in `.env` (see `.env.example`) and in your host’s environment variables for production.
 
 ### Other Hosting Providers
 
@@ -145,7 +143,7 @@ Build the project with `npm run build` and upload the `dist/` folder.
 ## Customization
 
 ### Colors and Theming
-Edit CSS custom properties in `style.css` (lines 10-104):
+Edit CSS custom properties in `public/style.css` (see `:root` and `[data-theme="dark"]` near the top of the file):
 ```css
 :root {
   --navy: #1A2744;
@@ -155,19 +153,10 @@ Edit CSS custom properties in `style.css` (lines 10-104):
 ```
 
 ### Content
-Edit `index.html` to update:
-- Company information
-- Services and specialties
-- Timeline entries
-- Contact information
+Edit `src/pages/index.astro` and the section components under `src/components/` for homepage copy; use `src/data/conferences.ts` for the conferences list. Legal pages live in `src/pages/privacy-policy/` and `src/pages/terms-of-service/`.
 
 ### Fonts
-The site uses Google Fonts:
-- **Syne** - Headings
-- **DM Sans** - Body text
-- **DM Serif Display** - Decorative elements
-
-Update font imports in `index.html` (lines 10-14) to change typography.
+Google Fonts are linked from `src/layouts/BaseLayout.astro` (Instrument Serif, Plus Jakarta Sans). Change the `<link>` there to switch typography.
 
 ## Testing
 

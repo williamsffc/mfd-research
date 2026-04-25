@@ -53,23 +53,22 @@ GitHub repo: https://github.com/williamsffc/mfd-research
 
 ## Current Repo Baseline
 
-The repo currently contains a vanilla static HTML/CSS/JS website with Node tooling.
+The repo is an **Astro** static site: **`src/`** for pages/components, **`public/`** for CSS, JS, PWA files, and assets (mirrored to `dist/`).
 
-Important files:
+Important paths:
 
 ```text
-index.html
-style.css
-script.js
-privacy-policy/index.html
-terms-of-service/index.html
-robots.txt
-sitemap.xml
-site.webmanifest
-service-worker.js
+src/pages/
+src/components/
+public/style.css
+public/script.js
+public/service-worker.js
+public/assets/
+public/robots.txt
+public/sitemap.xml
+public/site.webmanifest
 package.json
 scripts/
-assets/
 ```
 
 The current package scripts include:
@@ -175,7 +174,7 @@ ADA 2026 should be included as an upcoming conference and may later have its own
 
 Do not:
 
-- Delete current static files before the Astro version is verified.
+- Remove or drift `public/style.css`, `public/script.js`, or `src/` routes without running `npm run test` (includes parity + invariant checks).
 - Break existing URLs.
 - Commit `.env`.
 - Commit `node_modules`.
