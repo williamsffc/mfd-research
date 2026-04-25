@@ -1931,6 +1931,11 @@
       border-top: 2px solid var(--green);
     }
 
+    /* Ensure back-to-top never overlaps footer content */
+    footer {
+      padding-bottom: calc(24px + env(safe-area-inset-bottom) + 56px);
+    }
+
     .footer-top {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr) minmax(0, 1fr);
@@ -1947,6 +1952,14 @@
       align-items: flex-start;
       gap: 10px;
       min-width: 0;
+    }
+
+    .footer-brand-top {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
     }
 
     .footer-brand-link {
@@ -1997,8 +2010,14 @@
       font-size: 13px;
       line-height: 1.45;
       color: var(--footer-text-45);
-      max-width: 30ch;
+      max-width: none;
       margin: 0;
+    }
+
+    @media (min-width: 900px) {
+      .footer-tagline {
+        white-space: nowrap;
+      }
     }
 
     .footer-col-title {
@@ -2022,6 +2041,10 @@
 
     .footer-top > div:nth-child(2) .footer-col-links {
       max-width: 16rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 18px;
+      row-gap: 2px;
     }
 
     .footer-col-links a {
@@ -2445,7 +2468,7 @@
         align-items: center;
         text-align: center;
         padding: 0 0 12px;
-        border-bottom: 1px solid var(--footer-border);
+        border-bottom: none;
       }
 
       .footer-social {
@@ -2455,6 +2478,11 @@
         margin-top: 8px;
       }
 
+      .footer-brand-top {
+        justify-content: space-between;
+        text-align: left;
+      }
+
       .footer-bottom {
         gap: 10px;
         padding-top: 12px;
@@ -2462,6 +2490,16 @@
 
       .footer-col-links a {
         padding: 6px 0;
+      }
+
+      /* Reduce Explore density on small screens */
+      .footer-top > div:nth-child(2) .footer-col-links a:nth-child(n + 7) {
+        display: none;
+      }
+
+      .footer-top > div:nth-child(2) .footer-col-links {
+        max-width: none;
+        column-gap: 14px;
       }
 
       .footer-links a {
@@ -2568,7 +2606,7 @@
         align-items: flex-start;
         text-align: left;
         padding: 0 0 10px;
-        border-bottom: 1px solid var(--footer-border);
+        border-bottom: none;
       }
 
       .footer-brand-link {
@@ -3634,6 +3672,13 @@
   border-top: 1px solid var(--footer-border);
   align-self: stretch;
   max-width: 100%;
+}
+
+.footer-brand-top .footer-social {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  align-self: center;
 }
 
 .footer-social-link {
