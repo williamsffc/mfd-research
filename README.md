@@ -75,7 +75,7 @@ npm run preview
 
 ## 🧪 Testing & verification
 
-Run the full verification suite (build + parity + a11y/invariants):
+Run the full verification suite (build + parity + sw-precache + a11y/invariants):
 
 ```bash
 npm test
@@ -90,7 +90,8 @@ npm run test:a11y
 What these checks cover:
 
 - ✅ build output exists for `/`, `/privacy-policy/`, `/terms-of-service/`
-- ✅ key landmarks + required DOM hooks for `public/script.js`
+- ✅ legacy markup parity (ensures dynamic migrations preserve the exact HTML structure and DOM hooks for `public/script.js`)
+- ✅ Service Worker precache manifest validation (`verify:sw-precache` ensures offline assets resolve)
 - ✅ legal pages inherit the shared font stack + avoid inline layout duplication
 - ✅ basic CSS/JS invariants (and guarding against regressions)
 
@@ -104,7 +105,7 @@ mfd-research/
     pages/                 # Routes: home + legal pages
     components/            # Header/Footer + homepage sections
     layouts/               # Shared HTML shell + head injection
-    data/                  # Data modules (e.g., conferences list)
+    data/                  # Data modules (all repeatable homepage content)
   public/                  # Copied to dist/ root as-is
     style.css              # Global styles + theming tokens
     script.js              # All interactivity (nav, theme, scroll, FAQ, form, etc.)
@@ -133,17 +134,25 @@ PUBLIC_WEB3FORMS_ACCESS_KEY=your_access_key_here
 
 Notes:
 
-- This is a **public** env var by design (it’s embedded in the built HTML for form submissions).
+- This is a **public** env var by design (it’s embedded in the built HTML for form submissions). Never include secret values in this file or the README.
 - If the key is empty, the test script will warn because submissions will fail.
+- **Production environments (like Cloudflare Pages)** must have this variable configured in their deployment settings to work.
 
 ---
 
 ## 🎛️ Customization guide
 
 - 🎨 **Theme/colors**: edit CSS custom properties in `public/style.css` (`:root` + `[data-theme="dark"]`)
-- 🧩 **Homepage content**: `src/pages/index.astro` composes section components
-- 🧱 **Sections**: edit individual sections under `src/components/`
-- 🗓️ **Conferences list**: `src/data/conferences.ts`
+- 🧩 **Data-driven homepage content**: All homepage grids, timelines, accordions, and repeatable stats are managed via Strongly-Typed data files. Do not edit HTML components to update list content. Edit the following files instead:
+  - `src/data/conferences.ts`
+  - `src/data/credentials.ts`
+  - `src/data/credibility.ts`
+  - `src/data/experiences.ts`
+  - `src/data/faqs.ts`
+  - `src/data/heroStats.ts` (Note: "Industry Experience" is dynamically calculated from `startYear = 2006` during the build)
+  - `src/data/services.ts`
+  - `src/data/specialties.ts`
+- 🧱 **Sections**: edit individual section structures under `src/components/`
 - 🧾 **Legal pages**: `src/pages/privacy-policy/index.astro` and `src/pages/terms-of-service/index.astro`
 - 🔤 **Fonts**: configured via Google Fonts in `src/layouts/BaseLayout.astro`
 
@@ -151,21 +160,17 @@ Notes:
 
 ## 🌍 Deployment
 
-This is a **static site**. Any static host works.
+This is a **static site**. The primary deployment target is **Cloudflare Pages**.
 
 Recommended host settings:
 
-- **Build command**: `npm run build`
+- **Build command**: `npm run build` (Note: Always run `npm test` locally to ensure parity/a11y before deployment)
 - **Publish directory**: `dist/`
 - **Environment variables**: set `PUBLIC_WEB3FORMS_ACCESS_KEY`
 
-Works well on:
-
-- Cloudflare Pages
-- Netlify
-- Vercel
-- GitHub Pages (with appropriate static configuration)
-- S3 + CloudFront
+Deployment Notes:
+- `public/_headers` contains Cloudflare-specific security (CSP) and cache headers.
+- Since it is a completely static export, it can technically be hosted anywhere (Netlify, Vercel, S3) if the `_headers` equivalents are configured.
 
 ---
 
