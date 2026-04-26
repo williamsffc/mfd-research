@@ -138,6 +138,23 @@ Notes:
 - If the key is empty, the test script will warn because submissions will fail.
 - **Production environments (like Cloudflare Pages)** must have this variable configured in their deployment settings to work.
 
+### 📊 Contact Submission Tracking (Google Workspace Automation)
+
+While the website remains fully static with no backend database, submissions are tracked using an optional Google Workspace automation.
+
+1. **Submission**: User submits the form; Web3Forms emails the notification to the Google Workspace Gmail inbox.
+2. **Filtration**: A Gmail filter (From: `notify@web3forms.com`, Subject: `New Contact Form Submission from MFD Research`) automatically applies the `MFD/Web3Forms-Pending` label.
+3. **Processing**: A Google Apps Script runs via a time-driven trigger every 10 minutes. It:
+   - Uses `LockService` to prevent overlapping runs.
+   - Processes up to 25 pending threads per run.
+   - Parses the plain-text email fields (requiring an email plus at least one name field).
+   - Prevents duplicate entries using the Gmail Message ID.
+4. **Storage**: Valid submissions are appended as a new row to the **"MFD Research Consultation Submissions"** Google Sheet (Tab: `Submissions`).
+   - Recorded columns: *Received At, Gmail Message ID, First Name, Last Name, Email, Company, Service, Message, Source URL (optional), Visitor IP (optional), Status (defaults to "New"), Processing Notes (defaults to "Success"), Follow-up Notes, Follow-up Date*.
+5. **Categorization**: Processed emails are re-labeled with `MFD/Web3Forms-Processed`. If parsing fails, they are labeled `MFD/Web3Forms-Error`.
+
+*Note: This workflow is purely an external operational automation. It does not affect the static site build, and the `PUBLIC_WEB3FORMS_ACCESS_KEY` is still required for the contact form to function.*
+
 ---
 
 ## 🎛️ Customization guide
