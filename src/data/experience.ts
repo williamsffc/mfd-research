@@ -1,0 +1,52 @@
+/**
+ * Experience Data
+ * 
+ * To add a new experience item, simply add a new object to the top of the `experiences` array.
+ * If the role is current/ongoing, set `endYear: null`.
+ */
+
+export interface ExperienceItem {
+  title: string;
+  organization: string;
+  startYear: number;
+  endYear: number | null;
+  summary: string;
+}
+
+export const experiences: ExperienceItem[] = [
+  {
+    title: "Chief Clinical Officer",
+    organization: "Ark Clinical Research",
+    startYear: 2025,
+    endYear: null,
+    summary: "Executive oversight of clinical operations across Ark sites, with focus on patient experience, study execution, enrollment performance, compliance, quality systems, team development, and strategic growth."
+  },
+  {
+    title: "Founder & CEO",
+    organization: "MFD Research",
+    startYear: 2019,
+    endYear: null,
+    summary: "Specialized consulting for research site development and strategy, helping partners build, strengthen, and optimize clinical research operations from concept through execution."
+  },
+  {
+    title: "Clinical Operations & Therapeutic Program Leadership",
+    organization: "Ark Clinical Research",
+    startYear: 2023,
+    endYear: 2025,
+    summary: "Operational leadership across clinical sites and metabolic/liver disease programs, including recruitment strategy, sponsor/CRO alignment, SOP development, staff mentorship, and scalable research execution."
+  },
+  {
+    title: "Site Operations Leadership",
+    organization: "Velocity Clinical Research / Foothill Eye Institute",
+    startYear: 2017,
+    endYear: 2023,
+    summary: "Site-level leadership across high-volume research operations, study execution, regulatory readiness, sponsor relationships, quality processes, staff development, and operational improvement."
+  },
+  {
+    title: "Clinical Research Operations Foundation",
+    organization: "Translational Research Group / Encino Research Center / NRI",
+    startYear: 2006,
+    endYear: 2017,
+    summary: "Built the site-level foundation behind MFD Research’s consulting approach through study coordination, patient-facing execution, Phase I-IV trial operations, regulatory documentation, GCP discipline, and multi-therapeutic research delivery."
+  }
+];
