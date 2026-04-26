@@ -228,10 +228,15 @@
       align-items: center;
       justify-content: space-between;
       height: 72px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
+      background: rgba(245, 247, 252, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--nav-border);
       transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    [data-theme="dark"] nav {
+      background: rgba(11, 18, 32, 0.72);
     }
 
     nav.scrolled {
@@ -244,6 +249,13 @@
       width: auto;
       border-radius: 6px;
       box-shadow: none;
+      transition: height 0.3s ease;
+    }
+
+    @media (max-width: 480px) {
+      .nav-logo img {
+        height: 32px;
+      }
     }
 
     .nav-links {
@@ -297,15 +309,15 @@
       font-size: 14px;
       font-weight: 600;
       white-space: nowrap;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
       box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset;
     }
 
     .nav-links a.nav-cta:hover {
       background: var(--green);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(14, 138, 84,0.28);
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 4px 12px rgba(14, 138, 84,0.28);
     }
 
     @media (max-width: 1240px) {
@@ -367,8 +379,8 @@
     .hero-blob {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.45;
+      filter: blur(120px);
+      opacity: 0.28;
       pointer-events: none;
     }
 
@@ -458,7 +470,7 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(44px, 5.75vw, 84px);
       font-weight: 700;
-      line-height: 1.05;
+      line-height: 1.15;
       letter-spacing: -0.025em;
       color: var(--navy);
       margin-bottom: 18px;
@@ -509,7 +521,7 @@
       font-size: 15px;
       font-weight: 600;
       text-decoration: none;
-      transition: background-color 0.25s, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 2px solid var(--navy);
       box-shadow: var(--btn-primary-shadow);
     }
@@ -517,7 +529,7 @@
     .btn-primary:hover {
       background: var(--green);
       border-color: var(--green);
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.02);
       box-shadow: var(--btn-primary-hover-shadow);
     }
 
@@ -530,14 +542,14 @@
       font-weight: 600;
       text-decoration: none;
       border: 1px solid rgba(26, 39, 68, 0.22);
-      transition: background-color 0.25s, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-secondary:hover {
-      background: rgba(26, 39, 68, 0.07);
+      background: rgba(26, 39, 68, 0.08);
       border-color: rgba(26, 39, 68, 0.32);
       color: var(--text-primary);
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.02);
     }
 
     [data-theme="dark"] .btn-secondary {
@@ -762,7 +774,7 @@
     }
 
     .section-label {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -1368,13 +1380,13 @@
 
     .specialty-tag {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0.01em;
       line-height: 1.35;
       padding: 6px 12px;
       border-radius: 100px;
       background: var(--green-pale);
-      color: var(--green);
+      color: #1E5136; /* Darker green for contrast */
       border: 1px solid rgba(47, 125, 85, 0.16);
       transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
       cursor: default;
@@ -1793,7 +1805,7 @@
       letter-spacing: 0.02em;
       border: none;
       cursor: pointer;
-      transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: fit-content;
   align-self: center;
       min-height: 52px;
@@ -1802,9 +1814,9 @@
       box-shadow: var(--btn-primary-shadow);
     }
 
-    .form-submit:hover {
+    .form-submit:hover:not(:disabled) {
       background: var(--green);
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.02);
       box-shadow: var(--btn-primary-hover-shadow);
     }
 
