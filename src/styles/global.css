@@ -367,6 +367,7 @@
     /* ===== COMPONENT: HERO ===== */
     #hero {
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -2508,11 +2509,6 @@
 
       .footer-col-links a {
         padding: 6px 0;
-      }
-
-      /* Reduce Explore density on small screens */
-      .footer-top > div:nth-child(2) .footer-col-links a:nth-child(n + 7) {
-        display: none;
       }
 
       .footer-top > div:nth-child(2) .footer-col-links {
