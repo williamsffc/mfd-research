@@ -1,16 +1,13 @@
 ---
 // Parity port of legacy static `privacy-policy/index.html`.
-import { Fragment } from 'astro/jsx-runtime';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Privacy Policy | MFD Research';
+const description = 'Privacy Policy for MFD Research website and inquiries.';
+const canonical = 'https://mfdresearch.com/privacy-policy/';
 ---
 
-<BaseLayout>
-  <Fragment slot="head">
-  <title>Privacy Policy | MFD Research</title>
-  <meta name="description" content="Privacy Policy for MFD Research website and inquiries." />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self';" />
-  <link rel="stylesheet" href="../style.css">
-  </Fragment>
+<BaseLayout title={title} description={description} canonical={canonical}>
   <main class="legal-page wrap">
     <a class="legal-top" href="../" aria-label="Return to home page">
       <img src="../assets/mfd-logo.jpg" alt="MFD Research logo" />

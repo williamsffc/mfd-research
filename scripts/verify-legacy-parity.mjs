@@ -1,21 +1,15 @@
 #!/usr/bin/env node
 /**
  * After `npm run build`, verifies:
- * - public/style.css and public/script.js match repo root copies when those exist (pre-removal drift check).
- * - dist/index.html exposes DOM hooks required by public/script.js.
- * - When root index.html exists, it matches dist on the same hook set (optional pre-cleanup check).
+ * - dist/index.html exposes DOM hooks required by the shipped client script.
+ * - built output includes bundled CSS/JS (Astro/Vite fingerprinted assets).
  */
-import { createHash } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-
-function sha256(filePath) {
-  return createHash('sha256').update(readFileSync(filePath)).digest('hex');
-}
 
 function fail(msg) {
   console.error(`PARITY FAIL: ${msg}`);
@@ -26,20 +20,9 @@ function ok(msg) {
   console.log(`OK: ${msg}`);
 }
 
-function assertFilePairMatchesRootOrAbsent(name) {
-  const a = join(root, name);
-  const b = join(root, 'public', name);
-  if (!existsSync(b)) fail(`missing ${join('public', name)}`);
-  if (existsSync(a)) {
-    if (sha256(a) !== sha256(b)) fail(`${name}: root and public/ differ — sync public/ from root or resolve before removing root copy`);
-    ok(`${name}: root === public`);
-  } else {
-    ok(`${name}: no root copy (using public/ only)`);
-  }
-}
-
-assertFilePairMatchesRootOrAbsent('style.css');
-assertFilePairMatchesRootOrAbsent('script.js');
+if (existsSync(join(root, 'public', 'style.css'))) fail('public/style.css should not exist (now bundled from src/styles/global.css)');
+if (existsSync(join(root, 'public', 'script.js'))) fail('public/script.js should not exist (now bundled from src/scripts/main.js)');
+ok('CSS/JS are bundled from src/ (no public/ copies)');
 
 const distIndex = join(root, 'dist', 'index.html');
 if (!existsSync(distIndex)) fail('missing dist/index.html — run npm run build first');
@@ -73,18 +56,19 @@ const requiredIds = [
 for (const needle of requiredIds) {
   if (!built.includes(needle)) fail(`dist/index.html missing ${needle}`);
 }
-ok('dist/index.html contains section/nav/form IDs required by script.js');
+ok('dist/index.html contains section/nav/form IDs required by script');
 
 const requiredStrings = [
-  'href="style.css"',
-  'src="script.js"',
+  '/_astro/',
   'class="contact-form"',
   'name="access_key"',
 ];
 for (const needle of requiredStrings) {
   if (!built.includes(needle)) fail(`dist/index.html missing ${JSON.stringify(needle)}`);
 }
-ok('dist/index.html loads style.css + script.js and includes Web3Forms access_key');
+if (!/href="\/_astro\/[^"]+\.css"/.test(built)) fail('dist/index.html missing bundled CSS href under /_astro/');
+if (!/src="\/_astro\/[^"]+\.js"/.test(built)) fail('dist/index.html missing bundled JS src under /_astro/');
+ok('dist/index.html loads bundled CSS/JS and includes Web3Forms access_key');
 
 const legacyIndex = join(root, 'index.html');
 if (existsSync(legacyIndex)) {

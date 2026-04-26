@@ -20,31 +20,22 @@ import Faq from '../components/Faq.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
+
+const title = 'MFD Research | Where Expertise Meets Execution';
+const description =
+  'MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion.';
+const canonical = 'https://mfdresearch.com/';
 ---
 
-<BaseLayout>
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogTitle={title}
+  ogDescription={description}
+  ogImage="/assets/og-image.png"
+>
   <Fragment slot="head">
-  <title>MFD Research | Where Expertise Meets Execution</title>
-  <meta name="description"
-    content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
-  <link rel="canonical" href="https://mfdresearch.com/" />
-  <meta name="robots" content="index, follow" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data: https://mfdresearch.com; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com;" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mfdresearch.com/" />
-  <meta property="og:title" content="MFD Research | Where Expertise Meets Execution" />
-  <meta property="og:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
-  <meta property="og:image" content="https://mfdresearch.com/assets/og-image.png" />
-  <meta property="og:site_name" content="MFD Research LLC" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MFD Research | Where Expertise Meets Execution" />
-  <meta name="twitter:description" content="MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion." />
-  <meta name="twitter:image" content="https://mfdresearch.com/assets/og-image.png" />
-
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
@@ -125,15 +116,6 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
     ]
   }
   </script>
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="manifest" href="site.webmanifest" />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap" crossorigin />
-  <link rel="stylesheet" href="style.css">
   </Fragment>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -166,7 +148,5 @@ const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
   <button id="backToTop" class="back-to-top" aria-label="Back to top">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" aria-hidden="true" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
   </button>
-
-  <script src="script.js" defer></script>
 
 </BaseLayout>
