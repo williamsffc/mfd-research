@@ -1,6 +1,5 @@
 ---
-const startYear = 2006;
-const yearsExperience = new Date().getFullYear() - startYear;
+import { heroStats } from '../data/heroStats';
 ---
 <section id="hero">
   <div class="hero-blob hero-blob-1"></div>
@@ -21,33 +20,14 @@ const yearsExperience = new Date().getFullYear() - startYear;
   <!-- Floating Card -->
   <div class="hero-card">
     <div class="hero-card-title">Core Expertise</div>
-    <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">⏳</div>
-      <div>
-        <div class="hero-stat-label">Industry Experience</div>
-        <div class="hero-stat-value" data-count={yearsExperience} data-suffix="+ Years">{yearsExperience}+ Years</div>
+    {heroStats.map(stat => (
+      <div class="hero-stat">
+        <div class="hero-stat-icon" aria-hidden="true"><Fragment set:html={stat.icon} /></div>
+        <div>
+          <div class="hero-stat-label">{stat.label}</div>
+          <div class="hero-stat-value" data-count={stat.dataCount} data-suffix={stat.dataSuffix}>{stat.value}</div>
+        </div>
       </div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">📂</div>
-      <div>
-        <div class="hero-stat-label">Studies Supported</div>
-        <div class="hero-stat-value" data-count="100" data-suffix="+">100+</div>
-      </div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">📍</div>
-      <div>
-        <div class="hero-stat-label">Sites Activated</div>
-        <div class="hero-stat-value" data-count="15" data-suffix="+">15+</div>
-      </div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">🌍</div>
-      <div>
-        <div class="hero-stat-label">Trial Reach</div>
-        <div class="hero-stat-value">Global</div>
-      </div>
-    </div>
+    ))}
   </div>
 </section>
