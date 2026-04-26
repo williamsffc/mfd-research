@@ -538,30 +538,54 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function setupServiceCardFlip() {
     const cards = document.querySelectorAll('.service-card');
+
+    function setCardState(card, isOpen) {
+      const front = card.querySelector('[data-service-front]');
+      const back = card.querySelector('[data-service-back]');
+      const description = back?.querySelector('.service-desc');
+
+      card.classList.toggle('flipped', isOpen);
+      card.setAttribute('aria-expanded', String(isOpen));
+
+      if (description?.id) {
+        if (isOpen) {
+          card.setAttribute('aria-describedby', description.id);
+        } else {
+          card.removeAttribute('aria-describedby');
+        }
+      }
+
+      if (front) {
+        front.setAttribute('aria-hidden', String(isOpen));
+      }
+
+      if (back) {
+        back.setAttribute('aria-hidden', String(!isOpen));
+      }
+    }
+
     cards.forEach(card => {
+      setCardState(card, false);
+
       card.addEventListener('click', () => {
         const nextState = !card.classList.contains('flipped');
         cards.forEach(other => {
           if (other !== card) {
-            other.classList.remove('flipped');
-            other.setAttribute('aria-expanded', 'false');
+            setCardState(other, false);
           }
         });
-        card.classList.toggle('flipped', nextState);
-        card.setAttribute('aria-expanded', String(nextState));
+        setCardState(card, nextState);
       });
 
       card.addEventListener('blur', (event) => {
         if (!card.contains(event.relatedTarget)) {
-          card.classList.remove('flipped');
-          card.setAttribute('aria-expanded', 'false');
+          setCardState(card, false);
         }
       });
 
       card.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-          card.classList.remove('flipped');
-          card.setAttribute('aria-expanded', 'false');
+          setCardState(card, false);
           card.blur();
         }
       });
