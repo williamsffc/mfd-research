@@ -15,11 +15,8 @@ const RUNTIME_CACHE = 'mfd-runtime';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/style.css',
-  '/script.js',
   '/assets/mfd-logo.jpg',
   '/assets/favicon.svg',
-  // Add other critical assets
 ];
 
 // Cache size limits (in items)

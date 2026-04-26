@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview --port 8080",
     "verify:parity": "node scripts/verify-legacy-parity.mjs",
-    "test": "npm run build && npm run verify:parity && npm run test:a11y",
+    "verify:sw-precache": "node scripts/verify-sw-precache.mjs",
+    "test": "npm run build && npm run verify:parity && npm run verify:sw-precache && npm run test:a11y",
     "test:a11y": "node scripts/test-a11y.mjs",
     "optimize:images": "node scripts/optimize-images.mjs"
   },
