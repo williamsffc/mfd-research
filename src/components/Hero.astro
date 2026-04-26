@@ -1,3 +1,7 @@
+---
+const startYear = 2006;
+const yearsExperience = new Date().getFullYear() - startYear;
+---
 <section id="hero">
   <div class="hero-blob hero-blob-1"></div>
   <div class="hero-blob hero-blob-2"></div>
@@ -18,31 +22,31 @@
   <div class="hero-card">
     <div class="hero-card-title">Core Expertise</div>
     <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">🧬</div>
+      <div class="hero-stat-icon" aria-hidden="true">⏳</div>
       <div>
-        <div class="hero-stat-label">Experience</div>
-        <div class="hero-stat-value" data-count="18" data-suffix="+ Years">18+ Years</div>
+        <div class="hero-stat-label">Industry Experience</div>
+        <div class="hero-stat-value" data-count={yearsExperience} data-suffix="+ Years">{yearsExperience}+ Years</div>
       </div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">📋</div>
+      <div class="hero-stat-icon" aria-hidden="true">📂</div>
       <div>
-        <div class="hero-stat-label">Trial Phases</div>
-        <div class="hero-stat-value">Phase I – III</div>
+        <div class="hero-stat-label">Studies Supported</div>
+        <div class="hero-stat-value" data-count="100" data-suffix="+">100+</div>
       </div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">🏥</div>
+      <div class="hero-stat-icon" aria-hidden="true">📍</div>
       <div>
-        <div class="hero-stat-label">Specialties</div>
-        <div class="hero-stat-value" data-count="10" data-suffix="+ Therapeutic Areas">10+ Therapeutic Areas</div>
+        <div class="hero-stat-label">Sites Activated</div>
+        <div class="hero-stat-value" data-count="15" data-suffix="+">15+</div>
       </div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-icon" aria-hidden="true">✅</div>
+      <div class="hero-stat-icon" aria-hidden="true">🌍</div>
       <div>
-        <div class="hero-stat-label">Certification</div>
-        <div class="hero-stat-value">ACRP Certified CRC</div>
+        <div class="hero-stat-label">Trial Reach</div>
+        <div class="hero-stat-value">Global</div>
       </div>
     </div>
   </div>
