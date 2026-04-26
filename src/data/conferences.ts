@@ -1,3 +1,9 @@
+/**
+ * Conference Data
+ * 
+ * To add a new conference item, simply add a new object to the top of the `conferences` array.
+ */
+
 /** Lifecycle state of a conference appearance. */
 export type ConferenceStatus = 'Upcoming' | 'Attended' | 'Details Pending';
 

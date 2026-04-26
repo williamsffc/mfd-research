@@ -5,15 +5,20 @@
  * If the role is current/ongoing, set `endYear: null`.
  */
 
-export interface ExperienceItem {
+export type Experience = {
+  /** The professional title or role (e.g. "Founder & CEO"). */
   title: string;
+  /** The company or organization name. */
   organization: string;
+  /** The 4-digit start year of the role. */
   startYear: number;
+  /** The 4-digit end year, or null if this is a current, ongoing role. */
   endYear: number | null;
+  /** A concise paragraph summarizing the responsibilities and achievements. */
   summary: string;
-}
+};
 
-export const experiences: ExperienceItem[] = [
+export const experiences: Experience[] = [
   {
     title: "Chief Clinical Officer",
     organization: "Ark Clinical Research",
