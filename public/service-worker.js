@@ -143,8 +143,11 @@ function updateCache(request) {
   return fetch(request)
     .then((response) => {
       if (response && response.status === 200) {
-        return caches.open(CACHE_VERSION)
-          .then((cache) => cache.put(request, response));
+        return caches.open(RUNTIME_CACHE)
+          .then((cache) => {
+            cache.put(request, response);
+            trimCache(RUNTIME_CACHE, MAX_CACHE_SIZE);
+          });
       }
     })
     .catch(() => {
