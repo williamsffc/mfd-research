@@ -177,17 +177,25 @@ While the website remains fully static with no backend database, submissions are
 
 ## 🌍 Deployment
 
-This is a **static site**. The primary deployment target is **Cloudflare Pages**.
+This is a **static site**. The primary deployment target is **Cloudflare Pages**, connected to GitHub.
 
-Recommended host settings:
+### Production URLs
+- **Primary:** [https://mfdresearch.com](https://mfdresearch.com)
+- **Primary (www):** [https://www.mfdresearch.com](https://www.mfdresearch.com)
+*(Note: Any `*.workers.dev` URLs are strictly for Cloudflare preview/fallback routing and are not the public production domain).*
 
-- **Build command**: `npm run build` (Note: Always run `npm test` locally to ensure parity/a11y before deployment)
-- **Publish directory**: `dist/`
-- **Environment variables**: set `PUBLIC_WEB3FORMS_ACCESS_KEY`
+### Cloudflare Deployment Setup
+- **Repository:** `williamsffc/mfd-research`
+- **Production Branch:** `main`
+- **Build Command:** `npm run build`
+- **Deploy Command:** `npx wrangler deploy --assets=dist --compatibility-date 2026-04-24`
+- **Version Command:** `npx wrangler versions upload --assets=dist --compatibility-date 2026-04-24`
+- **Environment Variables:** `PUBLIC_WEB3FORMS_ACCESS_KEY` must be set in the Cloudflare dashboard.
 
-Deployment Notes:
-- `public/_headers` contains Cloudflare-specific security (CSP) and cache headers.
-- Since it is a completely static export, it can technically be hosted anywhere (Netlify, Vercel, S3) if the `_headers` equivalents are configured.
+### Maintenance & DNS Notes
+- **Pre-deploy:** Always run `npm test` locally to ensure parity and accessibility checks pass before pushing to `main`.
+- **Security & Caching:** `public/_headers` contains the Cloudflare-specific security (CSP) and cache headers.
+- **DNS Records:** Cloudflare manages the DNS for `mfdresearch.com`. **CRITICAL:** Do not delete or modify the Google Workspace email DNS records (MX, SPF, DKIM, DMARC) when adjusting site settings. Web traffic records should remain proxied where appropriate.
 
 ---
 
