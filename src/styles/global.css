@@ -2586,15 +2586,21 @@
       /* iOS Safari: ensure 3D flip renders on touch */
       .service-card {
         -webkit-perspective: 920px;
+        perspective: 920px;
       }
 
       .service-card-inner {
         -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
       }
 
-      .service-card-front,
-      .service-card-back {
+      .service-card-front {
         -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+      .service-card-back {
+        -webkit-transform: rotateY(180deg) translateZ(0);
+        transform: rotateY(180deg) translateZ(0);
       }
 
       .form-row {
