@@ -25,7 +25,7 @@ Michael should appear on the site as the founder/principal authority behind the 
 
 ## Current Repository Baseline
 
-The site is an **Astro** static build. Shipped CSS, JS, PWA files, and binary assets live under **`public/`** (copied to `dist/` root). Pages and composition live under **`src/`**.
+The site is an **Astro** static build. Pages and composition live under **`src/`**. Global styling and behavior are **bundled from `src/`** (see `src/styles/global.css` and `src/scripts/main.js`). PWA files and binary assets live under **`public/`** (copied to `dist/` root).
 
 ### Core paths
 
@@ -35,8 +35,8 @@ src/pages/privacy-policy/index.astro
 src/pages/terms-of-service/index.astro
 src/components/
 src/data/
-public/style.css
-public/script.js
+src/styles/global.css
+src/scripts/main.js
 public/service-worker.js
 public/assets/
 public/robots.txt
@@ -112,13 +112,7 @@ These are important for browser icons, mobile home screen behavior, PWA metadata
 
 The contact form currently uses a placeholder access key:
 
-```html
-%VITE_ACCESS_KEY%
-```
-
-During Astro migration, form environment handling should be updated so the Web3Forms key is rendered safely at build time using an Astro-compatible environment variable.
-
-Recommended variable:
+During local development and production builds, the Web3Forms access key is provided via the public build-time env var:
 
 ```text
 PUBLIC_WEB3FORMS_ACCESS_KEY

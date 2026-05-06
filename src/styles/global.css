@@ -2415,8 +2415,10 @@
         backdrop-filter: blur(16px);
         border-top: 1px solid var(--border);
         padding: 24px;
+        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
         z-index: 99;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .nav-links.open li {
@@ -2430,6 +2432,7 @@
         font-weight: 500;
         color: var(--navy);
         border-bottom: 1px solid var(--border);
+        overflow-wrap: anywhere;
       }
 
       .nav-links.open .nav-cta {
@@ -2468,6 +2471,10 @@
 
       #credibility {
         padding: 0;
+      }
+
+      .cred-track {
+        animation-duration: 22s;
       }
 
       footer {
@@ -2576,6 +2583,20 @@
         margin-right: auto;
       }
 
+      /* iOS Safari: ensure 3D flip renders on touch */
+      .service-card {
+        -webkit-perspective: 920px;
+      }
+
+      .service-card-inner {
+        -webkit-transform-style: preserve-3d;
+      }
+
+      .service-card-front,
+      .service-card-back {
+        -webkit-transform: translateZ(0);
+      }
+
       .form-row {
         grid-template-columns: 1fr;
       }
@@ -2585,7 +2606,7 @@
       }
 
       .back-to-top {
-        bottom: 24px;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
         right: 24px;
         width: 40px;
         height: 40px;
@@ -3859,6 +3880,33 @@
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .process-step {
+    padding: 28px 20px;
+    min-height: 0;
+  }
+
+  .process-step-number {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .process-step-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+  }
+
+  .process-step-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .process-step-desc {
+    font-size: 13.5px;
+    line-height: 1.65;
   }
 
   .faq-question {

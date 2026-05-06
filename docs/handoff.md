@@ -53,15 +53,15 @@ GitHub repo: https://github.com/williamsffc/mfd-research
 
 ## Current Repo Baseline
 
-The repo is an **Astro** static site: **`src/`** for pages/components, **`public/`** for CSS, JS, PWA files, and assets (mirrored to `dist/`).
+The repo is an **Astro** static site: **`src/`** for pages/components plus bundled global CSS/JS (`src/styles/global.css`, `src/scripts/main.js`), and **`public/`** for PWA files and assets (mirrored to `dist/`).
 
 Important paths:
 
 ```text
 src/pages/
 src/components/
-public/style.css
-public/script.js
+src/styles/global.css
+src/scripts/main.js
 public/service-worker.js
 public/assets/
 public/robots.txt
@@ -113,13 +113,7 @@ assets/og-image.png
 
 Current form key placeholder:
 
-```text
-%VITE_ACCESS_KEY%
-```
-
-This should eventually be replaced with an Astro-compatible environment variable.
-
-Recommended:
+The contact form uses this build-time public env var:
 
 ```text
 PUBLIC_WEB3FORMS_ACCESS_KEY
@@ -174,7 +168,7 @@ ADA 2026 should be included as an upcoming conference and may later have its own
 
 Do not:
 
-- Remove or drift `public/style.css`, `public/script.js`, or `src/` routes without running `npm run test` (includes parity + invariant checks).
+- Remove or drift `src/styles/global.css`, `src/scripts/main.js`, or `src/` routes without running `npm run test` (includes parity + invariant checks).
 - Break existing URLs.
 - Commit `.env`.
 - Commit `node_modules`.

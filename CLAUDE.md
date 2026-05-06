@@ -17,7 +17,7 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 
 ## Architecture
 
-**Astro** static site (`output: 'static'`, `build.format: 'directory'`). No React/Vue — pages are `.astro` components; global behavior stays in a single deferred **`public/script.js`**.
+**Astro** static site (`output: 'static'`, `build.format: 'directory'`). No React/Vue — pages are `.astro` components; global styling and behavior are bundled from `src/` (see `src/styles/global.css` and `src/scripts/main.js`).
 
 **Key locations:**
 
@@ -25,14 +25,14 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 - `src/pages/privacy-policy/index.astro`, `src/pages/terms-of-service/index.astro` — Legal routes.
 - `src/components/` — Header, Footer, homepage sections, Conferences, etc.
 - `src/data/conferences.ts` — Conference list for the homepage section.
-- `public/style.css` — All styles (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
-- `public/script.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
+- `src/styles/global.css` — Global styles + theming tokens (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
+- `src/scripts/main.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
 - `public/service-worker.js` — PWA caching.
 - `public/assets/`, `public/robots.txt`, `public/sitemap.xml`, `public/site.webmanifest` — Shipped as-is at site root.
 
 **Forms:** Contact form posts to Web3Forms; set `PUBLIC_WEB3FORMS_ACCESS_KEY` (see `.env.example`). No backend.
 
-**Theming:** Edit custom properties in `public/style.css` (`:root` and `[data-theme="dark"]`).
+**Theming:** Edit custom properties in `src/styles/global.css` (`:root` and `[data-theme="dark"]`).
 
 **Accessibility target:** WCAG 2.1 AA. Lighthouse targets: Performance 90+, Accessibility 100, Best Practices 100, SEO 90+.
 

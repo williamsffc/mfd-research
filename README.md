@@ -3,8 +3,8 @@
 Marketing website for **MFD Research LLC** — clinical research consulting focused on site development, regulatory compliance, and trial execution.
 
 - 🚀 **Astro** static site (no React/Vue)
-- 🎨 **All styling** in `public/style.css`
-- 🧠 **All interactive behavior** in `public/script.js` (deferred)
+- 🎨 **All styling** bundled from `src/styles/global.css`
+- 🧠 **All interactive behavior** bundled from `src/scripts/main.js`
 - 📨 **Contact form** via **Web3Forms** (no backend)
 - ♿ **Accessibility-forward** (WCAG 2.1 AA target)
 
@@ -90,7 +90,7 @@ npm run test:a11y
 What these checks cover:
 
 - ✅ build output exists for `/`, `/privacy-policy/`, `/terms-of-service/`
-- ✅ legacy markup parity (ensures dynamic migrations preserve the exact HTML structure and DOM hooks for `public/script.js`)
+- ✅ legacy markup parity (ensures the built HTML preserves the exact structure and DOM hooks expected by `src/scripts/main.js`)
 - ✅ Service Worker precache manifest validation (`verify:sw-precache` ensures offline assets resolve)
 - ✅ legal pages inherit the shared font stack + avoid inline layout duplication
 - ✅ basic CSS/JS invariants (and guarding against regressions)
@@ -106,9 +106,9 @@ mfd-research/
     components/            # Header/Footer + homepage sections
     layouts/               # Shared HTML shell + head injection
     data/                  # Data modules (all repeatable homepage content)
+    styles/                # Bundled CSS (global.css)
+    scripts/               # Bundled JS (main.js)
   public/                  # Copied to dist/ root as-is
-    style.css              # Global styles + theming tokens
-    script.js              # All interactivity (nav, theme, scroll, FAQ, form, etc.)
     service-worker.js      # PWA caching
     assets/                # Images, icons, OG image, etc.
     robots.txt
@@ -159,7 +159,7 @@ While the website remains fully static with no backend database, submissions are
 
 ## 🎛️ Customization guide
 
-- 🎨 **Theme/colors**: edit CSS custom properties in `public/style.css` (`:root` + `[data-theme="dark"]`)
+- 🎨 **Theme/colors**: edit CSS custom properties in `src/styles/global.css` (`:root` + `[data-theme="dark"]`)
 - 🧩 **Data-driven homepage content**: All homepage grids, timelines, accordions, and repeatable stats are managed via Strongly-Typed data files. Do not edit HTML components to update list content. Edit the following files instead:
   - `src/data/conferences.ts`
   - `src/data/credentials.ts`
