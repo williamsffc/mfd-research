@@ -1,0 +1,17 @@
+{
+  "name": "MFD Research",
+  "install": "npm ci",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "npm run dev",
+      "description": "Astro dev server on port 8080 (npm run dev)."
+    }
+  ],
+  "ports": [
+    {
+      "name": "dev server",
+      "port": 8080
+    }
+  ]
+}
