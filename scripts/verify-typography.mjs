@@ -3,11 +3,12 @@
  * Typography rules check — enforces docs/typography.md.
  *
  * Runs on source (no build needed):
- * - src/styles/global.css: font-family must use the --font-* tokens; font-size
+ * - src/styles/global.css: font-family must use a defined --font-* token; font-size
  *   must be a px value from the scale (or clamp()/var()); font-weight must be
- *   400/500/600/700; letter-spacing must be em-based; no rem/half-pixel sizes.
- * - src/**\/*.astro: no font-* declarations in inline `style=""` or `<style>`
- *   blocks — typography lives in global.css only.
+ *   400/500/600/700; letter-spacing must be em-based; every var(--x) used in a
+ *   typography declaration must be a custom property defined in the file.
+ * - src/**\/*.astro: no font-*, letter-spacing or line-height declarations in
+ *   inline `style=""` or `<style>` blocks — typography lives in global.css only.
  * - src/layouts/BaseLayout.astro: the single Google Fonts loader must list
  *   exactly the families defined by the --font-* tokens.
  */
@@ -24,6 +25,8 @@ const layoutPath = join(repoRoot, 'src', 'layouts', 'BaseLayout.astro');
 const FONT_SIZE_SCALE = new Set([11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 36]);
 /** Loaded weight range is 300–700; anything else is synthesized by the browser. */
 const FONT_WEIGHTS = new Set(['400', '500', '600', '700']);
+/** Properties that must only ever be declared in global.css. */
+const TYPOGRAPHY_PROP = /\b(font(-[a-z]+)?|letter-spacing|line-height)\s*:/;
 
 const failures = [];
 let checks = 0;
@@ -45,20 +48,44 @@ function walk(dir, out = []) {
 const css = readFileSync(cssPath, 'utf8');
 const cssLines = css.split('\n');
 
+// Pass 1: collect every custom property defined anywhere in the file, and the
+// primary family name of each --font-* token.
+const definedProps = new Set();
 const tokenFamilies = new Map(); // token name -> primary family
+for (const line of cssLines) {
+  const def = line.trim().match(/^(--[a-z0-9-]+):\s*([^;]+);/);
+  if (!def) continue;
+  definedProps.add(def[1]);
+  const family = def[1].startsWith('--font-') && def[2].match(/^'([^']+)'/);
+  if (family) tokenFamilies.set(def[1], family[1]);
+}
+if (tokenFamilies.size === 0) fail(cssPath, 1, 'no --font-* tokens found in :root');
+
+/** A `var(--x)` value must point at a property defined in this file (catches typos). */
+function isDefinedVar(value, lineNo, prop) {
+  const ref = value.match(/^var\((--[a-z0-9-]+)\)$/);
+  if (!ref) return false;
+  if (!definedProps.has(ref[1])) {
+    fail(cssPath, lineNo, `${prop} references ${ref[1]}, which is not defined anywhere in global.css`);
+  }
+  return true;
+}
+
+// Pass 2: validate each typography declaration.
 for (const [i, line] of cssLines.entries()) {
   const lineNo = i + 1;
   const trimmed = line.trim();
-
-  const token = trimmed.match(/^(--font-[a-z-]+):\s*'([^']+)'/);
-  if (token) tokenFamilies.set(token[1], token[2]);
 
   const family = trimmed.match(/^font-family:\s*([^;]+);/);
   if (family) {
     checks++;
     const value = family[1].trim();
-    if (!/^var\(--font-[a-z-]+\)$/.test(value) && value !== 'inherit') {
-      fail(cssPath, lineNo, `font-family must use a --font-* token, got "${value}"`);
+    if (value !== 'inherit') {
+      if (!/^var\(--font-[a-z-]+\)$/.test(value)) {
+        fail(cssPath, lineNo, `font-family must use a --font-* token, got "${value}"`);
+      } else if (!tokenFamilies.has(value.slice(4, -1))) {
+        fail(cssPath, lineNo, `font-family references ${value.slice(4, -1)}, which is not a defined --font-* token`);
+      }
     }
   }
 
@@ -76,7 +103,7 @@ for (const [i, line] of cssLines.entries()) {
       if (!FONT_SIZE_SCALE.has(Number(px[1]))) {
         fail(cssPath, lineNo, `font-size ${value} is off the scale (${[...FONT_SIZE_SCALE].join(', ')} px)`);
       }
-    } else if (!/^(clamp\(|var\(--)/.test(value) && value !== '0' && value !== 'inherit') {
+    } else if (!isDefinedVar(value, lineNo, 'font-size') && !/^clamp\(/.test(value) && value !== '0' && value !== 'inherit') {
       fail(cssPath, lineNo, `font-size must be px from the scale, clamp() or var(), got "${value}"`);
     }
   }
@@ -85,7 +112,7 @@ for (const [i, line] of cssLines.entries()) {
   if (weight) {
     checks++;
     const value = weight[1].trim();
-    if (!FONT_WEIGHTS.has(value) && !/^var\(--/.test(value) && value !== 'inherit') {
+    if (!FONT_WEIGHTS.has(value) && !isDefinedVar(value, lineNo, 'font-weight') && value !== 'inherit') {
       fail(cssPath, lineNo, `font-weight ${value} is not one of ${[...FONT_WEIGHTS].join('/')}`);
     }
   }
@@ -94,13 +121,11 @@ for (const [i, line] of cssLines.entries()) {
   if (tracking) {
     checks++;
     const value = tracking[1].trim();
-    if (!/^-?\d*\.?\d+em$/.test(value) && !/^var\(--/.test(value) && value !== 'normal' && value !== '0') {
+    if (!/^-?\d*\.?\d+em$/.test(value) && !isDefinedVar(value, lineNo, 'letter-spacing') && value !== 'normal' && value !== '0') {
       fail(cssPath, lineNo, `letter-spacing must be em-based (or var()), got "${value}"`);
     }
   }
 }
-
-if (tokenFamilies.size === 0) fail(cssPath, 1, 'no --font-* tokens found in :root');
 
 // ------------------------------------------------------------- .astro files
 for (const file of walk(join(repoRoot, 'src'))) {
@@ -110,13 +135,13 @@ for (const file of walk(join(repoRoot, 'src'))) {
   for (const [i, line] of lines.entries()) {
     const lineNo = i + 1;
     if (/<style[\s>]/.test(line)) inStyle = true;
-    if (inStyle && /\bfont(-family|-size|-weight|-style)?\s*:/.test(line)) {
-      fail(file, lineNo, 'font declaration in a <style> block — move it to src/styles/global.css');
+    if (inStyle && TYPOGRAPHY_PROP.test(line)) {
+      fail(file, lineNo, 'typography declaration in a <style> block — move it to src/styles/global.css');
     }
     if (/<\/style>/.test(line)) inStyle = false;
 
     for (const attr of line.matchAll(/style="([^"]*)"/g)) {
-      if (/\bfont|letter-spacing|line-height/.test(attr[1])) {
+      if (TYPOGRAPHY_PROP.test(attr[1])) {
         fail(file, lineNo, `typography in an inline style attribute: "${attr[1]}"`);
       }
     }
