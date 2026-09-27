@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Astro migration and controlled content repositioning are in progress on the `astro-migration` branch.
+Astro migration and controlled content repositioning are complete and merged into `main`.
 
 The site has been migrated from static HTML/CSS/JS into Astro with preserved routes, assets, styling, JavaScript behavior, legal pages, and form behavior. The homepage is being repositioned from a Michael-forward profile style into a company-led, founder-validated MFD Research consulting site. Legacy duplicate root files (`index.html`, `style.css`, `script.js`, duplicate `service-worker.js`, static legal HTML, and duplicate `assets/`) were removed; **`public/`** and **`src/`** are canonical. Run `npm run test` before releases (includes `verify:parity`).
 

@@ -281,6 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Missing Web3Forms key (PUBLIC_WEB3FORMS_ACCESS_KEY unset at build) — don't send
+      if (!form.querySelector('input[name="access_key"]')?.value) {
+        showErrorMessage();
+        return;
+      }
+
       // Show loading state
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -309,9 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clearTimeout(timeoutId);
 
-        const result = await response.json();
+        const result = await response.json().catch(() => ({}));
 
-        if (response.status === 200) {
+        if (response.ok && result.success !== false) {
           showSuccessMessage();
           form.reset();
           inputs.forEach(input => input.classList.remove('valid'));
@@ -341,11 +347,12 @@ document.addEventListener('DOMContentLoaded', () => {
       div.setAttribute('role', 'alert');
       div.innerHTML = `
         ${iconSvg}
-        <span>${text}</span>
+        <span></span>
         <button type="button" class="form-message-close" aria-label="Dismiss message">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       `;
+      div.querySelector('span').textContent = text;
       div.querySelector('.form-message-close').addEventListener('click', () => div.remove());
       form.insertAdjacentElement('beforebegin', div);
       // Auto-remove after 20 seconds as a fallback
