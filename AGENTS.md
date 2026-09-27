@@ -11,30 +11,47 @@ npm run preview       # Preview production build locally
 npm run verify:parity # After build: checks public CSS/JS vs root (if present) + dist HTML hooks
 npm run test:a11y     # Build output + accessibility / invariant checks
 npm run verify:sw-precache # After build: checks service-worker precache URLs exist in dist/
-npm run test          # build + verify:parity + verify:sw-precache + test:a11y
+npm run verify:typography  # No build needed: enforces docs/typography.md (font tokens, size scale, weights)
+npm run test          # verify:typography + build + verify:parity + verify:sw-precache + test:a11y
 ```
 
 Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build command `npm run build` and publish directory `dist/`.
 
 ## Architecture
 
-**Astro** static site (`output: 'static'`, `build.format: 'directory'`). No React/Vue — pages are `.astro` components; global behavior stays in a single deferred **`public/script.js`**.
+**Astro** static site (`output: 'static'`, `build.format: 'directory'`). No React/Vue — pages are `.astro` components; global styling and behavior are bundled from `src/` (see `src/styles/global.css` and `src/scripts/main.js`).
 
 **Key locations:**
 
 - `src/pages/index.astro` — Homepage composition (imports section components).
 - `src/pages/privacy-policy/index.astro`, `src/pages/terms-of-service/index.astro` — Legal routes.
 - `src/components/` — Header, Footer, homepage sections, Conferences, etc.
-- `src/data/conferences.ts` — Conference list for the homepage section.
-- `public/style.css` — All styles (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
-- `public/script.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
+- `src/data/` — Typed data modules for repeatable homepage content (conferences, FAQs, services, company facts…).
+- `src/styles/global.css` — Global styles + theming tokens (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
+- `src/scripts/main.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
 - `public/service-worker.js` — PWA caching.
 - `public/assets/`, `public/robots.txt`, `public/sitemap.xml`, `public/site.webmanifest` — Shipped as-is at site root.
 
 **Forms:** Contact form posts to Web3Forms; set `PUBLIC_WEB3FORMS_ACCESS_KEY` (see `.env.example`). No backend.
 
-**Theming:** Edit custom properties in `public/style.css` (`:root` and `[data-theme="dark"]`).
+**Theming:** Edit custom properties in `src/styles/global.css` (`:root` and `[data-theme="dark"]`).
 
 **Accessibility target:** WCAG 2.1 AA. Lighthouse targets: Performance 90+, Accessibility 100, Best Practices 100, SEO 90+.
 
 **Browser support:** Last 2 versions of Chrome, Edge, Firefox, Safari. No IE11.
+
+## Typography rules (enforced)
+
+Full rules: `docs/typography.md`. The short version:
+
+- **Never write a font name in CSS.** Use `var(--font-body)` (DM Sans, default), `var(--font-display)` (Space Grotesk, headings/titles) or `var(--font-accent)` (Instrument Serif, pull quotes only). Tokens live at the top of `:root` in `src/styles/global.css`; fonts load once in `src/layouts/BaseLayout.astro`.
+- **Sizes** are px from the scale `11 12 13 14 15 16 17 18 20 22 24 26 36`, or `clamp()`/an existing token for fluid display text. No `rem`, no half-pixels.
+- **Weights** are `400 / 500 / 600 / 700` only (loaded range is 300–700).
+- **Eyebrow labels** (small uppercase) use `--eyebrow-size/--eyebrow-weight/--eyebrow-tracking`; `letter-spacing` is always `em`.
+- **Buttons/inputs** don't inherit fonts — set `font: inherit` or a token on the control.
+- **No typography in `.astro` files** (`style=""` or `<style>`); it all lives in `global.css`.
+- Run `npm run verify:typography` before opening a PR.
+
+## Git workflow
+
+One branch per piece of work, created from `main`. When it's ready and `npm test` passes, open a PR, merge it, and delete the branch. Never push directly to `main`.

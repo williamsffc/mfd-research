@@ -11,8 +11,21 @@ npm run preview       # Preview production build locally
 npm run verify:parity # After build: checks public CSS/JS vs root (if present) + dist HTML hooks
 npm run test:a11y     # Build output + accessibility / invariant checks
 npm run verify:sw-precache # After build: checks service-worker precache URLs exist in dist/
-npm run test          # build + verify:parity + verify:sw-precache + test:a11y
+npm run verify:typography  # No build needed: enforces docs/typography.md (font tokens, size scale, weights)
+npm run test          # verify:typography + build + verify:parity + verify:sw-precache + test:a11y
 ```
+
+## Typography rules (enforced)
+
+Full rules: `docs/typography.md`. The short version:
+
+- **Never write a font name in CSS.** Use `var(--font-body)` (DM Sans, default), `var(--font-display)` (Space Grotesk, headings/titles) or `var(--font-accent)` (Instrument Serif, pull quotes only). Tokens live at the top of `:root` in `src/styles/global.css`; fonts load once in `src/layouts/BaseLayout.astro`.
+- **Sizes** are px from the scale `11 12 13 14 15 16 17 18 20 22 24 26 36`, or `clamp()`/an existing token for fluid display text. No `rem`, no half-pixels.
+- **Weights** are `400 / 500 / 600 / 700` only (loaded range is 300–700).
+- **Eyebrow labels** (small uppercase) use `--eyebrow-size/--eyebrow-weight/--eyebrow-tracking`; `letter-spacing` is always `em`.
+- **Buttons/inputs** don't inherit fonts — set `font: inherit` or a token on the control.
+- **No typography in `.astro` files** (`style=""` or `<style>`); it all lives in `global.css`.
+- Run `npm run verify:typography` before opening a PR.
 
 Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build command `npm run build` and publish directory `dist/`.
 
