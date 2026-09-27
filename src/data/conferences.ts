@@ -10,11 +10,9 @@ export type ConferenceStatus = 'Upcoming' | 'Attended' | 'Details Pending';
 export type Conference = {
   /** Full official name of the conference or event. */
   name: string;
-  /** Human-readable date range shown in the UI (e.g. "June 4–8, 2026"). */
-  date: string;
-  /** ISO 8601 start date used for sorting (e.g. "2026-06-04"). */
-  startDate?: string;
-  /** ISO 8601 end date (e.g. "2026-06-08"). */
+  /** ISO 8601 start date, used for sorting and the displayed month (e.g. "2026-06-04"). */
+  startDate: string;
+  /** ISO 8601 end date; only affects the label when the event spans two months (e.g. "2026-06-08"). */
   endDate?: string;
   /** City and state/country (e.g. "New Orleans, LA"). */
   location: string;
@@ -33,7 +31,6 @@ export type Conference = {
 export const conferences: Conference[] = [
   {
     name: 'American Diabetes Association (ADA) 2026 Scientific Sessions',
-    date: 'June 4–8, 2026',
     startDate: '2026-06-04',
     endDate: '2026-06-08',
     location: 'New Orleans, LA',
@@ -45,7 +42,6 @@ export const conferences: Conference[] = [
   },
   {
     name: 'ENLIGHTEN Investigator Engagement Meeting',
-    date: 'March 3–4, 2026',
     startDate: '2026-03-03',
     endDate: '2026-03-04',
     location: 'Seattle, WA',
@@ -54,7 +50,6 @@ export const conferences: Conference[] = [
   },
   {
     name: 'Dallas/Fort Worth Industry Meeting',
-    date: 'February 25–26, 2026',
     startDate: '2026-02-25',
     endDate: '2026-02-26',
     location: 'Dallas/Fort Worth, TX',
@@ -63,7 +58,6 @@ export const conferences: Conference[] = [
   },
   {
     name: 'Lilly CoDesign, MASLD/MASH CoLAB',
-    date: 'September 4–5, 2025',
     startDate: '2025-09-04',
     endDate: '2025-09-05',
     location: 'Indianapolis, IN',
@@ -72,7 +66,6 @@ export const conferences: Conference[] = [
   },
   {
     name: 'Industry Meeting',
-    date: 'August 12–13, 2025',
     startDate: '2025-08-12',
     endDate: '2025-08-13',
     location: 'Indianapolis, IN',
@@ -81,7 +74,6 @@ export const conferences: Conference[] = [
   },
   {
     name: 'Lilly - Sarcopenic Obesity CoDesign',
-    date: 'May 8–9, 2025',
     startDate: '2025-05-08',
     endDate: '2025-05-09',
     location: 'Indianapolis, IN',
@@ -90,3 +82,24 @@ export const conferences: Conference[] = [
   },
 ];
 
+
+const monthYear = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const monthOnly = new Intl.DateTimeFormat('en-US', { month: 'long', timeZone: 'UTC' });
+
+/**
+ * Month-level label shown in the UI: "March 2026", or "January–February 2026" /
+ * "December 2025–January 2026" when the event spans months. Specific days are
+ * intentionally not shown.
+ */
+export function formatConferenceDate({ startDate, endDate }: Pick<Conference, 'startDate' | 'endDate'>): string {
+  const start = new Date(startDate);
+  if (Number.isNaN(start.getTime())) return 'Details Pending';
+
+  const end = endDate ? new Date(endDate) : start;
+  if (Number.isNaN(end.getTime())) return monthYear.format(start);
+
+  const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
+  if (sameYear && start.getUTCMonth() === end.getUTCMonth()) return monthYear.format(start);
+  if (sameYear) return `${monthOnly.format(start)}–${monthYear.format(end)}`;
+  return `${monthYear.format(start)}–${monthYear.format(end)}`;
+}

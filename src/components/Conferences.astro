@@ -1,5 +1,5 @@
 ---
-import { conferences } from '../data/conferences';
+import { conferences, formatConferenceDate } from '../data/conferences';
 
 function safeIsoTime(iso?: string) {
   if (!iso) return 0;
@@ -32,7 +32,7 @@ const rest = conferences
         <div class={`conference-status status-${featured.status.replace(/\s+/g, '-').toLowerCase()}`}>
           {featured.status}
         </div>
-        <div class="conference-date">{featured.date || 'Details Pending'}</div>
+        <div class="conference-date">{formatConferenceDate(featured)}</div>
       </div>
 
       <h3 class="conference-name">{featured.name}</h3>
@@ -61,7 +61,7 @@ const rest = conferences
               <div class={`conference-status status-${c.status.replace(/\s+/g, '-').toLowerCase()}`}>
                 {c.status}
               </div>
-              <div class="conference-date">{c.date || 'Details Pending'}</div>
+              <div class="conference-date">{formatConferenceDate(c)}</div>
             </div>
             <div class="conference-list-name">{c.name}</div>
             <div class="conference-list-meta">
