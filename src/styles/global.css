@@ -45,6 +45,15 @@
       --section-sub-size: 16px;
       --section-sub-max: 560px;
       --section-sub-margin-b: 44px;
+
+      /* Typography tokens — the only place font names may appear. See docs/typography.md. */
+      --font-body: 'DM Sans', sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-accent: 'Instrument Serif', serif;
+      /* Small uppercase "eyebrow" labels above headings and inside cards */
+      --eyebrow-size: 11px;
+      --eyebrow-weight: 700;
+      --eyebrow-tracking: 0.12em;
       /* Focus ring */
       --focus-ring: 2px solid var(--green);
       --focus-offset: 2px;
@@ -142,7 +151,7 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       background: var(--bg);
       color: var(--text-primary);
       overflow-x: hidden;
@@ -160,6 +169,14 @@
     select,
     textarea {
       touch-action: manipulation;
+    }
+
+    /* Form controls don't inherit the page font by default (they fall back to Arial/system UI). */
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
     }
 
     main section[id] {
@@ -359,13 +376,13 @@
       }
 
       .nav-links a:not(.nav-cta) {
-        font-size: 12.5px;
+        font-size: 13px;
         letter-spacing: 0.01em;
       }
 
       .nav-links a.nav-cta {
         padding: 9px 14px;
-        font-size: 12.5px;
+        font-size: 13px;
       }
     }
 
@@ -473,7 +490,7 @@
     }
 
     .hero-title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(44px, 5.75vw, 84px);
       font-weight: 700;
       line-height: 1.15;
@@ -598,10 +615,10 @@
     }
 
     .hero-card-title {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: var(--eyebrow-size);
+      font-weight: var(--eyebrow-weight);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: var(--eyebrow-tracking);
       color: var(--text-muted);
       margin-bottom: 14px;
     }
@@ -789,7 +806,7 @@
     }
 
     .section-title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: var(--section-title-size);
       font-weight: var(--section-title-weight);
       color: var(--navy);
@@ -813,7 +830,6 @@
 
     #about .section-title {
       font-size: clamp(32px, 3.4vw, 48px);
-      font-weight: 800;
       letter-spacing: -0.03em;
       text-wrap: balance;
     }
@@ -864,7 +880,7 @@
     }
 
     .about-quote {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-accent);
       font-size: 22px;
       font-style: italic;
       color: var(--bg-white);
@@ -1087,7 +1103,7 @@
     }
 
     .service-title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -1218,10 +1234,10 @@
     }
 
     .timeline-year {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: var(--eyebrow-size);
+      font-weight: var(--eyebrow-weight);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: var(--eyebrow-tracking);
       color: var(--text-muted);
       margin-bottom: 6px;
       opacity: 0.75;
@@ -1229,8 +1245,9 @@
     }
 
     .timeline-role {
+      font-family: var(--font-display);
       font-size: 16px;
-      font-weight: 650;
+      font-weight: 600;
       color: var(--navy-light);
       margin-bottom: 4px;
       line-height: 1.35;
@@ -1351,7 +1368,7 @@
     }
 
     .specialty-group-title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
@@ -1496,11 +1513,10 @@
     }
 
     .creds-col-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: var(--eyebrow-size);
+      font-weight: var(--eyebrow-weight);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: var(--eyebrow-tracking);
       color: var(--green-accent);
       margin-bottom: 18px;
       padding-bottom: 12px;
@@ -1671,10 +1687,10 @@
     }
 
     .contact-info-label {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: var(--eyebrow-size);
+      font-weight: var(--eyebrow-weight);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: var(--eyebrow-tracking);
       color: var(--text-muted);
       margin-bottom: 6px;
     }
@@ -1756,7 +1772,7 @@
       padding: 13px 16px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--border);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 15px;
       color: var(--text-primary);
       background: var(--bg);
@@ -1816,7 +1832,7 @@
   align-self: center;
       min-height: 52px;
       margin-top: 4px;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       box-shadow: var(--btn-primary-shadow);
     }
 
@@ -1924,7 +1940,7 @@
     }
 
     .trust-card-title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -1990,7 +2006,7 @@
     }
 
     .footer-brand-name {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 15px;
       font-weight: 700;
       letter-spacing: -0.02em;
@@ -2039,9 +2055,9 @@
     }
 
     .footer-col-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
+      font-size: var(--eyebrow-size);
+      font-weight: var(--eyebrow-weight);
+      letter-spacing: var(--eyebrow-tracking);
       text-transform: uppercase;
       color: var(--footer-text-70);
       margin-bottom: 8px;
@@ -2113,7 +2129,7 @@
     }
 
     .footer-links a {
-      font-size: 12.5px;
+      font-size: 13px;
       color: var(--footer-text-50);
       text-decoration: none;
       transition: color 0.2s ease;
@@ -2286,7 +2302,7 @@
     }
 
     .loader-text {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: var(--font-display);
       font-size: 24px;
       font-weight: 700;
       color: var(--navy);
@@ -2860,7 +2876,7 @@
 }
 
 .process-step-number {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -2881,7 +2897,7 @@
 }
 
 .process-step-title {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 700;
   color: var(--navy);
@@ -2996,38 +3012,6 @@
   border-color: rgba(74, 232, 168,0.3);
 }
 
-.testimonial-stars {
-  font-size: 18px;
-  color: var(--green-accent);
-  letter-spacing: 2px;
-}
-
-.testimonial-quote {
-  font-family: 'Instrument Serif', serif;
-  font-size: 16px;
-  font-style: italic;
-  color: var(--overlay-white-90);
-  line-height: 1.7;
-  flex: 1;
-}
-
-.testimonial-author {
-  border-top: 1px solid var(--overlay-white-15);
-  padding-top: 20px;
-}
-
-.testimonial-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--green-accent);
-}
-
-.testimonial-org {
-  font-size: 13px;
-  color: var(--footer-text-50);
-  margin-top: 2px;
-}
-
 /* ===== COMPONENT: CONFERENCES (reuses testimonials card primitive; scoped polish below) ===== */
 .conferences-layout {
   display: grid;
@@ -3121,7 +3105,7 @@
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   gap: 6px;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -3155,9 +3139,9 @@
 }
 
 .conferences-recent-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
   color: var(--green-accent);
   opacity: 0.98;
@@ -3231,7 +3215,7 @@
 
 .conference-list-name {
   margin-top: 8px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.28;
@@ -3242,7 +3226,7 @@
   margin-top: 8px;
   display: grid;
   gap: 5px;
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.58;
   color: var(--footer-text-50);
 }
@@ -3312,7 +3296,7 @@
 
 .conference-name {
   margin-top: 14px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
@@ -3526,7 +3510,7 @@
   background: var(--card-bg);
   border: none;
   text-align: left;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 600;
   color: var(--navy);
@@ -3785,23 +3769,23 @@
 
 .legal-card h1 {
   margin: 0 0 8px;
-  font-size: 2.25rem;
+  font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.1;
   color: var(--navy);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
 }
 
 .legal-card h2 {
   margin: 40px 0 12px;
   padding-top: 40px;
   border-top: 1px solid var(--border);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.015em;
   color: var(--navy);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
 }
 
 .legal-card h2:first-of-type {
@@ -3833,7 +3817,7 @@
   margin-top: 0;
   color: var(--green);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .home-btn {
@@ -3916,7 +3900,7 @@
   }
 
   .process-step-desc {
-    font-size: 13.5px;
+    font-size: 14px;
     line-height: 1.65;
   }
 

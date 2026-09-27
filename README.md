@@ -14,6 +14,7 @@ Marketing website for **MFD Research LLC** — clinical research consulting focu
 
 - 🏗️ Architecture: `docs/architecture.md`
 - 🔄 Handoff notes: `docs/handoff.md`
+- 🔤 Typography rules: `docs/typography.md` (enforced by `npm run verify:typography`)
 - ✅ Current tasks: `docs/current_tasks.md`
 - 🤖 Agent guidance: `CLAUDE.md` (kept at repo root)
 
