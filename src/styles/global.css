@@ -175,6 +175,11 @@
       outline: none;
     }
 
+    /* Programmatic focus targets (skip link, in-page nav) aren't interactive; no ring. */
+    [tabindex="-1"]:focus {
+      outline: none;
+    }
+
     a:focus-visible,
     button:focus-visible,
     .btn-primary:focus-visible,
@@ -4067,6 +4072,18 @@
 
   .cred-track {
     animation: none;
+  }
+
+  /* Without the marquee, wrap the credibility items so none are clipped off-screen. */
+  .cred-track > .cred-inner[aria-hidden="true"] {
+    display: none;
+  }
+
+  .cred-track > .cred-inner {
+    flex-shrink: 1;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .cred-entry {

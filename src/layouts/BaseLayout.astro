@@ -41,6 +41,7 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1A2744" />
+    <script is:inline src="/theme-init.js"></script>
 
     <title>{title}</title>
     {description ? <meta name="description" content={description} /> : null}
@@ -76,6 +77,8 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="stylesheet" href={globalStylesHref} />
+    {/* Scroll-reveal content starts hidden and is shown by JS; keep it visible without JS. */}
+    <noscript><style is:inline>.reveal, .timeline-item { opacity: 1 !important; transform: none !important; }</style></noscript>
 
     <slot name="head" />
   </head>

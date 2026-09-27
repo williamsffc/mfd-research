@@ -166,7 +166,8 @@ While the website remains fully static with no backend database, submissions are
   - `src/data/credibility.ts`
   - `src/data/experiences.ts`
   - `src/data/faqs.ts`
-  - `src/data/heroStats.ts` (Note: "Industry Experience" is dynamically calculated from `startYear = 2006` during the build)
+  - `src/data/heroStats.ts`
+  - `src/data/company.ts` — career start year (2006); years of experience is computed at build time and reused by the hero, credibility bar, About copy, meta description, and JSON-LD
   - `src/data/services.ts`
   - `src/data/specialties.ts`
 - 🧱 **Sections**: edit individual section structures under `src/components/`

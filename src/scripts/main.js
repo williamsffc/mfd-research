@@ -194,14 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Character counter for textarea
     const messageTextarea = form.querySelector('#message');
     const charCount = document.getElementById('message-count');
-    if (messageTextarea && charCount) {
+    function updateCharCount() {
+      if (!messageTextarea || !charCount) return;
       const maxLen = parseInt(messageTextarea.getAttribute('maxlength'), 10) || 5000;
-      messageTextarea.addEventListener('input', () => {
-        const remaining = messageTextarea.value.length;
-        charCount.textContent = `${remaining} / ${maxLen}`;
-        charCount.classList.toggle('char-count--warning', remaining >= maxLen * 0.9);
-      });
+      const used = messageTextarea.value.length;
+      charCount.textContent = `${used} / ${maxLen}`;
+      charCount.classList.toggle('char-count--warning', used >= maxLen * 0.9);
     }
+    if (messageTextarea) messageTextarea.addEventListener('input', updateCharCount);
 
     /**
      * Validate a single form field
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Handle form submission with validation and error handling
-     * Submits to Netlify Forms with async/await
+     * Submits to Web3Forms with async/await
      */
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
           showSuccessMessage();
           form.reset();
           inputs.forEach(input => input.classList.remove('valid'));
+          updateCharCount();
         } else {
           throw new Error(result.message || 'Form submission failed');
         }
@@ -471,26 +472,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Smooth scrolling for anchor links
-   * Uses event delegation for better performance
+   * Uses event delegation for better performance. The header offset comes from each
+   * section's CSS `scroll-margin-top`. Focus moves to the target so keyboard and
+   * screen-reader users land where they navigated (e.g. the skip link), and the URL
+   * hash is updated so the location can be shared or bookmarked.
    */
   function setupSmoothScroll() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
     // Event delegation for smooth scrolling
     document.addEventListener('click', (e) => {
       const anchor = e.target.closest('a[href*="#"]:not([href="#"])');
       if (!anchor) return;
 
       const targetElement = getInPageHashTarget(anchor);
+      if (!targetElement) return;
 
-      if (targetElement) {
-        e.preventDefault();
-        const headerOffset = 96;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      e.preventDefault();
+      targetElement.scrollIntoView({
+        behavior: reducedMotion.matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+      if (!targetElement.hasAttribute('tabindex')) {
+        targetElement.setAttribute('tabindex', '-1');
+      }
+      targetElement.focus({ preventScroll: true });
+
+      const hash = `#${targetElement.id}`;
+      if (targetElement.id && window.location.hash !== hash) {
+        history.pushState(null, '', hash);
       }
     });
   }
@@ -606,6 +617,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function setupCountingStats() {
     const elements = document.querySelectorAll('[data-count]');
     if (!elements.length) return;
+    // Server-rendered text already shows the final value; skip the animation.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

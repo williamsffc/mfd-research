@@ -1,3 +1,5 @@
+import { yearsExperience } from './company';
+
 /**
  * Hero Stats Data
  * 
@@ -16,9 +18,6 @@ export type HeroStat = {
   /** Optional: The suffix appended to the counter animation. */
   dataSuffix?: string;
 };
-
-const startYear = 2006;
-const yearsExperience = new Date().getFullYear() - startYear;
 
 export const heroStats: HeroStat[] = [
   {
