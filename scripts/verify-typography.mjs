@@ -62,18 +62,22 @@ for (const line of cssLines) {
 if (tokenFamilies.size === 0) fail(cssPath, 1, 'no --font-* tokens found in :root');
 
 /**
- * Every `var(--x)` inside a value — bare or nested in clamp()/calc() — must point
- * at a property defined in this file (catches typos). Returns true if any var() was found.
+ * Every `var(--x)` inside a value — bare or nested in clamp() — must point at a
+ * property defined in this file (catches typos). This validates references only;
+ * whether the value's overall form is allowed is decided separately per property.
  */
 function checkVarRefs(value, lineNo, prop) {
-  const refs = [...value.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]);
-  for (const ref of refs) {
+  for (const [, ref] of value.matchAll(/var\((--[a-z0-9-]+)/g)) {
     if (!definedProps.has(ref)) {
       fail(cssPath, lineNo, `${prop} references ${ref}, which is not defined anywhere in global.css`);
     }
   }
-  return refs.length > 0;
 }
+
+/** The value is exactly one custom-property reference, e.g. `var(--eyebrow-size)`. */
+const isBareVar = (value) => /^var\(--[a-z0-9-]+\)$/.test(value);
+/** The value is exactly one clamp() expression (fluid display sizes). */
+const isClamp = (value) => /^clamp\(.*\)$/.test(value);
 
 // Pass 2: validate each typography declaration.
 for (const [i, line] of cssLines.entries()) {
@@ -107,7 +111,7 @@ for (const [i, line] of cssLines.entries()) {
       if (!FONT_SIZE_SCALE.has(Number(px[1]))) {
         fail(cssPath, lineNo, `font-size ${value} is off the scale (${[...FONT_SIZE_SCALE].join(', ')} px)`);
       }
-    } else if (/^(clamp|var)\(/.test(value)) {
+    } else if (isClamp(value) || isBareVar(value)) {
       checkVarRefs(value, lineNo, 'font-size');
     } else if (value !== '0' && value !== 'inherit') {
       fail(cssPath, lineNo, `font-size must be px from the scale, clamp() or var(), got "${value}"`);
@@ -118,7 +122,9 @@ for (const [i, line] of cssLines.entries()) {
   if (weight) {
     checks++;
     const value = weight[1].trim();
-    if (!FONT_WEIGHTS.has(value) && !checkVarRefs(value, lineNo, 'font-weight') && value !== 'inherit') {
+    if (isBareVar(value)) {
+      checkVarRefs(value, lineNo, 'font-weight');
+    } else if (!FONT_WEIGHTS.has(value) && value !== 'inherit') {
       fail(cssPath, lineNo, `font-weight ${value} is not one of ${[...FONT_WEIGHTS].join('/')}`);
     }
   }
@@ -127,7 +133,9 @@ for (const [i, line] of cssLines.entries()) {
   if (tracking) {
     checks++;
     const value = tracking[1].trim();
-    if (!/^-?\d*\.?\d+em$/.test(value) && !checkVarRefs(value, lineNo, 'letter-spacing') && value !== 'normal' && value !== '0') {
+    if (isBareVar(value)) {
+      checkVarRefs(value, lineNo, 'letter-spacing');
+    } else if (!/^-?\d*\.?\d+em$/.test(value) && value !== 'normal' && value !== '0') {
       fail(cssPath, lineNo, `letter-spacing must be em-based (or var()), got "${value}"`);
     }
   }
