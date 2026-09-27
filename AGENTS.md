@@ -10,7 +10,8 @@ npm run build         # Static production build (output: dist/)
 npm run preview       # Preview production build locally
 npm run verify:parity # After build: checks public CSS/JS vs root (if present) + dist HTML hooks
 npm run test:a11y     # Build output + accessibility / invariant checks
-npm run test          # build + verify:parity + test:a11y
+npm run verify:sw-precache # After build: checks service-worker precache URLs exist in dist/
+npm run test          # build + verify:parity + verify:sw-precache + test:a11y
 ```
 
 Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build command `npm run build` and publish directory `dist/`.

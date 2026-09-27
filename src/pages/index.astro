@@ -20,6 +20,9 @@ import Faq from '../components/Faq.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
+if (!web3formsAccessKey) {
+  console.warn('[mfd-research] PUBLIC_WEB3FORMS_ACCESS_KEY is not set; the contact form will not send.');
+}
 
 const title = 'MFD Research';
 const ogTitle = 'MFD Research | Where Expertise Meets Execution';

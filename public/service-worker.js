@@ -8,31 +8,31 @@
  * - Images: Cache first with size limits
  */
 
-const CACHE_VERSION = 'mfd-research-v1';
-const RUNTIME_CACHE = 'mfd-runtime';
+// The placeholder below is replaced with a per-build id (see astro.config.mjs).
+const BUILD_VERSION = '__BUILD_VERSION__';
+const CACHE_VERSION = `mfd-research-${BUILD_VERSION}`;
+const RUNTIME_CACHE = `mfd-runtime-${BUILD_VERSION}`;
 
 // Assets to cache immediately on install
 const PRECACHE_URLS = [
   '/',
-  '/index.html',
   '/assets/mfd-logo.jpg',
   '/assets/favicon.svg',
 ];
 
 // Cache size limits (in items)
 const MAX_CACHE_SIZE = 50;
+const MAX_PAGE_CACHE_SIZE = 20;
 const CACHEABLE_DESTINATIONS = new Set(['script', 'style', 'image', 'font']);
 
 /**
  * Install event - cache critical assets
  */
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing...');
 
   event.waitUntil(
     caches.open(CACHE_VERSION)
       .then((cache) => {
-        console.log('[Service Worker] Precaching app shell');
         return cache.addAll(PRECACHE_URLS);
       })
       .then(() => self.skipWaiting()) // Activate immediately
@@ -43,7 +43,6 @@ self.addEventListener('install', (event) => {
  * Activate event - clean up old caches
  */
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating...');
 
   event.waitUntil(
     caches.keys()
@@ -55,7 +54,6 @@ self.addEventListener('activate', (event) => {
               return cacheName !== CACHE_VERSION && cacheName !== RUNTIME_CACHE;
             })
             .map((cacheName) => {
-              console.log('[Service Worker] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             })
         );
@@ -88,11 +86,14 @@ self.addEventListener('fetch', (event) => {
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const responseToCache = networkResponse.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(request, responseToCache));
+            caches.open(CACHE_VERSION).then(async (cache) => {
+              await cache.put(request, responseToCache);
+              await trimCache(CACHE_VERSION, MAX_PAGE_CACHE_SIZE, PRECACHE_URLS);
+            });
           }
           return networkResponse;
         })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match('/index.html')))
+        .catch(() => caches.match(request).then((cached) => cached || caches.match('/')))
     );
     return;
   }
@@ -129,7 +130,7 @@ self.addEventListener('fetch', (event) => {
           })
           .catch(() => {
             // Network failed - try to return offline page or fallback
-            return caches.match('/index.html');
+            return caches.match('/');
           });
       })
   );
@@ -159,17 +160,17 @@ function updateCache(request) {
  * Limit cache size by removing oldest entries
  * @param {string} cacheName - Name of the cache to trim
  * @param {number} maxItems - Maximum number of items to keep
+ * @param {string[]} [keep] - Paths that must never be evicted
  */
-async function trimCache(cacheName, maxItems) {
+async function trimCache(cacheName, maxItems, keep = []) {
   const cache = await caches.open(cacheName);
-  const keys = await cache.keys();
+  const keepSet = new Set(keep.map((path) => new URL(path, self.location.origin).href));
+  const keys = (await cache.keys()).filter((key) => !keepSet.has(key.url));
 
-  if (keys.length > maxItems) {
-    // Remove oldest items
-    const itemsToDelete = keys.length - maxItems;
-    for (let i = 0; i < itemsToDelete; i++) {
-      await cache.delete(keys[i]);
-    }
+  // Remove oldest items (keys are in insertion order); pinned entries are never evicted
+  const itemsToDelete = keys.length - maxItems;
+  for (let i = 0; i < itemsToDelete; i++) {
+    await cache.delete(keys[i]);
   }
 }
 
@@ -199,4 +200,3 @@ self.addEventListener('message', (event) => {
   }
 });
 
-console.log('[Service Worker] Loaded');
