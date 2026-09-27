@@ -1,3 +1,5 @@
+import { yearsExperience } from './company';
+
 /**
  * Credibility Data
  * 
@@ -16,9 +18,6 @@ export type CredibilityItem = {
   /** Optional: The suffix appended to the counter animation (e.g., "+"). */
   dataSuffix?: string;
 };
-
-const startYear = 2006;
-const yearsExperience = new Date().getFullYear() - startYear;
 
 export const credibility: CredibilityItem[] = [
   {

@@ -1,6 +1,7 @@
 ---
-// Homepage: layout + SEO head; sections live in `src/components/` (migration Phase 8).
-// Static assets: `public/` (style.css, script.js, assets/, SEO/PWA files).
+// Homepage: layout + SEO head; sections live in `src/components/`.
+// Styles/behavior are bundled from `src/styles/global.css` and `src/scripts/main.js`;
+// static assets and SEO/PWA files live in `public/`.
 import { Fragment } from 'astro/jsx-runtime';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
@@ -18,6 +19,8 @@ import Conferences from '../components/Conferences.astro';
 import WhyMFD from '../components/WhyMFD.astro';
 import Faq from '../components/Faq.astro';
 import ContactCTA from '../components/ContactCTA.astro';
+import { siteDescription } from '../data/company';
+import { faqs } from '../data/faqs';
 
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 if (!web3formsAccessKey) {
@@ -26,9 +29,59 @@ if (!web3formsAccessKey) {
 
 const title = 'MFD Research';
 const ogTitle = 'MFD Research | Where Expertise Meets Execution';
-const description =
-  'MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion.';
+const description = siteDescription;
 const canonical = 'https://mfdresearch.com/';
+
+// JSON-LD is generated from the same data the page renders so the FAQ markup can't drift
+// from the visible accordion (a Google rich-results requirement).
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://mfdresearch.com/#organization',
+      name: 'MFD Research LLC',
+      url: 'https://mfdresearch.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://mfdresearch.com/assets/favicon.svg',
+      },
+      description,
+      email: 'info@mfdresearch.com',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'US',
+        addressRegion: 'CA',
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'Customer Service',
+        email: 'info@mfdresearch.com',
+        availableLanguage: 'English',
+      },
+      founder: {
+        '@type': 'Person',
+        name: 'Michael Delgado',
+        honorificSuffix: 'CCRC',
+        jobTitle: 'Founder & Principal',
+        sameAs: ['https://www.linkedin.com/in/mike-delgado/'],
+      },
+      sameAs: ['https://www.linkedin.com/in/mike-delgado/'],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://mfdresearch.com/#faq',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    },
+  ],
+};
 ---
 
 <BaseLayout
@@ -40,86 +93,7 @@ const canonical = 'https://mfdresearch.com/';
   ogImage="/assets/og-image.png"
 >
   <Fragment slot="head">
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://mfdresearch.com/#organization",
-        "name": "MFD Research LLC",
-        "url": "https://mfdresearch.com",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://mfdresearch.com/assets/favicon.svg"
-        },
-        "description": "MFD Research delivers 18+ years of clinical research expertise, helping pharmaceutical organizations build world-class research sites from concept to completion.",
-        "email": "info@mfdresearch.com",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "US",
-          "addressRegion": "CA"
-        },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "Customer Service",
-          "email": "info@mfdresearch.com",
-          "availableLanguage": "English"
-        },
-        "sameAs": [
-          "https://www.linkedin.com/in/mike-delgado/"
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://mfdresearch.com/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What types of organizations do you work with?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We work with pharmaceutical sponsors, biotech firms, CROs, and research sites of all sizes — from emerging Phase I sites to established multi-specialty networks. If you're building, optimizing, or remediating clinical research operations, we can help."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you work on a project or retainer basis?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Both. Short-term project engagements are available for defined deliverables such as SOP development, site assessments, or staff training programs. Ongoing advisory retainers are also available for organizations that need continuous operational support."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Are engagements confidential?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes — all client relationships are handled with complete professional discretion. We routinely sign mutual NDAs at the start of any engagement, and client details are never shared or referenced publicly."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you work with sites outside of California?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. While our founder is based in California, we support clients across the United States and can work remotely or on-site depending on the engagement type and client preference."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How quickly can an engagement begin?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Typically within 1–2 weeks of a signed agreement, depending on the scope of work. We understand that clinical research timelines are rarely forgiving, and we prioritize rapid mobilization for urgent site needs."
-            }
-          }
-        ]
-      }
-    ]
-  }
-  </script>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </Fragment>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
