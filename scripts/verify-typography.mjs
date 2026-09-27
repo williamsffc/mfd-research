@@ -26,7 +26,7 @@ const FONT_SIZE_SCALE = new Set([11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26,
 /** Loaded weight range is 300–700; anything else is synthesized by the browser. */
 const FONT_WEIGHTS = new Set(['400', '500', '600', '700']);
 /** Properties that must only ever be declared in global.css. */
-const TYPOGRAPHY_PROP = /\b(font(-[a-z]+)?|letter-spacing|line-height)\s*:/;
+const TYPOGRAPHY_PROP = /\b(font(-[a-z]+)*|letter-spacing|line-height)\s*:/;
 
 const failures = [];
 let checks = 0;
@@ -61,14 +61,18 @@ for (const line of cssLines) {
 }
 if (tokenFamilies.size === 0) fail(cssPath, 1, 'no --font-* tokens found in :root');
 
-/** A `var(--x)` value must point at a property defined in this file (catches typos). */
-function isDefinedVar(value, lineNo, prop) {
-  const ref = value.match(/^var\((--[a-z0-9-]+)\)$/);
-  if (!ref) return false;
-  if (!definedProps.has(ref[1])) {
-    fail(cssPath, lineNo, `${prop} references ${ref[1]}, which is not defined anywhere in global.css`);
+/**
+ * Every `var(--x)` inside a value — bare or nested in clamp()/calc() — must point
+ * at a property defined in this file (catches typos). Returns true if any var() was found.
+ */
+function checkVarRefs(value, lineNo, prop) {
+  const refs = [...value.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]);
+  for (const ref of refs) {
+    if (!definedProps.has(ref)) {
+      fail(cssPath, lineNo, `${prop} references ${ref}, which is not defined anywhere in global.css`);
+    }
   }
-  return true;
+  return refs.length > 0;
 }
 
 // Pass 2: validate each typography declaration.
@@ -103,7 +107,9 @@ for (const [i, line] of cssLines.entries()) {
       if (!FONT_SIZE_SCALE.has(Number(px[1]))) {
         fail(cssPath, lineNo, `font-size ${value} is off the scale (${[...FONT_SIZE_SCALE].join(', ')} px)`);
       }
-    } else if (!isDefinedVar(value, lineNo, 'font-size') && !/^clamp\(/.test(value) && value !== '0' && value !== 'inherit') {
+    } else if (/^(clamp|var)\(/.test(value)) {
+      checkVarRefs(value, lineNo, 'font-size');
+    } else if (value !== '0' && value !== 'inherit') {
       fail(cssPath, lineNo, `font-size must be px from the scale, clamp() or var(), got "${value}"`);
     }
   }
@@ -112,7 +118,7 @@ for (const [i, line] of cssLines.entries()) {
   if (weight) {
     checks++;
     const value = weight[1].trim();
-    if (!FONT_WEIGHTS.has(value) && !isDefinedVar(value, lineNo, 'font-weight') && value !== 'inherit') {
+    if (!FONT_WEIGHTS.has(value) && !checkVarRefs(value, lineNo, 'font-weight') && value !== 'inherit') {
       fail(cssPath, lineNo, `font-weight ${value} is not one of ${[...FONT_WEIGHTS].join('/')}`);
     }
   }
@@ -121,7 +127,7 @@ for (const [i, line] of cssLines.entries()) {
   if (tracking) {
     checks++;
     const value = tracking[1].trim();
-    if (!/^-?\d*\.?\d+em$/.test(value) && !isDefinedVar(value, lineNo, 'letter-spacing') && value !== 'normal' && value !== '0') {
+    if (!/^-?\d*\.?\d+em$/.test(value) && !checkVarRefs(value, lineNo, 'letter-spacing') && value !== 'normal' && value !== '0') {
       fail(cssPath, lineNo, `letter-spacing must be em-based (or var()), got "${value}"`);
     }
   }
