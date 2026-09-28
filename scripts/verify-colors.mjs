@@ -127,6 +127,8 @@ const PAIRS = [
   ['Credential text on dark sections', 'var(--cred-entry-text)', 'var(--section-accent-bg)', 4.5],
   ['Footer links', 'var(--footer-text-50)', 'var(--footer-bg)', 4.5],
   ['Footer headings', 'var(--footer-text-70)', 'var(--footer-bg)', 4.5],
+  ['Footer booking button', 'var(--footer-cta-text)', 'var(--footer-cta-bg)', 4.5],
+  ['Footer booking button (hover)', 'var(--footer-cta-text)', 'var(--footer-cta-hover-bg)', 4.5],
   ['Specialty tag text', 'rgb(var(--c-green-800))', 'var(--green-pale)', 4.5, 'light'],
 ];
 for (const [label, fgExpr, bgExpr, min, only] of PAIRS) {
