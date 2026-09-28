@@ -19,7 +19,7 @@ MFD Research helps sponsors, CROs, biotech organizations, and research sites bui
 
 ### Founder Validation
 
-MFD Research was founded by Michael Delgado, CCRC, a clinical research operations leader with 20+ years of experience (since 2006; the site computes this at build time from `src/data/company.ts`) across site operations, sponsor relationships, regulatory readiness, staff training, and multi-therapeutic trial execution.
+MFD Research was founded by Michael Delgado, CCRC, a clinical research operations leader with 20+ years of experience (since 2006; the site computes this at build time from `careerStartYear` in `content/site.json`) across site operations, sponsor relationships, regulatory readiness, staff training, and multi-therapeutic trial execution.
 
 Michael should appear on the site as the founder/principal authority behind the business, but the website should remain branded around MFD Research as the company.
 

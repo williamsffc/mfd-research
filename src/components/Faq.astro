@@ -1,22 +1,22 @@
 ---
-import { faqs } from '../data/faqs';
+import { faq } from '../data/content';
 ---
 
 <section id="faq">
-  <div class="section-label reveal">Common Questions</div>
-  <h2 class="section-title reveal reveal-delay-1">Frequently Asked Questions</h2>
-  <p class="section-sub reveal reveal-delay-2">Everything you need to know before reaching out.</p>
+  <div class="section-label reveal">{faq.label}</div>
+  <h2 class="section-title reveal reveal-delay-1">{faq.title}</h2>
+  <p class="section-sub reveal reveal-delay-2">{faq.intro}</p>
   <div class="faq-list reveal reveal-delay-2">
-    {faqs.map((faq, index) => {
+    {faq.questions.map((item, index) => {
       const answerId = `faq-${index + 1}`;
       return (
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false" aria-controls={answerId}>
-            {faq.question}
+            {item.question}
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" id={answerId} hidden>
-            <p>{faq.answer}</p>
+            <p>{item.answer}</p>
           </div>
         </div>
       );

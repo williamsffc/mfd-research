@@ -162,16 +162,7 @@ While the website remains fully static with no backend database, submissions are
 ## 🎛️ Customization guide
 
 - 🎨 **Theme/colors**: edit the palette block at the top of `:root` in `src/styles/global.css` (rules and logo files: `docs/colors.md`)
-- 🧩 **Data-driven homepage content**: All homepage grids, timelines, accordions, and repeatable stats are managed via Strongly-Typed data files. Do not edit HTML components to update list content. Edit the following files instead:
-  - `src/data/conferences.ts`
-  - `src/data/credentials.ts`
-  - `src/data/credibility.ts`
-  - `src/data/experiences.ts`
-  - `src/data/faqs.ts`
-  - `src/data/heroStats.ts`
-  - `src/data/company.ts` — career start year (2006); years of experience is computed at build time and reused by the hero, credibility bar, About copy, meta description, and JSON-LD
-  - `src/data/services.ts`
-  - `src/data/specialties.ts`
+- 🧩 **Homepage text**: every section's wording lives in `content/*.json`, one file per section (hero, about, services, conferences, FAQ, contact…). Edit those, not the components; `npm run verify:content` checks them and runs before every build. Guide: `docs/content.md`
 - 🧱 **Sections**: edit individual section structures under `src/components/`
 - 🧾 **Legal pages**: `src/pages/privacy-policy/index.astro` and `src/pages/terms-of-service/index.astro`
 - 🔤 **Fonts**: self-hosted WOFF2 files in `public/assets/fonts/`, declared with `@font-face` at the top of `src/styles/global.css` (see `docs/typography.md`)

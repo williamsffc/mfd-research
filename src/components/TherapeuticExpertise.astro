@@ -1,17 +1,16 @@
 ---
-import { specialties } from '../data/specialties';
+import { specialties } from '../data/content';
 ---
 
 <section id="specialties">
-  <div class="section-label reveal">Therapeutic Expertise</div>
-  <h2 class="section-title reveal reveal-delay-1">Clinical Specialties</h2>
-  <p class="section-sub reveal reveal-delay-2">Deep operational experience across a broad range of therapeutic areas
-    and trial phases.</p>
+  <div class="section-label reveal">{specialties.label}</div>
+  <h2 class="section-title reveal reveal-delay-1">{specialties.title}</h2>
+  <p class="section-sub reveal reveal-delay-2">{specialties.intro}</p>
   <div class="specialties-grid">
-    {specialties.map((item, index) => (
+    {specialties.groups.map((item, index) => (
       <div class={`specialty-group reveal reveal-delay-${(index % 4) + 1}`}>
         <div class="specialty-group-title">
-          <span class="specialty-group-icon" aria-hidden="true">{item.icon}</span> {item.name}
+          <span class="specialty-group-icon" aria-hidden="true">{item.emoji}</span> {item.name}
         </div>
         <div class="specialty-tags">
           {item.tags.map(tag => (

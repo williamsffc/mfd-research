@@ -1,5 +1,6 @@
 ---
 import Button from './Button.astro';
+import { contact, site } from '../data/content';
 export interface Props {
   web3formsAccessKey: string;
 }
@@ -9,31 +10,29 @@ const { web3formsAccessKey } = Astro.props;
 <section id="contact">
   <div class="contact-grid">
     <div>
-      <div class="section-label reveal">Get In Touch</div>
-      <h2 class="section-title reveal reveal-delay-1">Ready to Elevate Your Research Operations?</h2>
-      <p class="section-sub contact-intro reveal reveal-delay-2">We welcome inquiries from
-        pharmaceutical sponsors, biotech organizations, CROs, and emerging research sites. All consultations are
-        confidential.</p>
+      <div class="section-label reveal">{contact.label}</div>
+      <h2 class="section-title reveal reveal-delay-1">{contact.title}</h2>
+      <p class="section-sub contact-intro reveal reveal-delay-2">{contact.intro}</p>
       <div class="contact-info-block">
         <div class="contact-info-item reveal reveal-delay-2">
           <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
           <div>
             <div class="contact-info-label">Email</div>
-            <div class="contact-info-value"><a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a></div>
+            <div class="contact-info-value"><a href={`mailto:${site.email}`}>{site.email}</a></div>
           </div>
         </div>
         <div class="contact-info-item reveal reveal-delay-3">
           <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
           <div>
             <div class="contact-info-label">Confidentiality</div>
-            <div class="contact-info-value">All inquiries treated with strict confidentiality</div>
+            <div class="contact-info-value">{contact.confidentiality}</div>
           </div>
         </div>
         <div class="contact-info-item reveal reveal-delay-4">
           <div class="contact-info-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           <div>
             <div class="contact-info-label">Response Time</div>
-            <div class="contact-info-value">We respond within 1–2 business days</div>
+            <div class="contact-info-value">{contact.responseTime}</div>
           </div>
         </div>
         <div class="contact-info-item reveal reveal-delay-4">
@@ -41,7 +40,7 @@ const { web3formsAccessKey } = Astro.props;
           <div>
             <div class="contact-info-label">Schedule</div>
             <div class="contact-info-value">
-              <a href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" target="_blank" rel="noopener noreferrer">Schedule a Confidential Consultation</a>
+              <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer">{contact.scheduleLink}</a>
             </div>
           </div>
         </div>
@@ -50,7 +49,7 @@ const { web3formsAccessKey } = Astro.props;
           <div>
             <div class="contact-info-label">LinkedIn</div>
             <div class="contact-info-value">
-              <a href="https://www.linkedin.com/in/mike-delgado/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+              <a href={site.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLink}</a>
             </div>
           </div>
         </div>
@@ -86,13 +85,9 @@ const { web3formsAccessKey } = Astro.props;
           <label for="service">Area of Interest</label>
           <select id="service" name="service">
             <option value="">Select a service…</option>
-            <option value="site-development">Site Development &amp; Strategy</option>
-            <option value="regulatory-compliance">Regulatory Compliance &amp; GCP</option>
-            <option value="quality-management">Quality Management Systems</option>
-            <option value="trial-management">Multi-Specialty Trial Management</option>
-            <option value="staff-training">Staff Training &amp; Development</option>
-            <option value="operational-assessment">Operational Assessment &amp; Remediation</option>
-            <option value="general">General Inquiry</option>
+            {contact.interestOptions.map(option => (
+              <option value={option}>{option}</option>
+            ))}
           </select>
         </div>
         <div class="form-group">

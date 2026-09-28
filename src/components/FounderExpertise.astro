@@ -1,13 +1,13 @@
 ---
-import { experiences } from '../data/experiences';
+import { experience } from '../data/content';
 ---
 
 <section id="experience">
-  <div class="section-label reveal">Operating Experience</div>
-  <h2 class="section-title reveal reveal-delay-1">Founder-Led Operating Experience</h2>
-  <p class="section-sub reveal reveal-delay-2">Practical clinical research leadership across site operations, sponsor engagement, quality systems, team development, and site strategy.</p>
+  <div class="section-label reveal">{experience.label}</div>
+  <h2 class="section-title reveal reveal-delay-1">{experience.title}</h2>
+  <p class="section-sub reveal reveal-delay-2">{experience.intro}</p>
   <div class="timeline">
-    {experiences.map(item => (
+    {experience.roles.map(item => (
       <div class="timeline-item">
         <div class={`timeline-dot ${item.endYear === null ? 'current' : ''}`}></div>
         <div class="timeline-year">{item.startYear}–{item.endYear === null ? 'Present' : item.endYear}</div>

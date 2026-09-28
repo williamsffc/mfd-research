@@ -1,0 +1,22 @@
+{
+  "label": "Why MFD Research",
+  "title": "What Sets Us Apart",
+  "intro": "Our consulting is grounded in real operational experience — not advisory theory.",
+  "cards": [
+    {
+      "title": "Site-Level Authority",
+      "description": "Our founder has held director-level roles at high-volume, multi-sponsor research sites — giving you access to insight that only comes from running operations firsthand.",
+      "icon": "home"
+    },
+    {
+      "title": "Full-Spectrum Experience",
+      "description": "From first-in-human Phase I studies through pivotal Phase III trials — across 10+ therapeutic areas — we understand the full complexity of clinical program execution.",
+      "icon": "activity"
+    },
+    {
+      "title": "Confidential Engagements",
+      "description": "All client relationships are handled with complete professional discretion. Whether advising on a sensitive site remediation or a competitive launch strategy, your business stays private.",
+      "icon": "lock"
+    }
+  ]
+}
