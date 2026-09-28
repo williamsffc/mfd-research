@@ -1,6 +1,6 @@
 # 🧪 MFD Research Website
 
-Marketing website for **MFD Research Group LLC** — clinical research consulting focused on site development, regulatory compliance, and trial execution.
+Marketing website for **MFD Research** (MFD Research Group LLC) — clinical research consulting focused on site development, regulatory compliance, and trial execution.
 
 - 🚀 **Astro** static site (no React/Vue)
 - 🎨 **All styling** bundled from `src/styles/global.css`
