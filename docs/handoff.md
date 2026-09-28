@@ -105,10 +105,10 @@ Preserve:
 Referenced but missing assets:
 
 ```text
-assets/favicon-32x32.png
-assets/favicon-16x16.png
-assets/apple-touch-icon.png
-assets/og-image.png
+assets/favicon-32x32-v2.png
+assets/favicon-16x16-v2.png
+assets/apple-touch-icon-v2.png
+assets/og-image-v2.png
 ```
 
 Current form key placeholder:

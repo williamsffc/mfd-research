@@ -4,17 +4,17 @@
   "description": "Founder-led clinical research operations consulting",
   "icons": [
     {
-      "src": "assets/favicon-16x16.png",
+      "src": "assets/favicon-16x16-v2.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "assets/favicon-32x32.png",
+      "src": "assets/favicon-32x32-v2.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "assets/apple-touch-icon.png",
+      "src": "assets/apple-touch-icon-v2.png",
       "sizes": "180x180",
       "type": "image/png"
     },
@@ -29,7 +29,7 @@
       "type": "image/png"
     },
     {
-      "src": "assets/favicon.svg",
+      "src": "assets/favicon-v2.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
