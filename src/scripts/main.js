@@ -176,7 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
 
     const submitBtn = form.querySelector('.form-submit');
-    const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message →';
+    // Change only the label so the button keeps its arrow segment.
+    const submitLabel = submitBtn ? submitBtn.querySelector('.btn-label') || submitBtn : null;
+    const originalBtnText = submitLabel ? submitLabel.textContent : 'Send Message';
     const statusRegion = document.getElementById('contact-status');
 
     // Real-time validation feedback
@@ -290,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show loading state
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending…';
+        submitLabel.textContent = 'Sending…';
         submitBtn.classList.add('loading');
       }
 
@@ -330,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
+          submitLabel.textContent = originalBtnText;
           submitBtn.classList.remove('loading');
         }
       }

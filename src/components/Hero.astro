@@ -1,4 +1,5 @@
 ---
+import Button from './Button.astro';
 import { heroStats } from '../data/heroStats';
 ---
 <section id="hero">
@@ -8,8 +9,8 @@ import { heroStats } from '../data/heroStats';
     <h1 class="hero-title">Clinical Research Operations<br />Built for <span>Execution</span></h1>
     <p class="hero-sub">MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.</p>
     <div class="hero-actions">
-      <a href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" class="btn-primary" target="_blank" rel="noopener noreferrer">Schedule a Confidential Consultation</a>
-      <a href="#services" class="btn-secondary">View Consulting Services</a>
+      <Button href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" external>Schedule a Confidential Consultation</Button>
+      <Button href="#services" variant="outline">View Consulting Services</Button>
     </div>
   </div>
 
