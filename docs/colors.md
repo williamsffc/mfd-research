@@ -47,6 +47,9 @@ it may reference the palette directly with an alpha:
 4. **Primary buttons use the action tokens:** `--action-bg`, `--action-text`,
    `--action-hover-bg`, `--action-hover-text`. Don't style a new call-to-action with
    `--navy` directly; dark mode needs it to become green.
+   Build buttons with `<Button />` (`src/components/Button.astro`); its variants
+   (`solid`, `outline`, `accent` for the footer, `on-dark` for navy sections) and the
+   `--btn-*` tokens cover every case on the site.
 5. **Watch opacity on text.** `opacity` and `rgb(… / alpha)` both fade text toward its
    background. The check covers the token pairs, but not every rule that lowers opacity.
    If you fade text, measure the result.

@@ -1,4 +1,5 @@
 ---
+import Button from './Button.astro';
 export interface Props {
   web3formsAccessKey: string;
 }
@@ -100,7 +101,7 @@ const { web3formsAccessKey } = Astro.props;
             placeholder="Tell us about your research needs or project..." aria-describedby="message-count"></textarea>
           <div id="message-count" class="char-count" aria-live="polite">0 / 5000</div>
         </div>
-        <button type="submit" class="form-submit">Send Message →</button>
+        <Button type="submit" class="form-submit">Send Message</Button>
       </form>
       <p id="contact-status" class="form-status" aria-live="polite"></p>
     </div>

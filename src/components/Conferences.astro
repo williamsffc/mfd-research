@@ -1,4 +1,5 @@
 ---
+import Button from './Button.astro';
 import { conferences, formatConferenceDate } from '../data/conferences';
 
 function safeIsoTime(iso?: string) {
@@ -44,9 +45,9 @@ const rest = conferences
 
       {featured.ctaUrl ? (
         <div class="conference-actions">
-          <a class="conference-cta" href={featured.ctaUrl} target="_blank" rel="noopener noreferrer">
+          <Button href={featured.ctaUrl} external variant="on-dark" class="conference-cta">
             {featured.ctaLabel ?? 'Schedule a Meeting'}
-          </a>
+          </Button>
         </div>
       ) : null}
     </article>

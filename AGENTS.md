@@ -61,6 +61,7 @@ Full rules: `docs/colors.md`. The short version:
 - **No colors in `.astro` files** — icons use `stroke="var(--green)"` or `currentColor`. Only exception: `<meta name="theme-color">`.
 - **Text must pass WCAG AA (4.5:1) in light and dark mode**; the check resolves key token pairs and fails below 4.5:1. Fading text with `opacity` counts — measure it.
 - **Primary buttons use `--action-bg/--action-text/--action-hover-*`**, not `--navy` (dark mode turns them green).
+- **Buttons:** use `<Button />` (`src/components/Button.astro`: `solid` / `outline` / `accent` / `on-dark`), never a hand-styled link. 8px corners, arrow in its own segment. Tags and chips stay pills.
 - **Greens are one family matched to the logo** (`#5ABC69` bars); don't add new shades.
 - **Logo:** use `<Logo />` (`src/components/Logo.astro`), never an `<img>` of a raster logo. Standalone files: `public/assets/logo-v2.svg`, `logo-reversed-v2.svg`.
 - **Files in `public/assets/` are cached by browsers for a year** (`public/_headers`): never overwrite one with new content — save it under a new name (bump the `-vN` suffix) and update the references.
