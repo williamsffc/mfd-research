@@ -294,8 +294,10 @@
       font: inherit;
     }
 
+    /* Menu links land the section label ~28px under the 72px nav, not the section's
+       top padding (which would leave a large empty gap above the heading). */
     main section[id] {
-      scroll-margin-top: 96px;
+      scroll-margin-top: calc(100px - var(--section-pad-y));
     }
 
     html.nav-open,
@@ -1348,15 +1350,27 @@
       margin: 0 auto;
     }
 
-    .timeline::before {
+    /* Rail: a neutral track, and a green fill that grows down to the active role's
+       dot as you scroll (height set by setupTimelineHighlight in main.js). */
+    .timeline::before,
+    .timeline::after {
       content: '';
       position: absolute;
       left: 0;
       top: 10px;
-      bottom: 10px;
       width: 2px;
       border-radius: 2px;
-      background: linear-gradient(to bottom, var(--green) 0%, var(--border) 55%, var(--border) 100%);
+    }
+
+    .timeline::before {
+      bottom: 10px;
+      background: var(--border);
+    }
+
+    .timeline::after {
+      height: var(--timeline-fill, 0px);
+      background: var(--green);
+      transition: height 0.45s ease;
     }
 
     .timeline-item {
@@ -1383,15 +1397,16 @@
       transform: translateX(0);
     }
 
-    /* Baseline “card surface” so the active border doesn't flash in/out */
-    :root:not([data-theme="dark"]) .timeline-item.visible {
+    /* Baseline “card surface”. The theme prefix is wrapped in :where() so it adds no
+       specificity; otherwise it outranks .is-active and the active card never changes. */
+    :where(:root:not([data-theme="dark"])) .timeline-item.visible {
       background:
         linear-gradient(180deg, rgb(var(--c-white) / 0.72) 0%, rgb(var(--c-slate-50) / 0.58) 100%) padding-box,
         linear-gradient(to bottom, rgb(var(--c-navy-700) / 0.10), rgb(var(--c-navy-700) / 0.06)) border-box;
       box-shadow: var(--shadow-sm);
     }
 
-    [data-theme="dark"] .timeline-item.visible {
+    :where([data-theme="dark"]) .timeline-item.visible {
       background:
         linear-gradient(180deg, rgb(var(--c-white) / 0.05) 0%, rgb(var(--c-white) / 0.02) 100%) padding-box,
         linear-gradient(to bottom, rgb(var(--c-sky-200) / 0.10), rgb(var(--c-sky-200) / 0.06)) border-box;
@@ -1407,27 +1422,30 @@
       transform: translateY(-3px);
     }
 
+    /* Centred on the rail: item starts 36px right of it; dot is 14px wide. */
     .timeline-dot {
       position: absolute;
-      left: -43px;
+      left: -42px;
       top: 50%;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: var(--card-bg);
       border: 2px solid var(--border);
-      box-shadow: 0 1px 2px rgb(var(--c-navy-600) / 0.06);
-      opacity: 0.72;
       transform: translateY(-50%) scale(1);
-      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Roles the rail has already reached */
+    .timeline-item.is-past .timeline-dot {
+      border-color: var(--green);
     }
 
     .timeline-item.is-active .timeline-dot {
       background: var(--green);
       border-color: var(--green);
-      box-shadow: 0 0 0 4px rgb(var(--c-green-600) / 0.16);
-      opacity: 1;
-      transform: translateY(-50%) scale(1.18);
+      box-shadow: 0 0 0 5px rgb(var(--c-green-600) / 0.18);
+      transform: translateY(-50%) scale(1.15);
     }
 
     .timeline-year {
@@ -1493,10 +1511,6 @@
       color: var(--green);
     }
 
-    [data-theme="dark"] .timeline::before {
-      background: linear-gradient(to bottom, var(--green) 0%, var(--border) 50%, var(--border) 100%);
-    }
-
     [data-theme="dark"] .timeline-item.is-active {
       background:
         linear-gradient(180deg, rgb(var(--c-green-400) / 0.16) 0%, rgb(var(--c-green-400) / 0.08) 100%) padding-box,
@@ -1506,7 +1520,11 @@
 
     [data-theme="dark"] .timeline-dot {
       background: var(--bg-soft);
-      box-shadow: 0 1px 2px rgb(var(--c-black) / 0.25);
+    }
+
+    [data-theme="dark"] .timeline-item.is-active .timeline-dot {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgb(var(--c-green-400) / 0.22);
     }
 
     [data-theme="dark"] .timeline-role {
@@ -4094,6 +4112,10 @@
 
   .timeline-item.is-active {
     transform: none;
+  }
+
+  .timeline::after {
+    transition: none;
   }
 
   .timeline-dot {

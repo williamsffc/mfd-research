@@ -1,24 +1,8 @@
 ---
 import Button from './Button.astro';
-import { conferences, formatConferenceDate, site } from '../data/content';
+import { conferences, formatConferenceDate } from '../data/content';
 
-function safeIsoTime(iso?: string) {
-  if (!iso) return 0;
-  const t = Date.parse(iso);
-  return Number.isFinite(t) ? t : 0;
-}
-
-const events = conferences.events;
-
-const featured =
-  events.find((c) => c.featured) ??
-  events.find((c) => c.status === 'Upcoming') ??
-  events[0];
-
-const rest = events
-  .filter((c) => c !== featured)
-  .slice()
-  .sort((a, b) => safeIsoTime(b.startDate) - safeIsoTime(a.startDate));
+const { featured, featuredButton, past: rest } = conferences;
 ---
 
 <div class="section-label reveal">{conferences.label}</div>
@@ -42,10 +26,10 @@ const rest = events
         <div><strong>Focus:</strong> {featured.focus || 'Details Pending'}</div>
       </div>
 
-      {featured.buttonLabel ? (
+      {featuredButton ? (
         <div class="conference-actions">
-          <Button href={featured.buttonUrl || site.bookingUrl} external variant="on-dark" class="conference-cta">
-            {featured.buttonLabel}
+          <Button href={featuredButton.url} external variant="on-dark" class="conference-cta">
+            {featuredButton.label}
           </Button>
         </div>
       ) : null}

@@ -44,9 +44,20 @@ into view. Text like "Global" just appears.
 shield-check, layers, layout, file-text, settings, users, bar-chart, message, home,
 lock. New icons are added in `src/data/icons.ts`.
 
-**Conferences:** dates are `YYYY-MM-DD` (only the month is shown). `status` is one of
-`"Upcoming"`, `"Attended"`, `"Details Pending"`. To add a button to the featured card,
-set `"buttonLabel"`; it links to the booking link unless you also set `"buttonUrl"`.
+**Conferences** mostly run themselves, by date:
+
+- The large card shows the **next upcoming event** (the nearest `"status": "Upcoming"`
+  date). Everything else goes under "Recent & Past Engagements", newest first.
+- When an "Upcoming" event's dates have passed, it's shown as "Attended" and moves to
+  the list automatically. (The site updates on its next deploy.)
+- If nothing is upcoming, the most recent event takes the card, without a button.
+
+So to announce a new event, add it to `events` with `"status": "Upcoming"`, and add
+`"buttonLabel": "Schedule a Meeting"` if you want the booking button (it links to the
+booking link, or to `"buttonUrl"` if you set one). Dates are `YYYY-MM-DD`; only the
+month is shown. `status` is `"Upcoming"`, `"Attended"` or `"Details Pending"`.
+`"featured": true` is only needed to pin a specific upcoming event when several are
+coming up.
 
 ## The check
 

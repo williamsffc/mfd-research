@@ -106,13 +106,43 @@ export type Conference = {
   location: string;
   status: ConferenceStatus;
   focus: string;
-  /** Shown as the large card; if none is featured, the first upcoming event is. */
+  /** Pins this event to the large card (ignored once it's over). Optional: without it, the next upcoming event is featured. */
   featured?: boolean;
-  /** Button on the featured card; links to buttonUrl, or the booking link. */
+  /** Button on the featured card while the event is ahead; links to buttonUrl, or the booking link. */
   buttonLabel?: string;
   buttonUrl?: string;
 };
-export const conferences = { ...conferencesJson, events: conferencesJson.events as Conference[] };
+/** Build date (YYYY-MM-DD, UTC). Dates are compared as text, which is safe for ISO dates. */
+const today = new Date().toISOString().slice(0, 10);
+const isOver = (event: Conference) => (event.endDate || event.startDate) < today;
+
+// An "Upcoming" event whose dates have passed is shown as "Attended", so the list stays
+// right without editing statuses by hand. (It updates on the next build/deploy.)
+const events = (conferencesJson.events as Conference[]).map((event) =>
+  event.status === 'Upcoming' && isOver(event) ? { ...event, status: 'Attended' as const } : event,
+);
+const upcoming = events
+  .filter((event) => event.status === 'Upcoming')
+  .sort((a, b) => a.startDate.localeCompare(b.startDate));
+const newestFirst = [...events].sort((a, b) => b.startDate.localeCompare(a.startDate));
+
+/**
+ * The large card: the event marked "featured" (while it hasn't passed), otherwise the
+ * next upcoming event, otherwise the most recent one. Everything else is listed under
+ * "Recent & Past Engagements", newest first.
+ */
+const featured =
+  events.find((event) => event.featured && !isOver(event)) ?? upcoming[0] ?? newestFirst[0];
+
+export const conferences = {
+  ...conferencesJson,
+  featured,
+  /** The booking button only shows while the featured event is still ahead. */
+  featuredButton: featured && featured.buttonLabel && !isOver(featured)
+    ? { label: featured.buttonLabel, url: featured.buttonUrl || siteJson.bookingUrl }
+    : null,
+  past: newestFirst.filter((event) => event !== featured),
+};
 
 const monthYear = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const monthOnly = new Intl.DateTimeFormat('en-US', { month: 'long', timeZone: 'UTC' });
