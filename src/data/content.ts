@@ -2,32 +2,57 @@
  * Site content, read from the JSON files in content/ (see docs/content.md).
  *
  * Editors change the JSON; this module only adds what's computed at build time:
- * - "{years}" in any text becomes the years of experience (from site.careerStartYear);
+ * - "{years}" anywhere in the text becomes the years of experience (from site.careerStartYear);
  * - numeric stats ("100+", "{years}+ Years") get the count-up animation attributes;
  * - icon names become inline SVG.
  * scripts/verify-content.mjs checks the JSON before every build.
  */
-import siteJson from '../../content/site.json';
-import heroJson from '../../content/hero.json';
-import credibilityJson from '../../content/credibility.json';
-import aboutJson from '../../content/about.json';
-import servicesJson from '../../content/services.json';
-import processJson from '../../content/process.json';
-import experienceJson from '../../content/experience.json';
-import specialtiesJson from '../../content/specialties.json';
-import credentialsJson from '../../content/credentials.json';
-import conferencesJson from '../../content/conferences.json';
-import whyJson from '../../content/why.json';
-import faqJson from '../../content/faq.json';
-import contactJson from '../../content/contact.json';
-import footerJson from '../../content/footer.json';
+import siteRaw from '../../content/site.json';
+import heroRaw from '../../content/hero.json';
+import credibilityRaw from '../../content/credibility.json';
+import aboutRaw from '../../content/about.json';
+import servicesRaw from '../../content/services.json';
+import processRaw from '../../content/process.json';
+import experienceRaw from '../../content/experience.json';
+import specialtiesRaw from '../../content/specialties.json';
+import credentialsRaw from '../../content/credentials.json';
+import conferencesRaw from '../../content/conferences.json';
+import whyRaw from '../../content/why.json';
+import faqRaw from '../../content/faq.json';
+import contactRaw from '../../content/contact.json';
+import footerRaw from '../../content/footer.json';
 import { iconSvg } from './icons';
 
 /** Whole years of experience, recalculated on every build. */
-export const yearsExperience = new Date().getFullYear() - siteJson.careerStartYear;
+export const yearsExperience = new Date().getFullYear() - siteRaw.careerStartYear;
 
 /** Replaces "{years}" with the current years of experience. */
 export const fill = (text: string): string => text.replaceAll('{years}', String(yearsExperience));
+
+/** Applies fill() to every text value in a content file, however deeply nested. */
+function fillAll<T>(value: T): T {
+  if (typeof value === 'string') return fill(value) as T;
+  if (Array.isArray(value)) return value.map(fillAll) as T;
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, fillAll(item)])) as T;
+  }
+  return value;
+}
+
+const siteJson = fillAll(siteRaw);
+const heroJson = fillAll(heroRaw);
+const credibilityJson = fillAll(credibilityRaw);
+const aboutJson = fillAll(aboutRaw);
+const servicesJson = fillAll(servicesRaw);
+const processJson = fillAll(processRaw);
+const experienceJson = fillAll(experienceRaw);
+const specialtiesJson = fillAll(specialtiesRaw);
+const credentialsJson = fillAll(credentialsRaw);
+const conferencesJson = fillAll(conferencesRaw);
+const whyJson = fillAll(whyRaw);
+const faqJson = fillAll(faqRaw);
+const contactJson = fillAll(contactRaw);
+const footerJson = fillAll(footerRaw);
 
 /** "100+" counts up to 100 and keeps "+"; values without a leading number don't animate. */
 function counter(value: string): { dataCount?: string; dataSuffix?: string } {
@@ -35,22 +60,20 @@ function counter(value: string): { dataCount?: string; dataSuffix?: string } {
   return match ? { dataCount: match[1], dataSuffix: match[2] } : {};
 }
 
-export const site = { ...siteJson, description: fill(siteJson.description) };
+export const site = siteJson;
 
 export const hero = {
   ...heroJson,
   stats: heroJson.stats.map((stat) => {
-    const value = fill(stat.value);
-    return { label: stat.label, value, ...counter(value), iconSvg: iconSvg(stat.icon, 20) };
+    return { label: stat.label, value: stat.value, ...counter(stat.value), iconSvg: iconSvg(stat.icon, 20) };
   }),
 };
 
 export const credibility = credibilityJson.items.map((item) => {
-  const value = fill(item.value);
-  return { value, text: item.text, ...counter(value), iconSvg: iconSvg(item.icon, 22, 'currentColor') };
+  return { value: item.value, text: item.text, ...counter(item.value), iconSvg: iconSvg(item.icon, 22, 'currentColor') };
 });
 
-export const about = { ...aboutJson, paragraphs: aboutJson.paragraphs.map(fill) };
+export const about = aboutJson;
 
 export const services = {
   ...servicesJson,

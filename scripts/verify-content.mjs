@@ -93,11 +93,15 @@ function check(value, spec, path, file) {
     case 'year':
       if (!Number.isInteger(value) || value < 1950 || value > thisYear + 1) fail(`must be a 4-digit year (no quotes), got ${JSON.stringify(value)}`);
       return;
-    case 'date':
-      if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(value))) {
-        fail(`must be a date written YYYY-MM-DD, got ${JSON.stringify(value)}`);
+    case 'date': {
+      // Date.parse rolls impossible dates over (2026-02-30 → March 2), so compare the parts.
+      const parts = typeof value === 'string' && value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      const d = parts && new Date(Date.UTC(+parts[1], +parts[2] - 1, +parts[3]));
+      if (!d || d.getUTCFullYear() !== +parts[1] || d.getUTCMonth() !== +parts[2] - 1 || d.getUTCDate() !== +parts[3]) {
+        fail(`must be a real date written YYYY-MM-DD, got ${JSON.stringify(value)}`);
       }
       return;
+    }
     case 'url':
       if (typeof value !== 'string' || !/^https:\/\/\S+$/.test(value)) {
         if (!(spec.optional && value === '')) fail(`must be a full https:// link, got ${JSON.stringify(value)}`);
