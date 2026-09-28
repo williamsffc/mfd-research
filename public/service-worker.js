@@ -16,7 +16,7 @@ const RUNTIME_CACHE = `mfd-runtime-${BUILD_VERSION}`;
 // Assets to cache immediately on install
 const PRECACHE_URLS = [
   '/',
-  '/assets/mfd-logo.jpg',
+  '/assets/logo.svg',
   '/assets/favicon.svg',
 ];
 

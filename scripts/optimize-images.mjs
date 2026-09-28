@@ -27,11 +27,11 @@ console.log('2️⃣  CLI Tools (Recommended):');
 console.log('   Install Sharp (Node.js image processor):');
 console.log('   $ npm install sharp --save-dev\n');
 console.log('   Then convert images:');
-console.log('   $ npx sharp -i assets/mfd-logo.jpg -o assets/mfd-logo.webp\n');
+console.log('   $ npx sharp -i public/assets/og-image.png -o public/assets/og-image.webp\n');
 
 console.log('3️⃣  Using ImageMagick:');
 console.log('   Install: brew install imagemagick (macOS)');
-console.log('   Convert: magick convert assets/mfd-logo.jpg assets/mfd-logo.webp\n');
+console.log('   Convert: magick convert public/assets/og-image.png public/assets/og-image.webp\n');
 
 console.log('4️⃣  Bulk Optimization:');
 console.log('   Install: npm install @squoosh/cli --save-dev');

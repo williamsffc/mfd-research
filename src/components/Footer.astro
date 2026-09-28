@@ -1,3 +1,7 @@
+---
+import Logo from './Logo.astro';
+---
+
 <!--
   Parity footer extracted from legacy homepage.
   Keep IDs/classes/links unchanged for `src/scripts/main.js` and `src/styles/global.css`.
@@ -7,12 +11,7 @@
     <div class="footer-brand">
       <div class="footer-brand-top">
         <a href="/" class="footer-brand-link">
-          <img
-            src="/assets/mfd-logo.jpg"
-            alt="MFD Research"
-            width="220" height="48"
-            loading="lazy" />
-          <span class="footer-brand-name">MFD Research</span>
+          <Logo />
         </a>
         <div class="footer-social">
           <a href="https://www.linkedin.com/in/mike-delgado/" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="MFD Research on LinkedIn">
