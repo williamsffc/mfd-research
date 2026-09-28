@@ -9,10 +9,12 @@
  *   typography declaration must be a custom property defined in the file.
  * - src/**\/*.astro: no font-*, letter-spacing or line-height declarations in
  *   inline `style=""` or `<style>` blocks — typography lives in global.css only.
- * - src/layouts/BaseLayout.astro: the single Google Fonts loader must list
- *   exactly the families defined by the --font-* tokens.
+ * - Fonts are self-hosted: each --font-* family has an @font-face at the top of
+ *   global.css whose file exists in public/, every @font-face family is used by a
+ *   token, font preloads in BaseLayout.astro point at declared files, and nothing
+ *   loads fonts from Google.
  */
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -79,10 +81,41 @@ const isBareVar = (value) => /^var\(--[a-z0-9-]+\)$/.test(value);
 /** The value is exactly one clamp() expression (fluid display sizes). */
 const isClamp = (value) => /^clamp\(.*\)$/.test(value);
 
-// Pass 2: validate each typography declaration.
+// Pass 2: validate each typography declaration. @font-face blocks are checked
+// separately: they declare the self-hosted files, so they name the family and
+// carry a weight range.
+const fontFaces = []; // { family, src, lineNo }
+let fontFace = null;
 for (const [i, line] of cssLines.entries()) {
   const lineNo = i + 1;
   const trimmed = line.trim();
+
+  if (/^@font-face\s*\{/.test(trimmed)) {
+    fontFace = { family: null, src: null, display: null, lineNo };
+    continue;
+  }
+  if (fontFace) {
+    const fam = trimmed.match(/^font-family:\s*'([^']+)';/);
+    if (fam) fontFace.family = fam[1];
+    const src = trimmed.match(/^src:\s*url\('([^']+)'\)/);
+    if (src) fontFace.src = src[1];
+    const display = trimmed.match(/^font-display:\s*([a-z]+);/);
+    if (display) fontFace.display = display[1];
+    if (trimmed.startsWith('}')) {
+      checks++;
+      const where = fontFace.lineNo;
+      if (!fontFace.family) fail(cssPath, where, "@font-face needs font-family: '<Name>';");
+      if (!fontFace.src || !fontFace.src.startsWith('/assets/fonts/')) {
+        fail(cssPath, where, "@font-face src must be url('/assets/fonts/<file>.woff2') (self-hosted)");
+      } else if (!existsSync(join(repoRoot, 'public', fontFace.src))) {
+        fail(cssPath, where, `@font-face src ${fontFace.src} does not exist in public/`);
+      }
+      if (fontFace.display !== 'swap') fail(cssPath, where, '@font-face needs font-display: swap;');
+      fontFaces.push(fontFace);
+      fontFace = null;
+    }
+    continue;
+  }
 
   const family = trimmed.match(/^font-family:\s*([^;]+);/);
   if (family) {
@@ -160,32 +193,33 @@ for (const file of walk(join(repoRoot, 'src'))) {
       }
     }
 
-    if (/fonts\.googleapis\.com\/css/.test(line) && file !== layoutPath) {
-      fail(file, lineNo, 'fonts must be loaded once, from src/layouts/BaseLayout.astro');
+    if (/fonts\.(googleapis|gstatic)\.com/.test(line)) {
+      fail(file, lineNo, 'fonts are self-hosted — declare them with @font-face in global.css, not from Google');
     }
   }
   checks++;
 }
 
-// ----------------------------------------------------------- font loader
+// -------------------------------------------------------- self-hosted fonts
+if (/fonts\.(googleapis|gstatic)\.com/.test(css)) {
+  fail(cssPath, 1, 'fonts are self-hosted — no fonts.googleapis.com / fonts.gstatic.com');
+}
+const declaredFamilies = new Set(fontFaces.map((f) => f.family));
+for (const [token, family] of tokenFamilies) {
+  checks++;
+  if (!declaredFamilies.has(family)) fail(cssPath, 1, `${token} uses "${family}" but no @font-face declares it`);
+}
+for (const face of fontFaces) {
+  checks++;
+  if (![...tokenFamilies.values()].includes(face.family)) {
+    fail(cssPath, face.lineNo, `@font-face declares "${face.family}" but no --font-* token uses it — remove it or add a token`);
+  }
+}
 const layout = readFileSync(layoutPath, 'utf8');
-const loaders = [...layout.matchAll(/fonts\.googleapis\.com\/css2\?([^"]+)"/g)];
-if (loaders.length !== 1) {
-  fail(layoutPath, 1, `expected exactly one Google Fonts loader, found ${loaders.length}`);
-} else {
-  const loadedFamilies = new Set(
-    [...loaders[0][1].matchAll(/family=([^:&]+)/g)].map((m) => decodeURIComponent(m[1]).replace(/\+/g, ' ')),
-  );
-  for (const [token, family] of tokenFamilies) {
-    checks++;
-    if (!loadedFamilies.has(family)) fail(layoutPath, 1, `${token} uses "${family}" but the font loader does not load it`);
-  }
-  for (const family of loadedFamilies) {
-    checks++;
-    if (![...tokenFamilies.values()].includes(family)) {
-      fail(layoutPath, 1, `font loader loads "${family}" but no --font-* token uses it — remove it or add a token`);
-    }
-  }
+const declaredSrcs = new Set(fontFaces.map((f) => f.src));
+for (const [, href] of layout.matchAll(/<link rel="preload" href="([^"]+)" as="font"/g)) {
+  checks++;
+  if (!declaredSrcs.has(href)) fail(layoutPath, 1, `font preload ${href} does not match any @font-face src in global.css`);
 }
 
 // ------------------------------------------------------------------ report

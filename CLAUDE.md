@@ -20,7 +20,7 @@ npm run test          # verify:typography + verify:colors + build + verify:parit
 
 Full rules: `docs/typography.md`. The short version:
 
-- **Never write a font name in CSS.** Use `var(--font-body)` (DM Sans, default), `var(--font-display)` (Space Grotesk, headings/titles) or `var(--font-accent)` (Instrument Serif, pull quotes only). Tokens live at the top of `:root` in `src/styles/global.css`; fonts load once in `src/layouts/BaseLayout.astro`.
+- **Never write a font name in CSS.** Use `var(--font-body)` (DM Sans, default), `var(--font-display)` (Space Grotesk, headings/titles) or `var(--font-accent)` (Instrument Serif, pull quotes only). Tokens live at the top of `:root` in `src/styles/global.css`; fonts are self-hosted: `@font-face` at the top of `global.css`, files in `public/assets/fonts/` (never load fonts from Google or another CDN).
 - **Sizes** are px from the scale `11 12 13 14 15 16 17 18 20 22 24 26 36`, or `clamp()`/an existing token for fluid display text. No `rem`, no half-pixels.
 - **Weights** are `400 / 500 / 600 / 700` only (loaded range is 300–700).
 - **Eyebrow labels** (small uppercase) use `--eyebrow-size/--eyebrow-weight/--eyebrow-tracking`; `letter-spacing` is always `em`.

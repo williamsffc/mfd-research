@@ -85,7 +85,8 @@ record(privacyHtml.includes('class="legal-page wrap"'), 'Privacy page uses share
 record(termsHtml.includes('class="legal-page wrap"'), 'Terms page uses shared legal layout classes');
 record(!privacySource.includes('<style>'), 'Privacy page no longer duplicates inline layout styles');
 record(!termsSource.includes('<style>'), 'Terms page no longer duplicates inline layout styles');
-record(privacyHtml.includes('fonts.googleapis.com') && termsHtml.includes('fonts.googleapis.com'), 'Legal pages inherit the shared font stack');
+record(privacyHtml.includes('/assets/fonts/dm-sans-v1.woff2') && termsHtml.includes('/assets/fonts/dm-sans-v1.woff2'), 'Legal pages inherit the shared font stack');
+record(![homeHtml, privacyHtml, termsHtml].some((html) => /fonts\.(googleapis|gstatic)\.com/.test(html)), 'Pages load no fonts from Google (self-hosted)');
 
 console.log('\nSource checks:\n');
 record(!styleSource.includes('transition: all'), 'Shipped stylesheet avoids transition: all');

@@ -15,7 +15,7 @@ const {
   ogDescription,
   ogImage = '/assets/og-image-v2.png',
   ogType = 'website',
-  ogSiteName = 'MFD Research LLC',
+  ogSiteName = 'MFD Research',
 
   twitterCard = 'summary_large_image',
   twitterTitle,
@@ -62,12 +62,9 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     {resolvedTwitterDescription ? <meta name="twitter:description" content={resolvedTwitterDescription} /> : null}
     <meta name="twitter:image" content={resolvedTwitterImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap"
-    />
+    {/* Fonts are self-hosted (@font-face in global.css). Preload the two used above the fold. */}
+    <link rel="preload" href="/assets/fonts/dm-sans-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/space-grotesk-v1.woff2" as="font" type="font/woff2" crossorigin />
 
     {/* Favicons / PWA */}
     <link rel="icon" type="image/svg+xml" href="/assets/favicon-v2.svg" />

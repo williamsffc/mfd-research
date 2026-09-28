@@ -606,7 +606,7 @@ During migration:
 - Preserve CSP behavior initially.
 - Later consider moving CSP from meta tags to Cloudflare headers.
 - Do not weaken security policy without a specific reason.
-- Ensure external resources such as Google Fonts, Web3Forms, and booking links are allowed as needed.
+- Ensure external resources such as Web3Forms and booking links (fonts are self-hosted) are allowed as needed.
 
 ## Accessibility Requirements
 

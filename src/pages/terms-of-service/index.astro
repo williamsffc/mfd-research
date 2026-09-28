@@ -1,66 +1,138 @@
 ---
-// Parity port of legacy static `terms-of-service/index.html`.
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Logo from '../../components/Logo.astro';
 
 const title = 'Terms of Service | MFD Research';
-const description = 'Terms of Service for MFD Research website use.';
+const description =
+  'Terms for using mfdresearch.com, the website of MFD Research Group LLC: informational content, no consulting relationship without a written agreement, and California governing law.';
 const canonical = 'https://mfdresearch.com/terms-of-service/';
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
   <main class="legal-page wrap">
-    <a class="legal-top" href="/" aria-label="Return to home page">
-      <img src="/assets/favicon-v2.svg" alt="" width="46" height="46" />
-      <strong>MFD Research</strong>
+    <a class="legal-top" href="/" aria-label="MFD Research home">
+      <Logo />
     </a>
 
     <article class="legal-card">
       <h1>Terms of Service</h1>
-      <p class="meta">Last updated: March 6, 2026</p>
+      <p class="meta">Last updated: September 28, 2026</p>
 
-      <h2>Acceptance of Terms</h2>
       <p>
-        By using this website, you agree to these Terms of Service and all applicable laws.
+        These Terms of Service (“Terms”) apply to your use of <a href="https://mfdresearch.com/">mfdresearch.com</a>
+        (the “website”), operated by MFD Research Group LLC (“MFD Research,” “we,” “us”). By using the website, you
+        agree to these Terms. If you don't agree, please don't use the website.
       </p>
 
-      <h2>Website Use</h2>
+      <h2>Using the Website</h2>
+      <p>You may use the website for lawful business and informational purposes. You agree not to:</p>
       <ul>
-        <li>You may use this website for lawful business and informational purposes.</li>
-        <li>You agree not to misuse, disrupt, or attempt unauthorized access to site systems.</li>
+        <li>attempt to gain unauthorized access to the website or the systems behind it;</li>
+        <li>disrupt or overload the website, including through automated scraping;</li>
+        <li>use the contact form to send spam, malware or unlawful content; or</li>
+        <li>impersonate anyone or misrepresent your affiliation with any organization.</li>
       </ul>
 
-      <h2>Consulting Information</h2>
+      <h2>Information Only, Not Professional Advice</h2>
       <p>
-        Content on this website is provided for general informational purposes and does not create a consulting engagement
-        unless confirmed through a separate written agreement.
+        Content on this website is general information about clinical research operations and our services. It is
+        not medical, legal, regulatory or compliance advice, and it is not tailored to your study, site or
+        organization. Don't rely on it for decisions about patient care, study conduct or regulatory submissions
+        without advice from a qualified professional who knows your circumstances.
+      </p>
+
+      <h2>No Consulting Relationship</h2>
+      <p>
+        Contacting us, submitting the form or booking a consultation does not create a consulting, advisory or other
+        professional relationship. We provide services only under a separate written agreement signed by both
+        parties. If that agreement conflicts with these Terms, the agreement controls.
+      </p>
+
+      <h2>Confidentiality of Inquiries</h2>
+      <p>
+        Please don't send confidential or proprietary information, protected health information, or patient or
+        study-participant data through the website or in an initial email. Information you send before a
+        confidentiality agreement is in place is not treated as confidential. We still handle it as described in our
+        <a href="/privacy-policy/">Privacy Policy</a>. When an engagement needs confidential information, we will put
+        a confidentiality agreement in place first.
+      </p>
+
+      <h2>Scheduling</h2>
+      <p>
+        Consultations are booked through a Google Calendar booking page, which is also subject to Google's terms.
+        Booking a time doesn't guarantee availability, and we may need to reschedule.
+      </p>
+
+      <h2>Experience, Engagements and Credentials</h2>
+      <p>
+        Descriptions of past experience, engagements and outcomes show the kind of work we do. Results depend on each
+        study's circumstances and are not a promise of future results. Mentions of conferences, organizations or
+        publications do not mean they endorse MFD Research.
       </p>
 
       <h2>Intellectual Property</h2>
       <p>
-        All content on this site, including text, branding, graphics, and layout, is owned by or licensed to MFD Research
-        unless otherwise stated.
+        The website and its content, including text, graphics and layout, and the MFD Research name and logo, are
+        owned by or licensed to MFD Research Group LLC. You may view and print pages for your own informational or
+        internal business use. You may not copy, modify, republish or use them commercially, or use our name or logo,
+        without our written permission. Other names and trademarks on the website belong to their owners.
       </p>
 
       <h2>Third-Party Links</h2>
       <p>
-        This website may include links to third-party websites. We are not responsible for third-party content,
-        privacy practices, or availability.
+        The website links to third-party websites, such as LinkedIn, conference sites and our booking page. We don't
+        control them and are not responsible for their content, privacy practices or availability.
+      </p>
+
+      <h2>Disclaimer of Warranties</h2>
+      <p>
+        The website is provided “as is” and “as available.” To the fullest extent permitted by law, we disclaim all
+        warranties, express or implied, including warranties of merchantability, fitness for a particular purpose,
+        accuracy and non-infringement. We don't guarantee that the website will be uninterrupted, error-free or
+        up to date.
       </p>
 
       <h2>Limitation of Liability</h2>
       <p>
-        To the maximum extent allowed by law, MFD Research is not liable for indirect, incidental, or consequential
-        damages arising from use of this website.
+        To the fullest extent permitted by law, MFD Research Group LLC and its members, employees and contractors are
+        not liable for any indirect, incidental, special, consequential or punitive damages, or for lost profits, data
+        or business, arising from your use of, or inability to use, the website. Our total liability for any claim
+        relating to the website is limited to one hundred U.S. dollars (US$100). Nothing in these Terms limits
+        liability that cannot be limited under applicable law. This section does not apply to services provided under
+        a separate written agreement, which sets its own terms.
       </p>
 
-      <h2>Changes to Terms</h2>
+      <h2>Indemnification</h2>
       <p>
-        We may update these terms at any time. Continued use of the website after updates means you accept the revised terms.
+        You agree to indemnify and hold MFD Research Group LLC harmless from claims, losses and expenses, including
+        reasonable attorneys' fees, arising from your misuse of the website or your violation of these Terms.
+      </p>
+
+      <h2>Governing Law and Venue</h2>
+      <p>
+        These Terms are governed by the laws of the State of California, without regard to its conflict-of-law
+        rules. Any dispute relating to these Terms or the website will be brought exclusively in the state or federal
+        courts located in California, and you and we consent to their jurisdiction.
+      </p>
+
+      <h2>Changes to These Terms</h2>
+      <p>
+        We may update these Terms from time to time. We will post the new version on this page and update the date at
+        the top. Changes apply from the date they are posted. If you continue to use the website after that, you
+        accept the updated Terms.
+      </p>
+
+      <h2>General</h2>
+      <p>
+        If any part of these Terms is found unenforceable, the rest remains in effect. Our not enforcing a provision
+        is not a waiver of it. These Terms and our <a href="/privacy-policy/">Privacy Policy</a> are the entire
+        agreement between you and us about the website. Services are governed by their own written agreement.
       </p>
 
       <h2>Contact</h2>
       <p>
-        Questions about these terms can be sent to <a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>.
+        MFD Research Group LLC<br />
+        <a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>
       </p>
 
       <a class="home-btn" href="/">Back to Home</a>
@@ -68,4 +140,3 @@ const canonical = 'https://mfdresearch.com/terms-of-service/';
   </main>
 
 </BaseLayout>
-

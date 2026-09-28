@@ -12,8 +12,10 @@ Terms of Service, and anything added later). They are enforced by
 | `--font-display`  | Space Grotesk      | Headings and titles: page/section titles, card and item titles, FAQ questions, primary form submit |
 | `--font-accent`   | Instrument Serif   | Pull quotes only (e.g. the About quote). Italic, sparingly                  |
 
-- Fonts are loaded **once**, in `src/layouts/BaseLayout.astro`. Every page uses that layout, so every page gets the same fonts.
+- Fonts are **self-hosted**. The files live in `public/assets/fonts/` (with their licenses), and they're declared once with `@font-face` at the top of `src/styles/global.css`. Every page loads that stylesheet, so every page gets the same fonts. Nothing is loaded from Google, so visitors' IP addresses aren't shared with Google Fonts (see the Privacy Policy).
+- `src/layouts/BaseLayout.astro` preloads DM Sans and Space Grotesk because they're used above the fold.
 - The loaded weight range is **300–700** for DM Sans and Space Grotesk. Anything outside that (e.g. `800`) is faked by the browser and looks blurry/inconsistent.
+- Instrument Serif ships in italic only, since that's the only way it's used.
 
 ## 2. Never write a font name in CSS
 
@@ -25,8 +27,18 @@ Always use the token:
 ```
 
 The only place font names appear is the token block at the top of `:root` in
-`src/styles/global.css`. To add or swap a font: change the token **and** the
-loader URL in `BaseLayout.astro`. The check fails if they disagree.
+`src/styles/global.css` (and the matching `@font-face` blocks above it). To add or
+swap a font:
+
+1. Build the WOFF2 from the upstream TTF:
+   `node scripts/build-fonts.mjs <font.ttf> public/assets/fonts/<name>-v1.woff2`,
+   and copy the font's `OFL.txt` next to it.
+2. Add an `@font-face` block and change the token.
+3. If it's used above the fold, update the preload in `BaseLayout.astro`.
+
+The check fails if a token has no `@font-face`, an `@font-face` isn't used by a
+token, a file is missing, or anything loads fonts from Google. Files in
+`public/assets/` are cached for a year, so a changed font gets a new `-vN` name.
 
 ## 3. Sizes come from the scale (px)
 
