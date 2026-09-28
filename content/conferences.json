@@ -1,0 +1,56 @@
+{
+  "label": "Industry Engagement",
+  "title": "Conferences & Industry Engagement",
+  "intro": "Founder-led participation in major clinical research meetings—shared as professional context, with details included only where confirmed.",
+  "pastTitle": "Recent & Past Engagements",
+  "events": [
+    {
+      "name": "American Diabetes Association (ADA) 2026 Scientific Sessions",
+      "startDate": "2026-06-04",
+      "endDate": "2026-06-08",
+      "location": "New Orleans, LA",
+      "status": "Attended",
+      "focus": "Diabetes, obesity, metabolic disease, and clinical research innovation"
+    },
+    {
+      "name": "ENLIGHTEN Investigator Engagement Meeting",
+      "startDate": "2026-03-03",
+      "endDate": "2026-03-04",
+      "location": "Seattle, WA",
+      "status": "Attended",
+      "focus": "Investigator engagement and clinical trial collaboration"
+    },
+    {
+      "name": "Dallas/Fort Worth Industry Meeting",
+      "startDate": "2026-02-25",
+      "endDate": "2026-02-26",
+      "location": "Dallas/Fort Worth, TX",
+      "status": "Details Pending",
+      "focus": "Details pending"
+    },
+    {
+      "name": "Lilly CoDesign, MASLD/MASH CoLAB",
+      "startDate": "2025-09-04",
+      "endDate": "2025-09-05",
+      "location": "Indianapolis, IN",
+      "status": "Attended",
+      "focus": "MASLD/MASH, metabolic and liver disease research"
+    },
+    {
+      "name": "Industry Meeting",
+      "startDate": "2025-08-12",
+      "endDate": "2025-08-13",
+      "location": "Indianapolis, IN",
+      "status": "Details Pending",
+      "focus": "Details pending"
+    },
+    {
+      "name": "Lilly - Sarcopenic Obesity CoDesign",
+      "startDate": "2025-05-08",
+      "endDate": "2025-05-09",
+      "location": "Indianapolis, IN",
+      "status": "Attended",
+      "focus": "Sarcopenic obesity and clinical research collaboration"
+    }
+  ]
+}

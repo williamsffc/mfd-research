@@ -1,30 +1,13 @@
 ---
 import Button from './Button.astro';
-import { conferences, formatConferenceDate } from '../data/conferences';
+import { conferences, formatConferenceDate } from '../data/content';
 
-function safeIsoTime(iso?: string) {
-  if (!iso) return 0;
-  const t = Date.parse(iso);
-  return Number.isFinite(t) ? t : 0;
-}
-
-const featured =
-  conferences.find((c) => c.featured) ??
-  conferences.find((c) => c.status === 'Upcoming') ??
-  conferences[0];
-
-const rest = conferences
-  .filter((c) => c !== featured)
-  .slice()
-  .sort((a, b) => safeIsoTime(b.startDate) - safeIsoTime(a.startDate));
+const { featured, featuredButton, past: rest } = conferences;
 ---
 
-<div class="section-label reveal">Industry Engagement</div>
-<h2 class="section-title reveal reveal-delay-1">Conferences &amp; Industry Engagement</h2>
-<p class="section-sub section-sub--conferences reveal reveal-delay-2">
-  Founder-led participation in major clinical research meetings—shared as professional context, with details included
-  only where confirmed.
-</p>
+<div class="section-label reveal">{conferences.label}</div>
+<h2 class="section-title reveal reveal-delay-1">{conferences.title}</h2>
+<p class="section-sub section-sub--conferences reveal reveal-delay-2">{conferences.intro}</p>
 
 <div class="conferences-layout">
   {featured ? (
@@ -43,10 +26,10 @@ const rest = conferences
         <div><strong>Focus:</strong> {featured.focus || 'Details Pending'}</div>
       </div>
 
-      {featured.ctaUrl ? (
+      {featuredButton ? (
         <div class="conference-actions">
-          <Button href={featured.ctaUrl} external variant="on-dark" class="conference-cta">
-            {featured.ctaLabel ?? 'Schedule a Meeting'}
+          <Button href={featuredButton.url} external variant="on-dark" class="conference-cta">
+            {featuredButton.label}
           </Button>
         </div>
       ) : null}
@@ -54,7 +37,7 @@ const rest = conferences
   ) : null}
 
   <aside class="conferences-recent reveal reveal-delay-2" aria-label="Recent and past engagements">
-    <div class="conferences-recent-title">Recent &amp; Past Engagements</div>
+    <div class="conferences-recent-title">{conferences.pastTitle}</div>
     <ul class="conferences-recent-list">
       {rest.map((c) => (
         <li class="conference-list-item">

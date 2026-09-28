@@ -13,7 +13,8 @@ npm run test:a11y     # Build output + accessibility / invariant checks
 npm run verify:sw-precache # After build: checks service-worker precache URLs exist in dist/
 npm run verify:typography  # No build needed: enforces docs/typography.md (font tokens, size scale, weights)
 npm run verify:colors      # No build needed: enforces docs/colors.md (palette-only colors, AA contrast in both themes)
-npm run test          # verify:typography + verify:colors + build + verify:parity + verify:sw-precache + test:a11y
+npm run verify:content     # No build needed (also runs before every build): validates content/*.json (docs/content.md)
+npm run test          # verify:typography + verify:colors + verify:content + build + verify:parity + verify:sw-precache + test:a11y
 ```
 
 Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build command `npm run build` and publish directory `dist/`.
@@ -27,7 +28,8 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 - `src/pages/index.astro` — Homepage composition (imports section components).
 - `src/pages/privacy-policy/index.astro`, `src/pages/terms-of-service/index.astro` — Legal routes.
 - `src/components/` — Header, Footer, homepage sections, Conferences, etc.
-- `src/data/` — Typed data modules for repeatable homepage content (conferences, FAQs, services, company facts…).
+- `content/*.json` — All homepage text, one file per section (see `docs/content.md`). Change wording there, not in components.
+- `src/data/content.ts` — Reads the content files and adds computed values ({years}, counters, icons); `src/data/icons.ts` — named icons.
 - `src/styles/global.css` — Global styles + theming tokens (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
 - `src/scripts/main.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
 - `public/service-worker.js` — PWA caching.

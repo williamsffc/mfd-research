@@ -19,8 +19,7 @@ import Conferences from '../components/Conferences.astro';
 import WhyMFD from '../components/WhyMFD.astro';
 import Faq from '../components/Faq.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import { siteDescription } from '../data/company';
-import { faqs } from '../data/faqs';
+import { faq, site } from '../data/content';
 
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 if (!web3formsAccessKey) {
@@ -29,7 +28,7 @@ if (!web3formsAccessKey) {
 
 const title = 'MFD Research';
 const ogTitle = 'MFD Research | Where Expertise Meets Execution';
-const description = siteDescription;
+const description = site.description;
 const canonical = 'https://mfdresearch.com/';
 
 // JSON-LD is generated from the same data the page renders so the FAQ markup can't drift
@@ -48,7 +47,7 @@ const structuredData = {
         url: 'https://mfdresearch.com/assets/logo-v2.png',
       },
       description,
-      email: 'info@mfdresearch.com',
+      email: site.email,
       address: {
         '@type': 'PostalAddress',
         addressCountry: 'US',
@@ -57,7 +56,7 @@ const structuredData = {
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'Customer Service',
-        email: 'info@mfdresearch.com',
+        email: site.email,
         availableLanguage: 'English',
       },
       founder: {
@@ -65,19 +64,19 @@ const structuredData = {
         name: 'Michael Delgado',
         honorificSuffix: 'CCRC',
         jobTitle: 'Founder & Principal',
-        sameAs: ['https://www.linkedin.com/in/mike-delgado/'],
+        sameAs: [site.linkedinUrl],
       },
-      sameAs: ['https://www.linkedin.com/in/mike-delgado/'],
+      sameAs: [site.linkedinUrl],
     },
     {
       '@type': 'FAQPage',
       '@id': 'https://mfdresearch.com/#faq',
-      mainEntity: faqs.map((faq) => ({
+      mainEntity: faq.questions.map((item) => ({
         '@type': 'Question',
-        name: faq.question,
+        name: item.question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: faq.answer,
+          text: item.answer,
         },
       })),
     },

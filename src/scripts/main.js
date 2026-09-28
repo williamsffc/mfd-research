@@ -117,15 +117,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
     if (timelineItems.length === 0) return;
 
+    const timeline = timelineItems[0].closest('.timeline');
     let activeItem = null;
     let ticking = false;
 
+    /** Grows the green rail down to the active role's dot. */
+    function updateRail() {
+      if (!timeline || !activeItem) return;
+      const dot = activeItem.querySelector('.timeline-dot');
+      if (!dot) return;
+      const railTop = timeline.getBoundingClientRect().top + 10; // matches .timeline::after top
+      const dotRect = dot.getBoundingClientRect();
+      timeline.style.setProperty('--timeline-fill', `${Math.max(0, dotRect.top + dotRect.height / 2 - railTop)}px`);
+    }
+
     function setActiveItem(nextItem) {
       if (activeItem === nextItem) return;
-      timelineItems.forEach((item) => {
+      const activeIndex = timelineItems.indexOf(nextItem);
+      timelineItems.forEach((item, index) => {
         item.classList.toggle('is-active', item === nextItem);
+        item.classList.toggle('is-past', index < activeIndex);
       });
       activeItem = nextItem;
+      updateRail();
     }
 
     function updateActiveItem() {
@@ -154,7 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
+    window.addEventListener('resize', () => {
+      requestUpdate();
+      updateRail();
+    });
+    // Cards slide in when revealed, which moves the dots; re-measure once they settle.
+    timelineItems.forEach((item) => item.addEventListener('transitionend', updateRail));
     updateActiveItem();
   }
 
@@ -652,31 +671,52 @@ document.addEventListener('DOMContentLoaded', () => {
    * Excludes the .nav-cta button from the active treatment
    */
   function setupScrollspy() {
-    const sections = document.querySelectorAll('main section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a[href*="#"]:not(.nav-cta)');
+    const sections = Array.from(document.querySelectorAll('main section[id]'));
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a[href*="#"]:not(.nav-cta)'));
     if (!sections.length || !navLinks.length) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(link => {
-          let url;
-          try {
-            url = new URL(link.getAttribute('href') || '', window.location.href);
-          } catch {
-            url = null;
-          }
-          const active =
-            !!url &&
-            url.hash === `#${entry.target.id}` &&
-            url.origin === window.location.origin &&
-            (url.pathname.replace(/\/$/, '') || '/') === (window.location.pathname.replace(/\/$/, '') || '/');
-          link.classList.toggle('spy-active', active);
-        });
-      });
-    }, { rootMargin: '-72px 0px -40% 0px', threshold: 0 });
+    const here = window.location.pathname.replace(/\/$/, '') || '/';
+    const linkFor = new Map();
+    navLinks.forEach((link) => {
+      try {
+        const url = new URL(link.getAttribute('href') || '', window.location.href);
+        if (url.origin === window.location.origin && (url.pathname.replace(/\/$/, '') || '/') === here && url.hash) {
+          linkFor.set(url.hash.slice(1), link);
+        }
+      } catch {
+        /* ignore malformed hrefs */
+      }
+    });
 
-    sections.forEach(s => observer.observe(s));
+    // The current section is the last one whose top has passed a line just under the
+    // fixed nav. (IntersectionObserver alone let a short section, like About, lose to
+    // the next one, since both intersect at once.)
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const line = (document.getElementById('navbar')?.offsetHeight || 72) + 48;
+      let current = null;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) current = section;
+        else break;
+      }
+      // At the very bottom, the last section wins even if its top can't reach the line.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        current = sections[sections.length - 1];
+      }
+      const activeLink = current ? linkFor.get(current.id) : null;
+      navLinks.forEach((link) => link.classList.toggle('spy-active', link === activeLink));
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
   }
 
   /**

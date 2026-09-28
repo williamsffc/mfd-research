@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --port 8080",
+    "prebuild": "node scripts/verify-content.mjs",
     "build": "astro build",
     "preview": "astro preview --port 8080",
     "verify:parity": "node scripts/verify-legacy-parity.mjs",
     "verify:sw-precache": "node scripts/verify-sw-precache.mjs",
     "verify:typography": "node scripts/verify-typography.mjs",
     "verify:colors": "node scripts/verify-colors.mjs",
-    "test": "npm run verify:typography && npm run verify:colors && npm run build && npm run verify:parity && npm run verify:sw-precache && npm run test:a11y",
+    "verify:content": "node scripts/verify-content.mjs",
+    "test": "npm run verify:typography && npm run verify:colors && npm run verify:content && npm run build && npm run verify:parity && npm run verify:sw-precache && npm run test:a11y",
     "test:a11y": "node scripts/test-a11y.mjs",
     "optimize:images": "node scripts/optimize-images.mjs"
   },

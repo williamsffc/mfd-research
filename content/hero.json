@@ -1,0 +1,31 @@
+{
+  "titleLine1": "Clinical Research Operations",
+  "titleLine2": "Built for",
+  "titleHighlight": "Execution",
+  "intro": "MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.",
+  "primaryButton": "Schedule a Confidential Consultation",
+  "secondaryButton": "View Consulting Services",
+  "cardTitle": "Core Expertise",
+  "stats": [
+    {
+      "label": "Industry Experience",
+      "value": "{years}+ Years",
+      "icon": "award"
+    },
+    {
+      "label": "Studies Supported",
+      "value": "100+",
+      "icon": "folder"
+    },
+    {
+      "label": "Sites Activated",
+      "value": "15+",
+      "icon": "map-pin"
+    },
+    {
+      "label": "Trial Reach",
+      "value": "Global",
+      "icon": "globe"
+    }
+  ]
+}

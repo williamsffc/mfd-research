@@ -1,6 +1,7 @@
 ---
 import Button from './Button.astro';
 import Logo from './Logo.astro';
+import { footer, site } from '../data/content';
 ---
 
 <!--
@@ -15,8 +16,8 @@ import Logo from './Logo.astro';
         <a href="/" class="footer-brand-link">
           <Logo />
         </a>
-        <p class="footer-tagline">Founder-led clinical research operations consulting.</p>
-        <a href="https://www.linkedin.com/in/mike-delgado/" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+        <p class="footer-tagline">{footer.tagline}</p>
+        <a href={site.linkedinUrl} class="footer-social-link" target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           LinkedIn
         </a>
@@ -46,11 +47,12 @@ import Logo from './Logo.astro';
 
       <div class="footer-contact">
         <p class="footer-col-title">Get in touch</p>
-        <a class="footer-email" href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>
-        <Button href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" external variant="accent" class="footer-cta">Schedule a consultation</Button>
+        <a class="footer-email" href={`mailto:${site.email}`}>{site.email}</a>
+        <Button href={site.bookingUrl} external variant="accent" class="footer-cta">{footer.bookingButton}</Button>
         <ul class="footer-notes">
-          <li>All inquiries confidential</li>
-          <li>Response within 1–2 business days</li>
+          {footer.notes.map(note => (
+            <li>{note}</li>
+          ))}
         </ul>
       </div>
     </div>

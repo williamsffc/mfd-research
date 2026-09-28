@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "value": "{years}+",
+      "text": "Years of Experience",
+      "icon": "clock"
+    },
+    {
+      "value": "Phase I–III",
+      "text": "Clinical Trials",
+      "icon": "activity"
+    },
+    {
+      "value": "GCP Certified",
+      "text": "ICH Guidelines",
+      "icon": "shield-check"
+    },
+    {
+      "value": "Multi-Sponsor",
+      "text": "Portfolio Expertise",
+      "icon": "globe"
+    },
+    {
+      "value": "10+ Areas",
+      "text": "Therapeutic Specialties",
+      "icon": "layers"
+    }
+  ]
+}

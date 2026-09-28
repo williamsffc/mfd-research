@@ -1,25 +1,25 @@
 ---
 import Button from './Button.astro';
-import { heroStats } from '../data/heroStats';
+import { hero, site } from '../data/content';
 ---
 <section id="hero">
   <div class="hero-blob hero-blob-1"></div>
   <div class="hero-blob hero-blob-2"></div>
   <div class="hero-content">
-    <h1 class="hero-title">Clinical Research Operations<br />Built for <span>Execution</span></h1>
-    <p class="hero-sub">MFD Research helps sponsors, CROs, biotech organizations, and research sites build, optimize, and strengthen clinical research operations from site development to inspection readiness.</p>
+    <h1 class="hero-title">{hero.titleLine1}<br />{hero.titleLine2} <span>{hero.titleHighlight}</span></h1>
+    <p class="hero-sub">{hero.intro}</p>
     <div class="hero-actions">
-      <Button href="https://calendar.app.google/8fQfrSyLumEMRKHQ9" external>Schedule a Confidential Consultation</Button>
-      <Button href="#services" variant="outline">View Consulting Services</Button>
+      <Button href={site.bookingUrl} external>{hero.primaryButton}</Button>
+      <Button href="#services" variant="outline">{hero.secondaryButton}</Button>
     </div>
   </div>
 
   <!-- Floating Card -->
   <div class="hero-card">
-    <div class="hero-card-title">Core Expertise</div>
-    {heroStats.map(stat => (
+    <div class="hero-card-title">{hero.cardTitle}</div>
+    {hero.stats.map(stat => (
       <div class="hero-stat">
-        <div class="hero-stat-icon" aria-hidden="true"><Fragment set:html={stat.icon} /></div>
+        <div class="hero-stat-icon" aria-hidden="true"><Fragment set:html={stat.iconSvg} /></div>
         <div>
           <div class="hero-stat-label">{stat.label}</div>
           <div class="hero-stat-value" data-count={stat.dataCount} data-suffix={stat.dataSuffix}>{stat.value}</div>

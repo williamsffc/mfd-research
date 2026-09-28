@@ -1,0 +1,37 @@
+{
+  "label": "What We Do",
+  "title": "Consulting Services",
+  "intro": "End-to-end clinical research consulting, from strategic planning to operational execution.",
+  "items": [
+    {
+      "title": "Site Development & Strategy",
+      "description": "We help organizations build research sites from the ground up, from site selection and infrastructure planning to sponsor activation and first patient enrollment.",
+      "icon": "layout"
+    },
+    {
+      "title": "Regulatory Compliance & GCP",
+      "description": "Proactive compliance strategies aligned with FDA, ICH-GCP, and sponsor requirements so your site stays inspection-ready at all times.",
+      "icon": "file-text"
+    },
+    {
+      "title": "Quality Management Systems",
+      "description": "Design and implementation of robust QMS frameworks, including CAPA processes, deviation management, and internal audit programs.",
+      "icon": "settings"
+    },
+    {
+      "title": "Multi-Specialty Trial Management",
+      "description": "Operational oversight across multiple therapeutic areas and concurrent trials with proven systems for complex, multi-protocol environments.",
+      "icon": "activity"
+    },
+    {
+      "title": "Staff Training & Development",
+      "description": "Customized training programs for research coordinators, sub-investigators, and site staff covering GCP fundamentals and protocol-specific procedures.",
+      "icon": "users"
+    },
+    {
+      "title": "Operational Assessment & Remediation",
+      "description": "Comprehensive site assessments that identify gaps in performance, compliance, and workflow, then turn them into actionable remediation plans.",
+      "icon": "bar-chart"
+    }
+  ]
+}
