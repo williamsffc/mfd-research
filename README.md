@@ -1,6 +1,6 @@
 # 🧪 MFD Research Website
 
-Marketing website for **MFD Research LLC** — clinical research consulting focused on site development, regulatory compliance, and trial execution.
+Marketing website for **MFD Research** (MFD Research Group LLC) — clinical research consulting focused on site development, regulatory compliance, and trial execution.
 
 - 🚀 **Astro** static site (no React/Vue)
 - 🎨 **All styling** bundled from `src/styles/global.css`
@@ -174,7 +174,7 @@ While the website remains fully static with no backend database, submissions are
   - `src/data/specialties.ts`
 - 🧱 **Sections**: edit individual section structures under `src/components/`
 - 🧾 **Legal pages**: `src/pages/privacy-policy/index.astro` and `src/pages/terms-of-service/index.astro`
-- 🔤 **Fonts**: configured via Google Fonts in `src/layouts/BaseLayout.astro`
+- 🔤 **Fonts**: self-hosted WOFF2 files in `public/assets/fonts/`, declared with `@font-face` at the top of `src/styles/global.css` (see `docs/typography.md`)
 
 ---
 
@@ -224,7 +224,7 @@ Suggested Lighthouse targets:
 
 ## 📄 License
 
-Copyright © 2026 MFD Research LLC. All rights reserved.
+Copyright © 2026 MFD Research Group LLC. All rights reserved.
 
 ---
 

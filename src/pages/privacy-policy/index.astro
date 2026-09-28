@@ -1,66 +1,207 @@
 ---
-// Parity port of legacy static `privacy-policy/index.html`.
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Logo from '../../components/Logo.astro';
 
 const title = 'Privacy Policy | MFD Research';
-const description = 'Privacy Policy for MFD Research website and inquiries.';
+const description =
+  'How MFD Research Group LLC handles information on mfdresearch.com: what we collect, the services that receive it, and your privacy rights, including under California law.';
 const canonical = 'https://mfdresearch.com/privacy-policy/';
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
   <main class="legal-page wrap">
-    <a class="legal-top" href="/" aria-label="Return to home page">
-      <img src="/assets/favicon-v2.svg" alt="" width="46" height="46" />
-      <strong>MFD Research</strong>
+    <a class="legal-top" href="/" aria-label="MFD Research home">
+      <Logo />
     </a>
 
     <article class="legal-card">
       <h1>Privacy Policy</h1>
-      <p class="meta">Last updated: March 6, 2026</p>
+      <p class="meta">Last updated: September 28, 2026</p>
 
       <p>
-        MFD Research respects your privacy. This policy explains what information we collect on this website,
-        how we use it, and how we protect it.
+        This policy explains how MFD Research Group LLC (“MFD Research,” “we,” “us”) collects, uses and protects
+        information through this website, <a href="https://mfdresearch.com/">mfdresearch.com</a>, and the inquiries
+        you send us through it. Information we receive while providing consulting services to clients is covered by
+        our agreements with those clients, not by this policy.
       </p>
 
+      <div class="legal-summary">
+        <p><strong>In short</strong></p>
+        <ul>
+          <li>We only collect what you choose to send us, such as your name, email and message.</li>
+          <li>This website uses no cookies, analytics, advertising or tracking tools.</li>
+          <li>We do not sell or share your personal information for advertising.</li>
+          <li>Please don't send patient information or confidential study details through this website.</li>
+        </ul>
+      </div>
+
       <h2>Information We Collect</h2>
+      <h3>Information you give us</h3>
       <ul>
-        <li>Contact details you submit, such as name, email address, company, and message content.</li>
-        <li>Basic technical information such as browser type and device details collected by standard web hosting tools.</li>
+        <li>
+          <strong>Contact form:</strong> your first and last name, email address, company (optional), the service
+          you're interested in, and your message.
+        </li>
+        <li><strong>Email:</strong> anything you include when you write to us directly.</li>
+        <li>
+          <strong>Scheduling:</strong> when you book a consultation through our Google Calendar booking page, your
+          name, email address and any notes you add.
+        </li>
       </ul>
+
+      <h3>Information collected automatically</h3>
+      <p>
+        Like any website, our hosting provider receives technical information when you visit, such as your IP
+        address, browser type, the pages requested and the time of the request. It is used to deliver the site and
+        protect it from abuse. We do not use cookies, analytics, advertising pixels or any other tracking technology,
+        and our fonts are hosted on our own servers rather than loaded from a third party.
+      </p>
+
+      <h3>Information stored on your device</h3>
+      <p>
+        If you switch between light and dark mode, your browser remembers the choice in its local storage. The site
+        also saves a copy of its own files in your browser so pages load faster and work offline. Neither is sent to
+        us, and you can clear both at any time in your browser settings.
+      </p>
+
+      <h2>Please Don't Send Sensitive Information</h2>
+      <p>
+        This website is not designed to receive protected health information, patient or study-participant data, or
+        confidential or proprietary information about your studies, products or organization. Please don't include it
+        in the contact form, a booking or an email. If an engagement requires confidential information, we will agree
+        on a confidentiality agreement and a secure way to share it first.
+      </p>
 
       <h2>How We Use Information</h2>
       <ul>
-        <li>To respond to inquiries and provide consulting information.</li>
-        <li>To improve website performance, usability, and security.</li>
-        <li>To maintain business records related to inbound requests.</li>
+        <li>To respond to your inquiry and schedule and hold consultations.</li>
+        <li>To provide information about our services that you have asked for.</li>
+        <li>To keep records of our business communications.</li>
+        <li>To keep the website secure and prevent spam and abuse.</li>
+        <li>To comply with legal obligations and protect our legal rights.</li>
+      </ul>
+      <p>
+        We won't add you to a marketing list unless you ask us to. We don't use your information for automated
+        decision-making or profiling.
+      </p>
+
+      <h2>Service Providers</h2>
+      <p>We use a small number of service providers, each of which receives only what it needs to do its job:</p>
+      <ul>
+        <li>
+          <strong>Web3Forms</strong> receives contact form submissions and delivers them to our inbox
+          (<a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a>).
+        </li>
+        <li>
+          <strong>Google</strong> runs our consultation booking page (Google Calendar). Information you enter there is
+          also subject to
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's privacy policy</a>.
+        </li>
+        <li>
+          <strong>Cloudflare</strong> hosts and secures the website
+          (<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">privacy policy</a>).
+        </li>
+        <li><strong>Our email provider</strong> stores the messages we send and receive.</li>
+      </ul>
+      <p>
+        Our LinkedIn link takes you to LinkedIn, and nothing is shared with LinkedIn unless you click it. What happens
+        on LinkedIn is covered by LinkedIn's own policies.
+      </p>
+
+      <h2>When We Share Information</h2>
+      <p>
+        We do not sell personal information, and we do not share it for cross-context behavioral advertising. We
+        disclose it only:
+      </p>
+      <ul>
+        <li>to the service providers listed above, to operate the website and our communications;</li>
+        <li>when required by law, or to protect our rights, our clients or others;</li>
+        <li>as part of a merger, acquisition or sale of our business, subject to this policy; or</li>
+        <li>with your permission.</li>
       </ul>
 
-      <h2>Data Sharing</h2>
+      <h2>How Long We Keep It</h2>
       <p>
-        We do not sell personal information. We may share data with service providers that help us host the site,
-        process form submissions, or maintain operations, subject to confidentiality obligations.
+        We keep inquiry and scheduling information for as long as we need it to respond to you and keep our business
+        records, generally no more than three years after our last contact. If you become a client, or the law
+        requires us to keep something longer, we keep it for as long as needed for that reason. Hosting logs are
+        kept by our hosting provider for a short period under its own policies.
       </p>
 
-      <h2>Data Retention</h2>
+      <h2>How We Protect It</h2>
       <p>
-        We keep inquiry data only as long as necessary for business, legal, or operational purposes.
+        The website is served only over an encrypted connection (HTTPS), and access to inquiries is limited to the
+        people who need it to respond. No method of transmission or storage is perfectly secure, which is another
+        reason not to send sensitive information through the website.
       </p>
 
-      <h2>Your Choices</h2>
+      <h2>Your Privacy Rights</h2>
+      <p>Wherever you live, you can ask us to:</p>
+      <ul>
+        <li>tell you what personal information we have about you and give you a copy;</li>
+        <li>correct information that is inaccurate; and</li>
+        <li>delete your information, unless we need to keep it for a legal reason.</li>
+      </ul>
+
+      <h3>California residents</h3>
       <p>
-        You may request access, correction, or deletion of your submitted personal information by contacting us at
-        <a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>.
+        California law, including the California Consumer Privacy Act as amended, gives you the rights above: the
+        right to know what personal information we collect, use and disclose; to delete it; and to correct it. It also
+        gives you the right to opt out of the sale or sharing of your personal information and to limit the use of
+        sensitive personal information. We don't sell or share personal information and don't use sensitive
+        personal information, so there is nothing to opt out of or limit. We will not treat you differently for using
+        any of these rights. You can use an authorized agent to make a request on your behalf.
+      </p>
+      <p>
+        We do not disclose personal information to third parties for their own direct marketing, as described in
+        California Civil Code § 1798.83. Because we don't track visitors, we respond to “Do Not Track” and Global
+        Privacy Control signals by continuing not to track you.
       </p>
 
-      <h2>Policy Updates</h2>
+      <h3>Visitors outside the United States</h3>
       <p>
-        We may revise this policy from time to time. Updates will be posted on this page with a new effective date.
+        We are based in the United States, and information you send us is processed there. Where laws such as the
+        GDPR apply, we rely on our legitimate interest in responding to inquiries you send us, or on your consent. You
+        may also have the right to object to or restrict our use of your information and to complain to your local
+        data protection authority.
       </p>
+
+      <h3>Making a request</h3>
+      <p>
+        Email <a href="mailto:info@mfdresearch.com?subject=Privacy%20request">info@mfdresearch.com</a> with the subject
+        “Privacy request.” We may need to confirm your identity, usually by replying to the email address you used to
+        contact us. We respond within 45 days, or within one month where the GDPR or UK GDPR applies.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        This website is intended for professionals and is not directed to children under 16. We do not knowingly
+        collect information from children. If you believe a child has sent us information, contact us and we will
+        delete it.
+      </p>
+
+      <h2>Other Websites</h2>
+      <p>
+        Links to other websites, such as LinkedIn, conference sites and our booking page, are governed by those
+        sites' own privacy policies.
+      </p>
+
+      <h2>Changes to This Policy</h2>
+      <p>
+        If we change this policy, we will post the new version on this page and update the date at the top. If a
+        change materially affects information we already hold, we will tell you before it applies to that
+        information.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        MFD Research Group LLC<br />
+        <a href="mailto:info@mfdresearch.com">info@mfdresearch.com</a>
+      </p>
+      <p>See also our <a href="/terms-of-service/">Terms of Service</a>.</p>
 
       <a class="home-btn" href="/">Back to Home</a>
     </article>
   </main>
 
 </BaseLayout>
-
