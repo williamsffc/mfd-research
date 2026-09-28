@@ -1,13 +1,14 @@
+---
+import Logo from './Logo.astro';
+---
+
 <!--
   Parity header/nav extracted from legacy homepage.
   Keep IDs/classes/ARIA unchanged for `src/scripts/main.js` and `src/styles/global.css`.
 -->
 <nav id="navbar">
   <a class="nav-logo" href="/">
-    <img
-      src="/assets/mfd-logo.jpg"
-      alt="MFD Research"
-      width="220" height="44" />
+    <Logo />
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="/#about">About</a></li>

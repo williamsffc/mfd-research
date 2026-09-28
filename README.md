@@ -15,6 +15,7 @@ Marketing website for **MFD Research LLC** — clinical research consulting focu
 - 🏗️ Architecture: `docs/architecture.md`
 - 🔄 Handoff notes: `docs/handoff.md`
 - 🔤 Typography rules: `docs/typography.md` (enforced by `npm run verify:typography`)
+- 🎨 Color rules + logo files: `docs/colors.md` (enforced by `npm run verify:colors`)
 - ✅ Current tasks: `docs/current_tasks.md`
 - 🤖 Agent guidance: `CLAUDE.md` (kept at repo root)
 
@@ -160,7 +161,7 @@ While the website remains fully static with no backend database, submissions are
 
 ## 🎛️ Customization guide
 
-- 🎨 **Theme/colors**: edit CSS custom properties in `src/styles/global.css` (`:root` + `[data-theme="dark"]`)
+- 🎨 **Theme/colors**: edit the palette block at the top of `:root` in `src/styles/global.css` (rules and logo files: `docs/colors.md`)
 - 🧩 **Data-driven homepage content**: All homepage grids, timelines, accordions, and repeatable stats are managed via Strongly-Typed data files. Do not edit HTML components to update list content. Edit the following files instead:
   - `src/data/conferences.ts`
   - `src/data/credentials.ts`

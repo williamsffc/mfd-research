@@ -12,7 +12,8 @@ npm run verify:parity # After build: checks public CSS/JS vs root (if present) +
 npm run test:a11y     # Build output + accessibility / invariant checks
 npm run verify:sw-precache # After build: checks service-worker precache URLs exist in dist/
 npm run verify:typography  # No build needed: enforces docs/typography.md (font tokens, size scale, weights)
-npm run test          # verify:typography + build + verify:parity + verify:sw-precache + test:a11y
+npm run verify:colors      # No build needed: enforces docs/colors.md (palette-only colors, AA contrast in both themes)
+npm run test          # verify:typography + verify:colors + build + verify:parity + verify:sw-precache + test:a11y
 ```
 
 Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build command `npm run build` and publish directory `dist/`.
@@ -34,7 +35,7 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 
 **Forms:** Contact form posts to Web3Forms; set `PUBLIC_WEB3FORMS_ACCESS_KEY` (see `.env.example`). No backend.
 
-**Theming:** Edit custom properties in `src/styles/global.css` (`:root` and `[data-theme="dark"]`).
+**Theming:** Raw colors live in the palette block at the top of `:root` in `src/styles/global.css`; semantic tokens below it (and in `[data-theme="dark"]`) map them to roles. See `docs/colors.md`.
 
 **Accessibility target:** WCAG 2.1 AA. Lighthouse targets: Performance 90+, Accessibility 100, Best Practices 100, SEO 90+.
 
@@ -51,6 +52,19 @@ Full rules: `docs/typography.md`. The short version:
 - **Buttons/inputs** don't inherit fonts — set `font: inherit` or a token on the control.
 - **No typography in `.astro` files** (`style=""` or `<style>`); it all lives in `global.css`.
 - Run `npm run verify:typography` before opening a PR.
+
+## Color rules (enforced)
+
+Full rules: `docs/colors.md`. The short version:
+
+- **Raw colors live only in the palette block** at the top of `:root` in `src/styles/global.css` (`--c-name: R G B;`). Everywhere else use a semantic token (`var(--green)`, `var(--text-muted)`) or a palette color with alpha (`rgb(var(--c-white) / 0.08)`). No hex/`rgba(255,…)`/`white` elsewhere.
+- **No colors in `.astro` files** — icons use `stroke="var(--green)"` or `currentColor`. Only exception: `<meta name="theme-color">`.
+- **Text must pass WCAG AA (4.5:1) in light and dark mode**; the check resolves key token pairs and fails below 4.5:1. Fading text with `opacity` counts — measure it.
+- **Primary buttons use `--action-bg/--action-text/--action-hover-*`**, not `--navy` (dark mode turns them green).
+- **Greens are one family matched to the logo** (`#5ABC69` bars); don't add new shades.
+- **Logo:** use `<Logo />` (`src/components/Logo.astro`), never an `<img>` of a raster logo. Standalone files: `public/assets/logo.svg`, `logo-reversed.svg`.
+- Changing palettes = editing the palette block; Option B is recorded in `docs/colors.md`.
+- Run `npm run verify:colors` before opening a PR.
 
 ## Git workflow
 
