@@ -102,10 +102,10 @@ The current static site references several assets that are not currently present
 Missing referenced assets:
 
 ```text
-assets/favicon-32x32.png
-assets/favicon-16x16.png
-assets/apple-touch-icon.png
-assets/og-image.png
+assets/favicon-32x32-v2.png
+assets/favicon-16x16-v2.png
+assets/apple-touch-icon-v2.png
+assets/og-image-v2.png
 ```
 
 These are important for browser icons, mobile home screen behavior, PWA metadata, and LinkedIn/Open Graph previews.

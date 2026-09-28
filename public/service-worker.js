@@ -16,8 +16,8 @@ const RUNTIME_CACHE = `mfd-runtime-${BUILD_VERSION}`;
 // Assets to cache immediately on install
 const PRECACHE_URLS = [
   '/',
-  '/assets/logo.svg',
-  '/assets/favicon.svg',
+  '/assets/logo-v2.svg',
+  '/assets/favicon-v2.svg',
 ];
 
 // Cache size limits (in items)

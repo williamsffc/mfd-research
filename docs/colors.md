@@ -101,22 +101,29 @@ as a starting point and let `npm run verify:colors` confirm contrast.
 
 ## 5. The logo
 
-The logo was redrawn as a vector (September 2026) from the original JPG. Its text is
+The logo was redrawn as a vector (September 2026) from the original JPG. The wordmark is
+**Barlow**: "MFD" Bold + "research" Regular; the tagline is Barlow Italic. Text is
 converted to shapes, so it renders identically everywhere with no font installed.
 
 | File | Use |
 |---|---|
 | `src/components/Logo.astro` | On the site (nav and footer). Inline SVG that follows the theme: ink uses `currentColor`, bars use `--logo-bar-1..3`. `<Logo tagline />` adds the tagline for large sizes. |
-| `public/assets/logo.svg` | The full framed logo for light backgrounds (print, documents, partners). |
-| `public/assets/logo-reversed.svg` | The same, with white ink, for dark backgrounds. |
-| `public/assets/logo.png` | 600px raster for structured data (Google). |
-| `public/assets/favicon.svg` | Browser tab icon: the three bars on navy. |
+| `public/assets/logo-v2.svg` | The full framed logo for light backgrounds (print, documents, partners). |
+| `public/assets/logo-reversed-v2.svg` | The same, with white ink, for dark backgrounds. |
+| `public/assets/logo-v2.png` | 600px raster for structured data (Google). |
+| `public/assets/favicon-v2.svg` | Browser tab icon: the three bars on navy. |
 | `scripts/brand/og-image.svg` | Source of the social share image. |
 
 On the site the square frame is omitted (a horizontal lockup), and the tagline is left
 out below about 60px tall because it becomes unreadable.
 
-To regenerate the PNGs (favicons, touch icon, PWA icons, `logo.png`, `og-image.png`)
+**Never overwrite a file in `public/assets/` with new content.** `public/_headers` tells
+browsers to keep those files for a year without re-checking, so an overwritten favicon or
+social image can stay stale for months. Save changed files under a new name (bump the
+`-vN` suffix) and update every reference (`BaseLayout.astro`, `site.webmanifest`,
+`service-worker.js`, the legal pages, JSON-LD in `index.astro`).
+
+To regenerate the PNGs (favicons, touch icon, PWA icons, `logo-v2.png`, `og-image-v2.png`)
 after editing an SVG source:
 
 ```bash
