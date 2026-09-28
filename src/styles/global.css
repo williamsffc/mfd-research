@@ -1346,6 +1346,7 @@
 
     .timeline {
       position: relative;
+      isolation: isolate; /* own stacking context: rail at 0, roles at 1 (below) */
       padding-left: 36px;
       width: 100%;
       max-width: 980px;
@@ -1376,8 +1377,11 @@
       transition: height 0.45s ease;
     }
 
+    /* z-index 1 lifts each role (and its dot) above the rail. The dot's own z-index
+       can't: a revealed role keeps a transform, which traps the dot in its layer. */
     .timeline-item {
       position: relative;
+      z-index: 1;
       margin-bottom: 48px;
       padding: 14px 14px 14px 28px;
       width: 100%;
@@ -1426,11 +1430,8 @@
     }
 
     /* Centred on the rail: item starts 36px right of it; dot is 14px wide. */
-    /* z-index keeps the dots above the rail; ::after comes after the cards in paint
-       order, so without it the green fill is drawn across the hollow dots. */
     .timeline-dot {
       position: absolute;
-      z-index: 1;
       left: -42px;
       top: 50%;
       width: 14px;
