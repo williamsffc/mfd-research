@@ -3,7 +3,8 @@
 # checks it before deploy. Guide: docs/content.md.
 #
 # Every field in a content file must be listed here: Pages CMS drops fields it doesn't
-# know about when it saves. `npm run verify:content` fails if one is missing.
+# know about when it saves. `npm run verify:content` fails if one is missing; it reads
+# this file per entry, so keep one field per `- name: x` or `- { name: x, ... }` line.
 
 content:
   - name: conferences
