@@ -1,0 +1,35 @@
+# Rebuilds the live site once a week, even when nothing was pushed.
+#
+# Some content depends on the build date: conferences move from "Upcoming" to
+# "Attended" (and off the featured card) once their dates pass, and "{years}" of
+# experience ticks over each year. Without a rebuild, the site would keep showing the
+# state from its last deploy.
+#
+# Setup (once): in Cloudflare, Workers & Pages → mfd-research → Settings → Builds →
+# Deploy Hooks, create a hook for the `main` branch and copy its URL. In GitHub,
+# Settings → Secrets and variables → Actions → New repository secret named
+# CLOUDFLARE_DEPLOY_HOOK_URL with that URL. Run it any time from the Actions tab.
+name: Weekly rebuild
+
+on:
+  schedule:
+    - cron: '17 11 * * 1' # Mondays 11:17 UTC (early morning in California)
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger the Cloudflare deploy hook
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "::warning::CLOUDFLARE_DEPLOY_HOOK_URL is not set; see the setup notes at the top of this workflow."
+            exit 0
+          fi
+          curl --fail --silent --show-error --retry 3 -X POST "$DEPLOY_HOOK_URL"
+          echo "Rebuild requested."

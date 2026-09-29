@@ -49,7 +49,8 @@ lock. New icons are added in `src/data/icons.ts`.
 - The large card shows the **next upcoming event** (the nearest `"status": "Upcoming"`
   date). Everything else goes under "Recent & Past Engagements", newest first.
 - When an "Upcoming" event's dates have passed, it's shown as "Attended" and moves to
-  the list automatically. (The site updates on its next deploy.)
+  the list automatically. The site rebuilds every Monday (and on every change), so
+  this happens within a week without anyone editing anything.
 - If nothing is upcoming, the most recent event takes the card, without a button.
 
 So to announce a new event, add it to `events` with `"status": "Upcoming"`, and add
@@ -66,11 +67,39 @@ bad years or dates, unknown icons or statuses, more than one featured conference
 invalid JSON. It also runs automatically before every build, so a mistake stops the
 deploy with a message naming the file and the field instead of breaking the page.
 
-## Making a change on GitHub
+## Editing with Pages CMS (the easy way)
+
+[Pages CMS](https://app.pagescms.org) gives every file above a form: text boxes, date
+pickers, dropdowns for icons and statuses, and "Add item" buttons for lists. Nothing to
+install; it reads `.pages.yml` in this repository.
+
+1. Go to **app.pagescms.org** and sign in with GitHub. The first time, install the
+   Pages CMS GitHub app on the `mfd-research` repository when it asks.
+2. Open **mfd-research**, pick a section (e.g. **Conferences**), edit, and **Save**.
+3. Saving commits to the branch you're on. The safe habit: switch to a branch first
+   (branch menu at the top), save there, then open a pull request on GitHub. Cloudflare
+   builds a preview; check it and merge. Saving on `main` publishes directly.
+
+If the content check fails after a save, the Cloudflare build shows which file and field
+to fix, and the live site stays as it was.
+
+For developers: when you add a field to a content file, add it to `.pages.yml` too.
+Pages CMS only saves fields listed there, and `npm run verify:content` fails if one is
+missing.
+
+## Making a change on GitHub directly
 
 1. Open the file under `content/` on GitHub and click the pencil (Edit).
 2. Make the change, then **Commit changes → Create a new branch** and open a pull request.
 3. Cloudflare builds a preview for the pull request. Check it, then merge.
+
+## Weekly rebuild
+
+`.github/workflows/weekly-rebuild.yml` asks Cloudflare to rebuild the live site every
+Monday, so date-based content (conference status, years of experience) stays current.
+It needs a one-time setup: a Cloudflare deploy hook for `main`, saved as the
+`CLOUDFLARE_DEPLOY_HOOK_URL` repository secret (steps at the top of the file). You can
+also run it by hand from GitHub's **Actions** tab.
 
 The legal pages (`src/pages/privacy-policy/`, `src/pages/terms-of-service/`) are
 long-form and stay in their page files.

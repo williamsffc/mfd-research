@@ -45,11 +45,11 @@ const SCHEMA = {
   'services.json': section({ items: list(obj({ title: text, description: text, icon })) }),
   'process.json': section({ steps: list(obj({ title: text, description: text, icon })) }),
   'experience.json': section({
-    roles: list(obj({ title: text, organization: text, startYear: year, endYear: { type: 'year', nullable: true }, summary: text })),
+    roles: list(obj({ title: text, organization: text, startYear: year, endYear: { type: 'year', optional: true, nullable: true }, summary: text })),
   }),
   'specialties.json': section({ groups: list(obj({ name: text, emoji: text, tags: list(text) })) }),
   'credentials.json': section({
-    columns: list(obj({ title: { type: 'text', allowEmpty: true }, items: list(obj({ year, description: text })) })),
+    columns: list(obj({ title: { type: 'text', optional: true }, items: list(obj({ year, description: text })) })),
   }),
   'conferences.json': section({
     pastTitle: text,
@@ -146,6 +146,35 @@ for (const [file, spec] of Object.entries(SCHEMA)) {
   }
   data[file] = json;
   check(json, spec, '', file);
+}
+
+// Pages CMS (.pages.yml) saves only the fields its config lists, so a field missing
+// there would be silently deleted the first time someone edits that file in the CMS.
+const pagesConfigPath = join(repoRoot, '.pages.yml');
+let pagesConfig = '';
+try {
+  pagesConfig = readFileSync(pagesConfigPath, 'utf8');
+} catch {
+  failures.push('.pages.yml is missing (the Pages CMS editor config)');
+}
+if (pagesConfig) {
+  const named = new Set([...pagesConfig.matchAll(/name:\s*([A-Za-z0-9_-]+)/g)].map((m) => m[1]));
+  const walkNames = (spec, path, file) => {
+    if (spec.type === 'object') {
+      for (const [key, child] of Object.entries(spec.fields)) {
+        checks++;
+        if (!named.has(key)) failures.push(`.pages.yml: no field "${key}" (${file} → ${path ? `${path}.` : ''}${key}); Pages CMS would drop it on save`);
+        walkNames(child, path ? `${path}.${key}` : key, file);
+      }
+    } else if (spec.type === 'list') {
+      walkNames(spec.item, path, file);
+    }
+  };
+  for (const [file, spec] of Object.entries(SCHEMA)) {
+    checks++;
+    if (!pagesConfig.includes(`path: content/${file}`)) failures.push(`.pages.yml: no entry for content/${file}`);
+    walkNames(spec, '', file);
+  }
 }
 
 // Cross-field rules

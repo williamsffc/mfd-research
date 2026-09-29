@@ -1,0 +1,283 @@
+# Pages CMS (https://pagescms.org): forms for editing the site text in content/*.json.
+# Saving in Pages CMS commits to GitHub; Cloudflare builds it and `npm run verify:content`
+# checks it before deploy. Guide: docs/content.md.
+#
+# Every field in a content file must be listed here: Pages CMS drops fields it doesn't
+# know about when it saves. `npm run verify:content` fails if one is missing.
+
+content:
+  - name: conferences
+    label: Conferences
+    description: The featured card shows the next upcoming event automatically; past events move to "Recent & Past Engagements".
+    type: file
+    path: content/conferences.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - { name: pastTitle, label: Title of the past-events list, type: string, required: true }
+      - name: events
+        label: Events
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{startDate} · {name}" } }
+        fields:
+          - { name: name, label: Event name, type: string, required: true }
+          - { name: startDate, label: Start date, type: date, required: true }
+          - { name: endDate, label: End date, description: Optional. Only the month is shown on the site., type: date }
+          - { name: location, label: Location, type: string, required: true }
+          - name: status
+            label: Status
+            description: An "Upcoming" event is shown as "Attended" automatically once its dates have passed.
+            type: select
+            required: true
+            options: { values: [Upcoming, Attended, Details Pending] }
+          - { name: focus, label: Focus, type: string, required: true }
+          - name: buttonLabel
+            label: Button label
+            description: Optional, e.g. "Schedule a Meeting". Shown on the featured card while the event is ahead.
+            type: string
+          - { name: buttonUrl, label: Button link, description: Optional. Leave empty to use the booking link., type: string }
+          - { name: featured, label: Pin as the featured event, description: Only needed when several events are upcoming., type: boolean }
+
+  - name: faq
+    label: FAQ
+    type: file
+    path: content/faq.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: questions
+        label: Questions
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{question}" } }
+        fields:
+          - { name: question, label: Question, type: string, required: true }
+          - { name: answer, label: Answer, type: text, required: true }
+
+  - name: hero
+    label: Hero (top of page)
+    type: file
+    path: content/hero.json
+    format: json
+    fields:
+      - { name: titleLine1, label: "Headline, first line", type: string, required: true }
+      - { name: titleLine2, label: "Headline, second line (before the green word)", type: string, required: true }
+      - { name: titleHighlight, label: "Headline, green word", type: string, required: true }
+      - { name: intro, label: Intro paragraph, type: text, required: true }
+      - { name: primaryButton, label: Main button label, type: string, required: true }
+      - { name: secondaryButton, label: Second button label, type: string, required: true }
+      - { name: cardTitle, label: Card title, type: string, required: true }
+      - name: stats
+        label: Card stats
+        description: 'Values that start with a number ("100+") count up on screen. {years} = years of experience.'
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{value} · {label}" } }
+        fields:
+          - { name: label, label: Label, type: string, required: true }
+          - { name: value, label: Value, type: string, required: true }
+          - name: icon
+            label: Icon
+            type: select
+            required: true
+            options: { values: [award, folder, map-pin, globe, clock, activity, shield-check, layers, layout, file-text, settings, users, bar-chart, message, home, lock] }
+
+  - name: credibility
+    label: Credibility bar
+    type: file
+    path: content/credibility.json
+    format: json
+    fields:
+      - name: items
+        label: Items
+        description: '{years} = years of experience.'
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{value} · {text}" } }
+        fields:
+          - { name: value, label: Figure, type: string, required: true }
+          - { name: text, label: Caption, type: string, required: true }
+          - name: icon
+            label: Icon
+            type: select
+            required: true
+            options: { values: [award, folder, map-pin, globe, clock, activity, shield-check, layers, layout, file-text, settings, users, bar-chart, message, home, lock] }
+
+  - name: about
+    label: About (Who We Are)
+    type: file
+    path: content/about.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: paragraphs, label: Paragraphs, description: '{years} = years of experience.', type: text, list: true, required: true }
+      - { name: quote, label: Quote, type: text, required: true }
+      - { name: quoteAuthor, label: Quote attribution, type: string, required: true }
+      - { name: tags, label: Tags, type: string, list: true, required: true }
+
+  - name: services
+    label: Consulting services
+    type: file
+    path: content/services.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: items
+        label: Services
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{title}" } }
+        fields:
+          - { name: title, label: Title (front of card), type: string, required: true }
+          - { name: description, label: Description (back of card), type: text, required: true }
+          - name: icon
+            label: Icon
+            type: select
+            required: true
+            options: { values: [award, folder, map-pin, globe, clock, activity, shield-check, layers, layout, file-text, settings, users, bar-chart, message, home, lock] }
+
+  - name: process
+    label: Engagement process
+    type: file
+    path: content/process.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: steps
+        label: Steps
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{title}" } }
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: description, label: Description, type: text, required: true }
+          - name: icon
+            label: Icon
+            type: select
+            required: true
+            options: { values: [award, folder, map-pin, globe, clock, activity, shield-check, layers, layout, file-text, settings, users, bar-chart, message, home, lock] }
+
+  - name: experience
+    label: Experience timeline
+    type: file
+    path: content/experience.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: roles
+        label: Roles (newest first)
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{startYear} · {title}" } }
+        fields:
+          - { name: title, label: Role, type: string, required: true }
+          - { name: organization, label: Organization, type: string, required: true }
+          - { name: startYear, label: Start year, type: number, required: true, options: { min: 1950, max: 2100 } }
+          - { name: endYear, label: End year, description: Leave empty for a current role ("Present")., type: number, options: { min: 1950, max: 2100 } }
+          - { name: summary, label: Summary, type: text, required: true }
+
+  - name: specialties
+    label: Clinical specialties
+    type: file
+    path: content/specialties.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: groups
+        label: Therapeutic areas
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{emoji} {name}" } }
+        fields:
+          - { name: name, label: Area, type: string, required: true }
+          - { name: emoji, label: Emoji, type: string, required: true }
+          - { name: tags, label: Indications, type: string, list: true, required: true }
+
+  - name: credentials
+    label: Credentials
+    type: file
+    path: content/credentials.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: columns
+        label: Columns
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Column title, description: Optional., type: string }
+          - name: items
+            label: Credentials
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{year} · {description}" } }
+            fields:
+              - { name: year, label: Year, type: number, required: true, options: { min: 1950, max: 2100 } }
+              - { name: description, label: Credential, type: string, required: true }
+
+  - name: why
+    label: Why MFD Research
+    type: file
+    path: content/why.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - name: cards
+        label: Cards
+        type: object
+        list: { collapsible: { collapsed: true, summary: "{title}" } }
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: description, label: Description, type: text, required: true }
+          - name: icon
+            label: Icon
+            type: select
+            required: true
+            options: { values: [award, folder, map-pin, globe, clock, activity, shield-check, layers, layout, file-text, settings, users, bar-chart, message, home, lock] }
+
+  - name: contact
+    label: Contact
+    type: file
+    path: content/contact.json
+    format: json
+    fields:
+      - { name: label, label: Small label above the title, type: string, required: true }
+      - { name: title, label: Section title, type: string, required: true }
+      - { name: intro, label: Intro, type: text, required: true }
+      - { name: confidentiality, label: Confidentiality line, type: string, required: true }
+      - { name: responseTime, label: Response time line, type: string, required: true }
+      - { name: scheduleLink, label: Booking link text, type: string, required: true }
+      - { name: linkedinLink, label: LinkedIn link text, type: string, required: true }
+      - { name: interestOptions, label: '"Area of Interest" options', type: string, list: true, required: true }
+
+  - name: footer
+    label: Footer
+    type: file
+    path: content/footer.json
+    format: json
+    fields:
+      - { name: tagline, label: Tagline, type: string, required: true }
+      - { name: bookingButton, label: Booking button label, type: string, required: true }
+      - { name: notes, label: Notes, type: string, list: true, required: true }
+
+  - name: site
+    label: Site settings
+    description: Email, links and the year your career started (drives every "{years}").
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - { name: careerStartYear, label: Career start year, type: number, required: true, options: { min: 1950, max: 2100 } }
+      - { name: email, label: Email, type: string, required: true }
+      - { name: bookingUrl, label: Booking link, type: string, required: true }
+      - { name: linkedinUrl, label: LinkedIn link, type: string, required: true }
+      - { name: description, label: Search-engine description, type: text, required: true }
