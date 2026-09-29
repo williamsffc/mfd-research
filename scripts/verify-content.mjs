@@ -45,11 +45,11 @@ const SCHEMA = {
   'services.json': section({ items: list(obj({ title: text, description: text, icon })) }),
   'process.json': section({ steps: list(obj({ title: text, description: text, icon })) }),
   'experience.json': section({
-    roles: list(obj({ title: text, organization: text, startYear: year, endYear: { type: 'year', nullable: true }, summary: text })),
+    roles: list(obj({ title: text, organization: text, startYear: year, endYear: { type: 'year', optional: true, nullable: true }, summary: text })),
   }),
   'specialties.json': section({ groups: list(obj({ name: text, emoji: text, tags: list(text) })) }),
   'credentials.json': section({
-    columns: list(obj({ title: { type: 'text', allowEmpty: true }, items: list(obj({ year, description: text })) })),
+    columns: list(obj({ title: { type: 'text', optional: true }, items: list(obj({ year, description: text })) })),
   }),
   'conferences.json': section({
     pastTitle: text,
@@ -146,6 +146,78 @@ for (const [file, spec] of Object.entries(SCHEMA)) {
   }
   data[file] = json;
   check(json, spec, '', file);
+}
+
+// Pages CMS (.pages.yml) saves only the fields its config lists, so a field missing
+// there would be silently deleted the first time someone edits that file in the CMS.
+const pagesConfigPath = join(repoRoot, '.pages.yml');
+let pagesConfig = '';
+try {
+  pagesConfig = readFileSync(pagesConfigPath, 'utf8');
+} catch {
+  failures.push('.pages.yml is missing (the Pages CMS editor config)');
+}
+if (pagesConfig) {
+  const lines = pagesConfig.split('\n');
+  const indentOf = (line) => line.length - line.trimStart().length;
+  const nameOf = (line) => line.match(/name:\s*([A-Za-z0-9_-]+)/)?.[1];
+
+  // Reads a `fields:` list written one field per `- name: x` / `- { name: x, ... }`
+  // line (the style .pages.yml uses) into { fieldName: childFields | null }.
+  function parseFieldList(start, indent) {
+    const fields = {};
+    let current = null;
+    for (let i = start; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.trim() || line.trim().startsWith('#')) continue;
+      const ind = indentOf(line);
+      if (ind < indent) break;
+      if (ind === indent && line.trimStart().startsWith('- ')) {
+        current = nameOf(line);
+        if (current) fields[current] = null;
+      } else if (current && ind === indent + 2 && /^fields:\s*$/.test(line.trim())) {
+        fields[current] = parseFieldList(i + 1, indent + 4);
+      }
+    }
+    return fields;
+  }
+
+  // Each content file's own entry must list its fields, at the right nesting level.
+  const compare = (spec, parsed, path, file) => {
+    if (spec.type === 'list') return compare(spec.item, parsed, path, file);
+    if (spec.type !== 'object') return;
+    for (const [key, child] of Object.entries(spec.fields)) {
+      checks++;
+      const where = `${file} → ${path ? `${path}.` : ''}${key}`;
+      if (!parsed || !(key in parsed)) {
+        failures.push(`.pages.yml: the ${file} entry doesn't list "${key}" (${where}); Pages CMS would drop it on save`);
+        continue;
+      }
+      const needsChildren = (child.type === 'object') || (child.type === 'list' && child.item.type === 'object');
+      if (needsChildren) compare(child, parsed[key], path ? `${path}.${key}` : key, file);
+    }
+  };
+
+  for (const [file, spec] of Object.entries(SCHEMA)) {
+    checks++;
+    const pathLine = lines.findIndex((line) => line.trim() === `path: content/${file}`);
+    if (pathLine === -1) {
+      failures.push(`.pages.yml: no entry for content/${file}`);
+      continue;
+    }
+    // The entry runs from its "- name:" line to the next entry at the same level.
+    let entryStart = pathLine;
+    while (entryStart > 0 && !/^ {2}- name:/.test(lines[entryStart])) entryStart--;
+    let fieldsLine = -1;
+    for (let i = entryStart + 1; i < lines.length && !/^ {2}- name:/.test(lines[i]); i++) {
+      if (indentOf(lines[i]) === 4 && /^fields:\s*$/.test(lines[i].trim())) { fieldsLine = i; break; }
+    }
+    if (fieldsLine === -1) {
+      failures.push(`.pages.yml: the content/${file} entry has no fields`);
+      continue;
+    }
+    compare(spec, parseFieldList(fieldsLine + 1, 6), '', file);
+  }
 }
 
 // Cross-field rules

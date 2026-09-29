@@ -90,7 +90,15 @@ export const engagementProcess = {
 };
 
 export type Role = { title: string; organization: string; startYear: number; endYear: number | null; summary: string };
-export const experience = { ...experienceJson, roles: experienceJson.roles as Role[] };
+// An empty end year means a current role. (Pages CMS removes empty fields when saving,
+// so a missing endYear is the same as null.)
+export const experience = {
+  ...experienceJson,
+  roles: (experienceJson.roles as Array<Omit<Role, 'endYear'> & { endYear?: number | null }>).map((role) => ({
+    ...role,
+    endYear: role.endYear ?? null,
+  })) as Role[],
+};
 
 export const specialties = specialtiesJson;
 

@@ -29,6 +29,7 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 - `src/pages/privacy-policy/index.astro`, `src/pages/terms-of-service/index.astro` — Legal routes.
 - `src/components/` — Header, Footer, homepage sections, Conferences, etc.
 - `content/*.json` — All homepage text, one file per section (see `docs/content.md`). Change wording there, not in components.
+- `.pages.yml` — Pages CMS editor config; every content field must be listed there (Pages CMS drops unlisted fields on save; `verify:content` checks). `.github/workflows/weekly-rebuild.yml` rebuilds the site weekly via a Cloudflare deploy hook.
 - `src/data/content.ts` — Reads the content files and adds computed values ({years}, counters, icons); `src/data/icons.ts` — named icons.
 - `src/styles/global.css` — Global styles + theming tokens (CSS custom properties; light `:root`, dark `[data-theme="dark"]`).
 - `src/scripts/main.js` — Mobile nav, theme toggle, scroll/reveal, scrollspy, FAQ, service-card flip, form + Web3Forms fetch, service worker registration, etc.
