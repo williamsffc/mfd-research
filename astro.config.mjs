@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
+import { writeMarkdownPages } from './scripts/html-to-markdown.mjs';
 
 // Stamp a per-build cache version into the shipped service worker so each deploy
 // invalidates old caches without a manual bump.
@@ -16,10 +17,18 @@ const stampServiceWorker = {
   },
 };
 
+// Markdown copies of the legal pages for AI agents (served by worker/index.js).
+const markdownPages = {
+  name: 'markdown-pages',
+  hooks: {
+    'astro:build:done': async ({ dir }) => writeMarkdownPages(fileURLToPath(dir)),
+  },
+};
+
 export default defineConfig({
   output: 'static',
   build: {
     format: 'directory',
   },
-  integrations: [stampServiceWorker],
+  integrations: [stampServiceWorker, markdownPages],
 });
