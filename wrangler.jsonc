@@ -1,0 +1,13 @@
+// Cloudflare Workers config: the site is served as static assets from dist/ (no Worker code).
+// The deploy command in the Cloudflare dashboard (README.md → Deployment) passes the same
+// directory and compatibility date; this file adds what the command can't:
+// - not_found_handling "404-page": a missing URL gets dist/404.html with a real 404 status.
+//   Without it Cloudflare answers with an empty 404, which browsers show as a broken page.
+{
+  "name": "mfd-research",
+  "compatibility_date": "2026-04-24",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
