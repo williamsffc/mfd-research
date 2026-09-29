@@ -32,7 +32,7 @@ const obj = (fields) => ({ type: 'object', fields });
 const section = (fields) => obj({ label: text, title: text, intro: text, ...fields });
 
 const SCHEMA = {
-  'site.json': obj({ careerStartYear: year, email: { type: 'email' }, bookingUrl: url, linkedinUrl: url, description: text }),
+  'site.json': obj({ title: text, shareTitle: text, careerStartYear: year, email: { type: 'email' }, bookingUrl: url, linkedinUrl: url, description: text }),
   'hero.json': obj({
     titleLine1: text, titleLine2: text, titleHighlight: text, intro: text,
     primaryButton: text, secondaryButton: text, cardTitle: text,

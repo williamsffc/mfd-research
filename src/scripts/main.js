@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Page loader animation
-   * Hides loader overlay once page is fully loaded
+   * Hides the loader overlay and starts the hero entrance once the DOM is ready
    */
   function setupLoader() {
     const loader = document.getElementById('loader-overlay');
@@ -462,11 +462,11 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('loaded');
     };
 
-    if (document.readyState === 'complete') {
-      hideLoader();
-    } else {
-      window.addEventListener('load', hideLoader);
-    }
+    // Reveal as soon as the DOM is ready (this runs on DOMContentLoaded). Waiting for the
+    // window "load" event kept the hero headline, the page's largest text, invisible
+    // until every font and image had finished downloading, which delayed first paint
+    // of the main content (LCP). Fonts use font-display: swap, so text shows right away.
+    hideLoader();
   }
 
   /**

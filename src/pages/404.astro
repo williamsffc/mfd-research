@@ -1,0 +1,29 @@
+---
+// Shown for any URL that doesn't exist (Astro builds it as dist/404.html).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Logo from '../components/Logo.astro';
+import { site } from '../data/content';
+---
+
+<BaseLayout
+  title="Page not found | MFD Research"
+  description="This page doesn't exist. Visit the MFD Research homepage for clinical research operations consulting."
+  canonical="https://mfdresearch.com/404/"
+  robots="noindex, follow"
+>
+  <main class="legal-page wrap">
+    <a class="legal-top" href="/" aria-label="MFD Research home">
+      <Logo />
+    </a>
+
+    <article class="legal-card">
+      <h1>Page not found</h1>
+      <p>
+        The page you're looking for doesn't exist or has moved. Everything about our clinical research operations
+        consulting is on the homepage, or you can email <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+      <Button href="/" variant="outline" arrow="start" class="home-btn">Back to Home</Button>
+    </article>
+  </main>
+</BaseLayout>
