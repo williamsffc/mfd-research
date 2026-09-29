@@ -1,3 +1,6 @@
+# Search engines and AI assistants (Google, Bing, ChatGPT, Claude, Perplexity, Gemini…)
+# are welcome to read and cite this site. A plain-text summary for AI tools is at
+# https://mfdresearch.com/llms.txt
 User-agent: *
 Allow: /
 

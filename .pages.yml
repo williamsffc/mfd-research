@@ -277,6 +277,8 @@ content:
     path: content/site.json
     format: json
     fields:
+      - { name: title, label: Browser tab and Google title, description: About 50–60 characters; lead with the name., type: string, required: true }
+      - { name: shareTitle, label: Title for link previews (LinkedIn etc.), type: string, required: true }
       - { name: careerStartYear, label: Career start year, type: number, required: true, options: { min: 1950, max: 2100 } }
       - { name: email, label: Email, type: string, required: true }
       - { name: bookingUrl, label: Booking link, type: string, required: true }

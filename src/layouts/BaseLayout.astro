@@ -14,6 +14,8 @@ const {
   ogTitle,
   ogDescription,
   ogImage = '/assets/og-image-v2.png',
+  /** Describes the share image for screen readers and AI tools. Default matches og-image-v2.png. */
+  ogImageAlt = 'MFD Research logo, "Taking research to the next level", above the caption Clinical Research Operations Consulting',
   ogType = 'website',
   ogSiteName = 'MFD Research',
 
@@ -54,6 +56,11 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     <meta property="og:title" content={resolvedOgTitle} />
     {resolvedOgDescription ? <meta property="og:description" content={resolvedOgDescription} /> : null}
     <meta property="og:image" content={resolvedOgImage} />
+    {/* The default image is 1200x630; pages passing another ogImage should keep that size. */}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={ogSiteName} />
 
     {/* Twitter */}
@@ -61,6 +68,7 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     <meta name="twitter:title" content={resolvedTwitterTitle} />
     {resolvedTwitterDescription ? <meta name="twitter:description" content={resolvedTwitterDescription} /> : null}
     <meta name="twitter:image" content={resolvedTwitterImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     {/* Fonts are self-hosted (@font-face in global.css). Preload the two used above the fold. */}
     <link rel="preload" href="/assets/fonts/dm-sans-v1.woff2" as="font" type="font/woff2" crossorigin />

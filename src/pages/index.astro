@@ -19,58 +19,106 @@ import Conferences from '../components/Conferences.astro';
 import WhyMFD from '../components/WhyMFD.astro';
 import Faq from '../components/Faq.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import { faq, site } from '../data/content';
+import { credentials, experience, faq, services, site, specialties } from '../data/content';
 
 const web3formsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? '';
 if (!web3formsAccessKey) {
   console.warn('[mfd-research] PUBLIC_WEB3FORMS_ACCESS_KEY is not set; the contact form will not send.');
 }
 
-const title = 'MFD Research';
-const ogTitle = 'MFD Research | Where Expertise Meets Execution';
+const title = site.title;
+const ogTitle = site.shareTitle;
 const description = site.description;
 const canonical = 'https://mfdresearch.com/';
 
-// JSON-LD is generated from the same data the page renders so the FAQ markup can't drift
-// from the visible accordion (a Google rich-results requirement).
+// JSON-LD (schema.org) for search engines and AI assistants, generated from the same
+// content the page renders so it can't drift from what visitors see (the FAQ markup must
+// match the visible accordion for Google rich results). Entities link by @id.
+const ORIGIN = 'https://mfdresearch.com';
+const orgId = `${ORIGIN}/#organization`;
+const founderId = `${ORIGIN}/#founder`;
+const mfdRole = experience.roles.find((role) => role.organization === 'MFD Research');
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'Organization',
-      '@id': 'https://mfdresearch.com/#organization',
+      '@type': 'WebSite',
+      '@id': `${ORIGIN}/#website`,
+      url: `${ORIGIN}/`,
       name: 'MFD Research',
+      description,
+      inLanguage: 'en-US',
+      publisher: { '@id': orgId },
+    },
+    {
+      '@type': 'Organization',
+      '@id': orgId,
+      name: 'MFD Research',
+      alternateName: 'MFDresearch',
       legalName: 'MFD Research Group LLC',
-      url: 'https://mfdresearch.com',
+      url: `${ORIGIN}/`,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://mfdresearch.com/assets/logo-v2.png',
+        url: `${ORIGIN}/assets/logo-v2.png`,
       },
       description,
+      ...(mfdRole ? { foundingDate: String(mfdRole.startYear) } : {}),
       email: site.email,
       address: {
         '@type': 'PostalAddress',
         addressCountry: 'US',
         addressRegion: 'CA',
       },
+      areaServed: { '@type': 'Country', name: 'United States' },
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'Customer Service',
         email: site.email,
+        url: site.bookingUrl,
         availableLanguage: 'English',
       },
-      founder: {
-        '@type': 'Person',
-        name: 'Michael Delgado',
-        honorificSuffix: 'CCRC',
-        jobTitle: 'Founder & Principal',
-        sameAs: [site.linkedinUrl],
+      founder: { '@id': founderId },
+      knowsAbout: [
+        ...services.items.map((item) => item.title),
+        ...specialties.groups.map((group) => `${group.name} clinical trials`),
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: services.title,
+        itemListElement: services.items.map((item) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: item.title,
+            description: item.description,
+            provider: { '@id': orgId },
+            areaServed: { '@type': 'Country', name: 'United States' },
+          },
+        })),
       },
       sameAs: [site.linkedinUrl],
     },
     {
+      '@type': 'Person',
+      '@id': founderId,
+      name: 'Michael Delgado',
+      honorificSuffix: 'CCRC',
+      jobTitle: 'Founder & Principal',
+      worksFor: { '@id': orgId },
+      knowsAbout: specialties.groups.map((group) => group.name),
+      hasCredential: credentials.columns.flatMap((column) =>
+        column.items.map((item) => ({
+          '@type': 'EducationalOccupationalCredential',
+          name: item.description,
+          dateCreated: String(item.year),
+        })),
+      ),
+      sameAs: [site.linkedinUrl],
+    },
+    {
       '@type': 'FAQPage',
-      '@id': 'https://mfdresearch.com/#faq',
+      '@id': `${ORIGIN}/#faq`,
       mainEntity: faq.questions.map((item) => ({
         '@type': 'Question',
         name: item.question,
