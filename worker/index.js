@@ -11,6 +11,17 @@ import headersFile from '../public/_headers';
 
 const CONTENT_SIGNAL = 'search=yes, ai-input=yes, ai-train=yes';
 
+/**
+ * Link headers (RFC 8288) on every page, pointing agents to the machine-readable versions:
+ * the page's Markdown copy, the llms.txt summary and the sitemap.
+ */
+const pageLinks = (page) =>
+  [
+    `<${page}index.md>; rel="alternate"; type="text/markdown"`,
+    '</llms.txt>; rel="describedby"; type="text/plain"',
+    '</sitemap.xml>; rel="sitemap"; type="application/xml"',
+  ].join(', ');
+
 /** The site-wide headers from public/_headers (the `/*` block): security headers and CSP. */
 const SITE_HEADERS = (() => {
   const headers = [];
@@ -56,8 +67,8 @@ function withSiteHeaders(response) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const page = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
     if ((request.method === 'GET' || request.method === 'HEAD') && wantsMarkdown(request)) {
-      const page = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
       const markdown = await env.ASSETS.fetch(new URL(`${page}index.md`, url));
       if (markdown.ok) {
         const text = await markdown.text();
@@ -76,6 +87,11 @@ export default {
         );
       }
     }
-    return withSiteHeaders(await env.ASSETS.fetch(request));
+    const response = withSiteHeaders(await env.ASSETS.fetch(request));
+    if (response.ok && (response.headers.get('Content-Type') || '').startsWith('text/html')) {
+      response.headers.append('Link', pageLinks(page));
+      response.headers.set('Content-Signal', CONTENT_SIGNAL);
+    }
+    return response;
   },
 };
