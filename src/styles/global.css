@@ -1197,8 +1197,10 @@
       transform: rotateY(180deg);
     }
 
+    /* Touch screens keep :hover after a tap, so only cancel hover-flips on cards that
+       weren't tapped open; otherwise this would undo the tap's .flipped state. */
     @media (hover: none), (pointer: coarse) {
-      .service-card:hover .service-card-inner {
+      .service-card:hover:not(.flipped) .service-card-inner {
         transform: none;
       }
     }
@@ -1344,6 +1346,7 @@
 
     .timeline {
       position: relative;
+      isolation: isolate; /* own stacking context: rail at 0, roles at 1 (below) */
       padding-left: 36px;
       width: 100%;
       max-width: 980px;
@@ -1356,6 +1359,7 @@
     .timeline::after {
       content: '';
       position: absolute;
+      z-index: 0;
       left: 0;
       top: 10px;
       width: 2px;
@@ -1373,8 +1377,11 @@
       transition: height 0.45s ease;
     }
 
+    /* z-index 1 lifts each role (and its dot) above the rail. The dot's own z-index
+       can't: a revealed role keeps a transform, which traps the dot in its layer. */
     .timeline-item {
       position: relative;
+      z-index: 1;
       margin-bottom: 48px;
       padding: 14px 14px 14px 28px;
       width: 100%;
@@ -1444,7 +1451,7 @@
     .timeline-item.is-active .timeline-dot {
       background: var(--green);
       border-color: var(--green);
-      box-shadow: 0 0 0 5px rgb(var(--c-green-600) / 0.18);
+      box-shadow: 0 0 0 5px rgb(var(--c-green-50)); /* opaque, so the rail doesn't show through */
       transform: translateY(-50%) scale(1.15);
     }
 
@@ -1524,7 +1531,7 @@
 
     [data-theme="dark"] .timeline-item.is-active .timeline-dot {
       background: var(--green);
-      box-shadow: 0 0 0 5px rgb(var(--c-green-400) / 0.22);
+      box-shadow: 0 0 0 5px rgb(var(--c-green-900));
     }
 
     [data-theme="dark"] .timeline-role {

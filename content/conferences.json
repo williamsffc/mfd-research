@@ -5,6 +5,15 @@
   "pastTitle": "Recent & Past Engagements",
   "events": [
     {
+      "name": "ObesityWeek 2026 (The Obesity Society)",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-17",
+      "location": "Washington, DC area (National Harbor, MD)",
+      "status": "Upcoming",
+      "focus": "Obesity science, treatment and policy: The Obesity Society’s annual meeting",
+      "buttonLabel": "Schedule a Meeting"
+    },
+    {
       "name": "American Diabetes Association (ADA) 2026 Scientific Sessions",
       "startDate": "2026-06-04",
       "endDate": "2026-06-08",
