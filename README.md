@@ -185,7 +185,7 @@ This is a **static site**. The primary deployment target is **Cloudflare Pages**
 - **Deploy Command:** `npx wrangler deploy --assets=dist --compatibility-date 2026-04-24`
 - **Version Command:** `npx wrangler versions upload --assets=dist --compatibility-date 2026-04-24`
 - **Environment Variables:** `PUBLIC_WEB3FORMS_ACCESS_KEY` must be set in the Cloudflare dashboard.
-- **`wrangler.jsonc`:** Worker name, assets directory and `not_found_handling: "404-page"` (missing URLs get the site's 404 page). The Worker name there must stay `mfd-research`.
+- **`wrangler.jsonc`:** Worker name, assets directory, `not_found_handling: "404-page"` (missing URLs get the site's 404 page) and the small Worker (`worker/index.js`) that serves Markdown copies of the pages to AI agents asking for `text/markdown`. The Worker name there must stay `mfd-research`.
 
 ### Maintenance & DNS Notes
 - **Pre-deploy:** Always run `npm test` locally to ensure parity and accessibility checks pass before pushing to `main`.

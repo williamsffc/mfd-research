@@ -54,7 +54,7 @@ Deployment: configure the host (e.g. Cloudflare Pages or Netlify) with build com
 
 - `src/pages/index.astro` — Homepage composition (imports section components).
 - `src/pages/privacy-policy/index.astro`, `src/pages/terms-of-service/index.astro` — Legal routes.
-- `src/pages/404.astro` — Not-found page. `src/pages/llms.txt.ts` — `/llms.txt`, a plain-text site summary for AI assistants, generated from the content files (as is the homepage JSON-LD in `index.astro`).
+- `src/pages/404.astro` — Not-found page. `src/pages/llms.txt.ts` — `/llms.txt`, a plain-text site summary for AI assistants, generated from the content files (as is the homepage JSON-LD in `index.astro`). `worker/index.js` + `wrangler.jsonc` — Cloudflare Worker in front of the static pages: serves the Markdown copies (`/index.md`, legal pages' `index.md` from `scripts/html-to-markdown.mjs`) to `Accept: text/markdown` requests, and the 404 page for missing URLs.
 - `src/components/` — Header, Footer, homepage sections, Conferences, etc.
 - `content/*.json` — All homepage text, one file per section (see `docs/content.md`). Change wording there, not in components.
 - `.pages.yml` — Pages CMS editor config; every content field must be listed there (Pages CMS drops unlisted fields on save; `verify:content` checks). `.github/workflows/weekly-rebuild.yml` rebuilds the site weekly via a Cloudflare deploy hook.

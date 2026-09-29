@@ -10,6 +10,8 @@ const {
   description = '',
   canonical,
   robots = 'index, follow',
+  /** The page's Markdown copy for AI agents (e.g. "/index.md"), if it has one. */
+  markdown,
 
   ogTitle,
   ogDescription,
@@ -49,6 +51,7 @@ const resolvedTwitterDescription = twitterDescription ?? description;
     {description ? <meta name="description" content={description} /> : null}
     {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
     {robots ? <meta name="robots" content={robots} /> : null}
+    {markdown ? <link rel="alternate" type="text/markdown" href={markdown} /> : null}
 
     {/* Open Graph */}
     <meta property="og:type" content={ogType} />

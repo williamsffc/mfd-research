@@ -1,7 +1,14 @@
 # Search engines and AI assistants (Google, Bing, ChatGPT, Claude, Perplexity, Gemini…)
 # are welcome to read and cite this site. A plain-text summary for AI tools is at
-# https://mfdresearch.com/llms.txt
+# https://mfdresearch.com/llms.txt, and every page is available as Markdown to requests
+# sent with "Accept: text/markdown".
+#
+# Content Signals (https://contentsignals.org): how the content may be used.
+# search:   building a search index and showing links and short excerpts in results
+# ai-input: using the content to answer questions in AI tools (e.g. AI search, answers)
+# ai-train: training or fine-tuning AI models
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://mfdresearch.com/sitemap.xml
